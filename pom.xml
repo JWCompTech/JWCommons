@@ -21,7 +21,7 @@
     <description>The JWCT Shared Library is a dependency for all JWCT projects and contains utility functions and classes that can be used in any program.</description>
     <url>https://github.com/JWCompTech/JWCT-Shared-Library</url>
     <organization>
-        <name>J&amp;W CompTech</name>
+        <name>J&amp;WCompTech</name>
         <url>https://github.com/JWCompTech</url>
     </organization>
 
@@ -48,6 +48,10 @@
         <resources>
             <resource>
                 <directory>${project.basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/pom.properties</include>
+                </includes>
             </resource>
         </resources>
         <testResources>
@@ -63,11 +67,11 @@
                 <version>3.4.2</version>
                 <configuration>
                     <archive>
+                        <addMavenDescriptor>true</addMavenDescriptor>
                         <manifest>
                             <mainClass>${mainClass}</mainClass>
-                            <addDefaultImplementationEntries>
-                                true
-                            </addDefaultImplementationEntries>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
                         </manifest>
@@ -81,6 +85,7 @@
                 <executions>
                     <execution>
                         <id>attach-sources</id>
+                        <phase>verify</phase>
                         <goals>
                             <goal>jar-no-fork</goal>
                         </goals>
@@ -129,13 +134,6 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.5.2</version>
-<!--                <dependencies>-->
-<!--                    <dependency>-->
-<!--                        <groupId>org.ow2.asm</groupId>-->
-<!--                        <artifactId>asm</artifactId>-->
-<!--                        <version>9.7.1</version>-->
-<!--                    </dependency>-->
-<!--                </dependencies>-->
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -153,27 +151,27 @@
                     <cleanupDaemonThreads>false</cleanupDaemonThreads>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.6.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <transformers>
-                                <transformer implementation=
-                                                     "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>${mainClass}</mainClass>
-                                </transformer>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-shade-plugin</artifactId>-->
+<!--                <version>3.6.0</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <goals>-->
+<!--                            <goal>shade</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <shadedArtifactAttached>true</shadedArtifactAttached>-->
+<!--                            <transformers>-->
+<!--                                <transformer implementation=-->
+<!--                                                     "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">-->
+<!--                                    <mainClass>${mainClass}</mainClass>-->
+<!--                                </transformer>-->
+<!--                            </transformers>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -198,13 +196,31 @@
                     <source>21</source>
                     <target>21</target>
                 </configuration>
-<!--                <dependencies>-->
-<!--                    <dependency>-->
-<!--                        <groupId>org.ow2.asm</groupId>-->
-<!--                        <artifactId>asm</artifactId>-->
-<!--                        <version>9.7.1</version>-->
-<!--                    </dependency>-->
-<!--                </dependencies>-->
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.7.1</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>${mainClass}</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>assemble-all</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -245,7 +261,6 @@
             <artifactId>commons-codec</artifactId>
             <version>1.18.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/clj-bcrypt-wrapper/clj-bcrypt-wrapper -->
         <!-- https://mvnrepository.com/artifact/de.svenkubiak/jBCrypt -->
         <dependency>
             <groupId>de.svenkubiak</groupId>
@@ -295,6 +310,7 @@
             <artifactId>guava</artifactId>
             <version>33.4.5-jre</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.vavr/vavr -->
         <dependency>
             <groupId>io.vavr</groupId>
             <artifactId>vavr</artifactId>
