@@ -4,7 +4,6 @@ import ch.qos.logback.classic.Level;
 import com.jwcomptech.shared.info.HWInfo;
 import com.jwcomptech.shared.info.OS;
 import com.jwcomptech.shared.info.OSInfo;
-import com.jwcomptech.shared.info.os.WindowsOSEx;
 import com.jwcomptech.shared.logging.Loggers;
 import org.apache.maven.api.model.Model;
 import org.slf4j.Logger;
@@ -16,6 +15,7 @@ import java.util.Properties;
 
 import static com.jwcomptech.shared.utils.Misc.getMavenModel;
 
+@SuppressWarnings("ClassWithoutConstructor")
 public final class Main {
     /**
      * Application entry point.
@@ -50,7 +50,8 @@ public final class Main {
         logger.info(HWInfo.OEM.ProductName().get());
         //TODO: FIXME
         //logger.info(WindowsOSEx.Activation.getStatusFromSLMGR().get());
-
+        Condition condition = Condition.of(() -> OS.isWindows);
+        logger.info("Result: {}", condition.evaluate().getResult());
 
 
 //        final Arguments app = new Arguments();

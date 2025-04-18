@@ -4,144 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a361e90-2ae4-4b1a-800c-8533909a830e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.circleci/config.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/Arguments.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/Condition.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/Downloader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/Literals.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/Settings.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/Validate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/annotations/Beta.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/annotations/VisibleForTesting.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/enums/BaseEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/enums/DLStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/enums/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/events/ActionEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/events/Event.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/events/EventHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/events/EventManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/events/EventTarget.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/events/EventType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/events/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/Function0.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/Function1.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/Function2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/Function3.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/Function4.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/Lazy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/Memoized.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/PartialFunction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/checked/CheckedConsumer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/checked/CheckedFunction0.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/checked/CheckedFunction1.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/checked/CheckedFunction2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/checked/CheckedFunction3.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/checked/CheckedFunction4.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/checked/CheckedPredicate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/checked/CheckedRunnable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/tuples/Tuple.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/tuples/Tuple0.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/tuples/Tuple1.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/tuples/Tuple2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/tuples/Tuple3.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/tuples/Tuple4.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/info/AbstractOperatingSystem.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/info/ComputerInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/info/HWInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/info/OS.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/info/OSInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/info/OperatingSystem.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/info/Version.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/info/enums/OSList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/info/enums/OSType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/info/os/AndroidOS.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/info/os/FreeBSDOS.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/info/os/LinuxOS.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/info/os/MacOS.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/info/os/SolarisOS.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/info/os/UnknownOS.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/info/os/WindowsOS.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/info/os/WindowsOSEx.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/info/os/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/info/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/interfaces/Buildable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/logging/Appenders.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/logging/Encoders.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/logging/LoggerConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/logging/Loggers.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/logging/LoggingManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/logging/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/osutils/ExecCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/osutils/PShellCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/osutils/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/osutils/windows/Registry.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/osutils/windows/WmiUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/osutils/windows/enums/OtherConsts.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/osutils/windows/enums/ProductEdition.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/osutils/windows/enums/ProductType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/osutils/windows/enums/VERSuite.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/osutils/windows/enums/WMIClasses.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/osutils/windows/enums/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/osutils/windows/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/osutils/windows/pshell/PSCommandNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/osutils/windows/pshell/PSDivideByZeroException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/osutils/windows/pshell/PSExpectedExpressionException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/osutils/windows/pshell/PSExpectedValueExpressionException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/osutils/windows/pshell/PSMissingPropertyNameException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/osutils/windows/pshell/PSUnexpectedTokenException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/osutils/windows/pshell/PowerShellException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/osutils/windows/pshell/PowerShellParserErrorException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/osutils/windows/pshell/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/tuples/ImmutablePair.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/tuples/ImmutableTriple.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/tuples/MutablePair.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/tuples/MutableTriple.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/tuples/Pair.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/tuples/Triple.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/tuples/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/utils/CheckIf.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/utils/CollectionUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/utils/DebugUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/utils/EmailValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/utils/ExceptionUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/utils/FileUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/utils/Misc.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/utils/NumberUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/utils/Parse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/utils/SecurityUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/utils/SingletonUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/utils/StringUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/utils/WebUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/BasicValue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/BooleanValue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/DoubleValue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/FloatValue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/IntegerValue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/LongValue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/NumberValue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/StringValue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/Value.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/pom.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/compile/createdFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/compile/inputFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/testCompile/createdFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/testCompile/inputFiles.lst" afterDir="false" />
+    <list default="true" id="1a361e90-2ae4-4b1a-800c-8533909a830e" name="Changes" comment="Initial Code Commit">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/annotations/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/base/Validated.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/base/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/checked/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/tuples/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/info/enums/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/interfaces/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/utils/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/Condition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/Condition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,8 +32,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="package-info" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -169,7 +51,7 @@
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="main" />
-                    <option name="lastUsedInstant" value="1744677404" />
+                    <option name="lastUsedInstant" value="1744998639" />
                   </RecentBranch>
                 </list>
               </option>
@@ -184,6 +66,9 @@
   &quot;associatedIndex&quot;: 0
 }</component>
   <component name="ProjectId" id="2vjdpqnIHOWqRpvDPGHXJNk6e4Z" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -191,7 +76,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.App Run.executor": "Debug",
-    "Maven.Run.executor": "Debug",
+    "Maven.Run.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
@@ -199,7 +84,7 @@
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "F:/Documents/Programming/repositories/JWCT-Shared-Library",
     "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.0",
+    "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "vcs.Git"
   }
@@ -221,6 +106,39 @@
     <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
       <module name="JWCT-Shared-Library" />
       <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Deploy" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="clean" />
+                <option value="install" />
+                <option value="&amp;&amp;" />
+                <option value="deploy" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
       <method v="2" />
     </configuration>
     <configuration name="Install" type="MavenRunConfiguration" factoryName="Maven">
@@ -289,6 +207,7 @@
     <list>
       <item itemvalue="Application.App Run" />
       <item itemvalue="Maven.Run" />
+      <item itemvalue="Maven.Deploy" />
       <item itemvalue="Maven.Install" />
     </list>
   </component>
@@ -301,6 +220,15 @@
       <option name="presentableId" value="Default" />
       <updated>1742421329685</updated>
     </task>
+    <task id="LOCAL-00001" summary="Initial Code Commit">
+      <option name="closed" value="true" />
+      <created>1744763852613</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1744763852613</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -314,15 +242,8 @@
       </map>
     </option>
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/info/os/WindowsOSEx.java</url>
-          <line>117</line>
-          <option name="timeStamp" value="37" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial Code Commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial Code Commit" />
   </component>
 </project>
