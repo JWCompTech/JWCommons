@@ -8,12 +8,7 @@ package com.jwcomptech.shared.values;
  *            this class to allow for method chaining
  * @since 0.0.1
  */
-public interface Value<T, V> {
-    /**
-     * Returns the value.
-     * @return the stored value
-     */
-    T get();
+public interface Value<T, V> extends ImmutableValue<T> {
     /**
      * Sets the value.
      * @param value the value to store

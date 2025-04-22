@@ -16,10 +16,17 @@ import java.util.List;
  * @since 0.0.1
  */
 public abstract class NumberValue<T extends Number, V extends NumberValue<T, V>>
-        extends Number implements Comparable<V>, Value<T, V> {
+        extends Number implements Comparable<T>, Value<T, V> {
     protected T value;
     protected PropertyChangeSupport listeners;
 
+    public NumberValue(T value) {
+        this.value = value;
+    }
+
+    protected void setListenersTarget(V target) {
+        this.listeners = new PropertyChangeSupport(target);
+    }
 
     /**
      * Add a PropertyChangeListener to the listener list.
@@ -329,8 +336,10 @@ public abstract class NumberValue<T extends Number, V extends NumberValue<T, V>>
         return value.toString();
     }
 
-    @Override
     public abstract int compareTo(final @NotNull V other);
+
+    @Override
+    public abstract int compareTo(final @NotNull T other);
 
     /**
      * Sets the value.

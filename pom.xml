@@ -15,9 +15,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jna.version>5.17.0</jna.version>
         <mainClass>com.jwcomptech.shared.Main</mainClass>
-        <branch-name>Main</branch-name>
         <repository-name>JWCT-Shared-Library</repository-name>
-        <repository-owner>jlwisedev</repository-owner>
+        <repository-owner>JWCompTech</repository-owner>
+        <github.global.server>github</github.global.server>
     </properties>
 
     <name>EHA Shared Library</name>
@@ -35,7 +35,7 @@
             <roles>
                 <role>Lead Developer</role>
             </roles>
-            <organization>J&amp;WCompTech</organization>
+            <organization>JWCompTech</organization>
             <organizationUrl>https://github.com/JWCompTech</organizationUrl>
             <timezone>America/New_York</timezone>
         </developer>
@@ -43,9 +43,9 @@
 
     <distributionManagement>
         <repository>
-            <id>internal.repo</id>
-            <name>Temporary Staging Repository</name>
-            <url>file://${project.build.directory}/mvn-artifact</url>
+            <id>repsy</id>
+            <name>My Private Maven Repository on Repsy</name>
+            <url>https://repo.repsy.io/mvn/jwcomptech/internal</url>
         </repository>
     </distributionManagement>
 
@@ -143,10 +143,6 @@
 <!--                </executions>-->
 <!--            </plugin>-->
             <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.2</version>
-            </plugin>
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.5.0</version>
@@ -209,42 +205,6 @@
                         <goals>
                             <goal>single</goal>
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-deploy-plugin -->
-            <plugin>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>3.1.4</version>
-                <configuration>
-                    <altDeploymentRepository>
-                        internal.repo::default::file://${project.build.directory}/mvn-artifact
-                    </altDeploymentRepository>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.github.github</groupId>
-                <artifactId>site-maven-plugin</artifactId>
-                <version>0.12</version>
-                <configuration>
-                    <message>Maven artifacts for ${project.version}</message>
-                    <noJekyll>true</noJekyll>
-                    <outputDirectory>${project.build.directory}</outputDirectory>
-                    <branch>refs/heads/${branch-name}</branch>
-                    <includes>
-                        <include>**/*</include>
-                    </includes>
-                    <merge>true</merge>
-                    <repositoryName>${repository-name}</repositoryName>
-                    <repositoryOwner>${repository-owner}</repositoryOwner>
-                    <server>github</server>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>site</goal>
-                        </goals>
-                        <phase>deploy</phase>
                     </execution>
                 </executions>
             </plugin>

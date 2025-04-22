@@ -4,25 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a361e90-2ae4-4b1a-800c-8533909a830e" name="Changes" comment="Initial Code Commit">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/annotations/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/base/Validated.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/base/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/checked/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/functions/tuples/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/info/enums/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/interfaces/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/utils/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="1a361e90-2ae4-4b1a-800c-8533909a830e" name="Changes" comment="Added Condition and Validated objects">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/ImmutableValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/Condition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/Condition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/Literals.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/Literals.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/base/Validated.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/base/Validated.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/BasicValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/ObservableValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/BooleanValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/BooleanValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/DoubleValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/DoubleValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/FloatValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/FloatValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/IntegerValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/IntegerValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/LongValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/LongValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/NumberValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/NumberValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/StringValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/StringValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/Value.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/shared/values/Value.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,23 +71,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.App Run.executor": "Debug",
-    "Maven.Run.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "F:/Documents/Programming/repositories/JWCT-Shared-Library",
-    "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "vcs.Git"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.App Run.executor&quot;: &quot;Debug&quot;,
+    &quot;Maven.Deploy.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Install.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Run.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/Documents/Programming/repositories/JWCT-Shared-Library&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;
   }
-}]]></component>
-  <component name="RunManager" selected="Maven.Run">
+}</component>
+  <component name="RunManager" selected="Maven.Deploy">
     <configuration name="App Run" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="com.jwcomptech.shared.Main" />
       <module name="jwct-shared-library" />
@@ -121,8 +121,6 @@
             <option name="goals">
               <list>
                 <option value="clean" />
-                <option value="install" />
-                <option value="&amp;&amp;" />
                 <option value="deploy" />
               </list>
             </option>
@@ -228,7 +226,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744763852613</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added Condition and Validated objects">
+      <option name="closed" value="true" />
+      <created>1745004049196</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1745004049196</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -244,6 +250,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial Code Commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial Code Commit" />
+    <MESSAGE value="Added Condition and Validated objects" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Condition and Validated objects" />
   </component>
 </project>

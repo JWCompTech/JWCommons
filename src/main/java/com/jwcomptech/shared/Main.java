@@ -21,7 +21,7 @@ public final class Main {
      * Application entry point.
      * @param args application command line arguments
      */
-    public static void main(String[] args) throws XMLStreamException, IOException, InterruptedException {
+    public static void main(String... args) throws XMLStreamException, IOException, InterruptedException {
         final Logger logger = LoggerFactory.getLogger(Main.class);
         Loggers.RootPackage
                 .setName(Main.class.getPackage().getName())

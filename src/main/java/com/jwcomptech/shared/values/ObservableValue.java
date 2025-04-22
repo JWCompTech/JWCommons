@@ -2,10 +2,12 @@ package com.jwcomptech.shared.values;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeListenerProxy;
 import java.beans.PropertyChangeSupport;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -17,10 +19,26 @@ import java.util.List;
  *            this class to allow for method chaining
  * @since 0.0.1
  */
-public abstract class BasicValue<T, V extends BasicValue<T, V>> implements Value<T, V>,
-        Comparable<V>, Serializable {
+@SuppressWarnings("unused")
+public abstract class ObservableValue<T, V extends ObservableValue<T, V>> implements Value<T, V> {
     protected T value;
-    protected PropertyChangeSupport listeners;
+    protected PropertyChangeSupport listeners = new PropertyChangeSupport(this);
+
+    /**
+     * Required for serialization support.
+     *
+     * @see Serializable
+     */
+    @Serial
+    private static final long serialVersionUID = 5183297117938121441L;
+
+    public ObservableValue(T value) {
+        this.value = value;
+    }
+
+    protected void setListenersTarget(V target) {
+        this.listeners = new PropertyChangeSupport(target);
+    }
 
     /**
      * Add a PropertyChangeListener to the listener list.
@@ -96,32 +114,41 @@ public abstract class BasicValue<T, V extends BasicValue<T, V>> implements Value
      * Returns the value.
      * @return the stored value
      */
-    @Override
     public T get() {
         return value;
+    }
+
+    /**
+     * Sets the value.
+     * @param value the value to store
+     * @return this instance
+     */
+    public V set(T value) {
+        this.value = value;
+        return (V) this;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
 
-        if (o == null) return false;
+        if (null == o || getClass() != o.getClass()) return false;
 
-        if (getClass() != o.getClass()) {
-            if(Value.class.isAssignableFrom(o.getClass())) {
-                return this.value.equals(o);
-            }
+        ObservableValue<?, ?> that = (ObservableValue<?, ?>) o;
 
-            return false;
-        }
-
-        BasicValue<?, ?> that = (BasicValue<?, ?>) o;
-
-        return new EqualsBuilder().append(value, that.value).isEquals();
+        return new EqualsBuilder().append(value, that.value).append(listeners, that.listeners).isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37).append(value).append(listeners).toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("value", value)
+                .append("listeners", listeners)
+                .toString();
     }
 }

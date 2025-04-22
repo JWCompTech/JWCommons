@@ -2,6 +2,7 @@ package com.jwcomptech.shared;
 
 import java.io.File;
 import java.nio.file.FileSystems;
+import java.util.Locale;
 
 import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
 import static com.jwcomptech.shared.utils.StringUtils.uppercaseFirst;
@@ -42,6 +43,8 @@ public final class Literals {
     public static final String DOT = ".";
     /** A String for a double quote character. */
     public static final String DOUBLE_QUOTE = "\"";
+    /** A String for the number 8. */
+    public static final String EIGHT = "8";
     /** A String for an ellipsis or 3 dots. */
     public static final String ELLIPSIS = "\u0085";
     /** The empty String {@code ""}. */
@@ -56,12 +59,22 @@ public final class Literals {
     public static final String EQUALS = "=";
     /** A String for an exclamation mark character. */
     public static final String EXCLAMATION = "!";
+    /** A String for the number 5. */
+    public static final String FIVE = "5";
+    /** A String for the number 4. */
+    public static final String FOUR = "4";
     /** A String for a hash sign or pound character. */
     public static final String HASH = "#";
+    /** A String for the number 100. */
+    public static final String HUNDRED = "100";
+    /** A String for a hyphen character. */
+    public static final String HYPHEN = "-";
     /** A String for a micro sign character. */
     public static final String MICRO = "μ";
     /** A String for the number -1. */
     public static final String NEGATIVE_ONE = "-1";
+    /** A String for the number 9. */
+    public static final String NINE = "9";
     /** A String for the word null. */
     public static final String NULL = "null";
     /** A String for the number 1. */
@@ -69,26 +82,39 @@ public final class Literals {
     /** A String for a paragraph symbol character. */
     public static final String PARAGRAPH = "¶";
     /** A String for a left parentheses character. */
+    @SuppressWarnings("GrazieInspection")
     public static final String PARENTHESES_LEFT = "(";
     /** A String for a right parentheses character. */
+    @SuppressWarnings("GrazieInspection")
     public static final String PARENTHESES_RIGHT = ")";
     /** A String for a percent sign character. */
     public static final String PERCENT = "%";
+    /** A String for a plus character. */
+    public static final String PLUS = "+";
     /** A String for a hash sign or pound character. */
     public static final String POUND = "#";
     /** A String for a question mark character. */
     public static final String QUESTION = "?";
     /** A String for a semicolon character. */
     public static final String SEMICOLON = ";";
+    /** A String for the number 7. */
+    public static final String SEVEN = "7";
     /** A String for a single quote character. */
     public static final String SINGLE_QUOTE = "\"";
+    /** A String for the number 6. */
+    public static final String SIX = "6";
     /** A String for a forward slash character. */
     public static final String SLASH = "/";
     /** A String for a space character. */
     public static final String SPACE = " ";
+    /** A String for a tab. */
     public static final String TAB = "\t";
     /** A String for the number 10. */
     public static final String TEN = "10";
+    /** A String for the number 3. */
+    public static final String THREE = "3";
+    /** A String for the number 2. */
+    public static final String TWO = "2";
     /** A String for a trademark symbol character. */
     public static final String TRADEMARK = "\u0099";
     /** A String for 3 dots or periods. */
@@ -102,14 +128,18 @@ public final class Literals {
 
     //These are not part of alphabetical order because of illegal forward reference error;
     /** A String for a left and right parentheses character. */
+    @SuppressWarnings("GrazieInspection")
     public static final String EMPTY_PARENTHESES = PARENTHESES_LEFT + PARENTHESES_RIGHT;
     /** A String for two single quote characters. */
     public static final String EMPTY_SINGLE_QUOTES = SINGLE_QUOTE + SINGLE_QUOTE;
     /** A String for two equals sign characters. */
     public static final String DOUBLE_EQUALS = EQUALS + EQUALS;
 
+    /** The new system line separator. */
     public static final String NEW_LINE = System.lineSeparator();
+    /** The new system file separator. */
     public static final String FILE_SEPARATOR = FileSystems.getDefault().getSeparator();
+    /** The new system path separator. */
     public static final String PATH_SEPARATOR = File.pathSeparator;
 
     /** A string to be used in exception messages that contains "Value cannot be null!". */
@@ -122,6 +152,8 @@ public final class Literals {
     public static final String LOCALE_CANNOT_BE_NULL = "Locale cannot be null!";
     /** A string to be used in exception messages that contains "Input cannot be null or empty!". */
     public static final String INPUT_CANNOT_BE_NULL_OR_EMPTY = "Input cannot be null or empty!";
+    /** A string to be used in exception messages that contains "Value cannot be null or empty!". */
+    public static final String VALUE_CANNOT_BE_NULL_OR_EMPTY = "Value cannot be null or empty!";
     /** A string to be used as part of an exception message that contains " cannot be null!". */
     public static final String CANNOT_BE_NULL = " cannot be null!";
     /** A string to be used as part of an exception message that contains " cannot be null or empty!". */
@@ -137,21 +169,14 @@ public final class Literals {
      * @throws IllegalArgumentException if fieldName is null or empty
      */
     public static String cannotBeNull(final String fieldName) {
-
         checkArgumentNotNull(fieldName, "FieldName cannot be null or empty!");
-        if(fieldName.equalsIgnoreCase("value")) {
-            return VALUE_CANNOT_BE_NULL;
-        }
-        if(fieldName.equalsIgnoreCase("object")) {
-            return OBJECT_CANNOT_BE_NULL;
-        }
-        if(fieldName.equalsIgnoreCase("input")) {
-            return INPUT_CANNOT_BE_NULL;
-        }
-        if(fieldName.equalsIgnoreCase("locale")) {
-            return LOCALE_CANNOT_BE_NULL;
-        }
-        return uppercaseFirst(fieldName) + CANNOT_BE_NULL;
+        return switch(fieldName.toLowerCase(Locale.ENGLISH)) {
+            case "value" -> VALUE_CANNOT_BE_NULL;
+            case "object" -> OBJECT_CANNOT_BE_NULL;
+            case "input" -> INPUT_CANNOT_BE_NULL;
+            case "locale" -> LOCALE_CANNOT_BE_NULL;
+            default -> uppercaseFirst(fieldName) + CANNOT_BE_NULL;
+        };
     }
 
     /**
@@ -165,13 +190,11 @@ public final class Literals {
      */
     public static String cannotBeNullOrEmpty(final String fieldName) {
         checkArgumentNotNull(fieldName, "FieldName cannot be null or empty!");
-        if(fieldName.equalsIgnoreCase("value")) {
-            return "Value cannot be null or empty!";
-        }
-        if(fieldName.equalsIgnoreCase("input")) {
-            return INPUT_CANNOT_BE_NULL_OR_EMPTY;
-        }
-        return uppercaseFirst(fieldName) + CANNOT_BE_NULL_OR_EMPTY;
+        return switch(fieldName.toLowerCase(Locale.ENGLISH)) {
+            case "value" -> VALUE_CANNOT_BE_NULL_OR_EMPTY;
+            case "input" -> INPUT_CANNOT_BE_NULL_OR_EMPTY;
+            default -> uppercaseFirst(fieldName) + CANNOT_BE_NULL_OR_EMPTY;
+        };
     }
 
     /** Prevents instantiation of this utility class.  */
