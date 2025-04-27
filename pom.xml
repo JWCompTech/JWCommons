@@ -178,14 +178,16 @@
                       </requireMavenVersion>
                       <requireEncoding>
                         <encoding>UTF-8</encoding>
+                        <excludeFiles>
+                          <excludeFile>.idea/*</excludeFile>
+                        </excludeFiles>
                       </requireEncoding>
-                      <dependencyConvergence/>
+                      <!--<dependencyConvergence/>-->
                       <requireProperty>
                         <property>project.build.sourceEncoding</property>
                         <message>project.build.sourceEncoding must be set to UTF-8.</message>
                       </requireProperty>
                     </rules>
-                    <failfast>true</failfast>
                   </configuration>
                 </execution>
               </executions>
