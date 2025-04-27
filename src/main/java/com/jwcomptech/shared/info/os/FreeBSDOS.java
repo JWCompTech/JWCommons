@@ -2,7 +2,7 @@ package com.jwcomptech.shared.info.os;
 
 import com.jwcomptech.shared.info.AbstractOperatingSystem;
 import com.jwcomptech.shared.info.enums.OSList;
-import com.jwcomptech.shared.osutils.ExecCommand;
+import com.jwcomptech.shared.utils.osutils.ExecCommand;
 import com.jwcomptech.shared.utils.SingletonUtils;
 import com.jwcomptech.shared.values.StringValue;
 import org.slf4j.Logger;
@@ -10,7 +10,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class FreeBSDOS extends AbstractOperatingSystem {
+public final class FreeBSDOS extends AbstractOperatingSystem {
+    @SuppressWarnings("unused")
     private final Logger logger = LoggerFactory.getLogger(FreeBSDOS.class);
 
     private FreeBSDOS() { }
@@ -29,6 +30,7 @@ public class FreeBSDOS extends AbstractOperatingSystem {
         return OSList.FreeBSD;
     }
 
+    @SuppressWarnings("SuspiciousGetterSetter")
     @Override
     public StringValue getNameExpanded() {
         return OS_NAME;

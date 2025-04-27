@@ -7,6 +7,8 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.ConsoleAppender;
 import com.jwcomptech.shared.Literals;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.jetbrains.annotations.NotNull;
 
 import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNullOrEmpty;
 import static com.jwcomptech.shared.utils.StringUtils.isBlank;
@@ -14,7 +16,8 @@ import static com.jwcomptech.shared.utils.StringUtils.isBlank;
 /**
  * Contains methods to manage a Logback logger instance.
  */
-@SuppressWarnings("ClassHasNoToStringMethod")
+
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 public class LoggerConfig {
     private final Logger logger;
 
@@ -113,7 +116,7 @@ public class LoggerConfig {
      * @param appender the appender to add
      * @return this instance
      */
-    public LoggerConfig addAppender(final Appenders appender) {
+    public LoggerConfig addAppender(final @NotNull Appenders appender) {
         logger.setAdditive(false);
         if(!logger.isAttached(appender.getAppender())) {
             logger.addAppender(appender.getAppender());
@@ -151,7 +154,7 @@ public class LoggerConfig {
      * @param encoder the encoder to set
      * @return this instance
      */
-    public LoggerConfig addNewConsoleAppender(final Encoders encoder) {
+    public LoggerConfig addNewConsoleAppender(final @NotNull Encoders encoder) {
         return addNewConsoleAppender(encoder.getEncoder());
     }
 
@@ -175,7 +178,7 @@ public class LoggerConfig {
      * @param encoder the encoder to set
      * @return this instance
      */
-    public LoggerConfig addNewConsoleAppender(final String name, final Encoders encoder) {
+    public LoggerConfig addNewConsoleAppender(final String name, final @NotNull Encoders encoder) {
         return addNewConsoleAppender(name, encoder.getEncoder());
     }
 
@@ -198,7 +201,7 @@ public class LoggerConfig {
         } else {
             logConsoleAppender.setName(name);
         }
-        if (encoder == null) {
+        if (null == encoder) {
             logConsoleAppender.setEncoder(Encoders.BasicEncoder.getEncoder());
         } else {
             logConsoleAppender.setEncoder(encoder);
@@ -239,7 +242,7 @@ public class LoggerConfig {
      * @return true if exists
      */
     public boolean hasAppender(final String name) {
-        return logger.getAppender(name) != null;
+        return null != logger.getAppender(name);
     }
 
     /**
@@ -266,5 +269,12 @@ public class LoggerConfig {
      */
     public Logger getLogger() {
         return logger;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("logger", logger)
+                .toString();
     }
 }

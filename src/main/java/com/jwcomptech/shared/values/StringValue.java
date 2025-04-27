@@ -1,9 +1,15 @@
 package com.jwcomptech.shared.values;
 
+import com.google.errorprone.annotations.Immutable;
+import com.jwcomptech.shared.Literals;
+import com.jwcomptech.shared.base.Validated;
 import com.jwcomptech.shared.utils.CollectionUtils;
 import com.jwcomptech.shared.utils.EmailValidator;
 import com.jwcomptech.shared.utils.StringUtils;
 import org.apache.commons.lang3.CharUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
@@ -23,46 +29,69 @@ import static org.apache.commons.lang3.StringUtils.stripEnd;
 import static org.apache.commons.lang3.StringUtils.stripStart;
 
 /**
- * Provides mutable access to an {@link String}.
+ * Provides immutable access to an {@link String}.
  * @since 0.0.1
  */
-public class StringValue extends BasicValue<String, StringValue> {
+@SuppressWarnings({"ClassWithTooManyMethods", "OverlyComplexClass", "unused"})
+@Immutable
+public final class StringValue extends Validated
+        implements ImmutableValue<String>, Comparable<String> {
+    private final String value;
+    private final static Integer INDEX_NOT_FOUND = -1;
     /**
      * Required for serialization support.
      *
      * @see Serializable
      */
     @Serial
-    private static final long serialVersionUID = 5183297117938121441L;
+    private static final long serialVersionUID = -2993854030636280240L;
 
     private StringValue() {
-        value = "";
+        value = Literals.EMPTY;
     }
 
     private StringValue(final String input) {
         value = input;
     }
 
-    private StringValue(final StringBuilder input) {
+    private StringValue(final @NotNull StringBuilder input) {
         value = input.toString();
     }
 
-    private StringValue(final CharSequence input) {
+    private StringValue(final @NotNull CharSequence input) {
         value = input.toString();
     }
 
-    public static final StringValue EMPTY = new StringValue("");
+    /**
+     * A static instance of StringValue with the value as an empty string.
+     */
+    public static final StringValue EMPTY = new StringValue(Literals.EMPTY);
 
-    public static StringValue of(final String input) {
-        return new StringValue(input);
+    /**
+     * Creates a new StringValue instance with the specified default value.
+     * @param defaultValue the value to set
+     */
+    @Contract("_ -> new")
+    public static @NotNull StringValue of(final String defaultValue) {
+        return new StringValue(defaultValue);
     }
 
-    public static StringValue of(final StringBuilder input) {
-        return new StringValue(input);
+    /**
+     * Creates a new StringValue instance with the specified default value.
+     * @param defaultValue the value to set
+     */
+    @Contract("_ -> new")
+    public static @NotNull StringValue of(final StringBuilder defaultValue) {
+        return new StringValue(defaultValue);
     }
 
-    public static StringValue of(final CharSequence input) {
-        return new StringValue(input);
+    /**
+     * Creates a new StringValue instance with the specified default value.
+     * @param defaultValue the value to set
+     */
+    @Contract("_ -> new")
+    public static @NotNull StringValue of(final CharSequence defaultValue) {
+        return new StringValue(defaultValue);
     }
 
     /**
@@ -72,7 +101,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      *         {@code "true"} is returned; otherwise, a string equal to
      *         {@code "false"} is returned.
      */
-    public static StringValue valueOf(boolean b) {
+    @Contract("_ -> new")
+    public static @NotNull StringValue valueOf(final boolean b) {
         return StringValue.of(String.valueOf(b));
     }
 
@@ -83,7 +113,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      *         {@code "true"} is returned; otherwise, a string equal to
      *         {@code "false"} is returned.
      */
-    public static StringValue valueOf(BooleanValue b) {
+    @Contract("_ -> new")
+    public static @NotNull StringValue valueOf(@NotNull final BooleanValue b) {
         return StringValue.of(b.toString());
     }
 
@@ -93,7 +124,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return a string of length {@code 1} containing
      *         as its single character the argument {@code c}.
      */
-    public static StringValue valueOf(char c) {
+    @Contract("_ -> new")
+    public static @NotNull StringValue valueOf(final char c) {
         return StringValue.of(String.valueOf(c));
     }
 
@@ -106,7 +138,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return a string representation of the {@code int} argument.
      * @see Integer#toString(int, int)
      */
-    public static StringValue valueOf(int i) {
+    @Contract("_ -> new")
+    public static @NotNull StringValue valueOf(final int i) {
         return StringValue.of(Integer.toString(i));
     }
 
@@ -116,8 +149,9 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return a string representation of the {@code IntegerValue} argument.
      * @see Integer#toString(int, int)
      */
-    public static StringValue valueOf(IntegerValue i) {
-        return StringValue.of(i.toString());
+    @Contract("_ -> new")
+    public static @NotNull StringValue valueOf(@NotNull final IntegerValue i) {
+        return StringValue.of(String.valueOf(i));
     }
 
     /**
@@ -129,8 +163,9 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return a string representation of the {@code long} argument.
      * @see Long#toString(long)
      */
-    public static StringValue valueOf(long l) {
-        return StringValue.of(Long.toString(l));
+    @Contract("_ -> new")
+    public static @NotNull StringValue valueOf(final long l) {
+        return StringValue.of(String.valueOf(l));
     }
 
     /**
@@ -139,8 +174,9 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return a string representation of the {@code LongValue} argument.
      * @see Long#toString(long)
      */
-    public static StringValue valueOf(LongValue l) {
-        return StringValue.of(l.toString());
+    @Contract("_ -> new")
+    public static @NotNull StringValue valueOf(final LongValue l) {
+        return StringValue.of(String.valueOf(l));
     }
 
     /**
@@ -152,7 +188,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return a string representation of the {@code float} argument.
      * @see Float#toString(float)
      */
-    public static StringValue valueOf(float f) {
+    @Contract("_ -> new")
+    public static @NotNull StringValue valueOf(final float f) {
         return StringValue.of(Float.toString(f));
     }
 
@@ -162,8 +199,9 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return a string representation of the {@code FloatValue} argument.
      * @see Float#toString(float)
      */
-    public static StringValue valueOf(FloatValue f) {
-        return StringValue.of(f.toString());
+    @Contract("_ -> new")
+    public static @NotNull StringValue valueOf(final FloatValue f) {
+        return StringValue.of(String.valueOf(f));
     }
 
     /**
@@ -175,7 +213,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return a string representation of the {@code double} argument.
      * @see Double#toString(double)
      */
-    public static StringValue valueOf(double d) {
+    @Contract("_ -> new")
+    public static @NotNull StringValue valueOf(final double d) {
         return StringValue.of(Double.toString(d));
     }
 
@@ -185,16 +224,108 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return a string representation of the {@code Double} argument.
      * @see Double#toString(double)
      */
-    public static StringValue valueOf(DoubleValue d) {
-        return StringValue.of(d.toString());
+    @Contract("_ -> new")
+    public static @NotNull StringValue valueOf(final DoubleValue d) {
+        return StringValue.of(String.valueOf(d));
     }
 
-    public static StringValue blank() {
+    @Contract(" -> new")
+    public static @NotNull StringValue blank() {
         return new StringValue();
     }
 
-    public static StringValue space() {
+    @Contract(" -> new")
+    public static @NotNull StringValue space() {
         return new StringValue(" ");
+    }
+
+    /**
+     * Converts this instance to a MutableStringValue.
+     * @return this instance as a MutableStringValue
+     */
+    @Contract(" -> new")
+    public @NotNull MutableStringValue toMutable() {
+        return MutableStringValue.of(value);
+    }
+
+    /**
+     * Adds the specified string to the end of the value.
+     * @param input the string to add
+     * @return the specified string added to the end of the value
+     */
+    @Contract("_ -> new")
+    public @NotNull StringValue addToEnd(final String input) {
+        return StringValue.of(value + input);
+    }
+
+    /**
+     * Adds the specified string to the end of the value.
+     * @param input the string to add
+     * @return the specified string added to the end of the value
+     */
+    @Contract("_ -> new")
+    public @NotNull StringValue addToEnd(final @NotNull StringValue input) {
+        return StringValue.of(value + input.get());
+    }
+
+    /**
+     * Adds the specified string to the end of the value.
+     * @param input the string to add
+     * @return the specified string added to the end of the value
+     */
+    @Contract("_ -> new")
+    public @NotNull StringValue addToEnd(final @NotNull MutableStringValue input) {
+        return StringValue.of(value + input.get());
+    }
+
+    /**
+     * Adds the specified character to the end of the value.
+     * @param input the string to add
+     * @return the specified string added to the end of the value
+     */
+    @Contract("_ -> new")
+    public @NotNull StringValue addToEnd(final char input) {
+        return StringValue.of(value + input);
+    }
+
+    /**
+     * Adds the specified string to the start of the value.
+     * @param input the string to add
+     * @return the specified string added to the start of the value
+     */
+    @Contract("_ -> new")
+    public @NotNull StringValue addToStart(final String input) {
+        return StringValue.of(input + value);
+    }
+
+    /**
+     * Adds the specified string to the start of the value.
+     * @param input the string to add
+     * @return the specified string added to the start of the value
+     */
+    @Contract("_ -> new")
+    public @NotNull StringValue addToStart(final @NotNull StringValue input) {
+        return StringValue.of(input.get() + value);
+    }
+
+    /**
+     * Adds the specified string to the start of the value.
+     * @param input the string to add
+     * @return the specified string added to the start of the value
+     */
+    @Contract("_ -> new")
+    public @NotNull StringValue addToStart(final @NotNull MutableStringValue input) {
+        return StringValue.of(input.get() + value);
+    }
+
+    /**
+     * Adds the specified character to the start of the value.
+     * @param input the string to add
+     * @return the specified string added to the start of the value
+     */
+    @Contract("_ -> new")
+    public @NotNull StringValue addToStart(final char input) {
+        return StringValue.of(input + value);
     }
 
     /**
@@ -203,8 +334,13 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return string representation of map
      * @throws IllegalArgumentException if the value is null
      */
-    public Map<String, String> convertToMap() {
-        return CollectionUtils.convertStringToMap(value);
+    public @NotNull Map<StringValue, StringValue> convertToMap() {
+        return CollectionUtils.convertStringToMap(value).entrySet()
+                .stream()
+                .collect(Collectors.toMap(
+                        e -> StringValue.of(e.getKey()),
+                        e -> StringValue.of(e.getValue()))
+                );
     }
 
     /**
@@ -214,7 +350,7 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @throws IOException if the conversion fails
      * @throws ClassNotFoundException if the converted object doesn't match a found object type
      */
-    public Object convertFromByteString()
+    public @NotNull Object convertFromByteString()
             throws IOException, ClassNotFoundException {
         checkArgumentNotNull(value, cannotBeNull("value"));
         final var bytes = Base64.getDecoder().decode(value);
@@ -228,10 +364,10 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return the value surrounded with quotes
      * @throws IllegalArgumentException if the value is null
      */
-    public StringValue quoteString() {
+    @Contract(" -> new")
+    public @NotNull StringValue quoteString() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = "\"%s\"".formatted(value);
-        return this;
+        return StringValue.of("\"%s\"".formatted(value));
     }
 
     /**
@@ -239,12 +375,12 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return the value with quotes removed
      * @throws IllegalArgumentException if the value is null
      */
-    public StringValue unquoteString() {
+    @Contract(" -> new")
+    public @NotNull StringValue unquoteString() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = (value.startsWith("\"") && value.endsWith("\""))
+        return StringValue.of((value.startsWith("\"") && value.endsWith("\""))
                 || (value.startsWith("'") && value.endsWith("'"))
-                ? value.substring(1, value.length() - 1) : value;
-        return this;
+                ? value.substring(1, value.length() - 1) : value);
     }
 
     /**
@@ -337,14 +473,14 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return the value with the specified prefix
      * @throws IllegalArgumentException if the value or prefix are null
      */
-    public StringValue ensureStartsWith(final String prefix, final Boolean ignoreCase) {
+    @Contract("_, _ -> new")
+    public @NotNull StringValue ensureStartsWith(final String prefix, final Boolean ignoreCase) {
         checkArgumentNotNull(value, cannotBeNull("value"));
         checkArgumentNotNull(prefix, cannotBeNull("prefix"));
         var startsWith = value.startsWith(prefix);
         if(!startsWith && ignoreCase) startsWith = value.startsWith(prefix.toUpperCase(Locale.getDefault()));
         if(!startsWith && ignoreCase) startsWith = value.startsWith(prefix.toLowerCase(Locale.getDefault()));
-        value = startsWith ? value : prefix + value;
-        return this;
+        return StringValue.of(startsWith ? value : prefix + value);
     }
 
     /**
@@ -354,14 +490,14 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return the value with the specified suffix
      * @throws IllegalArgumentException if the value or suffix are null
      */
-    public StringValue ensureEndsWith(final String suffix, final Boolean ignoreCase) {
+    @Contract("_, _ -> new")
+    public @NotNull StringValue ensureEndsWith(final String suffix, final Boolean ignoreCase) {
         checkArgumentNotNull(value, cannotBeNull("value"));
         checkArgumentNotNull(suffix, cannotBeNull("suffix"));
         var endsWith = value.endsWith(suffix);
         if(!endsWith && ignoreCase) endsWith = value.startsWith(suffix.toUpperCase(Locale.getDefault()));
         if(!endsWith && ignoreCase) endsWith = value.startsWith(suffix.toLowerCase(Locale.getDefault()));
-        value = endsWith ? value : value + suffix;
-        return this;
+        return StringValue.of(endsWith ? value : value + suffix);
     }
 
     /**
@@ -376,7 +512,7 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @throws IllegalArgumentException if the value or suffix are null
      * @see String#endsWith(String)
      */
-    public boolean endsWith(String suffix) {
+    public boolean endsWith(final String suffix) {
         return value.endsWith(suffix);
     }
 
@@ -390,7 +526,8 @@ public class StringValue extends BasicValue<String, StringValue> {
         checkArgumentNotNull(value, cannotBeNull("value"));
         checkArgumentNotNull(suffix, cannotBeNull("suffix"));
         return value.endsWith(suffix)
-                || (value.length() >= suffix.length() && value.toLowerCase().endsWith(suffix.toLowerCase()));
+                || (value.length() >= suffix.length() && value.toLowerCase(Locale.getDefault())
+                .endsWith(suffix.toLowerCase(Locale.getDefault())));
     }
 
     /**
@@ -444,7 +581,8 @@ public class StringValue extends BasicValue<String, StringValue> {
         checkArgumentNotNull(value, cannotBeNull("value"));
         checkArgumentNotNull(prefix, cannotBeNull("prefix"));
         return value.startsWith(prefix)
-                || (value.length() >= prefix.length() && value.toLowerCase().startsWith(prefix.toLowerCase()));
+                || (value.length() >= prefix.length() && value.toLowerCase(Locale.getDefault())
+                .startsWith(prefix.toLowerCase(Locale.getDefault())));
     }
 
     /**
@@ -470,7 +608,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      *          {@code -1} if the character does not occur.
      * @see String#indexOf(int)
      */
-    public IntegerValue indexOf(int ch) {
+    @Contract("_ -> new")
+    public @NotNull IntegerValue indexOf(final int ch) {
         return IntegerValue.of(value.indexOf(ch));
     }
 
@@ -521,7 +660,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * {@code fromIndex} were larger than the string length, or were negative.
      * @see String#indexOf(int, int)
      */
-    public IntegerValue indexOf(int ch, int fromIndex) {
+    @Contract("_, _ -> new")
+    public @NotNull IntegerValue indexOf(final int ch, final int fromIndex) {
         return IntegerValue.of(value.indexOf(ch, fromIndex));
     }
 
@@ -562,7 +702,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      *                                         {@code endIndex}.
      * @see String#indexOf(int, int, int)
      */
-    public IntegerValue indexOf(int ch, int beginIndex, int endIndex) {
+    @Contract("_, _, _ -> new")
+    public @NotNull IntegerValue indexOf(final int ch, final int beginIndex, final int endIndex) {
         return IntegerValue.of(value.indexOf(ch, beginIndex, endIndex));
     }
 
@@ -579,7 +720,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * or {@code -1} if there is no such occurrence.
      * @see String#indexOf(String)
      */
-    public IntegerValue indexOf(String str) {
+    @Contract("_ -> new")
+    public @NotNull IntegerValue indexOf(final String str) {
         return IntegerValue.of(value.indexOf(str));
     }
 
@@ -610,7 +752,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * {@code fromIndex} were larger than the string length, or were negative.
      * @see String#indexOf(String, int)
      */
-    public IntegerValue indexOf(String str, int fromIndex) {
+    @Contract("_, _ -> new")
+    public @NotNull IntegerValue indexOf(final String str, final int fromIndex) {
         return IntegerValue.of(value.indexOf(str, fromIndex));
     }
 
@@ -636,8 +779,144 @@ public class StringValue extends BasicValue<String, StringValue> {
      *                                         {@code endIndex}.
      * @see String#indexOf(String, int, int)
      */
-    public IntegerValue indexOf(String str, int beginIndex, int endIndex) {
+    @Contract("_, _, _ -> new")
+    public @NotNull IntegerValue indexOf(final String str, final int beginIndex, final int endIndex) {
         return IntegerValue.of(value.indexOf(str, beginIndex, endIndex));
+    }
+
+    /**
+     * Case in-sensitive find of the first index within athe value.
+     *
+     * <p>A negative start position is treated as zero.
+     * An empty ("") search CharSequence always matches.
+     * A start position greater than the string length only matches
+     * an empty search CharSequence.</p>
+     *
+     * <pre>
+     * indexOfIgnoreCase(null) [value = *]          = -1
+     * indexOfIgnoreCase("") [value = ""]           = 0
+     * indexOfIgnoreCase(" ") [value = " "]         = 0
+     * indexOfIgnoreCase("a") [value = "aabaabaa"]  = 0
+     * indexOfIgnoreCase("b") [value = "aabaabaa"]  = 2
+     * indexOfIgnoreCase("ab") [value = "aabaabaa"] = 1
+     * </pre>
+     *
+     * @param searchStr  the CharSequence to find, may be null
+     * @return the first index of the search CharSequence,
+     *  -1 if no match or {@code null} string input
+     */
+    public @NotNull IntegerValue indexOfIgnoreCase(final CharSequence searchStr) {
+        return indexOfIgnoreCase(searchStr, 0);
+    }
+
+    /**
+     * Case in-sensitive find of the first index within the value
+     * from the specified position.
+     *
+     * <p>A negative start position is treated as zero.
+     * An empty ("") search CharSequence always matches.
+     * A start position greater than the string length only matches
+     * an empty search CharSequence.</p>
+     *
+     * <pre>
+     * indexOfIgnoreCase(null, *) [value = *]          = -1
+     * indexOfIgnoreCase("", 0) [value = ""]           = 0
+     * indexOfIgnoreCase("A", 0) [value = "aabaabaa"]  = 0
+     * indexOfIgnoreCase("B", 0) [value = "aabaabaa"]  = 2
+     * indexOfIgnoreCase("AB", 0) [value = "aabaabaa"] = 1
+     * indexOfIgnoreCase("B", 3) [value = "aabaabaa"]  = 5
+     * indexOfIgnoreCase("B", 9) [value = "aabaabaa"]  = -1
+     * indexOfIgnoreCase("B", -1) [value = "aabaabaa"] = 2
+     * indexOfIgnoreCase("", 2) [value = "aabaabaa"]   = 2
+     * indexOfIgnoreCase("", 9) [value = "abc"]        = -1
+     * </pre>
+     *
+     * @param searchStr  the CharSequence to find, may be null
+     * @param startPos  the start position, negative treated as zero
+     * @return the first index of the search CharSequence (always &ge; startPos),
+     *  -1 if no match or {@code null} string input
+     */
+    @SuppressWarnings("MethodWithMultipleReturnPoints")
+    public @NotNull IntegerValue indexOfIgnoreCase(final CharSequence searchStr, final int startPos) {
+        int startPos_ = startPos;
+        if (null == searchStr) {
+            return IntegerValue.of(INDEX_NOT_FOUND);
+        }
+        if (0 > startPos_) {
+            startPos_ = 0;
+        }
+        final int endLimit = value.length() - searchStr.length() + 1;
+        if (startPos_ > endLimit) {
+            return IntegerValue.of(INDEX_NOT_FOUND);
+        }
+        if (searchStr.isEmpty()) {
+            return IntegerValue.of(startPos_);
+        }
+        for (int i = startPos_; i < endLimit; i++) {
+            if (regionMatches(value,true, i, searchStr, 0, searchStr.length())) {
+                return IntegerValue.of(i);
+            }
+        }
+        return IntegerValue.of(INDEX_NOT_FOUND);
+    }
+
+    /**
+     * Green implementation of regionMatches.
+     *
+     * @param cs the {@link CharSequence} to be processed
+     * @param ignoreCase whether to be case-insensitive
+     * @param thisStart the index to start on the {@code cs} CharSequence
+     * @param substring the {@link CharSequence} to be looked for
+     * @param start the index to start on the {@code substring} CharSequence
+     * @param length character length of the region
+     * @return whether the region matched
+     */
+    @SuppressWarnings({"MethodWithTooManyParameters", "OverlyComplexMethod",
+            "ValueOfIncrementOrDecrementUsed", "SameParameterValue"})
+    private static boolean regionMatches(final CharSequence cs, final boolean ignoreCase, final int thisStart,
+                                 final CharSequence substring, final int start, final int length)    {
+        if (cs instanceof String && substring instanceof String) {
+            return ((String) cs).regionMatches(ignoreCase, thisStart, (String) substring, start, length);
+        }
+        int index1 = thisStart;
+        int index2 = start;
+        int tmpLen = length;
+
+        // Extract these first so we detect NPEs the same as the java.lang.String version
+        final int srcLen = cs.length() - thisStart;
+        final int otherLen = substring.length() - start;
+
+        // Check for invalid parameters
+        if (0 > thisStart || 0 > start || 0 > length) {
+            return false;
+        }
+
+        // Check that the regions are long enough
+        if (srcLen < length || otherLen < length) {
+            return false;
+        }
+
+        while (0 < tmpLen--) {
+            final char c1 = cs.charAt(index1++);
+            final char c2 = substring.charAt(index2++);
+
+            if (c1 == c2) {
+                continue;
+            }
+
+            if (!ignoreCase) {
+                return false;
+            }
+
+            // The real same check as in String.regionMatches():
+            final char u1 = Character.toUpperCase(c1);
+            final char u2 = Character.toUpperCase(c2);
+            if (u1 != u2 && Character.toLowerCase(u1) != Character.toLowerCase(u2)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -663,7 +942,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * {@code -1} if the character does not occur.
      * @see String#lastIndexOf(int)
      */
-    public IntegerValue lastIndexOf(int ch) {
+    @Contract("_ -> new")
+    public @NotNull IntegerValue lastIndexOf(final int ch) {
         return IntegerValue.of(value.lastIndexOf(ch));
     }
 
@@ -700,7 +980,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * if the character does not occur before that point.
      * @see String#lastIndexOf(int, int)
      */
-    public IntegerValue lastIndexOf(int ch, int fromIndex) {
+    @Contract("_, _ -> new")
+    public @NotNull IntegerValue lastIndexOf(final int ch, final int fromIndex) {
         return IntegerValue.of(value.lastIndexOf(ch, fromIndex));
     }
 
@@ -718,7 +999,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * or {@code -1} if there is no such occurrence.
      * @see String#lastIndexOf(String)
      */
-    public IntegerValue lastIndexOf(String str) {
+    @Contract("_ -> new")
+    public @NotNull IntegerValue lastIndexOf(final String str) {
         return IntegerValue.of(value.lastIndexOf(str));
     }
 
@@ -738,7 +1020,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * or {@code -1} if there is no such occurrence.
      * @see String#lastIndexOf(String, int)
      */
-    public IntegerValue lastIndexOf(String str, int fromIndex) {
+    @Contract("_, _ -> new")
+    public @NotNull IntegerValue lastIndexOf(final String str, final int fromIndex) {
         return IntegerValue.of(value.lastIndexOf(str, fromIndex));
     }
 
@@ -759,7 +1042,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      *             length of this {@code String} object.
      * @see String#substring(int)
      */
-    public StringValue substring(int beginIndex) {
+    @Contract("_ -> new")
+    public @NotNull StringValue substring(final int beginIndex) {
         return StringValue.of(value.substring(beginIndex));
     }
 
@@ -785,7 +1069,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      *             {@code endIndex}.
      * @see String#substring(int, int)
      */
-    public StringValue substring(int beginIndex, int endIndex) {
+    @Contract("_, _ -> new")
+    public @NotNull StringValue substring(final int beginIndex, final int endIndex) {
         return StringValue.of(value.substring(beginIndex, endIndex));
     }
 
@@ -809,7 +1094,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      *          or if {@code beginIndex} is greater than {@code endIndex}
      * @see String#subSequence(int, int)
      */
-    public CharSequence subSequence(int beginIndex, int endIndex) {
+    @Contract(pure = true)
+    public @NotNull CharSequence subSequence(final int beginIndex, final int endIndex) {
         return value.subSequence(beginIndex, endIndex);
     }
 
@@ -833,8 +1119,9 @@ public class StringValue extends BasicValue<String, StringValue> {
      *          characters followed by the string argument's characters.
      * @see String#concat(String)
      */
-    public StringValue concat(String str) {
-        return StringValue.of(value.concat(str));
+    @Contract("_ -> new")
+    public @NotNull StringValue concat(final String str) {
+        return StringValue.of(value + str);
     }
 
     /**
@@ -866,7 +1153,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      *          occurrence of {@code oldChar} with {@code newChar}.
      * @see String#replace(char, char)
      */
-    public StringValue replace(char oldChar, char newChar) {
+    @Contract("_, _ -> new")
+    public @NotNull StringValue replace(final char oldChar, final char newChar) {
         return StringValue.of(value.replace(oldChar, newChar));
     }
 
@@ -889,7 +1177,7 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @see java.util.regex.Pattern
      * @see String#matches(String)
      */
-    public boolean matches(String regex) {
+    public boolean matches(final String regex) {
         return value.matches(regex);
     }
 
@@ -900,8 +1188,64 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return true if this string contains {@code s}, false otherwise
      * @see String#contains(CharSequence)
      */
-    public boolean contains(CharSequence s) {
+    public boolean contains(final CharSequence s) {
         return value.contains(s);
+    }
+
+    /**
+     * Removes all occurrences of a character from within the value.
+     *
+     * <pre>
+     * remove(null, *)       = null
+     * remove("", *)         = ""
+     * remove("queued", 'u') = "qeed"
+     * remove("queued", 'z') = "queued"
+     * </pre>
+     *
+     * @param remove  the char to search for and remove, may be null
+     * @return the substring with the char removed if found,
+     *  {@code null} if null String input
+     */
+    public StringValue remove(final char remove) {
+        if (isEmpty() || INDEX_NOT_FOUND == value.indexOf(remove)) {
+            return this;
+        }
+        final char[] chars = value.toCharArray();
+        int pos = 0;
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] != remove) {
+                //noinspection ValueOfIncrementOrDecrementUsed
+                chars[pos++] = chars[i];
+            }
+        }
+        return StringValue.of(new String(chars, 0, pos));
+    }
+
+    /**
+     * Removes all occurrences of a substring from within the value.
+     *
+     * <p>A {@code null} remove string will return the source string.
+     * An empty ("") remove string will return the source string.</p>
+     *
+     * <pre>
+     * remove(null, *)        = null
+     * remove("", *)          = ""
+     * remove(*, null)        = *
+     * remove(*, "")          = *
+     * remove("queued", "ue") = "qd"
+     * remove("queued", "zz") = "queued"
+     * </pre>
+     *
+     * @param remove  the String to search for and remove, may be null
+     * @return the substring with the string removed if found,
+     *  {@code null} if null String input
+     * @since 2.1
+     */
+    public StringValue remove(final String remove) {
+        if (isEmpty() || remove.isEmpty()) {
+            return this;
+        }
+        return replace(remove, EMPTY.get(), -1);
     }
 
     /**
@@ -937,7 +1281,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @see java.util.regex.Pattern
      * @see String#replaceFirst(String, String)
      */
-    public StringValue replaceFirst(String regex, String replacement) {
+    @Contract("_, _ -> new")
+    public @NotNull StringValue replaceFirst(final String regex, final String replacement) {
         return StringValue.of(value.replaceFirst(regex, replacement));
     }
 
@@ -974,7 +1319,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @see java.util.regex.Pattern
      * @see String#replaceAll(String, String)
      */
-    public StringValue replaceAll(String regex, String replacement) {
+    @Contract("_, _ -> new")
+    public @NotNull StringValue replaceAll(final String regex, final String replacement) {
         return StringValue.of(value.replaceAll(regex, replacement));
     }
 
@@ -989,8 +1335,120 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return  The resulting string
      * @see String#replace(CharSequence, CharSequence)
      */
-    public StringValue replace(CharSequence target, CharSequence replacement) {
+    @Contract("_, _ -> new")
+    public @NotNull StringValue replace(final CharSequence target, final CharSequence replacement) {
         return StringValue.of(value.replace(target, replacement));
+    }
+
+    /**
+     * Replaces all occurrences of a String within the value.
+     *
+     * <pre>
+     * replace(*, *) [value = ""]         = ""
+     * replace(null, *) [value = "any"]   = "any"
+     * replace(*, null) [value = "any"]   = "any"
+     * replace("", *) [value = "any"]     = "any"
+     * replace("a", null) [value = "aba"] = "aba"
+     * replace("a", "") [value = "aba"]   = "b"
+     * replace("a", "z") [value = "aba"]  = "zbz"
+     * </pre>
+     *
+     * @see #replace(String searchString, String replacement, int max)
+     * @param searchString  the String to search for, may be null
+     * @param replacement  the String to replace it with, may be null
+     * @return the text with any replacements processed,
+     *  {@code null} if null String input
+     */
+    public StringValue replace(final String searchString, final String replacement) {
+        return replace(searchString, replacement, -1);
+    }
+
+    /**
+     * Replaces a String with another String inside the value,
+     * for the first {@code max} values of the search String.
+     *
+     * <pre>
+     * replace(*, *, *) [value = ""]           = ""
+     * replace(null, *, *) [value = "any"]     = "any"
+     * replace(*, null, *) [value = "any"]     = "any"
+     * replace("", *, *) [value = "any"]       = "any"
+     * replace(*, *, 0) [value = "any"]        = "any"
+     * replace("a", null, -1) [value = "abaa"] = "abaa"
+     * replace("a", "", -1) [value = "abaa"]   = "b"
+     * replace("a", "z", 0) [value = "abaa"]   = "abaa"
+     * replace("a", "z", 1) [value = "abaa"]   = "zbaa"
+     * replace("a", "z", 2) [value = "abaa"]   = "zbza"
+     * replace("a", "z", -1) [value = "abaa"]  = "zbzz"
+     * </pre>
+     *
+     * @param searchString  the String to search for, may be null
+     * @param replacement  the String to replace it with, may be null
+     * @param max  maximum number of values to replace, or {@code -1} if no maximum
+     * @return the text with any replacements processed,
+     *  {@code null} if null String input
+     */
+    public StringValue replace(final String searchString, final String replacement, final int max) {
+        return replace(searchString, replacement, max, false);
+    }
+
+    /**
+     * Replaces a String with another String inside the value,
+     * for the first {@code max} values of the search String,
+     * case-sensitively/insensitively based on {@code ignoreCase} value.
+     *
+     * <pre>
+     * replace(*, *, *, false) [value = ""]           = ""
+     * replace(null, *, *, false) [value = "any"]     = "any"
+     * replace(*, null, *, false) [value = "any"]     = "any"
+     * replace("", *, *, false) [value = "any"]       = "any"
+     * replace(*, *, 0, false) [value = "any"]        = "any"
+     * replace("a", null, -1, false) [value = "abaa"] = "abaa"
+     * replace("a", "", -1, false) [value = "abaa"]   = "b"
+     * replace("a", "z", 0, false) [value = "abaa"]   = "abaa"
+     * replace("A", "z", 1, false) [value = "abaa"]   = "abaa"
+     * replace("A", "z", 1, true) [value = "abaa"]    = "zbaa"
+     * replace("a", "z", 2, true) [value = "abAa"]    = "zbza"
+     * replace("a", "z", -1, true) [value = "abAa"]   = "zbzz"
+     * </pre>
+     *
+     * @param searchString  the String to search for (case-insensitive), may be null
+     * @param replacement  the String to replace it with, may be null
+     * @param max  maximum number of values to replace, or {@code -1} if no maximum
+     * @param ignoreCase if true replace is case-insensitive, otherwise case-sensitive
+     * @return the text with any replacements processed,
+     *  {@code null} if null String input
+     */
+    @SuppressWarnings({"OverlyComplexMethod", "SameParameterValue"})
+    private StringValue replace(final String searchString, final String replacement,
+                                final int max, final boolean ignoreCase) {
+        String searchString_ = searchString;
+        int max_ = max;
+        if (isEmpty() || searchString_.isEmpty() || null == replacement || 0 == max) {
+            return this;
+        }
+        if (ignoreCase) {
+            searchString_ = searchString_.toLowerCase(Locale.getDefault());
+        }
+        int start = 0;
+        IntegerValue end = ignoreCase ? indexOfIgnoreCase(searchString_, start) : indexOf(searchString_, start);
+        if (Objects.equals(INDEX_NOT_FOUND, end.get())) {
+            return this;
+        }
+        final int replLength = searchString_.length();
+        int increase = Math.max(replacement.length() - replLength, 0);
+        increase *= 0 > max ? 16 : Math.min(max, 64);
+        final StringBuilder buf = new StringBuilder(value.length() + increase);
+        while (!Objects.equals(INDEX_NOT_FOUND, end.get())) {
+            buf.append(value).append(replacement);
+            start = end.get() + replLength;
+            //noinspection ValueOfIncrementOrDecrementUsed
+            if (0 == --max_) {
+                break;
+            }
+            end = ignoreCase ? indexOfIgnoreCase(searchString_, start) : indexOf(searchString_, start);
+        }
+        buf.append(value, start, value.length());
+        return StringValue.of(buf.toString());
     }
 
     /**
@@ -1076,8 +1534,9 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @see java.util.regex.Pattern
      * @see String#split(String, int)
      */
-    public String[] split(String regex, int limit) {
-        return value.split(regex, limit);
+    public StringValue @NotNull [] split(final String regex, final int limit) {
+        return Arrays.stream(value.split(regex, limit))
+                .map(StringValue::of).toArray(StringValue[]::new);
     }
 
     /**
@@ -1162,8 +1621,9 @@ public class StringValue extends BasicValue<String, StringValue> {
      *          substrings and matching delimiters
      * @see String#splitWithDelimiters(String, int)
      */
-    public String[] splitWithDelimiters(String regex, int limit) {
-        return value.splitWithDelimiters(regex, limit);
+    public StringValue @NotNull [] splitWithDelimiters(final String regex, final int limit) {
+        return Arrays.stream(value.splitWithDelimiters(regex, limit))
+                .map(StringValue::of).toArray(StringValue[]::new);
     }
 
     /**
@@ -1199,8 +1659,9 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @see java.util.regex.Pattern
      * @see String#split(String)
      */
-    public String[] split(String regex) {
-        return value.split(regex);
+    public StringValue @NotNull [] split(final String regex) {
+        return Arrays.stream(value.split(regex))
+                .map(StringValue::of).toArray(StringValue[]::new);
     }
 
     /**
@@ -1223,8 +1684,9 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @see String#toUpperCase()
      * @see String#toUpperCase(Locale)
      */
-    public StringValue toLowerCase() {
-        return StringValue.of(value.toLowerCase());
+    @Contract(" -> new")
+    public @NotNull StringValue toLowerCase() {
+        return StringValue.of(value.toLowerCase(Locale.getDefault()));
     }
 
     /**
@@ -1280,7 +1742,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @see String#toUpperCase()
      * @see String#toUpperCase(Locale)
      */
-    public StringValue toLowerCase(Locale locale) {
+    @Contract("_ -> new")
+    public @NotNull StringValue toLowerCase(final Locale locale) {
         return StringValue.of(value.toLowerCase(locale));
     }
 
@@ -1305,8 +1768,9 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @see String#toUpperCase()
      * @see String#toUpperCase(Locale)
      */
-    public StringValue toUpperCase() {
-        return StringValue.of(value.toUpperCase());
+    @Contract(" -> new")
+    public @NotNull StringValue toUpperCase() {
+        return StringValue.of(value.toUpperCase(Locale.getDefault()));
     }
 
     /**
@@ -1361,7 +1825,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @see String#toUpperCase()
      * @see String#toUpperCase(Locale)
      */
-    public StringValue toUpperCase(Locale locale) {
+    @Contract("_ -> new")
+    public @NotNull StringValue toUpperCase(final Locale locale) {
         return StringValue.of(value.toUpperCase(locale));
     }
 
@@ -1396,7 +1861,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      *          and trailing space removed, or this string if it
      *          has no leading or trailing space.
      */
-    public StringValue trim() {
+    @Contract(" -> new")
+    public @NotNull StringValue trim() {
         return StringValue.of(value.trim());
     }
 
@@ -1423,7 +1889,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @see Character#isWhitespace(int)
      * @see String#stripLeading()
      */
-    public StringValue stripLeading() {
+    @Contract(" -> new")
+    public @NotNull StringValue stripLeading() {
         return StringValue.of(value.stripLeading());
     }
 
@@ -1450,7 +1917,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @see Character#isWhitespace(int)
      * @see String#stripTrailing()
      */
-    public StringValue stripTrailing() {
+    @Contract(" -> new")
+    public @NotNull StringValue stripTrailing() {
         return StringValue.of(value.stripTrailing());
     }
 
@@ -1483,9 +1951,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return  the stream of lines extracted from this string
      * @see String#lines()
      */
-    //TODO: convert to Stream<StringValue> lines()
-    public Stream<String> lines() {
-        return value.lines();
+    public @NotNull Stream<StringValue> lines() {
+        return value.lines().map(StringValue::of);
     }
 
     /**
@@ -1523,7 +1990,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @see Character#isWhitespace(int)
      * @see String#indent(int)
      */
-    public StringValue indent(int n) {
+    @Contract("_ -> new")
+    public @NotNull StringValue indent(final int n) {
         return StringValue.of(value.indent(n));
     }
 
@@ -1532,10 +2000,10 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return the value with last character removed
      * @throws IllegalArgumentException if the value is null
      */
-    public StringValue removeLastCharacter() {
+    @Contract(" -> new")
+    public @NotNull StringValue removeLastCharacter() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = value.substring(0, value.length() - 1);
-        return this;
+        return StringValue.of(value.substring(0, value.length() - 1));
     }
 
     /**
@@ -1544,10 +2012,10 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return the value with the specified number of characters removed from the end
      * @throws IllegalArgumentException if the value is null
      */
-    public StringValue removeLastCharacters(final int number) {
+    @Contract("_ -> new")
+    public @NotNull StringValue removeLastCharacters(final int number) {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = value.substring(0, value.length() - number);
-        return this;
+        return StringValue.of(value.substring(0, value.length() - number));
     }
 
     /**
@@ -1555,10 +2023,10 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return the value with first character removed
      * @throws IllegalArgumentException if the value is null
      */
-    public StringValue removeFirstCharacter() {
+    @Contract(" -> new")
+    public @NotNull StringValue removeFirstCharacter() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = value.substring(1);
-        return this;
+        return StringValue.of(value.substring(1));
     }
 
     /**
@@ -1567,10 +2035,10 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return the value with the specified number of characters removed from the beginning
      * @throws IllegalArgumentException if the value is null
      */
-    public StringValue removeFirstCharacters(final int number) {
+    @Contract("_ -> new")
+    public @NotNull StringValue removeFirstCharacters(final int number) {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = value.substring(number);
-        return this;
+        return StringValue.of(value.substring(number));
     }
 
     /**
@@ -1578,10 +2046,10 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return the value with all characters except alphanumeric removed
      * @throws IllegalArgumentException if the value is null
      */
-    public StringValue removeAllSpecialCharacters() {
+    @Contract(" -> new")
+    public @NotNull StringValue removeAllSpecialCharacters() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = value.replaceAll("[^a-zA-Z0-9]+","");
-        return this;
+        return StringValue.of(value.replaceAll("[^a-zA-Z0-9]+",""));
     }
 
     /**
@@ -1589,10 +2057,10 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return the value with all alphanumeric characters removed
      * @throws IllegalArgumentException if the value is null
      */
-    public StringValue removeAllAlphanumericCharacters() {
+    @Contract(" -> new")
+    public @NotNull StringValue removeAllAlphanumericCharacters() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = value.replaceAll("[a-zA-Z0-9]+","");
-        return this;
+        return StringValue.of(value.replaceAll("[a-zA-Z0-9]+",""));
     }
 
     /**
@@ -1600,10 +2068,10 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return the value with all letters removed
      * @throws IllegalArgumentException if the value is null
      */
-    public StringValue removeAllLetters() {
+    @Contract(" -> new")
+    public @NotNull StringValue removeAllLetters() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = value.replaceAll("[a-zA-Z]+","");
-        return this;
+        return StringValue.of(value.replaceAll("[a-zA-Z]+",""));
     }
 
     /**
@@ -1611,10 +2079,10 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return the value with all numbers removed
      * @throws IllegalArgumentException if the value is null
      */
-    public StringValue removeAllNumbers() {
+    @Contract(" -> new")
+    public @NotNull StringValue removeAllNumbers() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = value.replaceAll("[0-9]+","");
-        return this;
+        return StringValue.of(value.replaceAll("[0-9]+",""));
     }
 
     /**
@@ -1622,10 +2090,10 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return the value with characters reversed
      * @throws IllegalArgumentException if the value is null
      */
-    public StringValue reverse() {
+    @Contract(" -> new")
+    public @NotNull StringValue reverse() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = new StringBuilder(value).reverse().toString();
-        return this;
+        return StringValue.of(new StringBuilder(value).reverse().toString());
     }
 
     /**
@@ -1635,10 +2103,11 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return the edited value
      * @throws IllegalArgumentException if the value is null
      */
-    public StringValue leftOf(final char c) {
+    @Contract("_ -> new")
+    public @NotNull StringValue leftOf(final char c) {
         checkArgumentNotNull(value, cannotBeNull("value"));
         final var index = value.indexOf(c);
-        if (index >= 0) value = value.substring(0, index);
+        if (0 <= index) return StringValue.of(value.substring(0, index));
         return this;
     }
 
@@ -1649,10 +2118,11 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return the edited value
      * @throws IllegalArgumentException if the value is null
      */
-    public StringValue rightOf(final char c) {
+    @Contract("_ -> new")
+    public @NotNull StringValue rightOf(final char c) {
         checkArgumentNotNull(value, cannotBeNull("value"));
         final var index = value.indexOf(c);
-        if (index >= 0) value = value.substring(index + 1);
+        if (0 <= index) return StringValue.of(value.substring(index + 1));
         return this;
     }
 
@@ -1661,10 +2131,10 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return first character in the value
      * @throws IllegalArgumentException if the value is null
      */
-    public StringValue firstChar() {
+    @Contract(" -> new")
+    public @NotNull StringValue firstChar() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = value.length() > 1 ? value.substring(0, 1) : value;
-        return this;
+        return StringValue.of(1 < value.length() ? value.substring(0, 1) : value);
     }
 
     /**
@@ -1672,10 +2142,10 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return last character in the value
      * @throws IllegalArgumentException if the value is null
      */
-    public StringValue lastChar() {
+    @Contract(" -> new")
+    public @NotNull StringValue lastChar() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = value.length() > 1 ? value.substring(value.length() - 1, 1) : value;
-        return this;
+        return StringValue.of(1 < value.length() ? value.substring(value.length() - 1, 1) : value);
     }
 
     /**
@@ -1684,10 +2154,10 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return first number of characters in the value
      * @throws IllegalArgumentException if the value is null
      */
-    public StringValue firstChars(final int number) {
+    @Contract("_ -> new")
+    public @NotNull StringValue firstChars(final int number) {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = value.length() < number ? value : value.substring(0, number);
-        return this;
+        return StringValue.of(value.length() < number ? value : value.substring(0, number));
     }
 
     /**
@@ -1696,10 +2166,10 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return last number of characters in the value
      * @throws IllegalArgumentException if the value is null
      */
-    public StringValue lastChars(final int number) {
+    @Contract("_ -> new")
+    public @NotNull StringValue lastChars(final int number) {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = value.length() < number ? value : value.substring(number + 1);
-        return this;
+        return StringValue.of(value.length() < number ? value : value.substring(number + 1));
     }
 
     /**
@@ -1707,23 +2177,14 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return the value with all words capitalized
      * @throws IllegalArgumentException if the value is null or empty
      */
-    public StringValue toTitleCase() {
+    @Contract(" -> new")
+    public @NotNull StringValue toTitleCase() {
         checkArgumentNotNullOrEmpty(value, cannotBeNullOrEmpty("value"));
-        final var words = value.trim().split(" ");
-        value = Arrays.stream(words)
+        final var words = value.trim().split(SPACE);
+        return StringValue.of(Arrays.stream(words)
                 .map(word -> Character.toUpperCase(word.charAt(0)) + word.substring(1) + ' ')
                 .collect(Collectors.joining())
-                .trim();
-        return this;
-    }
-
-    /**
-     * Return a not null string.
-     * @return empty string if the value is null otherwise the value passed in as parameter.
-     */
-    public StringValue nonNull() {
-        value = value == null ? "" : value;
-        return this;
+                .trim());
     }
 
     /**
@@ -1754,6 +2215,7 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return true if the value is a number
      * @throws IllegalArgumentException if locale is null
      */
+    @SuppressWarnings("MethodWithMultipleReturnPoints")
     public boolean isNumeric(final Locale locale) {
         checkArgumentNotNull(locale, cannotBeNull("locale"));
         //Check for null or blank string
@@ -1766,7 +2228,7 @@ public class StringValue extends BasicValue<String, StringValue> {
         //Check if first character is a minus sign
         final boolean isNegative = value.charAt(0) == localeMinusSign;
         //Check if string is not just a minus sign
-        if (isNegative && value.length() == 1) return false;
+        if (isNegative && 1 == value.length()) return false;
 
         boolean isDecimalSeparatorFound = false;
 
@@ -1785,7 +2247,11 @@ public class StringValue extends BasicValue<String, StringValue> {
         return true;
     }
 
-    public DoubleValue toDouble() {
+    /**
+     * Converts this StringValue to a DoubleValue.
+     * @return this value as a DoubleValue
+     */
+    public @NotNull DoubleValue toDouble() {
         if(isNumeric()) {
             return DoubleValue.of(value);
         } else {
@@ -1793,7 +2259,11 @@ public class StringValue extends BasicValue<String, StringValue> {
         }
     }
 
-    public FloatValue toFloat() {
+    /**
+     * Converts this StringValue to a FloatValue.
+     * @return this value as a FloatValue
+     */
+    public @NotNull FloatValue toFloat() {
         if(isNumeric()) {
             return FloatValue.of(value);
         } else {
@@ -1801,7 +2271,11 @@ public class StringValue extends BasicValue<String, StringValue> {
         }
     }
 
-    public IntegerValue toInteger() {
+    /**
+     * Converts this StringValue to an IntegerValue.
+     * @return this value as an IntegerValue
+     */
+    public @NotNull IntegerValue toInteger() {
         if(isNumeric()) {
             return IntegerValue.of(value);
         } else {
@@ -1809,7 +2283,11 @@ public class StringValue extends BasicValue<String, StringValue> {
         }
     }
 
-    public LongValue toLong() {
+    /**
+     * Converts this StringValue to a LongValue.
+     * @return this value as a LongValue
+     */
+    public @NotNull LongValue toLong() {
         if(isNumeric()) {
             return LongValue.of(value);
         } else {
@@ -1827,15 +2305,14 @@ public class StringValue extends BasicValue<String, StringValue> {
     public StringValue unwrap(final char wrapChar) {
         checkArgumentNotNull(value, cannotBeNull("value"));
         checkArgumentNotNull(wrapChar, cannotBeNull("wrapChar"));
-        if (isEmpty() || wrapChar == CharUtils.NUL) {
+        if (isEmpty() || CharUtils.NUL == wrapChar) {
             return this;
         }
 
         if (value.charAt(0) == wrapChar && value.charAt(value.length() - 1) == wrapChar) {
             final int startIndex = 0;
             final int endIndex = value.length() - 1;
-            value = value.substring(startIndex + 1, endIndex);
-            return this;
+            return StringValue.of(value.substring(startIndex + 1, endIndex));
         }
 
         return this;
@@ -1846,13 +2323,12 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return the value with first char uppercase
      * @throws IllegalArgumentException if the value is null
      */
-
-    public StringValue uppercaseFirst() {
+    @Contract(" -> new")
+    public @NotNull StringValue uppercaseFirst() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = value.length() > 1
+        return StringValue.of(1 < value.length()
                 ? value.substring(0, 1).toUpperCase(Locale.getDefault()) + value.substring(1)
-                : value.toUpperCase(Locale.getDefault());
-        return this;
+                : value.toUpperCase(Locale.getDefault()));
     }
 
     /**
@@ -1861,14 +2337,13 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return the value with first char uppercase
      * @throws IllegalArgumentException if the value or Locale are null
      */
-
-    public StringValue uppercaseFirst(final Locale locale) {
+    @Contract("_ -> new")
+    public @NotNull StringValue uppercaseFirst(final Locale locale) {
         checkArgumentNotNull(value, cannotBeNull("value"));
         checkArgumentNotNull(locale, LOCALE_CANNOT_BE_NULL);
-        value = value.length() > 1
+        return StringValue.of(1 < value.length()
                 ? value.substring(0, 1).toUpperCase(locale) + value.substring(1)
-                : value.toUpperCase(locale);
-        return this;
+                : value.toUpperCase(locale));
     }
 
     /**
@@ -1876,12 +2351,12 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return the value with first char lowercase
      * @throws IllegalArgumentException if the value is null or empty
      */
-    public StringValue lowercaseFirst() {
+    @Contract(" -> new")
+    public @NotNull StringValue lowercaseFirst() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = value.length() > 1
+        return StringValue.of(1 < value.length()
                 ? value.substring(0, 1).toLowerCase(Locale.getDefault()) + value.substring(1)
-                : value.toLowerCase(Locale.getDefault());
-        return this;
+                : value.toLowerCase(Locale.getDefault()));
     }
 
     /**
@@ -1889,13 +2364,13 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return the value with first char lowercase
      * @throws IllegalArgumentException if the value is null or empty
      */
-    public StringValue lowercaseFirst(final Locale locale) {
+    @Contract("_ -> new")
+    public @NotNull StringValue lowercaseFirst(final Locale locale) {
         checkArgumentNotNull(value, cannotBeNull("value"));
         checkArgumentNotNull(locale, LOCALE_CANNOT_BE_NULL);
-        value = value.length() > 1
+        return StringValue.of(1 < value.length()
                 ? value.substring(0, 1).toLowerCase(locale) + value.substring(1)
-                : value.toLowerCase(locale);
-        return this;
+                : value.toLowerCase(locale));
     }
 
     /**
@@ -1906,7 +2381,7 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @see String#isBlank()
      */
     public boolean isBlank() {
-        return (value == null || value.isEmpty())
+        return (null == value || value.isEmpty())
                 || IntStream.range(0, value.length())
                 .allMatch(i -> Character.isWhitespace(value.charAt(i)));
     }
@@ -1992,7 +2467,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @see Character#isWhitespace(int)
      * @see String#stripIndent()
      */
-    public StringValue stripIndent() {
+    @Contract(" -> new")
+    public @NotNull StringValue stripIndent() {
         return StringValue.of(value.stripIndent());
     }
 
@@ -2076,7 +2552,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return String with escape sequences translated.
      * @see String#translateEscapes()
      */
-    public StringValue translateEscapes() {
+    @Contract(" -> new")
+    public @NotNull StringValue translateEscapes() {
         return StringValue.of(value.translateEscapes());
     }
 
@@ -2104,7 +2581,7 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @see #equals(Object)
      * @see String#equalsIgnoreCase(String)
      */
-    public boolean equalsIgnoreCase(String anotherString) {
+    public boolean equalsIgnoreCase(final String anotherString) {
         return value.equalsIgnoreCase(anotherString);
     }
 
@@ -2138,7 +2615,7 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @see String#isEmpty()
      */
     public boolean isEmpty() {
-        return value == null || value.isEmpty();
+        return null == value || value.isEmpty();
     }
 
     /**
@@ -2147,7 +2624,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return the stripped value, {@code null} if null value
      * @see String#strip()
      */
-    public StringValue strip() {
+    @Contract(" -> new")
+    public @NotNull StringValue strip() {
         return strip(null);
     }
 
@@ -2165,11 +2643,11 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @see String#strip()
      * @see StringUtils#strip(String)
      */
-    public StringValue strip(final String stripChars) {
-        if (value.isEmpty()) return this;
-        value = stripStart(value, stripChars);
-        value = stripEnd(value, stripChars);
-        return this;
+    @Contract("_ -> new")
+    public @NotNull StringValue strip(final String stripChars) {
+        if (value.isEmpty()) return StringValue.EMPTY;
+        String newValue = stripStart(value, stripChars);
+        return StringValue.of(stripEnd(newValue, stripChars));
     }
 
     /**
@@ -2180,7 +2658,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return an IntStream of char values from this sequence
      * @see String#chars()
      */
-    public IntStream chars() {
+    @Contract(value = " -> new", pure = true)
+    public @NotNull IntStream chars() {
         return value.chars();
     }
 
@@ -2195,7 +2674,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return an IntStream of Unicode code points from this sequence
      * @see String#codePoints()
      */
-    public IntStream codePoints() {
+    @Contract(value = " -> new", pure = true)
+    public @NotNull IntStream codePoints() {
         return value.codePoints();
     }
 
@@ -2205,7 +2685,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      *          of this string and whose contents are initialized to contain
      *          the character sequence represented by this string.
      */
-    public char[] toCharArray() {
+    @Contract(value = " -> new", pure = true)
+    public char @NotNull [] toCharArray() {
         return value.toCharArray();
     }
 
@@ -2219,7 +2700,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @see  Formatter
      * @see String#formatted(Object...)
      */
-    public StringValue formatted(Object... args) {
+    @Contract("_ -> new")
+    public @NotNull StringValue formatted(final Object... args) {
         return StringValue.of(value.formatted(args));
     }
 
@@ -2236,7 +2718,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @throws  IllegalArgumentException if the {@code count} is negative.
      * @see String#repeat(int)
      */
-    public StringValue repeat(int count) {
+    @Contract("_ -> new")
+    public @NotNull StringValue repeat(final int count) {
         return StringValue.of(value.repeat(count));
     }
 
@@ -2253,7 +2736,7 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @see Function
      * @see String#transform(Function)
      */
-    public <R> R transform(Function<? super String, ? extends R> f) {
+    public <R> R transform(final Function<? super String, ? extends R> f) {
         return value.transform(f);
     }
 
@@ -2271,7 +2754,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @return The resultant byte array
      * @see String#getBytes(Charset)
      */
-    public byte[] getBytes(@NotNull Charset charset) {
+    @Contract(pure = true)
+    public byte @NotNull [] getBytes(@NotNull final Charset charset) {
         return value.getBytes(charset);
     }
 
@@ -2289,7 +2773,7 @@ public class StringValue extends BasicValue<String, StringValue> {
      *         false} otherwise
      * @see String#contentEquals(CharSequence)
      */
-    public boolean contentEquals(@NotNull CharSequence cs) {
+    public boolean contentEquals(@NotNull final CharSequence cs) {
         return value.contentEquals(cs);
     }
 
@@ -2327,7 +2811,7 @@ public class StringValue extends BasicValue<String, StringValue> {
      *          {@code false} otherwise.
      * @see String#regionMatches(int, String, int, int)
      */
-    public boolean regionMatches(int toffset, @NotNull String other, int ooffset, int len) {
+    public boolean regionMatches(final int toffset, @NotNull final String other, final int ooffset, final int len) {
         return value.regionMatches(toffset, other, ooffset, len);
     }
 
@@ -2351,7 +2835,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      *             string.
      * @see String#codePointAt(int)
      */
-    public IntegerValue codePointAt(int index) {
+    @Contract("_ -> new")
+    public @NotNull IntegerValue codePointAt(final int index) {
         return IntegerValue.of(value.codePointAt(index));
     }
 
@@ -2385,7 +2870,7 @@ public class StringValue extends BasicValue<String, StringValue> {
      *                {@code dst.length}</ul>
      * @see String#getChars(int, int, char[], int)
      */
-    public void getChars(int srcBegin, int srcEnd, char @NotNull [] dst, int dstBegin) {
+    public void getChars(final int srcBegin, final int srcEnd, final char @NotNull [] dst, final int dstBegin) {
         value.getChars(srcBegin, srcEnd, dst, dstBegin);
     }
 
@@ -2408,7 +2893,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      *   of {@code codePointOffset} code points.
      * @see String#offsetByCodePoints(int, int)
      */
-    public IntegerValue offsetByCodePoints(int index, int codePointOffset) {
+    @Contract("_, _ -> new")
+    public @NotNull IntegerValue offsetByCodePoints(final int index, final int codePointOffset) {
         return IntegerValue.of(value.offsetByCodePoints(index, codePointOffset));
     }
 
@@ -2431,7 +2917,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      * @see     #codePoints()
      * @see String#compareToIgnoreCase(String)
      */
-    public IntegerValue compareToIgnoreCase(@NotNull String str) {
+    @Contract("_ -> new")
+    public @NotNull IntegerValue compareToIgnoreCase(@NotNull final String str) {
         return IntegerValue.of(value.compareToIgnoreCase(str));
     }
 
@@ -2450,7 +2937,8 @@ public class StringValue extends BasicValue<String, StringValue> {
      *          If the named charset is not supported
      * @see String#getBytes(String)
      */
-    public byte[] getBytes(@NotNull String charsetName) throws UnsupportedEncodingException {
+    @Contract(pure = true)
+    public byte @NotNull [] getBytes(@NotNull final String charsetName) throws UnsupportedEncodingException {
         return value.getBytes(charsetName);
     }
 
@@ -2467,8 +2955,170 @@ public class StringValue extends BasicValue<String, StringValue> {
      *          {@code false} otherwise
      * @see String#contentEquals(StringBuffer)
      */
-    public boolean contentEquals(@NotNull StringBuffer sb) {
+    public boolean contentEquals(@NotNull final StringBuffer sb) {
         return value.contentEquals(sb);
+    }
+
+    /**
+     * Returns the number of Unicode code points in the specified text
+     * range of this {@code String}. The text range begins at the
+     * specified {@code beginIndex} and extends to the
+     * {@code char} at index {@code endIndex - 1}. Thus, the
+     * length (in {@code char}s) of the text range is
+     * {@code endIndex-beginIndex}. Unpaired surrogates within
+     * the text range count as one code point each.
+     *
+     * @param beginIndex the index to the first {@code char} of
+     * the text range.
+     * @param endIndex the index after the last {@code char} of
+     * the text range.
+     * @return the number of Unicode code points in the specified text
+     * range
+     * @throws    IndexOutOfBoundsException if the
+     * {@code beginIndex} is negative, or {@code endIndex}
+     * is larger than the length of this {@code String}, or
+     * {@code beginIndex} is larger than {@code endIndex}.
+     * @see String#codePointCount(int, int)
+     */
+    @Contract("_, _ -> new")
+    public @NotNull IntegerValue codePointCount(final int beginIndex, final int endIndex) {
+        return IntegerValue.of(value.codePointCount(beginIndex, endIndex));
+    }
+
+    /**
+     * Tests if two string regions are equal.
+     * <p>
+     * A substring of this {@code String} object is compared to a substring
+     * of the argument {@code other}. The result is {@code true} if these
+     * substrings represent Unicode code point sequences that are the same,
+     * ignoring case if and only if {@code ignoreCase} is true.
+     * The sequences {@code tsequence} and {@code osequence} are compared,
+     * where {@code tsequence} is the sequence produced as if by calling
+     * {@code this.substring(toffset, toffset + len).codePoints()} and
+     * {@code osequence} is the sequence produced as if by calling
+     * {@code other.substring(ooffset, ooffset + len).codePoints()}.
+     * The result is {@code true} if and only if all the following
+     * are true:
+     * <ul><li>{@code toffset} is non-negative.
+     * <li>{@code ooffset} is non-negative.
+     * <li>{@code toffset+len} is less than or equal to the length of this
+     * {@code String} object.
+     * <li>{@code ooffset+len} is less than or equal to the length of the other
+     * argument.
+     * <li>if {@code ignoreCase} is {@code false}, all pairs of corresponding Unicode
+     * code points are equal integer values; or if {@code ignoreCase} is {@code true},
+     * {@link Character#toLowerCase(int) Character.toLowerCase(}
+     * {@link Character#toUpperCase(int)}{@code )} on all pairs of Unicode code points
+     * results in equal integer values.
+     * </ul>
+     * <p>Note that this method does <em>not</em> take locale into account,
+     * and will result in unsatisfactory results for certain locales when
+     * {@code ignoreCase} is {@code true}.  The {@link java.text.Collator} class
+     * provides locale-sensitive comparison.
+     * @param   ignoreCase   if {@code true}, ignore case when comparing
+     *                       characters.
+     * @param   toffset      the starting offset of the subregion in this
+     *                       string.
+     * @param   other        the string argument.
+     * @param   ooffset      the starting offset of the subregion in the string
+     *                       argument.
+     * @param   len          the number of characters (Unicode code units -
+     *                       16bit {@code char} value) to compare.
+     * @return  {@code true} if the specified subregion of this string
+     *          matches the specified subregion of the string argument;
+     *          {@code false} otherwise. Whether the matching is exact
+     *          or case-insensitive depends on the {@code ignoreCase}
+     *          argument.
+     * @see     #codePoints()
+     * @see String#regionMatches(boolean, int, String, int, int)
+     */
+    public boolean regionMatches(final boolean ignoreCase, final int toffset, @NotNull final String other,
+                                 final int ooffset, final int len) {
+        return value.regionMatches(ignoreCase, toffset, other, ooffset, len);
+    }
+
+    /**
+     * Returns the character (Unicode code point) before the specified
+     * index. The index refers to {@code char} values
+     * (Unicode code units) and ranges from {@code 1} to {@link
+     * CharSequence#length() length}.
+     * <p> If the {@code char} value at {@code (index - 1)}
+     * is in the low-surrogate range, {@code (index - 2)} is not
+     * negative, and the {@code char} value at {@code (index -
+     * 2)} is in the high-surrogate range, then the
+     * supplementary code point value of the surrogate pair is
+     * returned. If the {@code char} value at {@code index -
+     * 1} is an unpaired low-surrogate or a high-surrogate, the
+     * surrogate value is returned.
+     * @param     index the index following the code point that should be returned
+     * @return    the Unicode code point value before the given index.
+     * @throws    IndexOutOfBoundsException if the {@code index}
+     *            argument is less than 1 or greater than the length
+     *            of this string.
+     * @see String#codePointBefore(int)
+     */
+    @Contract("_ -> new")
+    public @NotNull IntegerValue codePointBefore(final int index) {
+        return IntegerValue.of(value.codePointBefore(index));
+    }
+
+    /**
+     * Encodes this {@code String} into a sequence of bytes using the
+     * {@link Charset#defaultCharset() default charset}, storing the result
+     * into a new byte array.
+     * <p> The behavior of this method when this string cannot be encoded in
+     * the default charset is unspecified.  The {@link
+     * java.nio.charset.CharsetEncoder} class should be used when more control
+     * over the encoding process is required.
+     * @return  The resultant byte array
+     * @see String#getBytes()
+     */
+    @Contract(value = " -> new", pure = true)
+    public byte @NotNull [] getBytes() {
+        return value.getBytes();
+    }
+
+    /**
+     * Returns the value.
+     * @return the stored value
+     */
+    public String stringValue() {
+        return value;
+    }
+
+    /**
+     * Returns the length of this string.
+     * The length is equal to the number of <a href="Character.html#unicode">Unicode
+     * code units</a> in the string.
+     *
+     * @return  the length of the sequence of characters represented by this
+     *          object.
+     * @see String#length()
+     */
+    @Contract(" -> new")
+    public @NotNull IntegerValue length() {
+        return IntegerValue.of(value.length());
+    }
+
+    /**
+     * Returns the value.
+     * @return the stored value
+     */
+    @Override
+    public String get() {
+        return value;
+    }
+
+    /**
+     * Compares this StringValue to another in ascending order.
+     *
+     * @param other  the other StringValue to compare to, not null
+     * @return negative if this is less, zero if equal, positive if greater
+     *  where false is less than true
+     */
+    public int compareTo(final @NotNull StringValue other) {
+        //noinspection AccessingNonPublicFieldOfAnotherObject
+        return value.compareTo(other.value);
     }
 
     /**
@@ -2516,179 +3166,37 @@ public class StringValue extends BasicValue<String, StringValue> {
      *          lexicographically greater than the string argument.
      * @see String#compareTo(String)
      */
-    public IntegerValue compareTo(@NotNull String anotherString) {
-        return IntegerValue.of(value.compareTo(anotherString));
-    }
-
-    /**
-     * Returns the number of Unicode code points in the specified text
-     * range of this {@code String}. The text range begins at the
-     * specified {@code beginIndex} and extends to the
-     * {@code char} at index {@code endIndex - 1}. Thus the
-     * length (in {@code char}s) of the text range is
-     * {@code endIndex-beginIndex}. Unpaired surrogates within
-     * the text range count as one code point each.
-     *
-     * @param beginIndex the index to the first {@code char} of
-     * the text range.
-     * @param endIndex the index after the last {@code char} of
-     * the text range.
-     * @return the number of Unicode code points in the specified text
-     * range
-     * @throws    IndexOutOfBoundsException if the
-     * {@code beginIndex} is negative, or {@code endIndex}
-     * is larger than the length of this {@code String}, or
-     * {@code beginIndex} is larger than {@code endIndex}.
-     * @see String#codePointCount(int, int)
-     */
-    public IntegerValue codePointCount(int beginIndex, int endIndex) {
-        return IntegerValue.of(value.codePointCount(beginIndex, endIndex));
-    }
-
-    /**
-     * Tests if two string regions are equal.
-     * <p>
-     * A substring of this {@code String} object is compared to a substring
-     * of the argument {@code other}. The result is {@code true} if these
-     * substrings represent Unicode code point sequences that are the same,
-     * ignoring case if and only if {@code ignoreCase} is true.
-     * The sequences {@code tsequence} and {@code osequence} are compared,
-     * where {@code tsequence} is the sequence produced as if by calling
-     * {@code this.substring(toffset, toffset + len).codePoints()} and
-     * {@code osequence} is the sequence produced as if by calling
-     * {@code other.substring(ooffset, ooffset + len).codePoints()}.
-     * The result is {@code true} if and only if all of the following
-     * are true:
-     * <ul><li>{@code toffset} is non-negative.
-     * <li>{@code ooffset} is non-negative.
-     * <li>{@code toffset+len} is less than or equal to the length of this
-     * {@code String} object.
-     * <li>{@code ooffset+len} is less than or equal to the length of the other
-     * argument.
-     * <li>if {@code ignoreCase} is {@code false}, all pairs of corresponding Unicode
-     * code points are equal integer values; or if {@code ignoreCase} is {@code true},
-     * {@link Character#toLowerCase(int) Character.toLowerCase(}
-     * {@link Character#toUpperCase(int)}{@code )} on all pairs of Unicode code points
-     * results in equal integer values.
-     * </ul>
-     * <p>Note that this method does <em>not</em> take locale into account,
-     * and will result in unsatisfactory results for certain locales when
-     * {@code ignoreCase} is {@code true}.  The {@link java.text.Collator} class
-     * provides locale-sensitive comparison.
-     * @param   ignoreCase   if {@code true}, ignore case when comparing
-     *                       characters.
-     * @param   toffset      the starting offset of the subregion in this
-     *                       string.
-     * @param   other        the string argument.
-     * @param   ooffset      the starting offset of the subregion in the string
-     *                       argument.
-     * @param   len          the number of characters (Unicode code units -
-     *                       16bit {@code char} value) to compare.
-     * @return  {@code true} if the specified subregion of this string
-     *          matches the specified subregion of the string argument;
-     *          {@code false} otherwise. Whether the matching is exact
-     *          or case-insensitive depends on the {@code ignoreCase}
-     *          argument.
-     * @see     #codePoints()
-     * @see String#regionMatches(boolean, int, String, int, int)
-     */
-    public boolean regionMatches(boolean ignoreCase, int toffset, @NotNull String other, int ooffset, int len) {
-        return value.regionMatches(ignoreCase, toffset, other, ooffset, len);
-    }
-
-    /**
-     * Returns the character (Unicode code point) before the specified
-     * index. The index refers to {@code char} values
-     * (Unicode code units) and ranges from {@code 1} to {@link
-     * CharSequence#length() length}.
-     * <p> If the {@code char} value at {@code (index - 1)}
-     * is in the low-surrogate range, {@code (index - 2)} is not
-     * negative, and the {@code char} value at {@code (index -
-     * 2)} is in the high-surrogate range, then the
-     * supplementary code point value of the surrogate pair is
-     * returned. If the {@code char} value at {@code index -
-     * 1} is an unpaired low-surrogate or a high-surrogate, the
-     * surrogate value is returned.
-     * @param     index the index following the code point that should be returned
-     * @return    the Unicode code point value before the given index.
-     * @throws    IndexOutOfBoundsException if the {@code index}
-     *            argument is less than 1 or greater than the length
-     *            of this string.
-     * @see String#codePointBefore(int)
-     */
-    public IntegerValue codePointBefore(int index) {
-        return IntegerValue.of(value.codePointBefore(index));
-    }
-
-    /**
-     * Encodes this {@code String} into a sequence of bytes using the
-     * {@link Charset#defaultCharset() default charset}, storing the result
-     * into a new byte array.
-     * <p> The behavior of this method when this string cannot be encoded in
-     * the default charset is unspecified.  The {@link
-     * java.nio.charset.CharsetEncoder} class should be used when more control
-     * over the encoding process is required.
-     * @return  The resultant byte array
-     * @see String#getBytes()
-     */
-    public byte[] getBytes() {
-        return value.getBytes();
-    }
-
-    /**
-     * Returns the value.
-     * @return the stored value
-     */
-    public String stringValue() {
-        return value;
-    }
-
-    /**
-     * Returns the length of this string.
-     * The length is equal to the number of <a href="Character.html#unicode">Unicode
-     * code units</a> in the string.
-     *
-     * @return  the length of the sequence of characters represented by this
-     *          object.
-     * @see String#length()
-     */
-    public IntegerValue length() {
-        return IntegerValue.of(value.length());
-    }
-
-    /**
-     * Returns the value.
-     * @return the stored value
-     */
     @Override
-    public String get() {
-        return value;
+    public int compareTo(@NotNull final String anotherString) {
+        return value.compareTo(anotherString);
     }
 
     /**
-     * Sets the value.
-     * @param value the value to store
-     * @return this instance
-     */
-    @Override
-    public StringValue set(@NotNull final String value) {
-        checkArgumentNotNullOrEmpty(value, cannotBeNullOrEmpty(value));
-        final String last = this.value;
-        this.value = value;
-        listeners.firePropertyChange("value", last, value);
-        return this;
-    }
-
-    /**
-     * Compares this StringValue to another in ascending order.
+     * Returns an {@link Optional} containing the nominal descriptor for this
+     * instance, which is the instance itself.
      *
-     * @param other  the other StringValue to compare to, not null
-     * @return negative if this is less, zero if equal, positive if greater
-     *  where false is less than true
+     * @return an {@link Optional} describing the {@linkplain String} value
      */
+    @Contract(value = " -> new", pure = true)
     @Override
-    public int compareTo(final @NotNull StringValue other) {
-        return value.compareTo(other.value);
+    public @NotNull Optional<String> describeConstable() {
+        return value.describeConstable();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+
+        if (null == o || getClass() != o.getClass()) return false;
+
+        StringValue that = (StringValue) o;
+
+        return new EqualsBuilder().appendSuper(super.equals(o)).append(value, that.value).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).appendSuper(super.hashCode()).append(value).toHashCode();
     }
 
     /**

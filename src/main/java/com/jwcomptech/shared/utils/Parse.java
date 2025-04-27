@@ -1,5 +1,6 @@
 package com.jwcomptech.shared.utils;
 
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
 import java.math.RoundingMode;
@@ -15,19 +16,19 @@ public final class Parse {
      * @param input number to convert to a readable string
      * @return the specified number converted to a readable string
      */
-    public static String convertBytesToString(final Number input) {
+    public static @NotNull String convertBytesToString(final @NotNull Number input) {
         final DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.DOWN);
         final double factor = 1024.0d;
         final String suffix;
         double newNum = input.doubleValue();
-        if(newNum >= factor) {
+        if(factor <= newNum) {
             newNum /= factor;
-            if(newNum >= factor) {
+            if(factor <= newNum) {
                 newNum /= factor;
-                if(newNum >= factor) {
+                if(factor <= newNum) {
                     newNum /= factor;
-                    if(newNum >= factor) {
+                    if(factor <= newNum) {
                         newNum /= factor;
                         suffix = " TB";
                     } else suffix = " GB";

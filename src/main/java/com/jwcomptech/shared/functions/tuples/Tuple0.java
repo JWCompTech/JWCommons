@@ -18,6 +18,7 @@ import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
  *
  * @author Daniel Dietrich
  */
+@SuppressWarnings("EqualsAndHashcode")
 public final class Tuple0 implements Tuple, Comparable<Tuple0>, Serializable {
 
     @Serial

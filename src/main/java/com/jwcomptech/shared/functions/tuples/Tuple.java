@@ -18,6 +18,7 @@ import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
  *
  * @author Daniel Dietrich
  */
+@SuppressWarnings({"unused", "ClassReferencesSubclass"})
 public interface Tuple extends Serializable {
 
     @Serial

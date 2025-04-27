@@ -3,6 +3,7 @@ package com.jwcomptech.shared;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -33,6 +34,7 @@ import java.util.regex.Pattern;
  * @see String#format(String, Object...)
  * @since 0.0.1
  */
+@SuppressWarnings({"ClassWithTooManyMethods", "OverlyComplexClass", "unused"})
 public class Validate {
 
     private static final String DEFAULT_NOT_NAN_EX_MESSAGE =
@@ -162,9 +164,9 @@ public class Validate {
      * @see #exclusiveBetween(Object, Object, Comparable, String, Object...)
      * @since 0.0.1
      */
-    public static <T> void exclusiveBetween(final T start, final T end, final Comparable<T> value) {
+    public static <T> void exclusiveBetween(final T start, final T end, final @NotNull Comparable<T> value) {
         // TODO when breaking BC, consider returning value
-        if (value.compareTo(start) <= 0 || value.compareTo(end) >= 0) {
+        if (0 >= value.compareTo(start) || 0 <= value.compareTo(end)) {
             throw new IllegalArgumentException(DEFAULT_EXCLUSIVE_BETWEEN_EX_MESSAGE.formatted(
                     String.valueOf(value), String.valueOf(start), String.valueOf(end)));
         }
@@ -187,10 +189,10 @@ public class Validate {
      * @see #exclusiveBetween(Object, Object, Comparable)
      * @since 0.0.1
      */
-    public static <T> void exclusiveBetween(final T start, final T end, final Comparable<T> value,
+    public static <T> void exclusiveBetween(final T start, final T end, final @NotNull Comparable<T> value,
                                             final String message, final Object... values) {
         // TODO when breaking BC, consider returning value
-        if (value.compareTo(start) <= 0 || value.compareTo(end) >= 0) {
+        if (0 >= value.compareTo(start) || 0 <= value.compareTo(end)) {
             throw new IllegalArgumentException(getMessage(message, values));
         }
     }
@@ -344,9 +346,9 @@ public class Validate {
      * @see #inclusiveBetween(Object, Object, Comparable, String, Object...)
      * @since 0.0.1
      */
-    public static <T> void inclusiveBetween(final T start, final T end, final Comparable<T> value) {
+    public static <T> void inclusiveBetween(final T start, final T end, final @NotNull Comparable<T> value) {
         // TODO when breaking BC, consider returning value
-        if (value.compareTo(start) < 0 || value.compareTo(end) > 0) {
+        if (0 > value.compareTo(start) || 0 < value.compareTo(end)) {
             throw new IllegalArgumentException(DEFAULT_INCLUSIVE_BETWEEN_EX_MESSAGE.formatted(
                     String.valueOf(value), String.valueOf(start), String.valueOf(end)));
         }
@@ -372,7 +374,7 @@ public class Validate {
     public static <T> void inclusiveBetween(final T start, final T end, final Comparable<T> value,
                                             final String message, final Object... values) {
         // TODO when breaking BC, consider returning value
-        if (value.compareTo(start) < 0 || value.compareTo(end) > 0) {
+        if (0 > value.compareTo(start) || 0 < value.compareTo(end)) {
             throw new IllegalArgumentException(getMessage(message, values));
         }
     }
@@ -394,7 +396,7 @@ public class Validate {
      */
     public static void isAssignableFrom(final Class<?> superType, final Class<?> type) {
         // TODO when breaking BC, consider returning type
-        if (type == null || superType == null || !superType.isAssignableFrom(type)) {
+        if (null == type || null == superType || !superType.isAssignableFrom(type)) {
             throw new IllegalArgumentException(DEFAULT_IS_ASSIGNABLE_EX_MESSAGE.formatted(
                             ClassUtils.getName(type, "null type"),
                             ClassUtils.getName(superType, "null type")));
@@ -675,7 +677,7 @@ public class Validate {
         Objects.requireNonNull(iterable, "iterable");
         int i = 0;
         for (final Iterator<?> it = iterable.iterator(); it.hasNext(); i++) {
-            if (it.next() == null) {
+            if (null == it.next()) {
                 final Object[] values2 = ArrayUtils.addAll(values, i);
                 throw new IllegalArgumentException(getMessage(message, values2));
             }
@@ -738,7 +740,7 @@ public class Validate {
                                          final Object... values) {
         Objects.requireNonNull(array, "array");
         for (int i = 0; i < array.length; i++) {
-            if (array[i] == null) {
+            if (null == array[i]) {
                 final Object[] values2 = ArrayUtils.add(values, i);
                 throw new IllegalArgumentException(getMessage(message, values2));
             }
@@ -981,7 +983,7 @@ public class Validate {
      */
     public static <T> T[] notEmpty(final T[] array, final String message, final Object... values) {
         Objects.requireNonNull(array, toSupplier(message, values));
-        if (array.length == 0) {
+        if (0 == array.length) {
             throw new IllegalArgumentException(getMessage(message, values));
         }
         return array;
@@ -1141,7 +1143,7 @@ public class Validate {
      */
     public static <T extends Collection<?>> T validIndex(final T collection, final int index, final String message, final Object... values) {
         Objects.requireNonNull(collection, "collection");
-        if (index < 0 || index >= collection.size()) {
+        if (0 > index || index >= collection.size()) {
             throw new IndexOutOfBoundsException(getMessage(message, values));
         }
         return collection;
@@ -1170,7 +1172,7 @@ public class Validate {
      */
     public static <T extends CharSequence> T validIndex(final T chars, final int index, final String message, final Object... values) {
         Objects.requireNonNull(chars, "chars");
-        if (index < 0 || index >= chars.length()) {
+        if (0 > index || index >= chars.length()) {
             throw new IndexOutOfBoundsException(getMessage(message, values));
         }
         return chars;
@@ -1224,7 +1226,7 @@ public class Validate {
      */
     public static <T> T[] validIndex(final T[] array, final int index, final String message, final Object... values) {
         Objects.requireNonNull(array, "array");
-        if (index < 0 || index >= array.length) {
+        if (0 > index || index >= array.length) {
             throw new IndexOutOfBoundsException(getMessage(message, values));
         }
         return array;

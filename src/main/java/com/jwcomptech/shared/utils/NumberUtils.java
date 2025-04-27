@@ -1,11 +1,15 @@
 package com.jwcomptech.shared.utils;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.stream.IntStream;
 
 /**
  * Contains methods dealing with numbers.
  * @since 0.0.1
  */
+@SuppressWarnings("unused")
 public final class NumberUtils {
     /**
      * Checks if the specified number is prime.
@@ -14,10 +18,10 @@ public final class NumberUtils {
      */
     public boolean isPrime(final long input) {
         // fast even test.
-        if(input > 2 && (input & 1) == 0) return false;
+        if(2 < input && 0 == (input & 1)) return false;
         // only odd factors need to be tested up to input^0.5
         return IntStream.iterate(3, i -> (long) i * i <= input, i -> i + 2)
-                .noneMatch(i -> input % i == 0);
+                .noneMatch(i -> 0 == input % i);
     }
 
     /**
@@ -25,14 +29,16 @@ public final class NumberUtils {
      * @param input number to check
      * @return true if the specified number is even
      */
-    public static Boolean isEven(final int input) { return (input & 1) == 0; }
+    @Contract(pure = true)
+    public static @NotNull Boolean isEven(final int input) { return 0 == (input & 1); }
 
     /**
      * Checks if the specified number is odd.
      * @param input number to check
      * @return true if the specified number is odd
      */
-    public static Boolean isOdd(final int input) { return (input & 1) != 0; }
+    @Contract(pure = true)
+    public static @NotNull Boolean isOdd(final int input) { return 0 != (input & 1); }
 
     /**
      * Squares the specified number.
@@ -63,8 +69,9 @@ public final class NumberUtils {
      * @param inclusive if true the upper bound is included
      * @return true if the specified number is in range
      */
-    public static Boolean isInRange(final int input, final int lower,
-                                    final int upper, final boolean inclusive) {
+    @Contract(pure = true)
+    public static @NotNull Boolean isInRange(final int input, final int lower,
+                                             final int upper, final boolean inclusive) {
         return lower <= input && (inclusive ? input <= upper : input < upper);
     }
 

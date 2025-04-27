@@ -1,8 +1,13 @@
 package com.jwcomptech.shared.tuples;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.io.Serial;
 import java.util.Objects;
 
+@SuppressWarnings("unused")
 public class MutableTriple<L, M, R> extends Triple<L, M, R> {
     public static final MutableTriple<?, ?, ?>[] EMPTY_ARRAY = new MutableTriple[0];
     @Serial
@@ -56,5 +61,39 @@ public class MutableTriple<L, M, R> extends Triple<L, M, R> {
 
     public void setRight(R right) {
         this.right = right;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (null == o || getClass() != o.getClass()) return false;
+
+        MutableTriple<?, ?, ?> that = (MutableTriple<?, ?, ?>) o;
+
+        return new EqualsBuilder().appendSuper(super.equals(o))
+                .append(left, that.left)
+                .append(middle, that.middle)
+                .append(right, that.right)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .appendSuper(super.hashCode())
+                .append(left)
+                .append(middle)
+                .append(right)
+                .toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("left", left)
+                .append("middle", middle)
+                .append("right", right)
+                .toString();
     }
 }

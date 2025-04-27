@@ -1,10 +1,12 @@
 package com.jwcomptech.shared.values;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.beans.PropertyChangeSupport;
 import java.io.Serial;
 
+import static com.jwcomptech.shared.Literals.cannotBeNull;
+import static com.jwcomptech.shared.Literals.cannotBeNullOrEmpty;
 import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
 import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNullOrEmpty;
 
@@ -12,7 +14,8 @@ import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNullOrEmpty;
  * Provides mutable access to an {@link Integer}.
  * @since 0.0.1
  */
-public class LongValue extends NumberValue<Long, LongValue> {
+@SuppressWarnings("ClassWithTooManyMethods")
+public final class LongValue extends NumberValue<Long, LongValue> {
     /**
      * Required for serialization support.
      *
@@ -22,34 +25,35 @@ public class LongValue extends NumberValue<Long, LongValue> {
     private static final long serialVersionUID = -6266537770334178L;
 
     private LongValue() {
-        value = 0L;
-        listeners = new PropertyChangeSupport(this);
+        super(0L);
+        super.setListenersTarget(this);
     }
 
     private LongValue(final int defaultValue) {
-        value = (long) defaultValue;
-        listeners = new PropertyChangeSupport(this);
+        super((long) defaultValue);
+        super.setListenersTarget(this);
     }
 
     private LongValue(final long defaultValue) {
-        value = defaultValue;
-        listeners = new PropertyChangeSupport(this);
+        super(defaultValue);
+        super.setListenersTarget(this);
     }
 
-    private LongValue(final Number defaultValue) {
-        checkArgumentNotNull(defaultValue, "Default value cannot be null!");
-        value = defaultValue.longValue();
-        listeners = new PropertyChangeSupport(this);
+    private LongValue(final @NotNull Number defaultValue) {
+        super(defaultValue.longValue());
+        checkArgumentNotNull(defaultValue, cannotBeNull("defaultValue"));
+        super.setListenersTarget(this);
     }
 
     private LongValue(final String defaultValue) {
-        checkArgumentNotNullOrEmpty(defaultValue, "Default value cannot be null or empty!");
-        value = Long.parseLong(defaultValue);
-        listeners = new PropertyChangeSupport(this);
+        super(Long.parseLong(defaultValue));
+        checkArgumentNotNullOrEmpty(defaultValue, cannotBeNullOrEmpty("defaultValue"));
+        super.setListenersTarget(this);
     }
 
     /** Creates a new LongValue instance with the default value of 0. */
-    public static LongValue of() {
+    @Contract(" -> new")
+    public static @NotNull LongValue of() {
         return new LongValue();
     }
 
@@ -57,7 +61,8 @@ public class LongValue extends NumberValue<Long, LongValue> {
      * Creates a new LongValue instance with the specified default int value.
      * @param defaultValue the value to set
      */
-    public static LongValue of(final int defaultValue) {
+    @Contract("_ -> new")
+    public static @NotNull LongValue of(final int defaultValue) {
         return new LongValue(defaultValue);
     }
 
@@ -65,7 +70,8 @@ public class LongValue extends NumberValue<Long, LongValue> {
      * Creates a new LongValue instance with the specified default long value.
      * @param defaultValue the value to set
      */
-    public static LongValue of(final long defaultValue) {
+    @Contract("_ -> new")
+    public static @NotNull LongValue of(final long defaultValue) {
         return new LongValue(defaultValue);
     }
 
@@ -74,7 +80,8 @@ public class LongValue extends NumberValue<Long, LongValue> {
      * @param defaultValue the value to set
      * @throws IllegalArgumentException if specified default value is null
      */
-    public static LongValue of(final Number defaultValue) {
+    @Contract("_ -> new")
+    public static @NotNull LongValue of(final Number defaultValue) {
         return new LongValue(defaultValue);
     }
 
@@ -83,7 +90,8 @@ public class LongValue extends NumberValue<Long, LongValue> {
      * @param defaultValue the value to set
      * @throws IllegalArgumentException if specified default value is null or empty
      */
-    public static LongValue of(final String defaultValue) {
+    @Contract("_ -> new")
+    public static @NotNull LongValue of(final String defaultValue) {
         return new LongValue(defaultValue);
     }
 
@@ -177,7 +185,7 @@ public class LongValue extends NumberValue<Long, LongValue> {
      *
      * @param operand the value to add, not null
      * @throws IllegalArgumentException if the object is null
-     * @throws ArithmeticException if the result overflows an long
+     * @throws ArithmeticException if the result overflows a long
      * @return this instance
      */
     @Override
@@ -194,11 +202,11 @@ public class LongValue extends NumberValue<Long, LongValue> {
      *
      * @param operand the quantity to add, not null
      * @throws IllegalArgumentException if {@code operand} is null
-     * @throws ArithmeticException if the result overflows an long
+     * @throws ArithmeticException if the result overflows a long
      * @return the value associated with this instance after adding the operand
      */
     @Override
-    public Long addAndGet(final Number operand) {
+    public Long addAndGet(final @NotNull Number operand) {
         final Long last = value;
         value = Math.addExact(value, operand.longValue());
         listeners.firePropertyChange("value", last, value);
@@ -211,11 +219,11 @@ public class LongValue extends NumberValue<Long, LongValue> {
      *
      * @param operand the quantity to add, not null
      * @throws IllegalArgumentException if {@code operand} is null
-     * @throws ArithmeticException if the result overflows an long
+     * @throws ArithmeticException if the result overflows a long
      * @return the value associated with this instance immediately before adding the operand
      */
     @Override
-    public Long getAndAdd(final Number operand) {
+    public Long getAndAdd(final @NotNull Number operand) {
         final Long last = value;
         value = Math.addExact(value, operand.longValue());
         listeners.firePropertyChange("value", last, value);
@@ -227,11 +235,11 @@ public class LongValue extends NumberValue<Long, LongValue> {
      *
      * @param operand  the value to subtract, not null
      * @throws IllegalArgumentException if the object is null
-     * @throws ArithmeticException if the result overflows an long
+     * @throws ArithmeticException if the result overflows a long
      * @return this instance
      */
     @Override
-    public LongValue subtract(final Number operand) {
+    public LongValue subtract(final @NotNull Number operand) {
         final Long last = value;
         value = Math.subtractExact(value, operand.longValue());
         listeners.firePropertyChange("value", last, value);
@@ -244,11 +252,11 @@ public class LongValue extends NumberValue<Long, LongValue> {
      *
      * @param operand the quantity to subtract, not null
      * @throws IllegalArgumentException if {@code operand} is null
-     * @throws ArithmeticException if the result overflows an long
+     * @throws ArithmeticException if the result overflows a long
      * @return the value associated with this instance after subtracting the operand
      */
     @Override
-    public Long subtractAndGet(final Number operand) {
+    public Long subtractAndGet(final @NotNull Number operand) {
         final Long last = value;
         value = Math.subtractExact(value, operand.longValue());
         listeners.firePropertyChange("value", last, value);
@@ -261,13 +269,107 @@ public class LongValue extends NumberValue<Long, LongValue> {
      *
      * @param operand the quantity to subtract, not null
      * @throws IllegalArgumentException if {@code operand} is null
-     * @throws ArithmeticException if the result overflows an long
+     * @throws ArithmeticException if the result overflows a long
      * @return the value associated with this instance immediately before subtracting the operand
      */
     @Override
-    public Long getAndSubtract(final Number operand) {
+    public Long getAndSubtract(final @NotNull Number operand) {
         final Long last = value;
         value = Math.subtractExact(value, operand.longValue());
+        listeners.firePropertyChange("value", last, value);
+        return last;
+    }
+
+    /**
+     * Multiplies a value from the value of this instance.
+     *
+     * @param operand  the value to multiply, not null
+     * @throws IllegalArgumentException if the object is null
+     * @return this instance
+     */
+    @Override
+    public LongValue multiply(final @NotNull Number operand) {
+        final Long last = value;
+        value = Math.multiplyExact(value, operand.longValue());
+        listeners.firePropertyChange("value", last, value);
+        return this;
+    }
+
+    /**
+     * Multiplies this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately after the multiplication operation. This method is not thread safe.
+     *
+     * @param operand the quantity to multiply, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @return the value associated with this instance after multiplying the operand
+     */
+    @Override
+    public Long multiplyAndGet(final @NotNull Number operand) {
+        final Long last = value;
+        value = Math.multiplyExact(value, operand.longValue());
+        listeners.firePropertyChange("value", last, value);
+        return value;
+    }
+
+    /**
+     * Multiplies this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately prior to the multiplication operation. This method is not thread safe.
+     *
+     * @param operand the quantity to multiply, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @return the value associated with this instance immediately before multiplying the operand
+     */
+    @Override
+    public Long getAndMultiply(final @NotNull Number operand) {
+        final Long last = value;
+        value = Math.multiplyExact(value, operand.longValue());
+        listeners.firePropertyChange("value", last, value);
+        return last;
+    }
+
+    /**
+     * Divides a value from the value of this instance.
+     *
+     * @param operand  the value to divide, not null
+     * @throws IllegalArgumentException if the object is null
+     * @return this instance
+     */
+    @Override
+    public LongValue divide(final @NotNull Number operand) {
+        final Long last = value;
+        value = Math.divideExact(value, operand.longValue());
+        listeners.firePropertyChange("value", last, value);
+        return this;
+    }
+
+    /**
+     * Divides this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately after the division operation. This method is not thread safe.
+     *
+     * @param operand the quantity to divide, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @return the value associated with this instance after dividing the operand
+     */
+    @Override
+    public Long divideAndGet(final @NotNull Number operand) {
+        final Long last = value;
+        value = Math.divideExact(value, operand.longValue());
+        listeners.firePropertyChange("value", last, value);
+        return value;
+    }
+
+    /**
+     * Divides this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately prior to the division operation. This method is not thread safe.
+     *
+     * @param operand the quantity to divide, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @return the value associated with this instance immediately before dividing the operand
+     */
+    @Override
+    public Long getAndDivide(final @NotNull Number operand) {
+        final Long last = value;
+        value = Math.divideExact(value, operand.longValue());
         listeners.firePropertyChange("value", last, value);
         return last;
     }
@@ -277,7 +379,7 @@ public class LongValue extends NumberValue<Long, LongValue> {
      */
     @Override
     public boolean isPositive() {
-        return Long.signum(value) > 0L;
+        return 0L < Long.signum(value);
     }
 
     /**
@@ -285,7 +387,7 @@ public class LongValue extends NumberValue<Long, LongValue> {
      */
     @Override
     public boolean isNegative() {
-        return Long.signum(value) < 0L;
+        return 0L > Long.signum(value);
     }
 
     /**
@@ -293,14 +395,14 @@ public class LongValue extends NumberValue<Long, LongValue> {
      */
     @Override
     public boolean isZero() {
-        return Long.signum(value) == 0L;
+        return 0L == Long.signum(value);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean isEqualTo(final Number number) {
+    public boolean isEqualTo(final @NotNull Number number) {
         return value == number.longValue();
     }
 
@@ -308,7 +410,7 @@ public class LongValue extends NumberValue<Long, LongValue> {
      * {@inheritDoc}
      */
     @Override
-    public boolean isNotEqualTo(final Number number) {
+    public boolean isNotEqualTo(final @NotNull Number number) {
         return value != number.longValue();
     }
 
@@ -316,7 +418,7 @@ public class LongValue extends NumberValue<Long, LongValue> {
      * {@inheritDoc}
      */
     @Override
-    public boolean isLessThanOrEqualTo(final Number number) {
+    public boolean isLessThanOrEqualTo(final @NotNull Number number) {
         return value <= number.longValue();
     }
 
@@ -324,7 +426,7 @@ public class LongValue extends NumberValue<Long, LongValue> {
      * {@inheritDoc}
      */
     @Override
-    public boolean isGreaterThanOrEqualTo(final Number number) {
+    public boolean isGreaterThanOrEqualTo(final @NotNull Number number) {
         return value >= number.longValue();
     }
 
@@ -332,7 +434,7 @@ public class LongValue extends NumberValue<Long, LongValue> {
      * {@inheritDoc}
      */
     @Override
-    public boolean isLessThan(final Number number) {
+    public boolean isLessThan(final @NotNull Number number) {
         return value < number.longValue();
     }
 
@@ -340,13 +442,19 @@ public class LongValue extends NumberValue<Long, LongValue> {
      * {@inheritDoc}
      */
     @Override
-    public boolean isGreaterThan(final Number number) {
+    public boolean isGreaterThan(final @NotNull Number number) {
         return value > number.longValue();
     }
 
     @Override
     public int compareTo(final @NotNull LongValue other) {
+        //noinspection AccessingNonPublicFieldOfAnotherObject
         return Long.compare(value, other.value);
+    }
+
+    @Override
+    public int compareTo(@NotNull Long other) {
+        return Long.compare(value, other);
     }
 
     /**
@@ -366,7 +474,7 @@ public class LongValue extends NumberValue<Long, LongValue> {
      */
     @Override
     public LongValue set(final Long value) {
-        checkArgumentNotNull(value, "Value cannot be null!");
+        checkArgumentNotNull(value, cannotBeNull("defaultValue"));
         this.value = value;
         return this;
     }
@@ -379,7 +487,7 @@ public class LongValue extends NumberValue<Long, LongValue> {
      */
     @Override
     public LongValue set(final Number value) {
-        checkArgumentNotNull(value, "Value cannot be null!");
+        checkArgumentNotNull(value, cannotBeNull("defaultValue"));
         this.value = value.longValue();
         return this;
     }

@@ -1,23 +1,78 @@
 package com.jwcomptech.shared.base;
 
 import com.jwcomptech.shared.Condition;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Validated {
+import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
+
+/**
+ * A base object to easily add validations to any class.
+ * @since 0.0.1
+ */
+@SuppressWarnings("unused")
+@Data
+public class Validated implements Serializable {
+    /**
+     * The result of all validations.
+     */
     private boolean valid;
+    /**
+     * Is true if the evaluation has been run.
+     */
+    private boolean alreadyValidated;
+    /**
+     * The list of true validations
+     * -- GETTER --
+     *  Returns the list of true validations.
+     *
+     * @return the list of true validations.
+
+     */
+    @Getter
     private final List<Condition> trueValidations;
+    /**
+     * The list of false validations
+     * -- GETTER --
+     *  Returns the list of false validations.
+     *
+     * @return the list of false validations.
+
+     */
+    @Getter
     private final List<Condition> falseValidations;
 
+    /**
+     * Creates a new empty instance.
+     */
     public Validated() {
+        valid = false;
+        alreadyValidated = false;
         trueValidations = new ArrayList<>();
         falseValidations = new ArrayList<>();
     }
 
+    /**
+     * Required for serialization support.
+     *
+     * @see Serializable
+     */
+    @Serial
+    private static final long serialVersionUID = 4520181131454855130L;
+
+    /**
+     * Evaluates all conditions and saves the result;
+     * @return this instance
+     */
     public Validated evaluateAll() {
         boolean failure = false;
 
@@ -39,51 +94,62 @@ public class Validated {
 
         if(!failure) valid = true;
 
+        alreadyValidated = true;
+
         return this;
     }
 
+    /**
+     * Returns the result of all validations and runs {@link #evaluateAll()} if
+     * it has yet to be run.
+     * @return the result of all validations
+     */
     public boolean isValid() {
+        if(!alreadyValidated) evaluateAll();
         return valid;
     }
 
-    public List<Condition> getTrueValidations() {
-        return trueValidations;
+    /**
+     * Runs the specified runnable if the evaluation result is valid.
+     * @param runnable the runnable to run
+     * @return this instance
+     * @throws IllegalArgumentException if runnable is null
+     */
+    public Validated ifValid(final Runnable runnable) {
+        checkArgumentNotNull(runnable, "Runnable cannot be null or empty!");
+        if(isValid()) runnable.run();
+        return this;
     }
 
-    public List<Condition> getFalseValidations() {
-        return falseValidations;
+    /**
+     * Runs the specified runnable if the evaluation result is invalid.
+     * @param runnable the runnable to run
+     * @return this instance
+     * @throws IllegalArgumentException if runnable is null
+     */
+    public Validated ifInvalid(final Runnable runnable) {
+        checkArgumentNotNull(runnable, "Runnable cannot be null or empty!");
+        if(!isValid()) runnable.run();
+        return this;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-
-        if (null == o || getClass() != o.getClass()) return false;
-
-        Validated validated = (Validated) o;
-
-        return new EqualsBuilder()
-                .append(valid, validated.valid)
-                .append(trueValidations, validated.trueValidations)
-                .append(falseValidations, validated.falseValidations)
-                .isEquals();
+    /**
+     * Adds the specified condition(s) to the true list.
+     * @param conditions one or more conditions to add
+     * @return this instance
+     */
+    public Validated addToTrue(Condition... conditions) {
+        this.trueValidations.addAll(List.of(conditions));
+        return this;
     }
 
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(valid)
-                .append(trueValidations)
-                .append(falseValidations)
-                .toHashCode();
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("valid", valid)
-                .append("trueValidations", trueValidations)
-                .append("falseValidations", falseValidations)
-                .toString();
+    /**
+     * Adds the specified condition(s) to the false list.
+     * @param conditions one or more conditions to add
+     * @return this instance
+     */
+    public Validated addToFalse(Condition... conditions) {
+        this.falseValidations.addAll(List.of(conditions));
+        return this;
     }
 }

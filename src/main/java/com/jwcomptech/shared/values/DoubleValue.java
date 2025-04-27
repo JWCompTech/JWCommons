@@ -1,10 +1,12 @@
 package com.jwcomptech.shared.values;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.beans.PropertyChangeSupport;
 import java.io.Serial;
 
+import static com.jwcomptech.shared.Literals.cannotBeNull;
+import static com.jwcomptech.shared.Literals.cannotBeNullOrEmpty;
 import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
 import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNullOrEmpty;
 
@@ -12,7 +14,8 @@ import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNullOrEmpty;
  * Provides mutable access to an {@link Double}.
  * @since 0.0.1
  */
-public class DoubleValue extends NumberValue<Double, DoubleValue> {
+@SuppressWarnings("ClassWithTooManyMethods")
+public final class DoubleValue extends NumberValue<Double, DoubleValue> {
     /**
      * Required for serialization support.
      *
@@ -22,35 +25,36 @@ public class DoubleValue extends NumberValue<Double, DoubleValue> {
     private static final long serialVersionUID = 5626868775336965253L;
 
     private DoubleValue() {
-        value = 0.0;
-        listeners = new PropertyChangeSupport(this);
+        super(0.0);
+        super.setListenersTarget(this);
     }
 
     private DoubleValue(final int defaultValue) {
-        value = (double) defaultValue;
-        listeners = new PropertyChangeSupport(this);
+        super((double) defaultValue);
+        super.setListenersTarget(this);
     }
 
     private DoubleValue(final double defaultValue) {
-        value = defaultValue;
-        listeners = new PropertyChangeSupport(this);
+        super(defaultValue);
+        super.setListenersTarget(this);
     }
 
 
-    private DoubleValue(final Number defaultValue) {
-        checkArgumentNotNull(defaultValue, "Default value cannot be null!");
-        value = defaultValue.doubleValue();
-        listeners = new PropertyChangeSupport(this);
+    private DoubleValue(final @NotNull Number defaultValue) {
+        super(defaultValue.doubleValue());
+        checkArgumentNotNull(defaultValue, cannotBeNull("defaultValue"));
+        super.setListenersTarget(this);
     }
 
     private DoubleValue(final String defaultValue) {
-        checkArgumentNotNullOrEmpty(defaultValue, "Default value cannot be null or empty!");
-        value = Double.parseDouble(defaultValue);
-        listeners = new PropertyChangeSupport(this);
+        super(Double.parseDouble(defaultValue));
+        checkArgumentNotNullOrEmpty(defaultValue, cannotBeNullOrEmpty("defaultValue"));
+        super.setListenersTarget(this);
     }
 
     /** Creates a new DoubleValue instance with the default value of 0.0. */
-    public static DoubleValue of() {
+    @Contract(" -> new")
+    public static @NotNull DoubleValue of() {
         return new DoubleValue();
     }
 
@@ -58,7 +62,8 @@ public class DoubleValue extends NumberValue<Double, DoubleValue> {
      * Creates a new DoubleValue instance with the specified default int value.
      * @param defaultValue the value to set
      */
-    public static DoubleValue of(final int defaultValue) {
+    @Contract("_ -> new")
+    public static @NotNull DoubleValue of(final int defaultValue) {
         return new DoubleValue(defaultValue);
     }
 
@@ -66,7 +71,8 @@ public class DoubleValue extends NumberValue<Double, DoubleValue> {
      * Creates a new DoubleValue instance with the specified default double value.
      * @param defaultValue the value to set
      */
-    public static DoubleValue of(final double defaultValue) {
+    @Contract("_ -> new")
+    public static @NotNull DoubleValue of(final double defaultValue) {
         return new DoubleValue(defaultValue);
     }
 
@@ -75,7 +81,8 @@ public class DoubleValue extends NumberValue<Double, DoubleValue> {
      * @param defaultValue the value to set
      * @throws IllegalArgumentException if specified default value is null
      */
-    public static DoubleValue of(final Number defaultValue) {
+    @Contract("_ -> new")
+    public static @NotNull DoubleValue of(final Number defaultValue) {
         return new DoubleValue(defaultValue);
     }
 
@@ -84,7 +91,8 @@ public class DoubleValue extends NumberValue<Double, DoubleValue> {
      * @param defaultValue the value to set
      * @throws IllegalArgumentException if specified default value is null or empty
      */
-    public static DoubleValue of(final String defaultValue) {
+    @Contract("_ -> new")
+    public static @NotNull DoubleValue of(final String defaultValue) {
         return new DoubleValue(defaultValue);
     }
 
@@ -182,7 +190,7 @@ public class DoubleValue extends NumberValue<Double, DoubleValue> {
      * @return this instance
      */
     @Override
-    public DoubleValue add(final Number operand) {
+    public DoubleValue add(final @NotNull Number operand) {
         final Double last = value;
         value = value + operand.doubleValue();
         listeners.firePropertyChange("value", last, value);
@@ -199,7 +207,7 @@ public class DoubleValue extends NumberValue<Double, DoubleValue> {
      * @return the value associated with this instance after adding the operand
      */
     @Override
-    public Double addAndGet(final Number operand) {
+    public Double addAndGet(final @NotNull Number operand) {
         final Double last = value;
         value = value + operand.doubleValue();
         listeners.firePropertyChange("value", last, value);
@@ -216,7 +224,7 @@ public class DoubleValue extends NumberValue<Double, DoubleValue> {
      * @return the value associated with this instance immediately before adding the operand
      */
     @Override
-    public Double getAndAdd(final Number operand) {
+    public Double getAndAdd(final @NotNull Number operand) {
         final Double last = value;
         value = value + operand.intValue();
         listeners.firePropertyChange("value", last, value);
@@ -232,7 +240,7 @@ public class DoubleValue extends NumberValue<Double, DoubleValue> {
      * @return this instance
      */
     @Override
-    public DoubleValue subtract(final Number operand) {
+    public DoubleValue subtract(final @NotNull Number operand) {
         final Double last = value;
         value = value - operand.intValue();
         listeners.firePropertyChange("value", last, value);
@@ -249,7 +257,7 @@ public class DoubleValue extends NumberValue<Double, DoubleValue> {
      * @return the value associated with this instance after subtracting the operand
      */
     @Override
-    public Double subtractAndGet(final Number operand) {
+    public Double subtractAndGet(final @NotNull Number operand) {
         final Double last = value;
         value = value - operand.intValue();
         listeners.firePropertyChange("value", last, value);
@@ -266,9 +274,103 @@ public class DoubleValue extends NumberValue<Double, DoubleValue> {
      * @return the value associated with this instance immediately before subtracting the operand
      */
     @Override
-    public Double getAndSubtract(final Number operand) {
+    public Double getAndSubtract(final @NotNull Number operand) {
         final Double last = value;
         value = value - operand.intValue();
+        listeners.firePropertyChange("value", last, value);
+        return last;
+    }
+
+    /**
+     * Multiplies a value from the value of this instance.
+     *
+     * @param operand  the value to multiply, not null
+     * @throws IllegalArgumentException if the object is null
+     * @return this instance
+     */
+    @Override
+    public DoubleValue multiply(final @NotNull Number operand) {
+        final Double last = value;
+        value = value * operand.intValue();
+        listeners.firePropertyChange("value", last, value);
+        return this;
+    }
+
+    /**
+     * Multiplies this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately after the multiplication operation. This method is not thread safe.
+     *
+     * @param operand the quantity to multiply, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @return the value associated with this instance after multiplying the operand
+     */
+    @Override
+    public Double multiplyAndGet(final @NotNull Number operand) {
+        final Double last = value;
+        value = value * operand.intValue();
+        listeners.firePropertyChange("value", last, value);
+        return value;
+    }
+
+    /**
+     * Multiplies this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately prior to the multiplication operation. This method is not thread safe.
+     *
+     * @param operand the quantity to multiply, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @return the value associated with this instance immediately before multiplying the operand
+     */
+    @Override
+    public Double getAndMultiply(final @NotNull Number operand) {
+        final Double last = value;
+        value = value * operand.intValue();
+        listeners.firePropertyChange("value", last, value);
+        return last;
+    }
+
+    /**
+     * Divides a value from the value of this instance.
+     *
+     * @param operand  the value to divide, not null
+     * @throws IllegalArgumentException if the object is null
+     * @return this instance
+     */
+    @Override
+    public DoubleValue divide(final @NotNull Number operand) {
+        final Double last = value;
+        value = value / operand.intValue();
+        listeners.firePropertyChange("value", last, value);
+        return this;
+    }
+
+    /**
+     * Divides this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately after the division operation. This method is not thread safe.
+     *
+     * @param operand the quantity to divide, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @return the value associated with this instance after dividing the operand
+     */
+    @Override
+    public Double divideAndGet(final @NotNull Number operand) {
+        final Double last = value;
+        value = value / operand.intValue();
+        listeners.firePropertyChange("value", last, value);
+        return value;
+    }
+
+    /**
+     * Divides this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately prior to the division operation. This method is not thread safe.
+     *
+     * @param operand the quantity to divide, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @return the value associated with this instance immediately before dividing the operand
+     */
+    @Override
+    public Double getAndDivide(final @NotNull Number operand) {
+        final Double last = value;
+        value = value / operand.intValue();
         listeners.firePropertyChange("value", last, value);
         return last;
     }
@@ -278,7 +380,7 @@ public class DoubleValue extends NumberValue<Double, DoubleValue> {
      */
     @Override
     public boolean isPositive() {
-        return Integer.signum(value.intValue()) > 0;
+        return 0 < Integer.signum(value.intValue());
     }
 
     /**
@@ -286,7 +388,7 @@ public class DoubleValue extends NumberValue<Double, DoubleValue> {
      */
     @Override
     public boolean isNegative() {
-        return Integer.signum(value.intValue()) < 0;
+        return 0 > Integer.signum(value.intValue());
     }
 
     /**
@@ -294,14 +396,14 @@ public class DoubleValue extends NumberValue<Double, DoubleValue> {
      */
     @Override
     public boolean isZero() {
-        return value == 0.0;
+        return 0.0 == value;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean isEqualTo(final Number number) {
+    public boolean isEqualTo(final @NotNull Number number) {
         return value == number.doubleValue();
     }
 
@@ -309,7 +411,7 @@ public class DoubleValue extends NumberValue<Double, DoubleValue> {
      * {@inheritDoc}
      */
     @Override
-    public boolean isNotEqualTo(final Number number) {
+    public boolean isNotEqualTo(final @NotNull Number number) {
         return value != number.doubleValue();
     }
 
@@ -317,7 +419,7 @@ public class DoubleValue extends NumberValue<Double, DoubleValue> {
      * {@inheritDoc}
      */
     @Override
-    public boolean isLessThanOrEqualTo(final Number number) {
+    public boolean isLessThanOrEqualTo(final @NotNull Number number) {
         return value <= number.doubleValue();
     }
 
@@ -325,7 +427,7 @@ public class DoubleValue extends NumberValue<Double, DoubleValue> {
      * {@inheritDoc}
      */
     @Override
-    public boolean isGreaterThanOrEqualTo(final Number number) {
+    public boolean isGreaterThanOrEqualTo(final @NotNull Number number) {
         return value >= number.doubleValue();
     }
 
@@ -333,7 +435,7 @@ public class DoubleValue extends NumberValue<Double, DoubleValue> {
      * {@inheritDoc}
      */
     @Override
-    public boolean isLessThan(final Number number) {
+    public boolean isLessThan(final @NotNull Number number) {
         return value < number.doubleValue();
     }
 
@@ -341,13 +443,19 @@ public class DoubleValue extends NumberValue<Double, DoubleValue> {
      * {@inheritDoc}
      */
     @Override
-    public boolean isGreaterThan(final Number number) {
+    public boolean isGreaterThan(final @NotNull Number number) {
         return value > number.doubleValue();
     }
 
     @Override
     public int compareTo(final @NotNull DoubleValue other) {
+        //noinspection AccessingNonPublicFieldOfAnotherObject
         return Double.compare(value, other.value);
+    }
+
+    @Override
+    public int compareTo(@NotNull Double other) {
+        return Double.compare(value, other);
     }
 
     /**
@@ -367,7 +475,7 @@ public class DoubleValue extends NumberValue<Double, DoubleValue> {
      */
     @Override
     public DoubleValue set(final Double value) {
-        checkArgumentNotNull(value, "Value cannot be null!");
+        checkArgumentNotNull(value, cannotBeNull("value"));
         this.value = value;
         return this;
     }
@@ -380,7 +488,7 @@ public class DoubleValue extends NumberValue<Double, DoubleValue> {
      */
     @Override
     public DoubleValue set(final Number value) {
-        checkArgumentNotNull(value, "Value cannot be null!");
+        checkArgumentNotNull(value, cannotBeNull("value"));
         this.value = value.doubleValue();
         return this;
     }

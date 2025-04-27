@@ -1,6 +1,7 @@
 package com.jwcomptech.shared.logging;
 
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public enum Encoders {
     /**
@@ -31,5 +32,12 @@ public enum Encoders {
 
     public PatternLayoutEncoder getEncoder() {
         return encoder;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("encoder", encoder)
+                .toString();
     }
 }

@@ -1,47 +1,52 @@
 package com.jwcomptech.shared.values;
 
+import com.google.errorprone.annotations.Immutable;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.beans.PropertyChangeSupport;
 import java.io.Serial;
 import java.io.Serializable;
+import java.lang.constant.Constable;
+import java.lang.constant.DynamicConstantDesc;
+import java.util.Optional;
 
+import static com.jwcomptech.shared.Literals.cannotBeNullOrEmpty;
 import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
 
 /**
- * Provides mutable access to a {@link Boolean}.
+ * Provides immutable access to a {@link Boolean}.
  * @since 0.0.1
  *
  * @apiNote DO NOT use everywhere or else things will get unnecessarily complicated.
  */
-public class BooleanValue extends BasicValue<Boolean, BooleanValue>
-        implements Comparable<BooleanValue>, Serializable {
+@SuppressWarnings({"ClassWithTooManyMethods", "unused"})
+@Immutable
+public final class BooleanValue implements ImmutableValue<Boolean> {
+    private final Boolean value;
     /**
      * Required for serialization support.
      *
      * @see Serializable
      */
     @Serial
-    private static final long serialVersionUID = -2483549311860585978L;
+    private static final long serialVersionUID = -6608126361014685145L;
 
     private BooleanValue() {
         value = Boolean.FALSE;
-        listeners = new PropertyChangeSupport(this);
     }
 
     private BooleanValue(final boolean defaultValue) {
         value = defaultValue;
-        listeners = new PropertyChangeSupport(this);
     }
 
     private BooleanValue(final Boolean defaultValue) {
-        checkArgumentNotNull(defaultValue, "Value cannot be null or empty!");
+        checkArgumentNotNull(defaultValue, cannotBeNullOrEmpty("defaultValue"));
         value = defaultValue;
-        listeners = new PropertyChangeSupport(this);
     }
 
     /** Creates a new BooleanValue instance with the default value of false. */
-    public static BooleanValue of() {
+    @Contract(value = " -> new", pure = true)
+    public static @NotNull BooleanValue of() {
         return new BooleanValue();
     }
 
@@ -49,7 +54,8 @@ public class BooleanValue extends BasicValue<Boolean, BooleanValue>
      * Creates a new BooleanValue instance with the specified default value.
      * @param defaultValue the value to set
      */
-    public static BooleanValue of(final boolean defaultValue) {
+    @Contract(value = "_ -> new", pure = true)
+    public static @NotNull BooleanValue of(final boolean defaultValue) {
         return new BooleanValue(defaultValue);
     }
 
@@ -58,14 +64,20 @@ public class BooleanValue extends BasicValue<Boolean, BooleanValue>
      * @param defaultValue the value to set
      * @throws IllegalArgumentException if specified default is null
      */
-    public static BooleanValue of(final Boolean defaultValue) {
+    @Contract("_ -> new")
+    public static @NotNull BooleanValue of(final Boolean defaultValue) {
         return new BooleanValue(defaultValue);
     }
 
-    public static final BooleanValue TRUE = TRUE();
-    public static BooleanValue TRUE() { return new BooleanValue(Boolean.TRUE); }
-    public static final BooleanValue FALSE = FALSE();
-    public static BooleanValue FALSE() { return new BooleanValue(Boolean.FALSE); }
+    /**
+     * A static instance of a BooleanValue with the value equal to true.
+     */
+    public static final BooleanValue TRUE = new BooleanValue(Boolean.TRUE);
+
+    /**
+     * A static instance of a BooleanValue with the value equal to false.
+     */
+    public static final BooleanValue FALSE = new BooleanValue(Boolean.FALSE);
 
     /**
      * Returns the value of this BooleanValue as a boolean.
@@ -74,21 +86,6 @@ public class BooleanValue extends BasicValue<Boolean, BooleanValue>
      */
     public boolean booleanValue() {
         return value;
-    }
-
-    /**
-     * Sets the value.
-     * @param value the value to store
-     * @throws IllegalArgumentException if specified value is null
-     * @return this instance
-     */
-    @Override
-    public BooleanValue set(final Boolean value) {
-        checkArgumentNotNull(value, "Value cannot be null or empty!");
-        Boolean last = this.value;
-        this.value = value;
-        listeners.firePropertyChange("value", last, value ? TRUE : FALSE);
-        return this;
     }
 
     /**
@@ -104,35 +101,13 @@ public class BooleanValue extends BasicValue<Boolean, BooleanValue>
     public boolean isFalse() { return !value; }
 
     /**
-     * Sets the value to true.
-     * @return this instance
-     */
-    public BooleanValue setTrue() {
-        final Boolean last = value;
-        value = Boolean.TRUE;
-        listeners.firePropertyChange("value", last, TRUE);
-        return this;
-    }
-
-    /**
-     * Sets the value to false.
-     * @return this instance
-     */
-    public BooleanValue setFalse() {
-        final Boolean last = value;
-        value = Boolean.FALSE;
-        listeners.firePropertyChange("value", last, FALSE);
-        return this;
-    }
-
-    /**
      * Runs the specified runnable if the value is true.
      * @param runnable the runnable to run
      * @return this instance
      * @throws IllegalArgumentException if runnable is null
      */
     public BooleanValue ifTrue(final Runnable runnable) {
-        checkArgumentNotNull(runnable, "Runnable cannot be null or empty!");
+        checkArgumentNotNull(runnable, cannotBeNullOrEmpty("runnable"));
         if(value) runnable.run();
         return this;
     }
@@ -144,7 +119,7 @@ public class BooleanValue extends BasicValue<Boolean, BooleanValue>
      * @throws IllegalArgumentException if runnable is null
      */
     public BooleanValue ifFalse(final Runnable runnable) {
-        checkArgumentNotNull(runnable, "Runnable cannot be null or empty!");
+        checkArgumentNotNull(runnable, cannotBeNullOrEmpty("runnable"));
         if(!value) runnable.run();
         return this;
     }
@@ -153,36 +128,68 @@ public class BooleanValue extends BasicValue<Boolean, BooleanValue>
      * Sets the value to the opposite of the current value.
      * @return this instance
      */
-    public BooleanValue flip() {
-        final Boolean last = value;
-        value = !value;
-        listeners.firePropertyChange("value", last, value ? FALSE : TRUE);
-        return this;
+    @Contract(value = " -> new", pure = true)
+    public @NotNull BooleanValue flip() {
+        return BooleanValue.of(!value);
     }
 
-    public BooleanValue and(final BooleanValue value) {
+    /**
+     * Performs an AND operation on this value and the specified value.
+     * @param value the value to combine with this value
+     * @return the result of the operation
+     */
+    @Contract("_ -> new")
+    public @NotNull BooleanValue and(final BooleanValue value) {
         return BooleanValue.of(this.value && value.get());
     }
 
-    public BooleanValue and(final boolean value) {
+    /**
+     * Performs an AND operation on this value and the specified value.
+     * @param value the value to combine with this value
+     * @return the result of the operation
+     */
+    @Contract(value = "_ -> new", pure = true)
+    public @NotNull BooleanValue and(final boolean value) {
         return BooleanValue.of(this.value && value);
     }
 
-    public BooleanValue or(final BooleanValue value) {
+    /**
+     * Performs an OR operation on this value and the specified value.
+     * @param value the value to combine with this value
+     * @return the result of the operation
+     */
+    @Contract("_ -> new")
+    public @NotNull BooleanValue or(final BooleanValue value) {
         return BooleanValue.of(this.value || value.get());
     }
 
-    public BooleanValue or(final boolean value) {
+    /**
+     * Performs an OR operation on this value and the specified value.
+     * @param value the value to combine with this value
+     * @return the result of the operation
+     */
+    @Contract(value = "_ -> new", pure = true)
+    public @NotNull BooleanValue or(final boolean value) {
         return BooleanValue.of(this.value || value);
     }
 
     /**
-     * Gets this mutable as an instance of Boolean.
+     * Gets this value as an instance of Boolean.
      *
-     * @return a Boolean instance containing the value from this mutable, never null
+     * @return a Boolean instance containing the value from this value, never null
      */
-    public Boolean toBoolean() {
+    @Contract(pure = true)
+    public @NotNull Boolean toBoolean() {
         return booleanValue();
+    }
+
+    /**
+     * Returns the value.
+     *
+     * @return the stored value
+     */
+    public Boolean get() {
+        return value;
     }
 
     /**
@@ -192,7 +199,8 @@ public class BooleanValue extends BasicValue<Boolean, BooleanValue>
      * @return negative if this is less, zero if equal, positive if greater
      *  where false is less than true
      */
-    public int compareTo(final boolean other) {
+    @Override
+    public int compareTo(final @NotNull Boolean other) {
         return value.compareTo(other);
     }
 
@@ -203,14 +211,25 @@ public class BooleanValue extends BasicValue<Boolean, BooleanValue>
      * @return negative if this is less, zero if equal, positive if greater
      *  where false is less than true
      */
-    @Override
     public int compareTo(final @NotNull BooleanValue other) {
+        //noinspection AccessingNonPublicFieldOfAnotherObject
         return value.compareTo(other.value);
     }
 
     /**
+     * Returns an {@link Optional} containing the nominal descriptor for this
+     * instance.
+     *
+     * @return an {@link Optional} describing the {@linkplain Boolean} value
+     */
+    @Override
+    public Optional<DynamicConstantDesc<Boolean>> describeConstable() {
+        return value.describeConstable();
+    }
+
+    /**
      * Compares this object to the specified object. The result is {@code true} if and only if the argument is
-     * not {@code null} and is an {@link BooleanValue} object that contains the same
+     * not {@code null} and is an BooleanValue object that contains the same
      * {@code boolean} value as this object.
      *
      * @param obj  the object to compare with, null returns false
@@ -222,7 +241,7 @@ public class BooleanValue extends BasicValue<Boolean, BooleanValue>
     }
 
     /**
-     * Returns a suitable hash code for this mutable.
+     * Returns a suitable hash code for this immutable.
      *
      * @return the hash code returned by {@code Boolean.TRUE} or {@code Boolean.FALSE}
      */
@@ -232,8 +251,9 @@ public class BooleanValue extends BasicValue<Boolean, BooleanValue>
     }
 
 
+    @Contract(pure = true)
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return value.toString();
     }
 }

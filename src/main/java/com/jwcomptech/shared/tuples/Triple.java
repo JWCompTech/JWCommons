@@ -6,6 +6,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
+@SuppressWarnings("unused")
 public abstract class Triple<L, M, R> implements Comparable<Triple<L, M, R>>, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;

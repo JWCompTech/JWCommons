@@ -13,8 +13,11 @@ import java.util.Map;
  * @param <T> the event type to use for the target
  * @since 0.0.1
  */
+@SuppressWarnings("unused")
 public class EventTarget<T extends Event> {
     private final Map<EventType<? extends Event>, EventHandler<T>> eventHandlers = new HashMap<>();
+
+    public EventTarget() { }
 
     /**
      * Sets the specified singleton handler. There can only be one such handler specified at a time.

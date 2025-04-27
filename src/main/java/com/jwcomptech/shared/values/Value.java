@@ -1,5 +1,7 @@
 package com.jwcomptech.shared.values;
 
+import java.io.Serializable;
+
 /**
  * Provides mutable access to a value.
  *
@@ -8,7 +10,7 @@ package com.jwcomptech.shared.values;
  *            this class to allow for method chaining
  * @since 0.0.1
  */
-public interface Value<T, V> {
+public interface Value<T, V> extends Comparable<T>, Serializable {
     /**
      * Returns the value.
      * @return the stored value

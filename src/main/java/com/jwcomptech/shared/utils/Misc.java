@@ -1,74 +1,18 @@
 package com.jwcomptech.shared.utils;
 
-import com.jwcomptech.shared.Main;
-import org.apache.maven.api.model.Model;
-import org.apache.maven.model.v4.MavenStaxReader;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.jetbrains.annotations.NotNull;
 
-import javax.xml.stream.XMLStreamException;
-import java.io.IOException;
 import java.math.RoundingMode;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.DecimalFormat;
-
-import static com.jwcomptech.shared.Literals.cannotBeNullOrEmpty;
-import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNullOrEmpty;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Contains methods to do misc tasks.
  * @since 0.0.1
  */
 public final class Misc {
-    /**
-     * Returns the conversion from bytes to the correct version (1024 bytes = 1 KB).
-     * @param input Number to convert to a readable string
-     * @return Specified number converted to a readable string
-     */
-    public static String ConvertBytes(final double input) {
-        final var df = new DecimalFormat("#.##");
-        df.setRoundingMode(RoundingMode.DOWN);
-        final var factor = 1024d;
-        var newNum = input;
-        if(newNum >= factor) {
-            newNum /= factor;
-            if(newNum >= factor) {
-                newNum /= factor;
-                if(newNum >= factor) {
-                    newNum /= factor;
-                    if(newNum >= factor) {
-                        newNum /= factor;
-                        return df.format(newNum) + " TB";
-                    }
-                    return df.format(newNum) + " GB";
-                }
-                return df.format(newNum) + " MB";
-            }
-            return df.format(newNum) + " KB";
-        }
-        return df.format(newNum) + " Bytes";
-    }
-
-    public static Model getMavenModel(final String artifact) throws IOException, XMLStreamException {
-        checkArgumentNotNullOrEmpty(artifact, cannotBeNullOrEmpty("artifact"));
-        final String rootPath = "pom.xml";
-        final Path path = Paths.get(rootPath);
-        final String currentPackage = Main.class.getPackage().getName();
-        System.out.println(currentPackage);
-        final String metaPath = "/META-INF/maven/" + currentPackage + "/" + artifact + "/pom.xml";
-
-        if(Files.exists(path)) {
-            return new MavenStaxReader().read(Files.newBufferedReader(path, UTF_8));
-        } else {
-            try {
-                return new MavenStaxReader().read(Misc.class.getResourceAsStream(metaPath));
-            } catch(XMLStreamException e) {
-                throw new IllegalStateException("Cannot find package pom.xml file!");
-            }
-        }
-    }
-
     /**
      * Contains methods to convert seconds into a readable format.
      * @since 1.3.0
@@ -85,12 +29,95 @@ public final class Misc {
         /** One second less than the number of seconds in a decade. */
         public static final int SecondAwayFromADecade = 315359999;
 
-        private static class TimeObj {
+        @SuppressWarnings("InnerClassTooDeeplyNested")
+        private static final class TimeObj {
             private long years;
             private int days;
             private int hours;
             private int minutes;
             private int seconds;
+
+            private TimeObj() {
+            }
+
+            public long getYears() {
+                return years;
+            }
+
+            public void setYears(long years) {
+                this.years = years;
+            }
+
+            public int getDays() {
+                return days;
+            }
+
+            public void setDays(int days) {
+                this.days = days;
+            }
+
+            public int getHours() {
+                return hours;
+            }
+
+            public void setHours(int hours) {
+                this.hours = hours;
+            }
+
+            public int getMinutes() {
+                return minutes;
+            }
+
+            public void setMinutes(int minutes) {
+                this.minutes = minutes;
+            }
+
+            public int getSeconds() {
+                return seconds;
+            }
+
+            public void setSeconds(int seconds) {
+                this.seconds = seconds;
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+
+                if (o == null || getClass() != o.getClass()) return false;
+
+                TimeObj timeObj = (TimeObj) o;
+
+                return new EqualsBuilder()
+                        .append(years, timeObj.years)
+                        .append(days, timeObj.days)
+                        .append(hours, timeObj.hours)
+                        .append(minutes, timeObj.minutes)
+                        .append(seconds, timeObj.seconds)
+                        .isEquals();
+            }
+
+            @Override
+            public int hashCode() {
+                return new HashCodeBuilder(17, 37)
+                        .append(years)
+                        .append(days)
+                        .append(hours)
+                        .append(minutes)
+                        .append(seconds)
+                        .toHashCode();
+            }
+
+            @Override
+            public String toString() {
+                return new ToStringBuilder(this)
+                        .append("years", years)
+                        .append("days", days)
+                        .append("hours", hours)
+                        .append("minutes", minutes)
+                        .append("seconds", seconds)
+                        .toString();
+            }
         }
 
         /**
@@ -99,7 +126,7 @@ public final class Misc {
          * @return a readable string
          * @throws NegativeNumberException if the specified number is negative
          */
-        public static String toString(final long seconds) throws NegativeNumberException {
+        public static @NotNull String toString(final long seconds) throws NegativeNumberException {
             return toString(seconds, false);
         }
 
@@ -110,43 +137,44 @@ public final class Misc {
          * @return a readable string
          * @throws NegativeNumberException if the specified number is negative and allowNegative is false
          */
-        public static String toString(final long seconds, final boolean allowNegative) throws NegativeNumberException {
+        public static @NotNull String toString(final long seconds, final boolean allowNegative) throws NegativeNumberException {
             if(seconds >= 0) return structureTime(seconds);
             if(allowNegative) return '-' + structureTime(Math.abs(seconds));
             else throw new NegativeNumberException("Seconds cannot be negative!");
         }
 
-        private static String structureTime(final long seconds) {
+        private static @NotNull String structureTime(final long seconds) {
             final var obj = new TimeObj();
-            if(seconds >= 60) {
-                obj.minutes = (int)(seconds / 60);
-                obj.seconds = (int)(seconds % 60);
+            if(60 <= seconds) {
+                obj.setMinutes((int)(seconds / 60));
+                obj.setSeconds((int)(seconds % 60));
 
-                if(obj.minutes >= 60) {
-                    obj.hours = obj.minutes / 60;
-                    obj.minutes %= 60;
+                if(60 <= obj.getMinutes()) {
+                    obj.setHours(obj.getMinutes() / 60);
+                    obj.setMinutes(obj.getMinutes() % 60);
 
-                    if(obj.hours >= 24) {
-                        obj.days = obj.hours / 24;
-                        obj.hours %= 24;
+                    if(24 <= obj.getHours()) {
+                        obj.setDays(obj.getHours() / 24);
+                        obj.setHours(obj.getHours() % 24);
 
-                        if(obj.days >= 365) {
-                            obj.years = obj.days / 365;
-                            obj.days %= 365;
+                        if(365 <= obj.getDays()) {
+                            obj.setYears(obj.getDays() / 365);
+                            obj.setDays(obj.getDays() % 365);
                         }
                     }
                 }
             }
-            else { obj.seconds = (int)seconds; }
+            else { obj.setSeconds((int)seconds); }
 
-            return obj.years + ":"
-                    + obj.days + ':'
-                    + String.format("%02d", obj.hours) + ':'
-                    + String.format("%02d", obj.minutes) + ':'
-                    + String.format("%02d", obj.seconds);
+            return obj.getYears() + ":"
+                    + obj.getDays() + ':'
+                    + String.format("%02d", obj.getHours()) + ':'
+                    + String.format("%02d", obj.getMinutes()) + ':'
+                    + String.format("%02d", obj.getSeconds());
         }
 
         /** This exception is thrown if a negative number is supplied to the methods in this class. */
+        @SuppressWarnings("InnerClassTooDeeplyNested")
         public static class NegativeNumberException extends Exception {
             //Parameterless Constructor
             public NegativeNumberException() { }

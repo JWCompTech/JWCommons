@@ -17,6 +17,7 @@ import java.util.List;
  * @since 0.0.1
  */
 //TODO: Change all objects to use Builder architecture
+@SuppressWarnings("unused")
 public final class ComputerInfo {
     private OSInfo.OSObject OSI;
     private HWInfo.HWObject HWI;

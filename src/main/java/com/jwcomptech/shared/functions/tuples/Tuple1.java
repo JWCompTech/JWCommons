@@ -20,6 +20,7 @@ import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
  * @param <T1> type of the 1st element
  * @author Daniel Dietrich
  */
+@SuppressWarnings("unused")
 public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializable {
 
     @Serial

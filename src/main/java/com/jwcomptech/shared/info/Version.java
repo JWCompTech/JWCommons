@@ -11,87 +11,90 @@ import java.io.Serializable;
 
 /** A Basic Version Object. */
 public final class Version implements Serializable {
-    private final StringValue Main;
-    private final IntegerValue Major;
-    private final IntegerValue Minor;
-    private final IntegerValue Build;
-    private final IntegerValue Revision;
-    private final IntegerValue Number;
+    private final StringValue main;
+    private final IntegerValue major;
+    private final IntegerValue minor;
+    private final IntegerValue build;
+    private final IntegerValue revision;
+    private final IntegerValue number;
 
+    @SuppressWarnings("ConstructorWithTooManyParameters")
     public Version(String main, int major, int minor,
                    int build, int revision, int number) {
-        Main = StringValue.of(main);
-        Major = IntegerValue.of(major);
-        Minor = IntegerValue.of(minor);
-        Build = IntegerValue.of(build);
-        Revision = IntegerValue.of(revision);
-        Number = IntegerValue.of(number);
+        this.main = StringValue.of(main);
+        this.major = IntegerValue.of(major);
+        this.minor = IntegerValue.of(minor);
+        this.build = IntegerValue.of(build);
+        this.revision = IntegerValue.of(revision);
+        this.number = IntegerValue.of(number);
     }
 
+    @SuppressWarnings("ConstructorWithTooManyParameters")
     public Version(StringValue main, IntegerValue major, IntegerValue minor,
                    IntegerValue build, IntegerValue revision, IntegerValue number) {
-        Main = main;
-        Major = major;
-        Minor = minor;
-        Build = build;
-        Revision = revision;
-        Number = number;
+        this.main = main;
+        this.major = major;
+        this.minor = minor;
+        this.build = build;
+        this.revision = revision;
+        this.number = number;
     }
 
     @Serial
     private static final long serialVersionUID = -7549565491159696340L;
 
-    public StringValue Main() { return Main; }
+    @SuppressWarnings("ConfusingMainMethod")
+    public StringValue main() { return main; }
 
-    public IntegerValue Major() { return Major; }
+    public IntegerValue major() { return major; }
 
-    public IntegerValue Minor() { return Minor; }
+    public IntegerValue minor() { return minor; }
 
-    public IntegerValue Build() { return Build; }
+    public IntegerValue build() { return build; }
 
-    public IntegerValue Revision() { return Revision; }
+    public IntegerValue revision() { return revision; }
 
-    public IntegerValue Number() { return Number; }
+    public IntegerValue number() { return number; }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
 
-        if (o == null || getClass() != o.getClass()) return false;
+        if (null == o || getClass() != o.getClass()) return false;
 
         Version version = (Version) o;
 
         return new EqualsBuilder()
-                .append(Main, version.Main)
-                .append(Major, version.Major)
-                .append(Minor, version.Minor)
-                .append(Build, version.Build)
-                .append(Revision, version.Revision)
-                .append(Number, version.Number)
+                .append(main, version.main)
+                .append(major, version.major)
+                .append(minor, version.minor)
+                .append(build, version.build)
+                .append(revision, version.revision)
+                .append(number, version.number)
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(Main)
-                .append(Major)
-                .append(Minor)
-                .append(Build)
-                .append(Revision)
-                .append(Number)
+                .append(main)
+                .append(major)
+                .append(minor)
+                .append(build)
+                .append(revision)
+                .append(number)
                 .toHashCode();
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .append("Main", Main)
-                .append("Major", Major)
-                .append("Minor", Minor)
-                .append("Build", Build)
-                .append("Revision", Revision)
-                .append("Number", Number)
+                .append("Main", main)
+                .append("Major", major)
+                .append("Minor", minor)
+                .append("Build", build)
+                .append("Revision", revision)
+                .append("Number", number)
                 .toString();
     }
 }

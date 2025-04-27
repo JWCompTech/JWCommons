@@ -2,6 +2,8 @@ package com.jwcomptech.shared.utils;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.crypto.Cipher;
@@ -17,6 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * Contains methods dealing with encryption and hashing.
  * @since 0.0.1
  */
+@SuppressWarnings("unused")
 public final class SecurityUtils {
 
     /** A list of the Hash Types to be used for hashing string values in the {@link SecurityUtils} class. */
@@ -55,7 +58,7 @@ public final class SecurityUtils {
          *                               some other reason cannot be opened for reading
          * @throws IOException           if an I/O error occurs
          */
-        public static String getFileHash(final HashType type, final String filename, final boolean toUpperCase)
+        public static String getFileHash(final @NotNull HashType type, final String filename, final boolean toUpperCase)
                 throws IOException {
             try(final InputStream stream = new FileInputStream(filename)) {
                 var hash = switch (type) {
@@ -76,7 +79,7 @@ public final class SecurityUtils {
          *                               some other reason cannot be opened for writing
          * @throws IOException           if an I/O error occurs
          */
-        public static void saveToFile(final String hash, final String fileName) throws IOException {
+        public static void saveToFile(final @NotNull String hash, final String fileName) throws IOException {
             final var encoded = hash.getBytes(UTF_8);
 
             try(final var out = new FileOutputStream(fileName)) {
@@ -92,7 +95,7 @@ public final class SecurityUtils {
          *                               some other reason cannot be opened for writing
          * @throws IOException           if an I/O error occurs
          */
-        public static void saveToFile(final Key key, final String fileName) throws IOException {
+        public static void saveToFile(final @NotNull Key key, final String fileName) throws IOException {
             final var encoded = key.getEncoded();
 
             try(final var out = new FileOutputStream(fileName)) {
@@ -108,10 +111,11 @@ public final class SecurityUtils {
          *                               some other reason cannot be opened for reading
          * @throws IOException           if an I/O error occurs
          */
-        public static byte[] readFromFile(final String fileName) throws IOException {
+        public static byte @NotNull [] readFromFile(final String fileName) throws IOException {
 
             try(final var in = new FileInputStream(fileName)) {
                 final var bytes = new byte[in.available()];
+                //noinspection ResultOfMethodCallIgnored
                 in.read(bytes);
                 return bytes;
             }
@@ -151,7 +155,8 @@ public final class SecurityUtils {
          * @return Secure random number as a SecureRandom object
          * @throws GeneralSecurityException if error occurs
          */
-        public static SecureRandom createSecureRandom() throws GeneralSecurityException {
+        @Contract(" -> new")
+        public static @NotNull SecureRandom createSecureRandom() throws GeneralSecurityException {
             return SecureRandom.getInstance("SHA1PRNG", "SUN");
         }
 
@@ -161,7 +166,7 @@ public final class SecurityUtils {
          * @return Salt as byte array
          * @throws GeneralSecurityException if error occurs
          */
-        public static byte[] createSaltByte(final int size) throws GeneralSecurityException {
+        public static byte @NotNull [] createSaltByte(final int size) throws GeneralSecurityException {
             final var salt = new byte[size];
             createSecureRandom().nextBytes(salt);
 
@@ -175,7 +180,7 @@ public final class SecurityUtils {
          * @param salt Salt as string to use for hashing
          * @return Hashed password as string
          */
-        public static String createBCryptHash(final String passwordToHash, final String salt) {
+        public static @NotNull String createBCryptHash(final String passwordToHash, final String salt) {
             return BCrypt.hashpw(passwordToHash, salt);
         }
 
@@ -186,7 +191,7 @@ public final class SecurityUtils {
          * @return Hashed password as string
          * @throws GeneralSecurityException if error occurs
          */
-        public static String createHash(final String passwordToHash, final byte[] salt)
+        public static @NotNull String createHash(final @NotNull String passwordToHash, final byte[] salt)
                 throws GeneralSecurityException {
             final var md = MessageDigest.getInstance("SHA-512");
             md.update(salt);
@@ -206,7 +211,7 @@ public final class SecurityUtils {
          * @return Hashed password as string
          * @throws GeneralSecurityException if error occurs
          */
-        public static String createHash(final String passwordToHash, final String salt)
+        public static @NotNull String createHash(final @NotNull String passwordToHash, final String salt)
                 throws GeneralSecurityException {
             final var md = MessageDigest.getInstance("SHA-512");
             md.update(Base64.decodeBase64(salt));
@@ -227,7 +232,7 @@ public final class SecurityUtils {
          * @return True if hashes match.
          */
         public static boolean checkBCryptHashesMatch(final String enteredPassword,
-                                                     final String databasePassword,
+                                                     final @NotNull String databasePassword,
                                                      final String databaseSalt) {
             return (databasePassword.equals(createBCryptHash(enteredPassword, databaseSalt)));
         }
@@ -241,7 +246,7 @@ public final class SecurityUtils {
          * @throws GeneralSecurityException if error occurs
          */
         public static boolean checkHashesMatch(final String enteredPassword,
-                                               final String databasePassword,
+                                               final @NotNull String databasePassword,
                                                final String databaseSalt)
                 throws GeneralSecurityException {
             return (databasePassword.equals(createHash(enteredPassword, databaseSalt)));
@@ -261,7 +266,7 @@ public final class SecurityUtils {
          *                               some other reason cannot be opened for writing
          * @throws IOException           if an I/O error occurs
          */
-        public static void saveKeyPairToFile(final KeyPair pair, final String filename) throws IOException {
+        public static void saveKeyPairToFile(final @NotNull KeyPair pair, final String filename) throws IOException {
             FileHashes.saveToFile(pair.getPrivate(), filename);
             FileHashes.saveToFile(pair.getPublic(), filename + ".pub");
         }
@@ -366,7 +371,7 @@ public final class SecurityUtils {
          * @return Encrypted text as byte array
          * @throws GeneralSecurityException if error occurs
          */
-        public static byte[] encrypt(final PublicKey key, final String plainText) throws GeneralSecurityException {
+        public static byte[] encrypt(final PublicKey key, final @NotNull String plainText) throws GeneralSecurityException {
             final var cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA1AndMGF1Padding");
             cipher.init(Cipher.ENCRYPT_MODE, key);
             return cipher.doFinal(plainText.getBytes(UTF_8));

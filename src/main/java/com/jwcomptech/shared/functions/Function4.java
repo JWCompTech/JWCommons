@@ -27,6 +27,7 @@ import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
  * @param <R> return type of the function
  * @author Daniel Dietrich
  */
+@SuppressWarnings("unused")
 @FunctionalInterface
 public interface Function4<T1, T2, T3, T4, R> extends Serializable {
 
@@ -242,6 +243,7 @@ public interface Function4<T1, T2, T3, T4, R> extends Serializable {
         } else {
             final Map<Tuple4<T1, T2, T3, T4>, R> cache = new HashMap<>();
             final ReentrantLock lock = new ReentrantLock();
+            //noinspection OverlyLongLambda
             return (Function4<T1, T2, T3, T4, R> & Memoized) (t1, t2, t3, t4) -> {
                 final Tuple4<T1, T2, T3, T4> key = Tuple.of(t1, t2, t3, t4);
                 lock.lock();
@@ -266,6 +268,7 @@ public interface Function4<T1, T2, T3, T4, R> extends Serializable {
      * @return true, if this function is memoizing, false otherwise
      */
     default boolean isMemoized() {
+        //noinspection InstanceofThis
         return this instanceof Memoized;
     }
 

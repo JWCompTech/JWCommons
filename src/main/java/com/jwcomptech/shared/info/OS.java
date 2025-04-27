@@ -7,7 +7,6 @@ import com.jwcomptech.shared.values.StringValue;
 
 import static com.jwcomptech.shared.info.OSInfo.*;
 
-@SuppressWarnings("WeakerAccess")
 public final class OS {
     public static final OSType osType;
     public static final StringValue manufacturer;
@@ -44,4 +43,7 @@ public final class OS {
         nameExpanded = getNameExpanded();
         isServer = isServer();
     }
+
+    /** Prevents instantiation of this utility class. */
+    private OS() { }
 }

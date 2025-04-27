@@ -3,12 +3,13 @@ package com.jwcomptech.shared.info.os;
 import com.jwcomptech.shared.info.AbstractOperatingSystem;
 import com.jwcomptech.shared.info.OSInfo;
 import com.jwcomptech.shared.info.enums.OSList;
-import com.jwcomptech.shared.osutils.windows.WmiUtil;
-import com.jwcomptech.shared.osutils.windows.enums.OtherConsts;
-import com.jwcomptech.shared.osutils.windows.enums.WMIClasses;
+import com.jwcomptech.shared.utils.osutils.windows.WmiUtil;
+import com.jwcomptech.shared.utils.osutils.windows.enums.OtherConsts;
+import com.jwcomptech.shared.utils.osutils.windows.enums.WMIClasses;
 import com.jwcomptech.shared.utils.SingletonUtils;
 import com.jwcomptech.shared.values.StringValue;
 import com.sun.jna.platform.win32.COM.WbemcliUtil;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +17,8 @@ import java.io.IOException;
 
 import static com.jwcomptech.shared.info.os.WindowsOSEx.*;
 
-public class WindowsOS extends AbstractOperatingSystem {
+public final class WindowsOS extends AbstractOperatingSystem {
+    @SuppressWarnings("unused")
     private final Logger logger = LoggerFactory.getLogger(WindowsOS.class);
 
     private WindowsOS() { }
@@ -25,10 +27,11 @@ public class WindowsOS extends AbstractOperatingSystem {
         return SingletonUtils.getInstance(WindowsOS.class, WindowsOS::new);
     }
 
-    private enum ArchProperty { ADDRESSWIDTH }
+    private enum ArchProperty { ADDRESS_WIDTH }
 
+    @SuppressWarnings({"OverlyComplexMethod", "OverlyLongMethod"})
     @Override
-    public StringValue getName() {
+    public @NotNull StringValue getName() {
         String value = switch (getNameEnum()) {
             case WindowsXP -> "Windows XP";
             case WindowsXP64 -> "Windows XP x64";
@@ -54,6 +57,7 @@ public class WindowsOS extends AbstractOperatingSystem {
         return StringValue.of(value);
     }
 
+    @SuppressWarnings("OverlyComplexMethod")
     @Override
     public OSList getNameEnum() {
         try {
@@ -82,8 +86,9 @@ public class WindowsOS extends AbstractOperatingSystem {
      * @return String representing a fully displayable version
      */
     @Override
-    public StringValue getNameExpanded() {
+    public @NotNull StringValue getNameExpanded() {
         try {
+            //noinspection StringConcatenationMissingWhitespace
             final String SPString = isWin8OrLater() ? "- " + WindowsOSEx.Version.getBuild()
                     : " SP" + WindowsOSEx.ServicePack.getString().replace("Service Pack ", "");
 
@@ -111,12 +116,12 @@ public class WindowsOS extends AbstractOperatingSystem {
 
     @Override
     public boolean is64BitOS() {
-        if (System.getenv("ProgramFiles(x86)") != null) return Boolean.TRUE;
+        if (null != System.getenv("ProgramFiles(x86)")) return Boolean.TRUE;
         final WbemcliUtil.WmiQuery<ArchProperty> query =
                 WindowsOSEx.WMI.newWmiQuery(WMIClasses.Hardware.Processor.getValue(), ArchProperty.class);
         final WbemcliUtil.WmiResult<ArchProperty> result = WmiUtil.queryWMI(query);
-        if (result.getResultCount() > 0) {
-            return WmiUtil.getUint16(result, ArchProperty.ADDRESSWIDTH, 0) == 64;
+        if (0 < result.getResultCount()) {
+            return 64 == WmiUtil.getUint16(result, ArchProperty.ADDRESS_WIDTH, 0);
         }
 
         return Boolean.FALSE;

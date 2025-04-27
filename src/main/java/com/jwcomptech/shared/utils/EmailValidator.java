@@ -14,6 +14,8 @@ package com.jwcomptech.shared.utils;
  */
 
 
+import lombok.ToString;
+
 import java.util.regex.Pattern;
 
 /**
@@ -23,6 +25,7 @@ import java.util.regex.Pattern;
  * @author Les Hazlewood (www.leshazlewood.com)
  * @since 0.0.1
  */
+@ToString
 public final class EmailValidator {
     /**
      * This constant states that domain literals are allowed in the email address, e.g.:
@@ -139,13 +142,11 @@ public final class EmailValidator {
 
     private final String mailbox = nameAddress + '|' + addressSpec;
 
-    //now compile a pattern for efficient re-use:
-
-    //if we're allowing quoted identifiers or not:
-
     public final Pattern validPattern = Pattern.compile(allowQuotedIdentifiers ? mailbox : addressSpec);
 
+    @SuppressWarnings("unused")
     private EmailValidator() { }
+
     public EmailValidator(final boolean allowQuotedIdentifiers, final boolean allowDomainLiterals) {
         this.allowQuotedIdentifiers = allowQuotedIdentifiers;
         this.allowDomainLiterals = allowDomainLiterals;

@@ -2,7 +2,7 @@ package com.jwcomptech.shared.info.os;
 
 import com.jwcomptech.shared.info.AbstractOperatingSystem;
 import com.jwcomptech.shared.info.enums.OSList;
-import com.jwcomptech.shared.osutils.ExecCommand;
+import com.jwcomptech.shared.utils.osutils.ExecCommand;
 import com.jwcomptech.shared.utils.Parse;
 import com.jwcomptech.shared.utils.SingletonUtils;
 import com.jwcomptech.shared.values.StringValue;
@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class SolarisOS extends AbstractOperatingSystem {
+public final class SolarisOS extends AbstractOperatingSystem {
     private final Logger logger = LoggerFactory.getLogger(SolarisOS.class);
 
     private SolarisOS() { }
@@ -30,6 +30,7 @@ public class SolarisOS extends AbstractOperatingSystem {
         return OSList.Solaris;
     }
 
+    @SuppressWarnings("SuspiciousGetterSetter")
     @Override
     public StringValue getNameExpanded() {
         return OS_NAME;
@@ -53,8 +54,8 @@ public class SolarisOS extends AbstractOperatingSystem {
     @Override
     public boolean is64BitOS() {
         try {
-            return Parse.parseIntOrDefault(ExecCommand
-                    .runNewCmd("isainfo -b").getFirstResult(), 32, logger) == 64;
+            return 64 == Parse.parseIntOrDefault(ExecCommand
+                    .runNewCmd("isainfo -b").getFirstResult(), 32, logger);
         } catch (final IOException | InterruptedException e) {
             throw new IllegalStateException(e);
         }

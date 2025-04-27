@@ -1,7 +1,11 @@
 package com.jwcomptech.shared.events;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * This class represents a specific event type associated with an {@link Event}.
@@ -15,6 +19,7 @@ import java.util.Objects;
  * @param <T> the event class to which this type applies
  * @since 1.4.0
  */
+@SuppressWarnings("unused")
 public final class EventType<T extends Event> {
     /**
      * The root event type. All other event types are either direct or
@@ -23,8 +28,10 @@ public final class EventType<T extends Event> {
      */
     public static final EventType<Event> ROOT = new EventType<>("EVENT", null);
 
-    private HashSet<EventType<? extends T>> subTypes;
+    @SuppressWarnings("FieldNotUsedInToString")
+    private Set<EventType<? extends T>> subTypes;
 
+    @SuppressWarnings("FieldNotUsedInToString")
     private final EventType<? super T> superType;
 
     private final String name;
@@ -56,7 +63,7 @@ public final class EventType<T extends Event> {
      */
     public EventType(final EventType<? super T> superType,
                      final String name) {
-        if (superType == null) throw new IllegalArgumentException("Event super type must not be null!");
+        if (null == superType) throw new IllegalArgumentException("Event super type must not be null!");
         this.superType = superType;
         this.name = name;
         superType.createSubType(this);
@@ -67,12 +74,13 @@ public final class EventType<T extends Event> {
      * @param name the name
      * @param superType the event super type
      */
+    @SuppressWarnings("AccessingNonPublicFieldOfAnotherObject")
     EventType(final String name,
               final EventType<? super T> superType) {
         this.superType = superType;
         this.name = name;
-        if (superType != null) {
-            if (superType.subTypes != null) {
+        if (null != superType) {
+            if (null != superType.subTypes) {
                 superType.subTypes
                         .removeIf(t -> Objects.equals(name, t.name));
             }
@@ -98,13 +106,15 @@ public final class EventType<T extends Event> {
      * @return a string representation of this {@code EventType} object.
      */
     @Override
-    public String toString() { return (name != null) ? name : super.toString(); }
+    public String toString() { return (null != name) ? name : super.toString(); }
 
-    public EventType<T> createSubType(final String name) { return new EventType<>(this, name); }
+    @Contract("_ -> new")
+    public @NotNull EventType<T> createSubType(final String name) { return new EventType<>(this, name); }
 
+    @SuppressWarnings("AccessingNonPublicFieldOfAnotherObject")
     private void createSubType(final EventType<? extends T> subType) {
-        if (subType == null) throw new IllegalArgumentException("Event super type must not be null!");
-        if (subTypes == null) subTypes = new HashSet<>();
+        if (null == subType) throw new IllegalArgumentException("Event super type must not be null!");
+        if (null == subTypes) subTypes = new HashSet<>();
         subTypes.parallelStream().filter(t -> (Objects.equals(t.name, subType.name)))
                 .forEach(t -> {
                     throw new IllegalArgumentException("EventType \"" + subType + '"'

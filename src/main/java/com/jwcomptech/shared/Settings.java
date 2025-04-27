@@ -3,7 +3,7 @@ package com.jwcomptech.shared;
 /**
  * A list of settings that are used throughout the application.
  */
-public class Settings {
+public final class Settings {
     /**
      * The application version.
      */
@@ -20,4 +20,7 @@ public class Settings {
      * The current Java LTS version number.
      */
     public static final int CURRENT_LTS = 21;
+
+    /** Prevents instantiation of this utility class. */
+    private Settings() { }
 }

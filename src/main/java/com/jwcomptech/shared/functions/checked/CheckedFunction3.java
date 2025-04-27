@@ -30,6 +30,7 @@ import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
  * @param <R> return type of the function
  * @author Daniel Dietrich
  */
+@SuppressWarnings("unused")
 @FunctionalInterface
 public interface CheckedFunction3<T1, T2, T3, R> extends Serializable {
 
@@ -227,6 +228,7 @@ public interface CheckedFunction3<T1, T2, T3, R> extends Serializable {
         } else {
             final Map<Tuple3<T1, T2, T3>, R> cache = new HashMap<>();
             final ReentrantLock lock = new ReentrantLock();
+            //noinspection OverlyLongLambda
             return (CheckedFunction3<T1, T2, T3, R> & Memoized) (t1, t2, t3) -> {
                 final Tuple3<T1, T2, T3> key = Tuple.of(t1, t2, t3);
                 lock.lock();
@@ -251,6 +253,7 @@ public interface CheckedFunction3<T1, T2, T3, R> extends Serializable {
      * @return true, if this function is memoizing, false otherwise
      */
     default boolean isMemoized() {
+        //noinspection InstanceofThis
         return this instanceof Memoized;
     }
 
@@ -265,6 +268,7 @@ public interface CheckedFunction3<T1, T2, T3, R> extends Serializable {
     default Function3<T1, T2, T3, R> recover(Function<? super Throwable,
             ? extends Function3<? super T1, ? super T2, ? super T3, ? extends R>> recover) {
         checkArgumentNotNull(recover, cannotBeNull("recover"));
+        //noinspection OverlyLongLambda
         return (t1, t2, t3) -> {
             try {
                 return this.apply(t1, t2, t3);
@@ -308,6 +312,7 @@ public interface CheckedFunction3<T1, T2, T3, R> extends Serializable {
 
 }
 
+@SuppressWarnings("ClassNameDiffersFromFileName")
 interface CheckedFunction3Module {
 
     // DEV-NOTE: we do not plan to expose this as public API

@@ -24,6 +24,7 @@ import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
  * @param <T2> type of the 2nd element
  * @author Daniel Dietrich
  */
+@SuppressWarnings({"ClassWithTooManyMethods", "unused"})
 public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serializable {
 
     @Serial
@@ -54,9 +55,10 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
 
     @Contract(pure = true)
     public static <T1, T2> @NotNull Comparator<Tuple2<T1, T2>> comparator(Comparator<? super T1> t1Comp, Comparator<? super T2> t2Comp) {
+        //noinspection OverlyLongLambda
         return (Comparator<Tuple2<T1, T2>> & Serializable) (t1, t2) -> {
             final int check1 = t1Comp.compare(t1._1, t2._1);
-            if (check1 != 0) {
+            if (0 != check1) {
                 return check1;
             }
 
@@ -72,7 +74,7 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
         final Tuple2<U1, U2> t2 = (Tuple2<U1, U2>) o2;
 
         final int check1 = t1._1.compareTo(t2._1);
-        if (check1 != 0) {
+        if (0 != check1) {
             return check1;
         }
 

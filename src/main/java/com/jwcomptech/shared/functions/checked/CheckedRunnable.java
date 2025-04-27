@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Contract;
 /**
  * A {@linkplain Runnable} which may throw.
  */
+@SuppressWarnings("unused")
 @FunctionalInterface
 public interface CheckedRunnable {
 
@@ -54,6 +55,7 @@ public interface CheckedRunnable {
     }
 }
 
+@SuppressWarnings("ClassNameDiffersFromFileName")
 interface CheckedRunnableModule {
 
     // DEV-NOTE: we do not plan to expose this as public API

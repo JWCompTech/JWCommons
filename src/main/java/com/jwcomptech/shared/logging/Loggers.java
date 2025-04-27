@@ -6,7 +6,9 @@ import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.ConsoleAppender;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
+@SuppressWarnings({"ClassWithTooManyMethods", "unused"})
 public enum Loggers {
     Root(new LoggerConfig("root")),
     RootPackage(new LoggerConfig("root")),
@@ -65,6 +67,7 @@ public enum Loggers {
      * @param logLevel the log level to set
      * @return this instance
      */
+    @SuppressWarnings("UnusedReturnValue")
     public Loggers enableLimitedConsole(final Level logLevel) {
         config.enableLimitedConsole(logLevel);
         return this;
@@ -240,5 +243,12 @@ public enum Loggers {
      */
     public Logger getLogger() {
         return config.getLogger();
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("config", config)
+                .toString();
     }
 }

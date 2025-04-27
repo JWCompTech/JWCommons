@@ -1,6 +1,6 @@
 package com.jwcomptech.shared.info;
 
-import com.jwcomptech.shared.osutils.windows.Registry;
+import com.jwcomptech.shared.utils.osutils.windows.Registry;
 import com.jwcomptech.shared.values.StringValue;
 import com.sun.jna.Native;
 import com.sun.jna.platform.win32.Shell32;
@@ -17,7 +17,7 @@ import java.lang.management.ManagementFactory;
 import java.net.*;
 import java.util.List;
 
-import static com.jwcomptech.shared.utils.Misc.ConvertBytes;
+import static com.jwcomptech.shared.utils.Parse.convertBytesToString;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
@@ -164,6 +164,7 @@ public final class HWInfo {
          * @return Number of cores as int
          * @throws IOException if error occurs
          * */
+        @SuppressWarnings("OverlyComplexMethod")
         public static int Cores() throws IOException {
             String[] command = new String[]{ "" };
 
@@ -177,11 +178,11 @@ public final class HWInfo {
 
             process = Runtime.getRuntime().exec(command);
 
-            assert process != null;
+            assert null != process;
             try(final var reader = new BufferedReader(new InputStreamReader(process.getInputStream(), UTF_8))) {
                 String line;
 
-                while((line = reader.readLine()) != null) {
+                while(null != (line = reader.readLine())) {
                     if(OS.isMac) {
                         numberOfCores = line.trim().isEmpty() ? 0 : Integer.parseInt(line);
                     } else if(OS.isLinux) {
@@ -212,10 +213,10 @@ public final class HWInfo {
          * Returns the total ram installed on the system.
          * @return Total Ram as string
          * */
-        public static StringValue getTotalRam() {
+        public static @NotNull StringValue getTotalRam() {
             final var memorySize = ((OperatingSystemMXBean)
                     ManagementFactory.getOperatingSystemMXBean()).getTotalMemorySize();
-            return StringValue.of(ConvertBytes((double) memorySize));
+            return StringValue.of(convertBytesToString((double) memorySize));
         }
 
         /** Prevents instantiation of this utility class. */
@@ -223,12 +224,13 @@ public final class HWInfo {
     }
 
     /** Returns information about the system storage. */
+    @SuppressWarnings("unused")
     public static final class Storage {
         /**
          * Returns the file path to the root of the drive Windows is installed on.
          * @return System drive file path as string
          * */
-        public static StringValue getSystemDrivePath() {
+        public static @NotNull StringValue getSystemDrivePath() {
             final var pszPath = new char[WinDef.MAX_PATH];
             Shell32.INSTANCE.SHGetFolderPath(
                     null, ShlObj.CSIDL_WINDOWS, null, ShlObj.SHGFP_TYPE_CURRENT, pszPath);
@@ -239,7 +241,7 @@ public final class HWInfo {
          * Returns the file path to the Windows directory.
          * @return Windows directory file path as string
          * */
-        public static StringValue getWindowsPath() {
+        public static @NotNull StringValue getWindowsPath() {
             final var pszPath = new char[WinDef.MAX_PATH];
             Shell32.INSTANCE.SHGetFolderPath(
                     null, ShlObj.CSIDL_WINDOWS, null, ShlObj.SHGFP_TYPE_CURRENT, pszPath);
@@ -250,7 +252,7 @@ public final class HWInfo {
          * Returns the drive size of the drive Windows is installed on.
          * @return System drive size as string
          * */
-        public static StringValue getSystemDriveSize() {
+        public static @NotNull StringValue getSystemDriveSize() {
             return getDriveSize(getSystemDrivePath().replace(":/", "").charAt(0));
         }
 
@@ -259,16 +261,16 @@ public final class HWInfo {
          * @param driveLetter Drive letter of drive to get the size of
          * @return Drive size of the specified drive letter
          * */
-        public static StringValue getDriveSize(final char driveLetter) {
+        public static @NotNull StringValue getDriveSize(final char driveLetter) {
             final var aDrive = new File(driveLetter + ":");
-            return StringValue.of(aDrive.exists() ? ConvertBytes((double) aDrive.getTotalSpace()) : "N/A");
+            return StringValue.of(aDrive.exists() ? convertBytesToString((double) aDrive.getTotalSpace()) : "N/A");
         }
 
         /**
          * Returns the free space of drive of the drive Windows is installed on.
          * @return System drive free space as string
          * */
-        public static StringValue getSystemDriveFreeSpace() {
+        public static @NotNull StringValue getSystemDriveFreeSpace() {
             return getDriveFreeSpace(getSystemDrivePath().replace(":/", "").charAt(0));
         }
 
@@ -277,9 +279,9 @@ public final class HWInfo {
          * @param driveLetter Drive letter of drive to get the free space of
          * @return Drive free space of the specified drive letter
          * */
-        public static StringValue getDriveFreeSpace(final char driveLetter) {
+        public static @NotNull StringValue getDriveFreeSpace(final char driveLetter) {
             final var aDrive = new File(driveLetter + ":");
-            return StringValue.of(aDrive.exists() ? ConvertBytes((double) aDrive.getUsableSpace()) : "N/A");
+            return StringValue.of(aDrive.exists() ? convertBytesToString((double) aDrive.getUsableSpace()) : "N/A");
         }
 
         /** Prevents instantiation of this utility class. */
@@ -298,30 +300,13 @@ public final class HWInfo {
                            StorageObject storage) {
     }
 
-    /** A BIOS Object for use with the {@link ComputerInfo} class. */
-    public static final class BIOSObject {
-        private final StringValue Name;
-        private final StringValue ReleaseDate;
-        private final StringValue Vendor;
-        private final StringValue Version;
-
-        public BIOSObject(StringValue name,
-                          StringValue releaseDate,
-                          StringValue vendor,
-                          StringValue version) {
-            Name = name;
-            ReleaseDate = releaseDate;
-            Vendor = vendor;
-            Version = version;
-        }
-
-        public StringValue getName() { return Name; }
-
-        public StringValue getReleaseDate() { return ReleaseDate; }
-
-        public StringValue getVendor() { return Vendor; }
-
-        public StringValue getVersion() { return Version; }
+    /**
+     * A BIOS Object for use with the {@link ComputerInfo} class.
+     */
+        public record BIOSObject(StringValue name,
+                                 StringValue releaseDate,
+                                 StringValue vendor,
+                                 StringValue version) {
     }
 
     /**

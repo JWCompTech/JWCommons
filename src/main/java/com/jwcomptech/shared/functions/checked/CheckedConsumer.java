@@ -10,6 +10,7 @@ import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
  *
  * @param <T> the value type supplied to this consumer.
  */
+@SuppressWarnings("unused")
 @FunctionalInterface
 public interface CheckedConsumer<T> {
 
@@ -73,6 +74,7 @@ public interface CheckedConsumer<T> {
     }
 }
 
+@SuppressWarnings("ClassNameDiffersFromFileName")
 interface CheckedConsumerModule {
 
     // DEV-NOTE: we do not plan to expose this as public API
