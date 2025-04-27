@@ -179,9 +179,7 @@
                       <requireEncoding>
                         <encoding>UTF-8</encoding>
                       </requireEncoding>
-                      <requireDependencyConvergence>
-                        <message>Dependencies must not have version conflicts! Fix your dependency tree.</message>
-                      </requireDependencyConvergence>
+                      <dependencyConvergence/>
                       <requireProperty>
                         <property>project.build.sourceEncoding</property>
                         <message>project.build.sourceEncoding must be set to UTF-8.</message>
