@@ -1,8 +1,6 @@
 package com.jwcomptech.shared;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import lombok.*;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,10 +9,23 @@ import java.util.function.Supplier;
 import static com.jwcomptech.shared.Literals.cannotBeNull;
 import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
 
+@SuppressWarnings("unused")
+@Data
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Condition {
+    /**
+     * The evaluation to evaluate.
+     */
     private Supplier<Boolean> evaluation;
+    /**
+     * The result of the evaluation.
+     */
     private boolean result;
-    private boolean beenEvaluated;
+    /**
+     * Is true if the evaluation has been run.
+     */
+    private boolean alreadyValidated;
 
     @Contract(value = "_ -> new", pure = true)
     public static @NotNull Condition of(Supplier<Boolean> evaluation) {
@@ -22,14 +33,6 @@ public final class Condition {
     }
 
     private Condition(Supplier<Boolean> evaluation) {
-        this.evaluation = evaluation;
-    }
-
-    public Supplier<Boolean> getEvaluation() {
-        return evaluation;
-    }
-
-    public void setEvaluation(Supplier<Boolean> evaluation) {
         this.evaluation = evaluation;
     }
 
@@ -47,49 +50,16 @@ public final class Condition {
     }
 
     public boolean beenEvaluated() {
-        return beenEvaluated;
+        return alreadyValidated;
     }
 
     public Condition evaluate() {
         checkArgumentNotNull(evaluation, cannotBeNull("evaluation"));
-        if(!beenEvaluated) {
-            beenEvaluated = true;
+        if(!alreadyValidated) {
+            alreadyValidated = true;
             result = evaluation.get();
         }
 
         return this;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-
-        if (null == o || getClass() != o.getClass()) return false;
-
-        Condition condition = (Condition) o;
-
-        return new EqualsBuilder()
-                .append(result, condition.result)
-                .append(beenEvaluated, condition.beenEvaluated)
-                .append(evaluation, condition.evaluation)
-                .isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(evaluation)
-                .append(result)
-                .append(beenEvaluated)
-                .toHashCode();
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("evaluation", evaluation)
-                .append("result", result)
-                .append("beenEvaluated", beenEvaluated)
-                .toString();
     }
 }

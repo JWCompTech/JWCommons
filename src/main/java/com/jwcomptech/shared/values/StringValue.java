@@ -1,5 +1,6 @@
 package com.jwcomptech.shared.values;
 
+import com.google.errorprone.annotations.Immutable;
 import com.jwcomptech.shared.Literals;
 import com.jwcomptech.shared.base.Validated;
 import com.jwcomptech.shared.utils.CollectionUtils;
@@ -32,8 +33,11 @@ import static org.apache.commons.lang3.StringUtils.stripStart;
  * @since 0.0.1
  */
 @SuppressWarnings({"ClassWithTooManyMethods", "OverlyComplexClass", "unused"})
-public final class StringValue extends Validated implements ImmutableValue<String>, Comparable<String>, Serializable {
+@Immutable
+public final class StringValue extends Validated
+        implements ImmutableValue<String>, Comparable<String> {
     private final String value;
+    private final static Integer INDEX_NOT_FOUND = -1;
     /**
      * Required for serialization support.
      *
@@ -98,7 +102,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      *         {@code "false"} is returned.
      */
     @Contract("_ -> new")
-    public static @NotNull StringValue valueOf(boolean b) {
+    public static @NotNull StringValue valueOf(final boolean b) {
         return StringValue.of(String.valueOf(b));
     }
 
@@ -110,7 +114,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      *         {@code "false"} is returned.
      */
     @Contract("_ -> new")
-    public static @NotNull StringValue valueOf(@NotNull BooleanValue b) {
+    public static @NotNull StringValue valueOf(@NotNull final BooleanValue b) {
         return StringValue.of(b.toString());
     }
 
@@ -121,7 +125,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      *         as its single character the argument {@code c}.
      */
     @Contract("_ -> new")
-    public static @NotNull StringValue valueOf(char c) {
+    public static @NotNull StringValue valueOf(final char c) {
         return StringValue.of(String.valueOf(c));
     }
 
@@ -135,7 +139,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see Integer#toString(int, int)
      */
     @Contract("_ -> new")
-    public static @NotNull StringValue valueOf(int i) {
+    public static @NotNull StringValue valueOf(final int i) {
         return StringValue.of(Integer.toString(i));
     }
 
@@ -146,7 +150,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see Integer#toString(int, int)
      */
     @Contract("_ -> new")
-    public static @NotNull StringValue valueOf(@NotNull IntegerValue i) {
+    public static @NotNull StringValue valueOf(@NotNull final IntegerValue i) {
         return StringValue.of(String.valueOf(i));
     }
 
@@ -160,7 +164,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see Long#toString(long)
      */
     @Contract("_ -> new")
-    public static @NotNull StringValue valueOf(long l) {
+    public static @NotNull StringValue valueOf(final long l) {
         return StringValue.of(String.valueOf(l));
     }
 
@@ -171,7 +175,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see Long#toString(long)
      */
     @Contract("_ -> new")
-    public static @NotNull StringValue valueOf(LongValue l) {
+    public static @NotNull StringValue valueOf(final LongValue l) {
         return StringValue.of(String.valueOf(l));
     }
 
@@ -185,7 +189,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see Float#toString(float)
      */
     @Contract("_ -> new")
-    public static @NotNull StringValue valueOf(float f) {
+    public static @NotNull StringValue valueOf(final float f) {
         return StringValue.of(Float.toString(f));
     }
 
@@ -196,7 +200,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see Float#toString(float)
      */
     @Contract("_ -> new")
-    public static @NotNull StringValue valueOf(FloatValue f) {
+    public static @NotNull StringValue valueOf(final FloatValue f) {
         return StringValue.of(String.valueOf(f));
     }
 
@@ -210,7 +214,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see Double#toString(double)
      */
     @Contract("_ -> new")
-    public static @NotNull StringValue valueOf(double d) {
+    public static @NotNull StringValue valueOf(final double d) {
         return StringValue.of(Double.toString(d));
     }
 
@@ -221,7 +225,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see Double#toString(double)
      */
     @Contract("_ -> new")
-    public static @NotNull StringValue valueOf(DoubleValue d) {
+    public static @NotNull StringValue valueOf(final DoubleValue d) {
         return StringValue.of(String.valueOf(d));
     }
 
@@ -233,6 +237,95 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
     @Contract(" -> new")
     public static @NotNull StringValue space() {
         return new StringValue(" ");
+    }
+
+    /**
+     * Converts this instance to a MutableStringValue.
+     * @return this instance as a MutableStringValue
+     */
+    @Contract(" -> new")
+    public @NotNull MutableStringValue toMutable() {
+        return MutableStringValue.of(value);
+    }
+
+    /**
+     * Adds the specified string to the end of the value.
+     * @param input the string to add
+     * @return the specified string added to the end of the value
+     */
+    @Contract("_ -> new")
+    public @NotNull StringValue addToEnd(final String input) {
+        return StringValue.of(value + input);
+    }
+
+    /**
+     * Adds the specified string to the end of the value.
+     * @param input the string to add
+     * @return the specified string added to the end of the value
+     */
+    @Contract("_ -> new")
+    public @NotNull StringValue addToEnd(final @NotNull StringValue input) {
+        return StringValue.of(value + input.get());
+    }
+
+    /**
+     * Adds the specified string to the end of the value.
+     * @param input the string to add
+     * @return the specified string added to the end of the value
+     */
+    @Contract("_ -> new")
+    public @NotNull StringValue addToEnd(final @NotNull MutableStringValue input) {
+        return StringValue.of(value + input.get());
+    }
+
+    /**
+     * Adds the specified character to the end of the value.
+     * @param input the string to add
+     * @return the specified string added to the end of the value
+     */
+    @Contract("_ -> new")
+    public @NotNull StringValue addToEnd(final char input) {
+        return StringValue.of(value + input);
+    }
+
+    /**
+     * Adds the specified string to the start of the value.
+     * @param input the string to add
+     * @return the specified string added to the start of the value
+     */
+    @Contract("_ -> new")
+    public @NotNull StringValue addToStart(final String input) {
+        return StringValue.of(input + value);
+    }
+
+    /**
+     * Adds the specified string to the start of the value.
+     * @param input the string to add
+     * @return the specified string added to the start of the value
+     */
+    @Contract("_ -> new")
+    public @NotNull StringValue addToStart(final @NotNull StringValue input) {
+        return StringValue.of(input.get() + value);
+    }
+
+    /**
+     * Adds the specified string to the start of the value.
+     * @param input the string to add
+     * @return the specified string added to the start of the value
+     */
+    @Contract("_ -> new")
+    public @NotNull StringValue addToStart(final @NotNull MutableStringValue input) {
+        return StringValue.of(input.get() + value);
+    }
+
+    /**
+     * Adds the specified character to the start of the value.
+     * @param input the string to add
+     * @return the specified string added to the start of the value
+     */
+    @Contract("_ -> new")
+    public @NotNull StringValue addToStart(final char input) {
+        return StringValue.of(input + value);
     }
 
     /**
@@ -419,7 +512,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @throws IllegalArgumentException if the value or suffix are null
      * @see String#endsWith(String)
      */
-    public boolean endsWith(String suffix) {
+    public boolean endsWith(final String suffix) {
         return value.endsWith(suffix);
     }
 
@@ -516,7 +609,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#indexOf(int)
      */
     @Contract("_ -> new")
-    public @NotNull IntegerValue indexOf(int ch) {
+    public @NotNull IntegerValue indexOf(final int ch) {
         return IntegerValue.of(value.indexOf(ch));
     }
 
@@ -568,7 +661,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#indexOf(int, int)
      */
     @Contract("_, _ -> new")
-    public @NotNull IntegerValue indexOf(int ch, int fromIndex) {
+    public @NotNull IntegerValue indexOf(final int ch, final int fromIndex) {
         return IntegerValue.of(value.indexOf(ch, fromIndex));
     }
 
@@ -610,7 +703,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#indexOf(int, int, int)
      */
     @Contract("_, _, _ -> new")
-    public @NotNull IntegerValue indexOf(int ch, int beginIndex, int endIndex) {
+    public @NotNull IntegerValue indexOf(final int ch, final int beginIndex, final int endIndex) {
         return IntegerValue.of(value.indexOf(ch, beginIndex, endIndex));
     }
 
@@ -628,7 +721,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#indexOf(String)
      */
     @Contract("_ -> new")
-    public @NotNull IntegerValue indexOf(String str) {
+    public @NotNull IntegerValue indexOf(final String str) {
         return IntegerValue.of(value.indexOf(str));
     }
 
@@ -660,7 +753,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#indexOf(String, int)
      */
     @Contract("_, _ -> new")
-    public @NotNull IntegerValue indexOf(String str, int fromIndex) {
+    public @NotNull IntegerValue indexOf(final String str, final int fromIndex) {
         return IntegerValue.of(value.indexOf(str, fromIndex));
     }
 
@@ -687,8 +780,143 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#indexOf(String, int, int)
      */
     @Contract("_, _, _ -> new")
-    public @NotNull IntegerValue indexOf(String str, int beginIndex, int endIndex) {
+    public @NotNull IntegerValue indexOf(final String str, final int beginIndex, final int endIndex) {
         return IntegerValue.of(value.indexOf(str, beginIndex, endIndex));
+    }
+
+    /**
+     * Case in-sensitive find of the first index within athe value.
+     *
+     * <p>A negative start position is treated as zero.
+     * An empty ("") search CharSequence always matches.
+     * A start position greater than the string length only matches
+     * an empty search CharSequence.</p>
+     *
+     * <pre>
+     * indexOfIgnoreCase(null) [value = *]          = -1
+     * indexOfIgnoreCase("") [value = ""]           = 0
+     * indexOfIgnoreCase(" ") [value = " "]         = 0
+     * indexOfIgnoreCase("a") [value = "aabaabaa"]  = 0
+     * indexOfIgnoreCase("b") [value = "aabaabaa"]  = 2
+     * indexOfIgnoreCase("ab") [value = "aabaabaa"] = 1
+     * </pre>
+     *
+     * @param searchStr  the CharSequence to find, may be null
+     * @return the first index of the search CharSequence,
+     *  -1 if no match or {@code null} string input
+     */
+    public @NotNull IntegerValue indexOfIgnoreCase(final CharSequence searchStr) {
+        return indexOfIgnoreCase(searchStr, 0);
+    }
+
+    /**
+     * Case in-sensitive find of the first index within the value
+     * from the specified position.
+     *
+     * <p>A negative start position is treated as zero.
+     * An empty ("") search CharSequence always matches.
+     * A start position greater than the string length only matches
+     * an empty search CharSequence.</p>
+     *
+     * <pre>
+     * indexOfIgnoreCase(null, *) [value = *]          = -1
+     * indexOfIgnoreCase("", 0) [value = ""]           = 0
+     * indexOfIgnoreCase("A", 0) [value = "aabaabaa"]  = 0
+     * indexOfIgnoreCase("B", 0) [value = "aabaabaa"]  = 2
+     * indexOfIgnoreCase("AB", 0) [value = "aabaabaa"] = 1
+     * indexOfIgnoreCase("B", 3) [value = "aabaabaa"]  = 5
+     * indexOfIgnoreCase("B", 9) [value = "aabaabaa"]  = -1
+     * indexOfIgnoreCase("B", -1) [value = "aabaabaa"] = 2
+     * indexOfIgnoreCase("", 2) [value = "aabaabaa"]   = 2
+     * indexOfIgnoreCase("", 9) [value = "abc"]        = -1
+     * </pre>
+     *
+     * @param searchStr  the CharSequence to find, may be null
+     * @param startPos  the start position, negative treated as zero
+     * @return the first index of the search CharSequence (always &ge; startPos),
+     *  -1 if no match or {@code null} string input
+     */
+    @SuppressWarnings("MethodWithMultipleReturnPoints")
+    public @NotNull IntegerValue indexOfIgnoreCase(final CharSequence searchStr, final int startPos) {
+        int startPos_ = startPos;
+        if (null == searchStr) {
+            return IntegerValue.of(INDEX_NOT_FOUND);
+        }
+        if (0 > startPos_) {
+            startPos_ = 0;
+        }
+        final int endLimit = value.length() - searchStr.length() + 1;
+        if (startPos_ > endLimit) {
+            return IntegerValue.of(INDEX_NOT_FOUND);
+        }
+        if (searchStr.isEmpty()) {
+            return IntegerValue.of(startPos_);
+        }
+        for (int i = startPos_; i < endLimit; i++) {
+            if (regionMatches(value,true, i, searchStr, 0, searchStr.length())) {
+                return IntegerValue.of(i);
+            }
+        }
+        return IntegerValue.of(INDEX_NOT_FOUND);
+    }
+
+    /**
+     * Green implementation of regionMatches.
+     *
+     * @param cs the {@link CharSequence} to be processed
+     * @param ignoreCase whether to be case-insensitive
+     * @param thisStart the index to start on the {@code cs} CharSequence
+     * @param substring the {@link CharSequence} to be looked for
+     * @param start the index to start on the {@code substring} CharSequence
+     * @param length character length of the region
+     * @return whether the region matched
+     */
+    @SuppressWarnings({"MethodWithTooManyParameters", "OverlyComplexMethod",
+            "ValueOfIncrementOrDecrementUsed", "SameParameterValue"})
+    private static boolean regionMatches(final CharSequence cs, final boolean ignoreCase, final int thisStart,
+                                 final CharSequence substring, final int start, final int length)    {
+        if (cs instanceof String && substring instanceof String) {
+            return ((String) cs).regionMatches(ignoreCase, thisStart, (String) substring, start, length);
+        }
+        int index1 = thisStart;
+        int index2 = start;
+        int tmpLen = length;
+
+        // Extract these first so we detect NPEs the same as the java.lang.String version
+        final int srcLen = cs.length() - thisStart;
+        final int otherLen = substring.length() - start;
+
+        // Check for invalid parameters
+        if (0 > thisStart || 0 > start || 0 > length) {
+            return false;
+        }
+
+        // Check that the regions are long enough
+        if (srcLen < length || otherLen < length) {
+            return false;
+        }
+
+        while (0 < tmpLen--) {
+            final char c1 = cs.charAt(index1++);
+            final char c2 = substring.charAt(index2++);
+
+            if (c1 == c2) {
+                continue;
+            }
+
+            if (!ignoreCase) {
+                return false;
+            }
+
+            // The real same check as in String.regionMatches():
+            final char u1 = Character.toUpperCase(c1);
+            final char u2 = Character.toUpperCase(c2);
+            if (u1 != u2 && Character.toLowerCase(u1) != Character.toLowerCase(u2)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -715,7 +943,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#lastIndexOf(int)
      */
     @Contract("_ -> new")
-    public @NotNull IntegerValue lastIndexOf(int ch) {
+    public @NotNull IntegerValue lastIndexOf(final int ch) {
         return IntegerValue.of(value.lastIndexOf(ch));
     }
 
@@ -753,7 +981,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#lastIndexOf(int, int)
      */
     @Contract("_, _ -> new")
-    public @NotNull IntegerValue lastIndexOf(int ch, int fromIndex) {
+    public @NotNull IntegerValue lastIndexOf(final int ch, final int fromIndex) {
         return IntegerValue.of(value.lastIndexOf(ch, fromIndex));
     }
 
@@ -772,7 +1000,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#lastIndexOf(String)
      */
     @Contract("_ -> new")
-    public @NotNull IntegerValue lastIndexOf(String str) {
+    public @NotNull IntegerValue lastIndexOf(final String str) {
         return IntegerValue.of(value.lastIndexOf(str));
     }
 
@@ -793,7 +1021,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#lastIndexOf(String, int)
      */
     @Contract("_, _ -> new")
-    public @NotNull IntegerValue lastIndexOf(String str, int fromIndex) {
+    public @NotNull IntegerValue lastIndexOf(final String str, final int fromIndex) {
         return IntegerValue.of(value.lastIndexOf(str, fromIndex));
     }
 
@@ -815,7 +1043,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#substring(int)
      */
     @Contract("_ -> new")
-    public @NotNull StringValue substring(int beginIndex) {
+    public @NotNull StringValue substring(final int beginIndex) {
         return StringValue.of(value.substring(beginIndex));
     }
 
@@ -842,7 +1070,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#substring(int, int)
      */
     @Contract("_, _ -> new")
-    public @NotNull StringValue substring(int beginIndex, int endIndex) {
+    public @NotNull StringValue substring(final int beginIndex, final int endIndex) {
         return StringValue.of(value.substring(beginIndex, endIndex));
     }
 
@@ -867,7 +1095,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#subSequence(int, int)
      */
     @Contract(pure = true)
-    public @NotNull CharSequence subSequence(int beginIndex, int endIndex) {
+    public @NotNull CharSequence subSequence(final int beginIndex, final int endIndex) {
         return value.subSequence(beginIndex, endIndex);
     }
 
@@ -892,7 +1120,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#concat(String)
      */
     @Contract("_ -> new")
-    public @NotNull StringValue concat(String str) {
+    public @NotNull StringValue concat(final String str) {
         return StringValue.of(value + str);
     }
 
@@ -926,7 +1154,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#replace(char, char)
      */
     @Contract("_, _ -> new")
-    public @NotNull StringValue replace(char oldChar, char newChar) {
+    public @NotNull StringValue replace(final char oldChar, final char newChar) {
         return StringValue.of(value.replace(oldChar, newChar));
     }
 
@@ -949,7 +1177,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see java.util.regex.Pattern
      * @see String#matches(String)
      */
-    public boolean matches(String regex) {
+    public boolean matches(final String regex) {
         return value.matches(regex);
     }
 
@@ -960,8 +1188,64 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @return true if this string contains {@code s}, false otherwise
      * @see String#contains(CharSequence)
      */
-    public boolean contains(CharSequence s) {
+    public boolean contains(final CharSequence s) {
         return value.contains(s);
+    }
+
+    /**
+     * Removes all occurrences of a character from within the value.
+     *
+     * <pre>
+     * remove(null, *)       = null
+     * remove("", *)         = ""
+     * remove("queued", 'u') = "qeed"
+     * remove("queued", 'z') = "queued"
+     * </pre>
+     *
+     * @param remove  the char to search for and remove, may be null
+     * @return the substring with the char removed if found,
+     *  {@code null} if null String input
+     */
+    public StringValue remove(final char remove) {
+        if (isEmpty() || INDEX_NOT_FOUND == value.indexOf(remove)) {
+            return this;
+        }
+        final char[] chars = value.toCharArray();
+        int pos = 0;
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] != remove) {
+                //noinspection ValueOfIncrementOrDecrementUsed
+                chars[pos++] = chars[i];
+            }
+        }
+        return StringValue.of(new String(chars, 0, pos));
+    }
+
+    /**
+     * Removes all occurrences of a substring from within the value.
+     *
+     * <p>A {@code null} remove string will return the source string.
+     * An empty ("") remove string will return the source string.</p>
+     *
+     * <pre>
+     * remove(null, *)        = null
+     * remove("", *)          = ""
+     * remove(*, null)        = *
+     * remove(*, "")          = *
+     * remove("queued", "ue") = "qd"
+     * remove("queued", "zz") = "queued"
+     * </pre>
+     *
+     * @param remove  the String to search for and remove, may be null
+     * @return the substring with the string removed if found,
+     *  {@code null} if null String input
+     * @since 2.1
+     */
+    public StringValue remove(final String remove) {
+        if (isEmpty() || remove.isEmpty()) {
+            return this;
+        }
+        return replace(remove, EMPTY.get(), -1);
     }
 
     /**
@@ -998,7 +1282,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#replaceFirst(String, String)
      */
     @Contract("_, _ -> new")
-    public @NotNull StringValue replaceFirst(String regex, String replacement) {
+    public @NotNull StringValue replaceFirst(final String regex, final String replacement) {
         return StringValue.of(value.replaceFirst(regex, replacement));
     }
 
@@ -1036,7 +1320,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#replaceAll(String, String)
      */
     @Contract("_, _ -> new")
-    public @NotNull StringValue replaceAll(String regex, String replacement) {
+    public @NotNull StringValue replaceAll(final String regex, final String replacement) {
         return StringValue.of(value.replaceAll(regex, replacement));
     }
 
@@ -1052,8 +1336,119 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#replace(CharSequence, CharSequence)
      */
     @Contract("_, _ -> new")
-    public @NotNull StringValue replace(CharSequence target, CharSequence replacement) {
+    public @NotNull StringValue replace(final CharSequence target, final CharSequence replacement) {
         return StringValue.of(value.replace(target, replacement));
+    }
+
+    /**
+     * Replaces all occurrences of a String within the value.
+     *
+     * <pre>
+     * replace(*, *) [value = ""]         = ""
+     * replace(null, *) [value = "any"]   = "any"
+     * replace(*, null) [value = "any"]   = "any"
+     * replace("", *) [value = "any"]     = "any"
+     * replace("a", null) [value = "aba"] = "aba"
+     * replace("a", "") [value = "aba"]   = "b"
+     * replace("a", "z") [value = "aba"]  = "zbz"
+     * </pre>
+     *
+     * @see #replace(String searchString, String replacement, int max)
+     * @param searchString  the String to search for, may be null
+     * @param replacement  the String to replace it with, may be null
+     * @return the text with any replacements processed,
+     *  {@code null} if null String input
+     */
+    public StringValue replace(final String searchString, final String replacement) {
+        return replace(searchString, replacement, -1);
+    }
+
+    /**
+     * Replaces a String with another String inside the value,
+     * for the first {@code max} values of the search String.
+     *
+     * <pre>
+     * replace(*, *, *) [value = ""]           = ""
+     * replace(null, *, *) [value = "any"]     = "any"
+     * replace(*, null, *) [value = "any"]     = "any"
+     * replace("", *, *) [value = "any"]       = "any"
+     * replace(*, *, 0) [value = "any"]        = "any"
+     * replace("a", null, -1) [value = "abaa"] = "abaa"
+     * replace("a", "", -1) [value = "abaa"]   = "b"
+     * replace("a", "z", 0) [value = "abaa"]   = "abaa"
+     * replace("a", "z", 1) [value = "abaa"]   = "zbaa"
+     * replace("a", "z", 2) [value = "abaa"]   = "zbza"
+     * replace("a", "z", -1) [value = "abaa"]  = "zbzz"
+     * </pre>
+     *
+     * @param searchString  the String to search for, may be null
+     * @param replacement  the String to replace it with, may be null
+     * @param max  maximum number of values to replace, or {@code -1} if no maximum
+     * @return the text with any replacements processed,
+     *  {@code null} if null String input
+     */
+    public StringValue replace(final String searchString, final String replacement, final int max) {
+        return replace(searchString, replacement, max, false);
+    }
+
+    /**
+     * Replaces a String with another String inside the value,
+     * for the first {@code max} values of the search String,
+     * case-sensitively/insensitively based on {@code ignoreCase} value.
+     *
+     * <pre>
+     * replace(*, *, *, false) [value = ""]           = ""
+     * replace(null, *, *, false) [value = "any"]     = "any"
+     * replace(*, null, *, false) [value = "any"]     = "any"
+     * replace("", *, *, false) [value = "any"]       = "any"
+     * replace(*, *, 0, false) [value = "any"]        = "any"
+     * replace("a", null, -1, false) [value = "abaa"] = "abaa"
+     * replace("a", "", -1, false) [value = "abaa"]   = "b"
+     * replace("a", "z", 0, false) [value = "abaa"]   = "abaa"
+     * replace("A", "z", 1, false) [value = "abaa"]   = "abaa"
+     * replace("A", "z", 1, true) [value = "abaa"]    = "zbaa"
+     * replace("a", "z", 2, true) [value = "abAa"]    = "zbza"
+     * replace("a", "z", -1, true) [value = "abAa"]   = "zbzz"
+     * </pre>
+     *
+     * @param searchString  the String to search for (case-insensitive), may be null
+     * @param replacement  the String to replace it with, may be null
+     * @param max  maximum number of values to replace, or {@code -1} if no maximum
+     * @param ignoreCase if true replace is case-insensitive, otherwise case-sensitive
+     * @return the text with any replacements processed,
+     *  {@code null} if null String input
+     */
+    @SuppressWarnings({"OverlyComplexMethod", "SameParameterValue"})
+    private StringValue replace(final String searchString, final String replacement,
+                                final int max, final boolean ignoreCase) {
+        String searchString_ = searchString;
+        int max_ = max;
+        if (isEmpty() || searchString_.isEmpty() || null == replacement || 0 == max) {
+            return this;
+        }
+        if (ignoreCase) {
+            searchString_ = searchString_.toLowerCase(Locale.getDefault());
+        }
+        int start = 0;
+        IntegerValue end = ignoreCase ? indexOfIgnoreCase(searchString_, start) : indexOf(searchString_, start);
+        if (Objects.equals(INDEX_NOT_FOUND, end.get())) {
+            return this;
+        }
+        final int replLength = searchString_.length();
+        int increase = Math.max(replacement.length() - replLength, 0);
+        increase *= 0 > max ? 16 : Math.min(max, 64);
+        final StringBuilder buf = new StringBuilder(value.length() + increase);
+        while (!Objects.equals(INDEX_NOT_FOUND, end.get())) {
+            buf.append(value).append(replacement);
+            start = end.get() + replLength;
+            //noinspection ValueOfIncrementOrDecrementUsed
+            if (0 == --max_) {
+                break;
+            }
+            end = ignoreCase ? indexOfIgnoreCase(searchString_, start) : indexOf(searchString_, start);
+        }
+        buf.append(value, start, value.length());
+        return StringValue.of(buf.toString());
     }
 
     /**
@@ -1139,7 +1534,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see java.util.regex.Pattern
      * @see String#split(String, int)
      */
-    public StringValue @NotNull [] split(String regex, int limit) {
+    public StringValue @NotNull [] split(final String regex, final int limit) {
         return Arrays.stream(value.split(regex, limit))
                 .map(StringValue::of).toArray(StringValue[]::new);
     }
@@ -1226,7 +1621,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      *          substrings and matching delimiters
      * @see String#splitWithDelimiters(String, int)
      */
-    public StringValue @NotNull [] splitWithDelimiters(String regex, int limit) {
+    public StringValue @NotNull [] splitWithDelimiters(final String regex, final int limit) {
         return Arrays.stream(value.splitWithDelimiters(regex, limit))
                 .map(StringValue::of).toArray(StringValue[]::new);
     }
@@ -1264,7 +1659,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see java.util.regex.Pattern
      * @see String#split(String)
      */
-    public StringValue @NotNull [] split(String regex) {
+    public StringValue @NotNull [] split(final String regex) {
         return Arrays.stream(value.split(regex))
                 .map(StringValue::of).toArray(StringValue[]::new);
     }
@@ -1348,7 +1743,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#toUpperCase(Locale)
      */
     @Contract("_ -> new")
-    public @NotNull StringValue toLowerCase(Locale locale) {
+    public @NotNull StringValue toLowerCase(final Locale locale) {
         return StringValue.of(value.toLowerCase(locale));
     }
 
@@ -1431,7 +1826,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#toUpperCase(Locale)
      */
     @Contract("_ -> new")
-    public @NotNull StringValue toUpperCase(Locale locale) {
+    public @NotNull StringValue toUpperCase(final Locale locale) {
         return StringValue.of(value.toUpperCase(locale));
     }
 
@@ -1596,7 +1991,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#indent(int)
      */
     @Contract("_ -> new")
-    public @NotNull StringValue indent(int n) {
+    public @NotNull StringValue indent(final int n) {
         return StringValue.of(value.indent(n));
     }
 
@@ -1641,7 +2036,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @throws IllegalArgumentException if the value is null
      */
     @Contract("_ -> new")
-    public StringValue removeFirstCharacters(final int number) {
+    public @NotNull StringValue removeFirstCharacters(final int number) {
         checkArgumentNotNull(value, cannotBeNull("value"));
         return StringValue.of(value.substring(number));
     }
@@ -1790,15 +2185,6 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
                 .map(word -> Character.toUpperCase(word.charAt(0)) + word.substring(1) + ' ')
                 .collect(Collectors.joining())
                 .trim());
-    }
-
-    /**
-     * Return a not null string.
-     * @return empty string if the value is null otherwise the value passed in as parameter.
-     */
-    public StringValue nonNull() {
-        //noinspection VariableNotUsedInsideIf
-        return null == value ? StringValue.EMPTY : this;
     }
 
     /**
@@ -2195,7 +2581,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see #equals(Object)
      * @see String#equalsIgnoreCase(String)
      */
-    public boolean equalsIgnoreCase(String anotherString) {
+    public boolean equalsIgnoreCase(final String anotherString) {
         return value.equalsIgnoreCase(anotherString);
     }
 
@@ -2315,7 +2701,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#formatted(Object...)
      */
     @Contract("_ -> new")
-    public @NotNull StringValue formatted(Object... args) {
+    public @NotNull StringValue formatted(final Object... args) {
         return StringValue.of(value.formatted(args));
     }
 
@@ -2333,7 +2719,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#repeat(int)
      */
     @Contract("_ -> new")
-    public @NotNull StringValue repeat(int count) {
+    public @NotNull StringValue repeat(final int count) {
         return StringValue.of(value.repeat(count));
     }
 
@@ -2350,7 +2736,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see Function
      * @see String#transform(Function)
      */
-    public <R> R transform(Function<? super String, ? extends R> f) {
+    public <R> R transform(final Function<? super String, ? extends R> f) {
         return value.transform(f);
     }
 
@@ -2369,7 +2755,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#getBytes(Charset)
      */
     @Contract(pure = true)
-    public byte @NotNull [] getBytes(@NotNull Charset charset) {
+    public byte @NotNull [] getBytes(@NotNull final Charset charset) {
         return value.getBytes(charset);
     }
 
@@ -2387,7 +2773,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      *         false} otherwise
      * @see String#contentEquals(CharSequence)
      */
-    public boolean contentEquals(@NotNull CharSequence cs) {
+    public boolean contentEquals(@NotNull final CharSequence cs) {
         return value.contentEquals(cs);
     }
 
@@ -2425,7 +2811,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      *          {@code false} otherwise.
      * @see String#regionMatches(int, String, int, int)
      */
-    public boolean regionMatches(int toffset, @NotNull String other, int ooffset, int len) {
+    public boolean regionMatches(final int toffset, @NotNull final String other, final int ooffset, final int len) {
         return value.regionMatches(toffset, other, ooffset, len);
     }
 
@@ -2450,7 +2836,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#codePointAt(int)
      */
     @Contract("_ -> new")
-    public @NotNull IntegerValue codePointAt(int index) {
+    public @NotNull IntegerValue codePointAt(final int index) {
         return IntegerValue.of(value.codePointAt(index));
     }
 
@@ -2484,7 +2870,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      *                {@code dst.length}</ul>
      * @see String#getChars(int, int, char[], int)
      */
-    public void getChars(int srcBegin, int srcEnd, char @NotNull [] dst, int dstBegin) {
+    public void getChars(final int srcBegin, final int srcEnd, final char @NotNull [] dst, final int dstBegin) {
         value.getChars(srcBegin, srcEnd, dst, dstBegin);
     }
 
@@ -2508,7 +2894,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#offsetByCodePoints(int, int)
      */
     @Contract("_, _ -> new")
-    public @NotNull IntegerValue offsetByCodePoints(int index, int codePointOffset) {
+    public @NotNull IntegerValue offsetByCodePoints(final int index, final int codePointOffset) {
         return IntegerValue.of(value.offsetByCodePoints(index, codePointOffset));
     }
 
@@ -2532,7 +2918,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#compareToIgnoreCase(String)
      */
     @Contract("_ -> new")
-    public @NotNull IntegerValue compareToIgnoreCase(@NotNull String str) {
+    public @NotNull IntegerValue compareToIgnoreCase(@NotNull final String str) {
         return IntegerValue.of(value.compareToIgnoreCase(str));
     }
 
@@ -2552,7 +2938,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#getBytes(String)
      */
     @Contract(pure = true)
-    public byte @NotNull [] getBytes(@NotNull String charsetName) throws UnsupportedEncodingException {
+    public byte @NotNull [] getBytes(@NotNull final String charsetName) throws UnsupportedEncodingException {
         return value.getBytes(charsetName);
     }
 
@@ -2569,7 +2955,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      *          {@code false} otherwise
      * @see String#contentEquals(StringBuffer)
      */
-    public boolean contentEquals(@NotNull StringBuffer sb) {
+    public boolean contentEquals(@NotNull final StringBuffer sb) {
         return value.contentEquals(sb);
     }
 
@@ -2577,7 +2963,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * Returns the number of Unicode code points in the specified text
      * range of this {@code String}. The text range begins at the
      * specified {@code beginIndex} and extends to the
-     * {@code char} at index {@code endIndex - 1}. Thus the
+     * {@code char} at index {@code endIndex - 1}. Thus, the
      * length (in {@code char}s) of the text range is
      * {@code endIndex-beginIndex}. Unpaired surrogates within
      * the text range count as one code point each.
@@ -2595,7 +2981,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#codePointCount(int, int)
      */
     @Contract("_, _ -> new")
-    public @NotNull IntegerValue codePointCount(int beginIndex, int endIndex) {
+    public @NotNull IntegerValue codePointCount(final int beginIndex, final int endIndex) {
         return IntegerValue.of(value.codePointCount(beginIndex, endIndex));
     }
 
@@ -2611,7 +2997,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * {@code this.substring(toffset, toffset + len).codePoints()} and
      * {@code osequence} is the sequence produced as if by calling
      * {@code other.substring(ooffset, ooffset + len).codePoints()}.
-     * The result is {@code true} if and only if all of the following
+     * The result is {@code true} if and only if all the following
      * are true:
      * <ul><li>{@code toffset} is non-negative.
      * <li>{@code ooffset} is non-negative.
@@ -2646,7 +3032,8 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see     #codePoints()
      * @see String#regionMatches(boolean, int, String, int, int)
      */
-    public boolean regionMatches(boolean ignoreCase, int toffset, @NotNull String other, int ooffset, int len) {
+    public boolean regionMatches(final boolean ignoreCase, final int toffset, @NotNull final String other,
+                                 final int ooffset, final int len) {
         return value.regionMatches(ignoreCase, toffset, other, ooffset, len);
     }
 
@@ -2671,7 +3058,7 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#codePointBefore(int)
      */
     @Contract("_ -> new")
-    public @NotNull IntegerValue codePointBefore(int index) {
+    public @NotNull IntegerValue codePointBefore(final int index) {
         return IntegerValue.of(value.codePointBefore(index));
     }
 
@@ -2780,12 +3167,24 @@ public final class StringValue extends Validated implements ImmutableValue<Strin
      * @see String#compareTo(String)
      */
     @Override
-    public int compareTo(@NotNull String anotherString) {
+    public int compareTo(@NotNull final String anotherString) {
         return value.compareTo(anotherString);
     }
 
+    /**
+     * Returns an {@link Optional} containing the nominal descriptor for this
+     * instance, which is the instance itself.
+     *
+     * @return an {@link Optional} describing the {@linkplain String} value
+     */
+    @Contract(value = " -> new", pure = true)
     @Override
-    public boolean equals(Object o) {
+    public @NotNull Optional<String> describeConstable() {
+        return value.describeConstable();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
         if (this == o) return true;
 
         if (null == o || getClass() != o.getClass()) return false;

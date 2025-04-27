@@ -1,10 +1,15 @@
 package com.jwcomptech.shared.tuples;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.io.Serial;
 import java.util.Map;
 import java.util.Objects;
 
 
+@SuppressWarnings("unused")
 public class ImmutablePair<L, R> extends Pair<L, R> {
     public static final ImmutablePair<?, ?>[] EMPTY_ARRAY = new ImmutablePair[0];
     @SuppressWarnings("rawtypes")
@@ -29,11 +34,11 @@ public class ImmutablePair<L, R> extends Pair<L, R> {
     }
 
     public static <L, R> ImmutablePair<L, R> of(L left, R right) {
-        return left == null && right == null ? nullPair() : new ImmutablePair<>(left, right);
+        return null == left && null == right ? nullPair() : new ImmutablePair<>(left, right);
     }
 
     public static <L, R> ImmutablePair<L, R> of(Map.Entry<L, R> pair) {
-        return pair != null ? new ImmutablePair<>(pair.getKey(), pair.getValue()) : nullPair();
+        return null != pair ? new ImmutablePair<>(pair.getKey(), pair.getValue()) : nullPair();
     }
 
     public static <L, R> ImmutablePair<L, R> ofNonNull(L left, R right) {
@@ -59,5 +64,36 @@ public class ImmutablePair<L, R> extends Pair<L, R> {
 
     public R setValue(R value) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (null == o || getClass() != o.getClass()) return false;
+
+        ImmutablePair<?, ?> that = (ImmutablePair<?, ?>) o;
+
+        return new EqualsBuilder().appendSuper(super.equals(o))
+                .append(left, that.left)
+                .append(right, that.right)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .appendSuper(super.hashCode())
+                .append(left)
+                .append(right)
+                .toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("left", left)
+                .append("right", right)
+                .toString();
     }
 }

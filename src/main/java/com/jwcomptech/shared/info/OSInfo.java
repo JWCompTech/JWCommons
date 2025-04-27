@@ -9,6 +9,7 @@ import com.sun.jna.Platform;
 import org.apache.commons.lang3.SystemUtils;
 
 /** Returns information about the operating system. */
+@SuppressWarnings("unused")
 public class OSInfo {
     public static final OperatingSystem OS;
 
@@ -142,13 +143,17 @@ public class OSInfo {
      * @return The OS type as an enum
      */
     public static OSType getOSType() {
-        if (SystemUtils.IS_OS_WINDOWS) return OSType.Windows;
-        else if (SystemUtils.IS_OS_MAC) return OSType.MacOS;
-        else if (SystemUtils.IS_OS_LINUX) return OSType.Linux;
-        else if (Platform.isAndroid()) return OSType.Android;
-        else if (SystemUtils.IS_OS_FREE_BSD) return OSType.FreeBSD;
-        else if (SystemUtils.IS_OS_SOLARIS) return OSType.Solaris;
-        else return OSType.Other;
+        final OSType result;
+
+        if (SystemUtils.IS_OS_WINDOWS) result = OSType.Windows;
+        else if (SystemUtils.IS_OS_MAC) result = OSType.MacOS;
+        else if (SystemUtils.IS_OS_LINUX) result = OSType.Linux;
+        else if (Platform.isAndroid()) result = OSType.Android;
+        else if (SystemUtils.IS_OS_FREE_BSD) result = OSType.FreeBSD;
+        else if (SystemUtils.IS_OS_SOLARIS) result = OSType.Solaris;
+        else result = OSType.Other;
+
+        return result;
     }
 
     /**
@@ -220,44 +225,14 @@ public class OSInfo {
      */
     protected OSInfo() { }
 
-    /** An Operating System Object for use with the {@link ComputerInfo} class. */
-    public static final class OSObject {
-        private final StringValue ComputerName;
-        private final StringValue ComputerNamePending;
-        private final WindowsOSEx.InstallInfoObject InstallInfo;
-        private final StringValue RegisteredOrganization;
-        private final StringValue RegisteredOwner;
-        private final StringValue LoggedInUserName;
-        private final StringValue DomainName;
-
-        public OSObject(StringValue computerName,
-                        StringValue computerNamePending,
-                        WindowsOSEx.InstallInfoObject installInfo,
-                        StringValue registeredOrganization,
-                        StringValue registeredOwner,
-                        StringValue loggedInUserName,
-                        StringValue domainName) {
-            ComputerName = computerName;
-            ComputerNamePending = computerNamePending;
-            InstallInfo = installInfo;
-            RegisteredOrganization = registeredOrganization;
-            RegisteredOwner = registeredOwner;
-            LoggedInUserName = loggedInUserName;
-            DomainName = domainName;
-        }
-
-        public StringValue ComputerName() { return ComputerName; }
-
-        public StringValue ComputerNamePending() { return ComputerNamePending; }
-
-        public WindowsOSEx.InstallInfoObject InstallInfo() { return InstallInfo; }
-
-        public StringValue RegisteredOrganization() { return RegisteredOrganization; }
-
-        public StringValue RegisteredOwner() { return RegisteredOwner; }
-
-        public StringValue LoggedInUserName() { return LoggedInUserName; }
-
-        public StringValue DomainName() { return DomainName; }
-    }
+    /**
+     * An Operating System Object for use with the {@link ComputerInfo} class.
+     */
+        public record OSObject(StringValue computerName,
+                               StringValue computerNamePending,
+                               WindowsOSEx.InstallInfoObject installInfo,
+                               StringValue registeredOrganization,
+                               StringValue registeredOwner,
+                               StringValue loggedInUserName,
+                               StringValue domainName) { }
 }

@@ -2,6 +2,8 @@ package com.jwcomptech.shared.functions;
 
 import io.vavr.Value;
 import io.vavr.control.Option;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serial;
 import java.util.function.Function;
@@ -19,6 +21,7 @@ import java.util.function.Function;
  * @param <R> type of the function output, called <em>codomain</em> of the function
  * @author Daniel Dietrich
  */
+@SuppressWarnings("unused")
 public interface PartialFunction<T, R> extends Function1<T, R> {
 
     /**
@@ -37,7 +40,9 @@ public interface PartialFunction<T, R> extends Function1<T, R> {
      * @param <R> type of the function output, called <em>codomain</em> of the function
      * @return a partial function that is not necessarily defined for all input values of type T.
      */
-    static <T, R> PartialFunction<T, R> unlift(Function<? super T, ? extends Option<? extends R>> totalFunction) {
+    @Contract(value = "_ -> new", pure = true)
+    static <T, R> @NotNull PartialFunction<T, R> unlift(Function<? super T, ? extends Option<? extends R>> totalFunction) {
+        //noinspection AnonymousInnerClassWithTooManyMethods
         return new PartialFunction<>() {
 
             @Serial
@@ -66,7 +71,9 @@ public interface PartialFunction<T, R> extends Function1<T, R> {
      * @param <V> type of the function input, called <em>domain</em> of the function
      * @return a partial function that maps a {@code Value} to its underlying value.
      */
-    static <T, V extends Value<T>> PartialFunction<V, T> getIfDefined() {
+    @Contract(value = " -> new", pure = true)
+    static <T, V extends Value<T>> @NotNull PartialFunction<V, T> getIfDefined() {
+        //noinspection AnonymousInnerClassWithTooManyMethods
         return new PartialFunction<>() {
 
             @Serial

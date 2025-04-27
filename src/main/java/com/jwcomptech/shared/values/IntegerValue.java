@@ -268,6 +268,103 @@ public final class IntegerValue extends NumberValue<Integer, IntegerValue> {
     }
 
     /**
+     * Multiples a value by the value of this instance.
+     *
+     * @param operand  the value to multiply, not null
+     * @throws IllegalArgumentException if the object is null
+     * @throws ArithmeticException if the result overflows an int
+     * @return this instance
+     */
+    @Override
+    public IntegerValue multiply(final @NotNull Number operand) {
+        final Integer last = value;
+        value = Math.multiplyExact(value, operand.intValue());
+        listeners.firePropertyChange("value", last, value);
+        return this;
+    }
+
+    /**
+     * Multiplies this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately after the multiplication operation. This method is not thread safe.
+     *
+     * @param operand the quantity to multiply, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @throws ArithmeticException if the result overflows an int
+     * @return the value associated with this instance after multiplying the operand
+     */
+    @Override
+    public Integer multiplyAndGet(final @NotNull Number operand) {
+        final Integer last = value;
+        value = Math.multiplyExact(value, operand.intValue());
+        listeners.firePropertyChange("value", last, value);
+        return value;
+    }
+
+    /**
+     * Multiplies this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately prior to the multiplication operation. This method is not thread safe.
+     *
+     * @param operand the quantity to multiply, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @throws ArithmeticException if the result overflows an int
+     * @return the value associated with this instance immediately before multiplying the operand
+     */
+    @Override
+    public Integer getAndMultiply(final @NotNull Number operand) {
+        final Integer last = value;
+        value = Math.multiplyExact(value, operand.intValue());
+        listeners.firePropertyChange("value", last, value);
+        return last;
+    }
+
+    /**
+     * Divides a value from the value of this instance.
+     *
+     * @param operand  the value to divide, not null
+     * @throws IllegalArgumentException if the object is null
+     * @return this instance
+     */
+    @Override
+    public IntegerValue divide(final @NotNull Number operand) {
+        final Integer last = value;
+        value = Math.divideExact(value, operand.intValue());
+        listeners.firePropertyChange("value", last, value);
+        return this;
+    }
+
+    /**
+     * Divides this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately after the division operation. This method is not thread safe.
+     *
+     * @param operand the quantity to divide, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @return the value associated with this instance after dividing the operand
+     */
+    @Override
+    public Integer divideAndGet(final @NotNull Number operand) {
+        final Integer last = value;
+        value = Math.divideExact(value, operand.intValue());
+        listeners.firePropertyChange("value", last, value);
+        return value;
+    }
+
+    /**
+     * Divides this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately prior to the division operation. This method is not thread safe.
+     *
+     * @param operand the quantity to divide, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @return the value associated with this instance immediately before dividing the operand
+     */
+    @Override
+    public Integer getAndDivide(final @NotNull Number operand) {
+        final Integer last = value;
+        value = Math.divideExact(value, operand.intValue());
+        listeners.firePropertyChange("value", last, value);
+        return last;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

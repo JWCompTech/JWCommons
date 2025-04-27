@@ -17,6 +17,8 @@ import com.jwcomptech.shared.interfaces.Buildable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.LoggerFactory;
 
 import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
@@ -31,10 +33,12 @@ import static java.util.Objects.requireNonNullElse;
  * required to be added to your project and if included that configuration
  * will be overwritten by the methods in this class.
  */
+@SuppressWarnings("unused")
 public final class LoggingManager {
     private static final LoggerContext logCtx = (LoggerContext) LoggerFactory.getILoggerFactory();
 
     /** A basic log file filename with name "logfile.log"*/
+    @SuppressWarnings("unused")
     public static final String LOG_FILE_NAME = "logfile.log";
     /** A basic log file filename with name "logfile-%d{yyyy-MM-dd_HH}.log"*/
     public static final String LOG_FILE_NAME_DATED = "logfile-%d{yyyy-MM-dd_HH}.log";
@@ -43,6 +47,7 @@ public final class LoggingManager {
      * Returns the Logback logger context.
      * @return  the Logback logger context
      */
+    @SuppressWarnings("SuspiciousGetterSetter")
     public static LoggerContext getContext() {
         return logCtx;
     }
@@ -86,7 +91,7 @@ public final class LoggingManager {
      * @param pattern the String pattern
      * @return a new PatternLayoutEncoder instance
      */
-    public static PatternLayoutEncoder createNewLogEncoder(final String pattern) {
+    public static @NotNull PatternLayoutEncoder createNewLogEncoder(final String pattern) {
         final PatternLayoutEncoder logEncoder = new PatternLayoutEncoder();
         logEncoder.setContext(logCtx);
         logEncoder.setPattern(pattern);
@@ -100,7 +105,7 @@ public final class LoggingManager {
      * @apiNote The start method is automatically called at the end of this method.
      * @return a new ConsoleAppender instance
      */
-    public static ConsoleAppender<ILoggingEvent> createNewConsoleAppender() {
+    public static @NotNull ConsoleAppender<ILoggingEvent> createNewConsoleAppender() {
         return createNewConsoleAppender("console", Encoders.BasicEncoder);
     }
 
@@ -110,7 +115,7 @@ public final class LoggingManager {
      * @param encoder the encoder to set
      * @return a new ConsoleAppender instance
      */
-    public static ConsoleAppender<ILoggingEvent> createNewConsoleAppender(final Encoders encoder) {
+    public static @NotNull ConsoleAppender<ILoggingEvent> createNewConsoleAppender(final @NotNull Encoders encoder) {
         return createNewConsoleAppender(encoder.getEncoder());
     }
 
@@ -120,7 +125,7 @@ public final class LoggingManager {
      * @param encoder the encoder to set
      * @return a new ConsoleAppender instance
      */
-    public static ConsoleAppender<ILoggingEvent> createNewConsoleAppender(final PatternLayoutEncoder encoder) {
+    public static @NotNull ConsoleAppender<ILoggingEvent> createNewConsoleAppender(final PatternLayoutEncoder encoder) {
         return createNewConsoleAppender("console", encoder);
     }
 
@@ -133,8 +138,8 @@ public final class LoggingManager {
      * @param encoder the encoder to set
      * @return a new ConsoleAppender instance
      */
-    public static ConsoleAppender<ILoggingEvent> createNewConsoleAppender(final String name,
-                                                                          final Encoders encoder) {
+    public static @NotNull ConsoleAppender<ILoggingEvent> createNewConsoleAppender(final String name,
+                                                                                   final @NotNull Encoders encoder) {
         return createNewConsoleAppender(name, encoder.getEncoder());
     }
 
@@ -147,8 +152,8 @@ public final class LoggingManager {
      * @param encoder the encoder to set
      * @return a new ConsoleAppender instance
      */
-    public static ConsoleAppender<ILoggingEvent> createNewConsoleAppender(final String name,
-                                                                          final PatternLayoutEncoder encoder) {
+    public static @NotNull ConsoleAppender<ILoggingEvent> createNewConsoleAppender(final String name,
+                                                                                   final PatternLayoutEncoder encoder) {
         checkArgumentNotNullOrEmpty(name, Literals.cannotBeNullOrEmpty("name"));
         final ConsoleAppender<ILoggingEvent> logConsoleAppender = new ConsoleAppender<>();
         logConsoleAppender.setContext(logCtx);
@@ -157,7 +162,7 @@ public final class LoggingManager {
         } else {
             logConsoleAppender.setName(name);
         }
-        if (encoder == null) {
+        if (null == encoder) {
             logConsoleAppender.setEncoder(Encoders.BasicEncoder.getEncoder());
         } else {
             logConsoleAppender.setEncoder(encoder);
@@ -170,13 +175,15 @@ public final class LoggingManager {
      * Gets a new RollingFileAppenderBuilder instance.
      * @return a new RollingFileAppenderBuilder instance
      */
-    public static RollingFileAppenderBuilder getRollingFileAppenderBuilder() {
+    @Contract(value = " -> new", pure = true)
+    public static @NotNull RollingFileAppenderBuilder getRollingFileAppenderBuilder() {
         return new RollingFileAppenderBuilder();
     }
 
     /**
      * This class contains methods to build a RollingFileAppender.
      */
+    @SuppressWarnings("FieldHasSetterButNoGetter")
     public static final class RollingFileAppenderBuilder implements Buildable<RollingFileAppender<ILoggingEvent>> {
         private String name;
         private TimeBasedRollingPolicy<ILoggingEvent> logFilePolicy;
@@ -235,7 +242,7 @@ public final class LoggingManager {
          * @return a new RollingFileAppender instance
          */
         @Override
-        public RollingFileAppender<ILoggingEvent> build() {
+        public @NotNull RollingFileAppender<ILoggingEvent> build() {
             checkArgumentNotNull(logFilePolicy, "LogFilePolicy Must Be Set!");
             final RollingFileAppender<ILoggingEvent> logFileAppender = new RollingFileAppender<>();
             logFileAppender.setContext(logCtx);
@@ -247,7 +254,7 @@ public final class LoggingManager {
                 logFileAppender.setName(name);
             }
             logFileAppender.setEncoder(requireNonNullElse(encoder, Encoders.BasicEncoder.getEncoder()));
-            if(fileName != null && !isBlank(fileName)) logFileAppender.setFile(fileName);
+            if(null != fileName && !isBlank(fileName)) logFileAppender.setFile(fileName);
 
             logFilePolicy.setParent(logFileAppender);
             logFileAppender.setRollingPolicy(logFilePolicy);
@@ -294,13 +301,15 @@ public final class LoggingManager {
      * Gets a new TimeBasedRollingPolicyBuilder instance.
      * @return a new TimeBasedRollingPolicyBuilder instance
      */
-    public static TimeBasedRollingPolicyBuilder getTimeBasedRollingPolicyBuilder() {
+    @Contract(value = " -> new", pure = true)
+    public static @NotNull TimeBasedRollingPolicyBuilder getTimeBasedRollingPolicyBuilder() {
         return new TimeBasedRollingPolicyBuilder();
     }
 
     /**
      * This class contains methods to build a TimeBasedRollingPolicy.
      */
+    @SuppressWarnings("FieldHasSetterButNoGetter")
     public static final class TimeBasedRollingPolicyBuilder implements Buildable<TimeBasedRollingPolicy<ILoggingEvent>> {
         private String fileNamePattern;
         private FileSize totalSizeCap;
@@ -394,18 +403,19 @@ public final class LoggingManager {
          * policy to a RollingFileAppender first.
          * @return a new TimeBasedRollingPolicy instance
          */
+        @SuppressWarnings("MethodWithMoreThanThreeNegations")
         @Override
-        public TimeBasedRollingPolicy<ILoggingEvent> build() {
+        public @NotNull TimeBasedRollingPolicy<ILoggingEvent> build() {
             final TimeBasedRollingPolicy<ILoggingEvent> logFilePolicy = new TimeBasedRollingPolicy<>();
             logFilePolicy.setContext(logCtx);
             logFilePolicy.setFileNamePattern(fileNamePattern);
-            if(totalSizeCap != null) logFilePolicy.setTotalSizeCap(totalSizeCap);
-            if(maxFileHistory != -1) logFilePolicy.setMaxHistory(maxFileHistory);
+            if(null != totalSizeCap) logFilePolicy.setTotalSizeCap(totalSizeCap);
+            if(-1 != maxFileHistory) logFilePolicy.setMaxHistory(maxFileHistory);
             logFilePolicy.setCleanHistoryOnStart(cleanHistoryOnStart);
-            if(timeBasedFileNamingAndTriggeringPolicy != null) {
+            if(null != timeBasedFileNamingAndTriggeringPolicy) {
                 logFilePolicy.setTimeBasedFileNamingAndTriggeringPolicy(timeBasedFileNamingAndTriggeringPolicy);
             }
-            if(parent != null) logFilePolicy.setParent(parent);
+            if(null != parent) logFilePolicy.setParent(parent);
             return logFilePolicy;
         }
 

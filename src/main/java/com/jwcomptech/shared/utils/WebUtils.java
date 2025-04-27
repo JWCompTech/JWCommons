@@ -1,5 +1,7 @@
 package com.jwcomptech.shared.utils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -10,6 +12,7 @@ import java.net.URL;
  * Web utilities for completing tasks dealing with websites.
  * @since 0.0.1
  */
+@SuppressWarnings("unused")
 public final class WebUtils {
     /** HTML utilities for handling html source code. */
     public static final class HTML {
@@ -20,14 +23,14 @@ public final class WebUtils {
          * @throws IOException if error occurs
          * @throws MalformedURLException if url is invalid
          */
-        public static String getHTML(final String url) throws IOException {
+        public static @NotNull String getHTML(final String url) throws IOException {
             final URL newurl = URI.create(url).toURL();
             final StringBuilder sb;
 
             try(final var buf = new BufferedInputStream(newurl.openStream())) {
                 sb = new StringBuilder();
                 int data;
-                while((data = buf.read()) != -1) {
+                while(-1 != (data = buf.read())) {
                     sb.append((char) data);
                 }
             }

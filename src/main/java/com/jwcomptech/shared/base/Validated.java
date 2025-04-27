@@ -1,6 +1,9 @@
 package com.jwcomptech.shared.base;
 
 import com.jwcomptech.shared.Condition;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -16,10 +19,36 @@ import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
  * A base object to easily add validations to any class.
  * @since 0.0.1
  */
+@SuppressWarnings("unused")
+@Data
 public class Validated implements Serializable {
+    /**
+     * The result of all validations.
+     */
     private boolean valid;
+    /**
+     * Is true if the evaluation has been run.
+     */
     private boolean alreadyValidated;
+    /**
+     * The list of true validations
+     * -- GETTER --
+     *  Returns the list of true validations.
+     *
+     * @return the list of true validations.
+
+     */
+    @Getter
     private final List<Condition> trueValidations;
+    /**
+     * The list of false validations
+     * -- GETTER --
+     *  Returns the list of false validations.
+     *
+     * @return the list of false validations.
+
+     */
+    @Getter
     private final List<Condition> falseValidations;
 
     /**
@@ -105,22 +134,6 @@ public class Validated implements Serializable {
     }
 
     /**
-     * Returns the list of true validations.
-     * @return the list of true validations.
-     */
-    public List<Condition> getTrueValidations() {
-        return trueValidations;
-    }
-
-    /**
-     * Returns the list of false validations.
-     * @return the list of false validations.
-     */
-    public List<Condition> getFalseValidations() {
-        return falseValidations;
-    }
-
-    /**
      * Adds the specified condition(s) to the true list.
      * @param conditions one or more conditions to add
      * @return this instance
@@ -138,41 +151,5 @@ public class Validated implements Serializable {
     public Validated addToFalse(Condition... conditions) {
         this.falseValidations.addAll(List.of(conditions));
         return this;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-
-        if (null == o || getClass() != o.getClass()) return false;
-
-        Validated validated = (Validated) o;
-
-        return new EqualsBuilder()
-                .append(valid, validated.valid)
-                .append(alreadyValidated, validated.alreadyValidated)
-                .append(trueValidations, validated.trueValidations)
-                .append(falseValidations, validated.falseValidations)
-                .isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(valid)
-                .append(alreadyValidated)
-                .append(trueValidations)
-                .append(falseValidations)
-                .toHashCode();
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("valid", valid)
-                .append("alreadyValidated", alreadyValidated)
-                .append("trueValidations", trueValidations)
-                .append("falseValidations", falseValidations)
-                .toString();
     }
 }

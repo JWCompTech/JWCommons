@@ -26,6 +26,7 @@ import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
  * @param <R> return type of the function
  * @author Daniel Dietrich
  */
+@SuppressWarnings("unused")
 @FunctionalInterface
 public interface CheckedFunction1<T1, R> extends Serializable {
 
@@ -198,6 +199,7 @@ public interface CheckedFunction1<T1, R> extends Serializable {
         } else {
             final Map<T1, R> cache = new HashMap<>();
             final ReentrantLock lock = new ReentrantLock();
+            //noinspection OverlyLongLambda
             return (CheckedFunction1<T1, R> & Memoized) (t1) -> {
                 lock.lock();
                 try {
@@ -221,6 +223,7 @@ public interface CheckedFunction1<T1, R> extends Serializable {
      * @return true, if this function is memoizing, false otherwise
      */
     default boolean isMemoized() {
+        //noinspection InstanceofThis
         return this instanceof Memoized;
     }
 
@@ -234,6 +237,7 @@ public interface CheckedFunction1<T1, R> extends Serializable {
      */
     default Function1<T1, R> recover(Function<? super Throwable, ? extends Function<? super T1, ? extends R>> recover) {
         checkArgumentNotNull(recover, cannotBeNull("recover"));
+        //noinspection OverlyLongLambda
         return (t1) -> {
             try {
                 return this.apply(t1);
@@ -270,6 +274,7 @@ public interface CheckedFunction1<T1, R> extends Serializable {
      * @return a function composed of this and after
      * @throws NullPointerException if after is null
      */
+    @SuppressWarnings("UnnecessaryJavaDocLink")
     default <V> CheckedFunction1<T1, V> andThen(CheckedFunction1<? super R, ? extends V> after) {
         checkArgumentNotNull(after, cannotBeNull("after"));
         return (t1) -> after.apply(apply(t1));
@@ -284,12 +289,14 @@ public interface CheckedFunction1<T1, R> extends Serializable {
      * @return a function composed of before and this
      * @throws NullPointerException if before is null
      */
+    @SuppressWarnings("UnnecessaryJavaDocLink")
     default <V> CheckedFunction1<V, R> compose(CheckedFunction1<? super V, ? extends T1> before) {
         checkArgumentNotNull(before, cannotBeNull("before"));
         return v -> apply(before.apply(v));
     }
 }
 
+@SuppressWarnings("ClassNameDiffersFromFileName")
 interface CheckedFunction1Module {
 
     // DEV-NOTE: we do not plan to expose this as public API

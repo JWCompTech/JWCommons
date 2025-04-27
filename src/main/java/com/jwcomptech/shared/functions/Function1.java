@@ -24,6 +24,7 @@ import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
  * @param <R> return type of the function
  * @author Daniel Dietrich
  */
+@SuppressWarnings("unused")
 @FunctionalInterface
 public interface Function1<T1, R> extends Serializable, Function<T1, R> {
 
@@ -196,6 +197,7 @@ public interface Function1<T1, R> extends Serializable, Function<T1, R> {
         } else {
             final Map<T1, R> cache = new HashMap<>();
             final ReentrantLock lock = new ReentrantLock();
+            //noinspection OverlyLongLambda
             return (Function1<T1, R> & Memoized) (t1) -> {
                 lock.lock();
                 try {
@@ -219,6 +221,7 @@ public interface Function1<T1, R> extends Serializable, Function<T1, R> {
      * @return true, if this function is memoizing, false otherwise
      */
     default boolean isMemoized() {
+        //noinspection InstanceofThis
         return this instanceof Memoized;
     }
 
@@ -231,9 +234,11 @@ public interface Function1<T1, R> extends Serializable, Function<T1, R> {
      * but is defined only for those elements that make it through the given {@code Predicate}
      * @throws IllegalArgumentException if {@code isDefinedAt} is null
      */
+    @SuppressWarnings("ClassReferencesSubclass")
     default PartialFunction<T1, R> partial(Predicate<? super T1> isDefinedAt) {
         checkArgumentNotNull(isDefinedAt, cannotBeNull("isDefinedAt"));
         final Function1<T1, R> self = this;
+        //noinspection AnonymousInnerClassWithTooManyMethods
         return new PartialFunction<>() {
 
             @Serial

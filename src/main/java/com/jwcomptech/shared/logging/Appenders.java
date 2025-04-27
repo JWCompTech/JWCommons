@@ -2,6 +2,7 @@ package com.jwcomptech.shared.logging;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.ConsoleAppender;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public enum Appenders {
     /** A console extender that uses the {@link Encoders#LimitedEncoder}. */
@@ -19,5 +20,12 @@ public enum Appenders {
 
     public ConsoleAppender<ILoggingEvent> getAppender() {
         return appender;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("appender", appender)
+                .toString();
     }
 }

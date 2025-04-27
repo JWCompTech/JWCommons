@@ -1,8 +1,11 @@
 package com.jwcomptech.shared.values;
 
+import com.jwcomptech.shared.base.Validated;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Unmodifiable;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeListenerProxy;
@@ -20,7 +23,7 @@ import java.util.List;
  * @since 0.0.1
  */
 @SuppressWarnings("unused")
-public abstract class ObservableValue<T, V extends ObservableValue<T, V>> implements Value<T, V> {
+public abstract class ObservableValue<T, V extends ObservableValue<T, V>> extends Validated implements Value<T, V> {
     protected T value;
     protected PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 
@@ -36,6 +39,7 @@ public abstract class ObservableValue<T, V extends ObservableValue<T, V>> implem
         this.value = value;
     }
 
+    //TODO: Figure out if this is necessary
     protected void setListenersTarget(V target) {
         this.listeners = new PropertyChangeSupport(target);
     }
@@ -98,7 +102,7 @@ public abstract class ObservableValue<T, V extends ObservableValue<T, V>> implem
      * @return all of the {@code PropertyChangeListeners} added or an
      *         empty list if no listeners have been added
      */
-    public final List<PropertyChangeListener> getListeners() {
+    public final @NotNull @Unmodifiable List<PropertyChangeListener> getListeners() {
         return List.of(listeners.getPropertyChangeListeners());
     }
 
@@ -123,8 +127,10 @@ public abstract class ObservableValue<T, V extends ObservableValue<T, V>> implem
      * @param value the value to store
      * @return this instance
      */
+    //TODO: Figure out if it is safe to not make this abstract
     public V set(T value) {
         this.value = value;
+        //noinspection unchecked
         return (V) this;
     }
 
@@ -141,7 +147,10 @@ public abstract class ObservableValue<T, V extends ObservableValue<T, V>> implem
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37).append(value).append(listeners).toHashCode();
+        return new HashCodeBuilder(17, 37)
+                .append(value)
+                .append(listeners)
+                .toHashCode();
     }
 
     @Override

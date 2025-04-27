@@ -11,7 +11,7 @@ import static com.jwcomptech.shared.utils.StringUtils.uppercaseFirst;
  * Contains static strings to avoid typos and follow the DRY principle.
  * @since 2.0.0
  */
-@SuppressWarnings("HardcodedFileSeparator")
+@SuppressWarnings({"HardcodedFileSeparator", "unused"})
 public final class Literals {
     /** A String for an ampersand character. */
     public static final String AMPERSAND = "&";
@@ -168,6 +168,7 @@ public final class Literals {
      * @return a new string in the format of "%Parameter% cannot be null!"
      * @throws IllegalArgumentException if fieldName is null or empty
      */
+    //TODO: using reflection deprecate this method
     public static String cannotBeNull(final String fieldName) {
         checkArgumentNotNull(fieldName, "FieldName cannot be null or empty!");
         return switch(fieldName.toLowerCase(Locale.ENGLISH)) {
@@ -188,6 +189,7 @@ public final class Literals {
      * @return a new string in the format of "%Parameter% cannot be null or empty!"
      * @throws IllegalArgumentException if fieldName is null or empty
      */
+    //TODO: using reflection deprecate this method
     public static String cannotBeNullOrEmpty(final String fieldName) {
         checkArgumentNotNull(fieldName, "FieldName cannot be null or empty!");
         return switch(fieldName.toLowerCase(Locale.ENGLISH)) {

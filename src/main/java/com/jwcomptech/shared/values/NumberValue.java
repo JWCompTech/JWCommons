@@ -13,11 +13,21 @@ import java.util.List;
  * @param <T> the type to set and get
  * @param <V> the value of the object that implements
  *            this class to allow for method chaining
+ *
+ * @apiNote Due to the lack of multiple inheritance in Java, this class
+ * includes the entire functionality of {@link ObservableValue} and thus
+ * provides observability to all child classes.
+ *
  * @since 0.0.1
  */
-public abstract class NumberValue<T extends Number, V extends NumberValue<T, V>>
-        extends Number implements Comparable<T>, Value<T, V> {
+//TODO: Figure out a way to fix this if possible so that a child class
+// can still be saved to a ObservableValue variable with out casting.
+@SuppressWarnings({"ClassWithTooManyMethods", "unused"})
+public sealed abstract class NumberValue<T extends Number, V extends NumberValue<T, V>>
+        extends Number implements Value<T, V>
+        permits DoubleValue, FloatValue, IntegerValue, LongValue {
     protected T value;
+    @SuppressWarnings("FieldNotUsedInToString")
     protected PropertyChangeSupport listeners;
 
     public NumberValue(T value) {
@@ -200,6 +210,64 @@ public abstract class NumberValue<T extends Number, V extends NumberValue<T, V>>
      * @return the value associated with this instance immediately before subtracting the operand
      */
     public abstract T getAndSubtract(final Number operand);
+
+    /**
+     * Multiplies a value from the value of this instance.
+     *
+     * @param operand  the value to multiply, not null
+     * @throws IllegalArgumentException if the object is null
+     * @return this instance
+     */
+    public abstract V multiply(final Number operand);
+
+    /**
+     * Multiplies this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately after the multiplication operation. This method is not thread safe.
+     *
+     * @param operand the quantity to multiply, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @return the value associated with this instance after multiplying the operand
+     */
+    public abstract T multiplyAndGet(final Number operand);
+
+    /**
+     * Multiplies this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately prior to the multiplication operation. This method is not thread safe.
+     *
+     * @param operand the quantity to multiply, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @return the value associated with this instance immediately before multiplying the operand
+     */
+    public abstract T getAndMultiply(final Number operand);
+
+    /**
+     * Divides a value from the value of this instance.
+     *
+     * @param operand  the value to divide, not null
+     * @throws IllegalArgumentException if the object is null
+     * @return this instance
+     */
+    public abstract V divide(final Number operand);
+
+    /**
+     * Divides this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately after the division operation. This method is not thread safe.
+     *
+     * @param operand the quantity to divide, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @return the value associated with this instance after dividing the operand
+     */
+    public abstract T divideAndGet(final Number operand);
+
+    /**
+     * Divides this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately prior to the division operation. This method is not thread safe.
+     *
+     * @param operand the quantity to divide, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @return the value associated with this instance immediately before dividing the operand
+     */
+    public abstract T getAndDivide(final Number operand);
 
     /**
      * Returns {@code true} if the value is positive,

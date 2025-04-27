@@ -16,6 +16,7 @@ import java.util.List;
  * event target and an event type.
  * @since 1.4.0
  */
+@SuppressWarnings("unused")
 public class Event implements Cloneable, Serializable {
 
     @Serial
@@ -43,7 +44,7 @@ public class Event implements Cloneable, Serializable {
      * @param target the event target to associate with the event
      */
     public Event(final EventTarget<? extends Event> target) {
-        if (target == null) {
+        if (null == target) {
             throw new IllegalArgumentException("Event target cannot be null!");
         }
         this.target = target;
@@ -57,10 +58,10 @@ public class Event implements Cloneable, Serializable {
      */
     public Event(final EventTarget<? extends Event> target,
                  final EventType<? extends Event> eventType) {
-        if (target == null) {
+        if (null == target) {
             throw new IllegalArgumentException("Event target cannot be null!");
         }
-        if (eventType == null) {
+        if (null == eventType) {
             throw new IllegalArgumentException("Event type cannot be null!");
         }
         this.target = target;
@@ -76,13 +77,13 @@ public class Event implements Cloneable, Serializable {
     public Event(final EventTarget<? extends Event> target,
                  final EventType<? extends Event> eventType,
                  final List<Object> args) {
-        if(target == null) {
+        if(null == target) {
             throw new IllegalArgumentException("Event target cannot be null!");
         }
-        if(eventType == null) {
+        if(null == eventType) {
             throw new IllegalArgumentException("Event type cannot be null!");
         }
-        if(args == null) {
+        if(null == args) {
             throw new IllegalArgumentException("Args cannot be null!");
         }
         this.target = target;
@@ -117,11 +118,12 @@ public class Event implements Cloneable, Serializable {
      * @param newTarget the new target of the copied event
      * @return the event copy with the new source and target
      */
+    @SuppressWarnings("AccessingNonPublicFieldOfAnotherObject")
     public Event copyFor(final Object newSource, final EventTarget<? extends Event> newTarget) {
-        if (newSource == null) {
+        if (null == newSource) {
             throw new IllegalArgumentException("Event source cannot be null!");
         }
-        if (newTarget == null) {
+        if (null == newTarget) {
             throw new IllegalArgumentException("Event target cannot be null!");
         }
         final var newEvent = (Event) clone();

@@ -1,6 +1,8 @@
 package com.jwcomptech.shared.utils;
 
 import org.apache.commons.lang3.CharUtils;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.text.DecimalFormatSymbols;
@@ -21,6 +23,7 @@ import static org.apache.commons.lang3.StringUtils.stripStart;
  * Contains methods dealing with strings.
  * @since 0.0.1
  */
+@SuppressWarnings({"ClassWithTooManyMethods", "OverlyComplexClass", "unused"})
 public final class StringUtils {
     /**
      * Converts a map into a delimited string value.
@@ -98,7 +101,7 @@ public final class StringUtils {
      * @return a string surrounded with quotes
      * @throws IllegalArgumentException if input is null
      */
-    public static String quoteString(final String input) {
+    public static @NotNull String quoteString(final String input) {
         checkArgumentNotNull(input, cannotBeNull("input"));
         return "\"%s\"".formatted(input);
     }
@@ -123,7 +126,7 @@ public final class StringUtils {
      * @return true if string does match a boolean
      * @throws IllegalArgumentException if input does not match a boolean value or is null
      */
-    public static Boolean toBoolean(final String input) {
+    public static @NotNull Boolean toBoolean(final String input) {
         checkArgumentNotNull(input, cannotBeNull("input"));
         final var value = input.toLowerCase(Locale.getDefault()).trim();
         return switch (value) {
@@ -139,7 +142,7 @@ public final class StringUtils {
      * @return true if string is a valid IPv4 address
      * @throws IllegalArgumentException if input is null
      */
-    public static Boolean isValidIPAddress(final String input) {
+    public static @NotNull Boolean isValidIPAddress(final String input) {
         checkArgumentNotNull(input, cannotBeNull("input"));
         return input.matches("^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-4])\\.){3}"
                 + "([0-9]|[1-9][0-9]|1[0-9‌​]{2}|2[0-4][0-9]|25[0-4])$");
@@ -151,7 +154,7 @@ public final class StringUtils {
      * @return true if string is a valid URL
      * @throws IllegalArgumentException if input is null
      */
-    public static Boolean isValidUrl(final String input) {
+    public static @NotNull Boolean isValidUrl(final String input) {
         checkArgumentNotNull(input, cannotBeNullOrEmpty("input"));
         return input.matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
     }
@@ -199,7 +202,7 @@ public final class StringUtils {
      * @return string with the specified prefix
      * @throws IllegalArgumentException if input or prefix is null
      */
-    public static String ensureStartsWith(final String input, final String prefix, final Boolean ignoreCase) {
+    public static @NotNull String ensureStartsWith(final String input, final String prefix, final Boolean ignoreCase) {
         checkArgumentNotNull(input, cannotBeNull("input"));
         checkArgumentNotNull(prefix, cannotBeNull("prefix"));
         var startsWith = input.startsWith(prefix);
@@ -216,7 +219,7 @@ public final class StringUtils {
      * @return string with the specified suffix
      * @throws IllegalArgumentException if input or suffix is null
      */
-    public static String ensureEndsWith(final String input, final String suffix, final Boolean ignoreCase) {
+    public static @NotNull String ensureEndsWith(final String input, final String suffix, final Boolean ignoreCase) {
         checkArgumentNotNull(input, cannotBeNull("input"));
         checkArgumentNotNull(suffix, cannotBeNull("suffix"));
         var endsWith = input.endsWith(suffix);
@@ -233,10 +236,22 @@ public final class StringUtils {
      * @throws IllegalArgumentException if input or suffix is null
      */
     public static boolean endsWithIgnoreCase(final String input, final String suffix) {
+        return endsWithIgnoreCase(input, suffix, Locale.getDefault());
+    }
+
+    /**
+     * Checks if a string ends with a given suffix.
+     * @param input string to check
+     * @param suffix suffix to check
+     * @param locale the locale to use
+     * @return true if string ends with a given suffix
+     * @throws IllegalArgumentException if input or suffix is null
+     */
+    public static boolean endsWithIgnoreCase(final String input, final String suffix, final Locale locale) {
         checkArgumentNotNull(input, cannotBeNull("input"));
         checkArgumentNotNull(suffix, cannotBeNull("suffix"));
         return input.endsWith(suffix)
-                || (input.length() >= suffix.length() && input.toLowerCase().endsWith(suffix.toLowerCase()));
+                || (input.length() >= suffix.length() && input.toLowerCase(locale).endsWith(suffix.toLowerCase(locale)));
     }
 
     /**
@@ -247,10 +262,23 @@ public final class StringUtils {
      * @throws IllegalArgumentException if input or suffix is null
      */
     public static boolean startsWithIgnoreCase(final String input, final String prefix) {
+        return startsWithIgnoreCase(input, prefix, Locale.getDefault());
+    }
+
+    /**
+     * Checks if a string starts with a given suffix.
+     * @param input string to check
+     * @param prefix suffix to check
+     * @param locale the locale to use
+     * @return true if string starts with a given suffix
+     * @throws IllegalArgumentException if input or suffix is null
+     */
+    public static boolean startsWithIgnoreCase(final String input, final String prefix, final Locale locale) {
         checkArgumentNotNull(input, cannotBeNull("input"));
         checkArgumentNotNull(prefix, cannotBeNull("prefix"));
         return input.startsWith(prefix)
-                || (input.length() >= prefix.length() && input.toLowerCase().startsWith(prefix.toLowerCase()));
+                || (input.length() >= prefix.length() && input.toLowerCase(locale)
+                .startsWith(prefix.toLowerCase(locale)));
     }
 
     /**
@@ -259,7 +287,7 @@ public final class StringUtils {
      * @return string with last character removed
      * @throws IllegalArgumentException if input is null
      */
-    public static String removeLastCharacter(final String input) {
+    public static @NotNull String removeLastCharacter(final String input) {
         checkArgumentNotNull(input, cannotBeNull("input"));
         return input.substring(0, input.length() - 1);
     }
@@ -271,7 +299,7 @@ public final class StringUtils {
      * @return string with the specified number of characters removed from the end
      * @throws IllegalArgumentException if input is null
      */
-    public static String removeLastCharacters(final String input, final int number) {
+    public static @NotNull String removeLastCharacters(final String input, final int number) {
         checkArgumentNotNull(input, cannotBeNull("input"));
         return input.substring(0, input.length() - number);
     }
@@ -282,7 +310,7 @@ public final class StringUtils {
      * @return string with first character removed
      * @throws IllegalArgumentException if input is null
      */
-    public static String removeFirstCharacter(final String input) {
+    public static @NotNull String removeFirstCharacter(final String input) {
         checkArgumentNotNull(input, cannotBeNull("input"));
         return input.substring(1);
     }
@@ -294,7 +322,7 @@ public final class StringUtils {
      * @return string with the specified number of characters removed from the beginning
      * @throws IllegalArgumentException if input is null
      */
-    public static String removeFirstCharacters(final String input, final int number) {
+    public static @NotNull String removeFirstCharacters(final String input, final int number) {
         checkArgumentNotNull(input, cannotBeNull("input"));
         return input.substring(number);
     }
@@ -305,7 +333,7 @@ public final class StringUtils {
      * @return string with all characters except alphanumeric removed
      * @throws IllegalArgumentException if input is null
      */
-    public static String removeAllSpecialCharacters(final String input) {
+    public static @NotNull String removeAllSpecialCharacters(final String input) {
         checkArgumentNotNull(input, cannotBeNull("input"));
         return input.replaceAll("[^a-zA-Z0-9]+","");
     }
@@ -316,7 +344,7 @@ public final class StringUtils {
      * @return string with all alphanumeric characters removed
      * @throws IllegalArgumentException if input is null
      */
-    public static String removeAllAlphanumericCharacters(final String input) {
+    public static @NotNull String removeAllAlphanumericCharacters(final String input) {
         checkArgumentNotNull(input, cannotBeNull("input"));
         return input.replaceAll("[a-zA-Z0-9]+","");
     }
@@ -327,7 +355,7 @@ public final class StringUtils {
      * @return string with all letters removed
      * @throws IllegalArgumentException if input is null
      */
-    public static String removeAllLetters(final String input) {
+    public static @NotNull String removeAllLetters(final String input) {
         checkArgumentNotNull(input, cannotBeNull("input"));
         return input.replaceAll("[a-zA-Z]+","");
     }
@@ -338,7 +366,7 @@ public final class StringUtils {
      * @return string with all numbers removed
      * @throws IllegalArgumentException if input is null
      */
-    public static String removeAllNumbers(final String input) {
+    public static @NotNull String removeAllNumbers(final String input) {
         checkArgumentNotNull(input, cannotBeNull("input"));
         return input.replaceAll("[0-9]+","");
     }
@@ -349,7 +377,7 @@ public final class StringUtils {
      * @return string with characters reversed
      * @throws IllegalArgumentException if input is null
      */
-    public static String reverse(final String input) {
+    public static @NotNull String reverse(final String input) {
         checkArgumentNotNull(input, cannotBeNull("input"));
         return new StringBuilder(input).reverse().toString();
     }
@@ -362,10 +390,10 @@ public final class StringUtils {
      * @return edited string
      * @throws IllegalArgumentException if input is null
      */
-    public static String leftOf(final String input, final char c) {
+    public static @NotNull String leftOf(final String input, final char c) {
         checkArgumentNotNull(input, cannotBeNull("input"));
         final var index = input.indexOf(c);
-        if (index >= 0) return input.substring(0, index);
+        if (0 <= index) return input.substring(0, index);
         return input;
     }
 
@@ -377,10 +405,10 @@ public final class StringUtils {
      * @return edited string
      * @throws IllegalArgumentException if input is null
      */
-    public static String rightOf(final String input, final char c) {
+    public static @NotNull String rightOf(final String input, final char c) {
         checkArgumentNotNull(input, cannotBeNull("input"));
         final var index = input.indexOf(c);
-        if (index >= 0) return input.substring(index + 1);
+        if (0 <= index) return input.substring(index + 1);
         return input;
     }
 
@@ -392,7 +420,7 @@ public final class StringUtils {
      */
     public static String firstChar(final String input) {
         checkArgumentNotNull(input, cannotBeNull("input"));
-        return input.length() > 1 ? input.substring(0, 1) : input;
+        return 1 < input.length() ? input.substring(0, 1) : input;
     }
 
     /**
@@ -403,7 +431,7 @@ public final class StringUtils {
      */
     public static String lastChar(final String input) {
         checkArgumentNotNull(input, cannotBeNull("input"));
-        return input.length() > 1 ? input.substring(input.length() - 1, 1) : input;
+        return 1 < input.length() ? input.substring(input.length() - 1, 1) : input;
     }
 
     /**
@@ -436,7 +464,7 @@ public final class StringUtils {
      * @return string with all words capitalized
      * @throws IllegalArgumentException if input is null or empty
      */
-    public static String toTitleCase(final String input) {
+    public static @NotNull String toTitleCase(final String input) {
         checkArgumentNotNullOrEmpty(input, cannotBeNullOrEmpty("input"));
         final var words = input.trim().split(" ");
         return Arrays.stream(words)
@@ -450,7 +478,8 @@ public final class StringUtils {
      * @param input String
      * @return empty string if it is null otherwise the string passed in as parameter.
      */
-    public static String nonNull(final String input) { return input == null ? "" : input; }
+    @Contract(value = "!null -> param1", pure = true)
+    public static @NotNull String nonNull(final String input) { return input == null ? "" : input; }
 
     /**
      * Checks if the specified String is a number that may be negative or
@@ -520,6 +549,7 @@ public final class StringUtils {
      * @return true if input is a number
      * @throws IllegalArgumentException if locale is null
      */
+    @SuppressWarnings("MethodWithMultipleReturnPoints")
     public static boolean isNumeric(final CharSequence input, final Locale locale) {
         checkArgumentNotNull(locale, cannotBeNull("locale"));
         //Check for null or blank string
@@ -532,7 +562,7 @@ public final class StringUtils {
         //Check if first character is a minus sign
         final boolean isNegative = input.charAt(0) == localeMinusSign;
         //Check if string is not just a minus sign
-        if (isNegative && input.length() == 1) return false;
+        if (isNegative && 1 == input.length()) return false;
 
         boolean isDecimalSeparatorFound = false;
 
@@ -572,10 +602,10 @@ public final class StringUtils {
      * @throws IllegalArgumentException if input or wrapChar are null
      * @return unwrapped String or the original string if it is not quoted properly with the wrapChar
      */
-    public static String unwrap(final String input, final char wrapChar) {
+    public static @NotNull String unwrap(final String input, final char wrapChar) {
         checkArgumentNotNull(input, cannotBeNull("str"));
         checkArgumentNotNull(wrapChar, cannotBeNull("wrapChar"));
-        if (input.isEmpty() || wrapChar == CharUtils.NUL) {
+        if (input.isEmpty() || CharUtils.NUL == wrapChar) {
             return input;
         }
 
@@ -595,9 +625,9 @@ public final class StringUtils {
      * @throws IllegalArgumentException if input is null
      */
 
-    public static String uppercaseFirst(final String input) {
+    public static @NotNull String uppercaseFirst(final String input) {
         checkArgumentNotNull(input, INPUT_CANNOT_BE_NULL);
-        return input.length() > 1
+        return 1 < input.length()
                 ? input.substring(0, 1).toUpperCase(Locale.getDefault()) + input.substring(1)
                 : input.toUpperCase(Locale.getDefault());
     }
@@ -610,10 +640,10 @@ public final class StringUtils {
      * @throws IllegalArgumentException if input or locale is null
      */
 
-    public static String uppercaseFirst(final String input, final Locale locale) {
+    public static @NotNull String uppercaseFirst(final String input, final Locale locale) {
         checkArgumentNotNull(input, INPUT_CANNOT_BE_NULL);
         checkArgumentNotNull(locale, LOCALE_CANNOT_BE_NULL);
-        return input.length() > 1
+        return 1 < input.length()
                 ? input.substring(0, 1).toUpperCase(locale) + input.substring(1)
                 : input.toUpperCase(locale);
     }
@@ -624,9 +654,9 @@ public final class StringUtils {
      * @return string with first char lowercase
      * @throws IllegalArgumentException if input is null or empty
      */
-    public static String lowercaseFirst(final String input) {
+    public static @NotNull String lowercaseFirst(final String input) {
         checkArgumentNotNull(input, INPUT_CANNOT_BE_NULL);
-        return input.length() > 1
+        return 1 < input.length()
                 ? input.substring(0, 1).toLowerCase(Locale.getDefault()) + input.substring(1)
                 : input.toLowerCase(Locale.getDefault());
     }
@@ -637,10 +667,10 @@ public final class StringUtils {
      * @return string with first char lowercase
      * @throws IllegalArgumentException if input is null or empty
      */
-    public static String lowercaseFirst(final String input, final Locale locale) {
+    public static @NotNull String lowercaseFirst(final String input, final Locale locale) {
         checkArgumentNotNull(input, INPUT_CANNOT_BE_NULL);
         checkArgumentNotNull(locale, LOCALE_CANNOT_BE_NULL);
-        return input.length() > 1
+        return 1 < input.length()
                 ? input.substring(0, 1).toLowerCase(locale) + input.substring(1)
                 : input.toLowerCase(locale);
     }
@@ -688,10 +718,10 @@ public final class StringUtils {
      * @return the stripped String, {@code null} if null String input
      * @see String#strip()
      */
-    public static String strip(String input, final String stripChars) {
+    public static String strip(final @NotNull String input, final String stripChars) {
         if (input.isEmpty()) return input;
-        input = stripStart(input, stripChars);
-        return stripEnd(input, stripChars);
+        String input_ = stripStart(input, stripChars);
+        return stripEnd(input_, stripChars);
     }
 
     /** Prevents instantiation of this utility class. */

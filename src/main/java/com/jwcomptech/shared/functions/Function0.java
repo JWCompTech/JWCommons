@@ -20,6 +20,7 @@ import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
  * @param <R> return type of the function
  * @author Daniel Dietrich
  */
+@SuppressWarnings("unused")
 @FunctionalInterface
 public interface Function0<R> extends Serializable, Supplier<R> {
 
@@ -131,6 +132,7 @@ public interface Function0<R> extends Serializable, Supplier<R> {
      *
      * @return the result of {@code apply()}
      */
+    @SuppressWarnings("UnnecessaryJavaDocLink")
     @Override
     default R get() {
         return apply();
@@ -194,6 +196,7 @@ public interface Function0<R> extends Serializable, Supplier<R> {
      * @return true, if this function is memoizing, false otherwise
      */
     default boolean isMemoized() {
+        //noinspection InstanceofThis
         return this instanceof Memoized;
     }
 

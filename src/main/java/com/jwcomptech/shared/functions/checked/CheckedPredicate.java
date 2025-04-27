@@ -7,6 +7,7 @@ import java.util.function.Predicate;
  *
  * @param <T> the type of the input to the predicate
  */
+@SuppressWarnings("unused")
 @FunctionalInterface
 public interface CheckedPredicate<T> {
 
@@ -67,6 +68,7 @@ public interface CheckedPredicate<T> {
     }
 }
 
+@SuppressWarnings("ClassNameDiffersFromFileName")
 interface CheckedPredicateModule {
 
     // DEV-NOTE: we do not plan to expose this as public API

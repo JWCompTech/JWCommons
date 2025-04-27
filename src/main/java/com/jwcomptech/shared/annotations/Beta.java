@@ -15,6 +15,7 @@ import java.lang.annotation.*;
  *
  * @author Kevin Bourrillion
  */
+@SuppressWarnings("unused")
 @Retention(RetentionPolicy.CLASS)
 @Target({
         ElementType.ANNOTATION_TYPE,
@@ -24,4 +25,4 @@ import java.lang.annotation.*;
         ElementType.TYPE
 })
 @Documented
-public @interface Beta {}
+public @interface Beta { }

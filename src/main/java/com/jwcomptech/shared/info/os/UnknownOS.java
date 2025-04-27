@@ -7,7 +7,8 @@ import com.jwcomptech.shared.values.StringValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UnknownOS extends AbstractOperatingSystem {
+public final class UnknownOS extends AbstractOperatingSystem {
+    @SuppressWarnings("unused")
     private final Logger logger = LoggerFactory.getLogger(UnknownOS.class);
 
     private UnknownOS() { }
@@ -16,6 +17,7 @@ public class UnknownOS extends AbstractOperatingSystem {
         return SingletonUtils.getInstance(UnknownOS.class, UnknownOS::new);
     }
 
+    @SuppressWarnings("SuspiciousGetterSetter")
     @Override
     public StringValue getName() {
         return OS_NAME;
@@ -26,6 +28,7 @@ public class UnknownOS extends AbstractOperatingSystem {
         return OSList.Unknown;
     }
 
+    @SuppressWarnings("SuspiciousGetterSetter")
     @Override
     public StringValue getNameExpanded() {
         return OS_NAME;

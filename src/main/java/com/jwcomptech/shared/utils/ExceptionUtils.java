@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.fail;
  * Contains methods for dealing with exceptions.
  * @since 0.0.1
  */
+@SuppressWarnings("unused")
 public final class ExceptionUtils {
     /**
      * Asserts that the specified runnable throws IllegalArgumentException

@@ -6,6 +6,7 @@ import java.util.List;
  * An {@link Event} representing some type of action.
  * @since 1.4.0
  */
+@SuppressWarnings("unused")
 public class ActionEvent extends Event {
     /** The only valid EventType for the ActionEvent. */
     public static final EventType<ActionEvent> ACTION = new EventType<>(Event.ANY, "ACTION");

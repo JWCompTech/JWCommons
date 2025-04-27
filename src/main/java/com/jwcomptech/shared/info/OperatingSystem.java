@@ -4,6 +4,7 @@ import com.jwcomptech.shared.info.enums.OSList;
 import com.jwcomptech.shared.values.IntegerValue;
 import com.jwcomptech.shared.values.StringValue;
 
+@SuppressWarnings("unused")
 public interface OperatingSystem {
     StringValue getName();
     OSList getNameEnum();

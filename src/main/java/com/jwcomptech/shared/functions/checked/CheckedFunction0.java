@@ -24,6 +24,7 @@ import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
  * @param <R> return type of the function
  * @author Daniel Dietrich
  */
+@SuppressWarnings("unused")
 @FunctionalInterface
 public interface CheckedFunction0<R> extends Serializable {
 
@@ -201,6 +202,7 @@ public interface CheckedFunction0<R> extends Serializable {
      * @return true, if this function is memoizing, false otherwise
      */
     default boolean isMemoized() {
+        //noinspection InstanceofThis
         return this instanceof Memoized;
     }
 
@@ -214,6 +216,7 @@ public interface CheckedFunction0<R> extends Serializable {
      */
     default Function0<R> recover(Function<? super Throwable, ? extends Supplier<? extends R>> recover) {
         checkArgumentNotNull(recover, cannotBeNull("recover"));
+        //noinspection OverlyLongLambda
         return () -> {
             try {
                 return this.apply();
@@ -257,6 +260,7 @@ public interface CheckedFunction0<R> extends Serializable {
 
 }
 
+@SuppressWarnings("ClassNameDiffersFromFileName")
 interface CheckedFunction0Module {
 
     // DEV-NOTE: we do not plan to expose this as public API

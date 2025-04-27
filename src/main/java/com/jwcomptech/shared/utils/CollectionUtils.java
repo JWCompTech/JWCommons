@@ -14,6 +14,7 @@ import java.util.stream.Stream;
  * Contains methods for dealing with collections.
  * @since 0.0.1
  */
+@SuppressWarnings("unused")
 public final class CollectionUtils {
     /**
      * Converts a map into a delimited string value.
@@ -27,6 +28,7 @@ public final class CollectionUtils {
         final var sb = new StringBuilder();
         final var keySeparator = '=';
         final var pairSeparator = '&';
+        //noinspection OverlyLongLambda
         stringMap.forEach((key, value) -> {
             sb.append(key);
             sb.append(keySeparator);

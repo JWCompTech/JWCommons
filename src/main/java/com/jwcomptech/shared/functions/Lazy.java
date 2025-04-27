@@ -64,13 +64,16 @@ import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
  */
 // DEV-NOTE: No flatMap and orElse because this more like a Functor than a Monad.
 //           It represents a value rather than capturing a specific state.
+@SuppressWarnings({"ClassWithTooManyMethods", "unused"})
 public final class Lazy<T> implements Value<T>, Supplier<T>, Serializable {
 
     @Serial
     private static final long serialVersionUID = 4567338503128116754L;
+    @SuppressWarnings("FieldNotUsedInToString")
     private final ReentrantLock lock = new ReentrantLock();
 
     // read http://javarevisited.blogspot.de/2014/05/double-checked-locking-on-singleton-in-java.html
+    @SuppressWarnings("FieldNotUsedInToString")
     private transient volatile Supplier<? extends T> supplier;
 
     private T value; // will behave as a volatile in reality, because a supplier volatile read will update all fields (see https://www.cs.umd.edu/~pugh/java/memoryModel/jsr-133-faq.html#volatile)
@@ -162,14 +165,15 @@ public final class Lazy<T> implements Value<T>, Supplier<T>, Serializable {
      */
     @Override
     public T get() {
-        return (supplier == null) ? value : computeValue();
+        //noinspection VariableNotUsedInsideIf
+        return (null == supplier) ? value : computeValue();
     }
     
     private T computeValue() {
         lock.lock();
         try {
             final Supplier<? extends T> s = supplier;
-            if (s != null) {
+            if (null != s) {
                 value = s.get();
                 supplier = null;
             }
@@ -203,7 +207,7 @@ public final class Lazy<T> implements Value<T>, Supplier<T>, Serializable {
      * @throws UnsupportedOperationException if this value is undefined
      */
     public boolean isEvaluated() {
-        return supplier == null;
+        return null == supplier;
     }
 
     /**

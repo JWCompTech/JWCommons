@@ -1,10 +1,14 @@
 package com.jwcomptech.shared.values;
 
+import com.google.errorprone.annotations.Immutable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.lang.constant.Constable;
+import java.lang.constant.DynamicConstantDesc;
+import java.util.Optional;
 
 import static com.jwcomptech.shared.Literals.cannotBeNullOrEmpty;
 import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
@@ -15,8 +19,9 @@ import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
  *
  * @apiNote DO NOT use everywhere or else things will get unnecessarily complicated.
  */
-@SuppressWarnings({"unused"})
-public final class BooleanValue implements ImmutableValue<Boolean>, Comparable<Boolean>, Serializable {
+@SuppressWarnings({"ClassWithTooManyMethods", "unused"})
+@Immutable
+public final class BooleanValue implements ImmutableValue<Boolean> {
     private final Boolean value;
     /**
      * Required for serialization support.
@@ -209,6 +214,17 @@ public final class BooleanValue implements ImmutableValue<Boolean>, Comparable<B
     public int compareTo(final @NotNull BooleanValue other) {
         //noinspection AccessingNonPublicFieldOfAnotherObject
         return value.compareTo(other.value);
+    }
+
+    /**
+     * Returns an {@link Optional} containing the nominal descriptor for this
+     * instance.
+     *
+     * @return an {@link Optional} describing the {@linkplain Boolean} value
+     */
+    @Override
+    public Optional<DynamicConstantDesc<Boolean>> describeConstable() {
+        return value.describeConstable();
     }
 
     /**

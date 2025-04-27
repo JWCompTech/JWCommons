@@ -30,6 +30,7 @@ import static com.jwcomptech.shared.utils.CheckIf.checkArgumentNotNull;
  * @param <R> return type of the function
  * @author Daniel Dietrich
  */
+@SuppressWarnings("unused")
 @FunctionalInterface
 public interface CheckedFunction2<T1, T2, R> extends Serializable {
 
@@ -209,6 +210,7 @@ public interface CheckedFunction2<T1, T2, R> extends Serializable {
         } else {
             final Map<Tuple2<T1, T2>, R> cache = new HashMap<>();
             final ReentrantLock lock = new ReentrantLock();
+            //noinspection OverlyLongLambda
             return (CheckedFunction2<T1, T2, R> & Memoized) (t1, t2) -> {
                 final Tuple2<T1, T2> key = Tuple.of(t1, t2);
                 lock.lock();
@@ -233,6 +235,7 @@ public interface CheckedFunction2<T1, T2, R> extends Serializable {
      * @return true, if this function is memoizing, false otherwise
      */
     default boolean isMemoized() {
+        //noinspection InstanceofThis
         return this instanceof Memoized;
     }
 
@@ -247,6 +250,7 @@ public interface CheckedFunction2<T1, T2, R> extends Serializable {
     default Function2<T1, T2, R> recover(Function<? super Throwable,
             ? extends BiFunction<? super T1, ? super T2, ? extends R>> recover) {
         checkArgumentNotNull(recover, cannotBeNull("recover"));
+        //noinspection OverlyLongLambda
         return (t1, t2) -> {
             try {
                 return this.apply(t1, t2);
@@ -290,6 +294,7 @@ public interface CheckedFunction2<T1, T2, R> extends Serializable {
 
 }
 
+@SuppressWarnings("ClassNameDiffersFromFileName")
 interface CheckedFunction2Module {
 
     // DEV-NOTE: we do not plan to expose this as public API

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class AndroidOS extends AbstractOperatingSystem {
+    @SuppressWarnings("unused")
     private final Logger logger = LoggerFactory.getLogger(AndroidOS.class);
 
     private AndroidOS() { }
@@ -26,6 +27,7 @@ public final class AndroidOS extends AbstractOperatingSystem {
         return OSList.Android;
     }
 
+    @SuppressWarnings("SuspiciousGetterSetter")
     @Override
     public StringValue getNameExpanded() {
         return OS_NAME;

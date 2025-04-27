@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
 
+@SuppressWarnings("unused")
 public abstract class Pair<L, R> implements Map.Entry<L, R>, Comparable<Pair<L, R>>, Serializable {
     @Serial
     private static final long serialVersionUID = 4954918890077093841L;

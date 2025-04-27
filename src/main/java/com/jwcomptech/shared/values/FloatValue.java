@@ -283,6 +283,102 @@ public final class FloatValue extends NumberValue<Float, FloatValue> {
     }
 
     /**
+     * Multiplies a value from the value of this instance.
+     *
+     * @param operand  the value to multiply, not null
+     * @throws IllegalArgumentException if the object is null
+     * @return this instance
+     */
+    @Contract("_ -> this")
+    @Override
+    public FloatValue multiply(final @NotNull Number operand) {
+        final Float last = value;
+        value = value * operand.floatValue();
+        listeners.firePropertyChange("value", last, value);
+        return this;
+    }
+
+    /**
+     * Multiplies this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately after the multiplication operation. This method is not thread safe.
+     *
+     * @param operand the quantity to multiply, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @return the value associated with this instance after multiplying the operand
+     */
+    @Override
+    public Float multiplyAndGet(final @NotNull Number operand) {
+        final Float last = value;
+        value = value * operand.floatValue();
+        listeners.firePropertyChange("value", last, value);
+        return value;
+    }
+
+    /**
+     * Multiplies this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately prior to the multiplication operation. This method is not thread safe.
+     *
+     * @param operand the quantity to multiply, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @return the value associated with this instance immediately before multiplying the operand
+     */
+    @Override
+    public Float getAndMultiply(final @NotNull Number operand) {
+        final Float last = value;
+        value = value * operand.floatValue();
+        listeners.firePropertyChange("value", last, value);
+        return last;
+    }
+
+    /**
+     * Divides a value from the value of this instance.
+     *
+     * @param operand  the value to divide, not null
+     * @throws IllegalArgumentException if the object is null
+     * @return this instance
+     */
+    @Contract("_ -> this")
+    @Override
+    public FloatValue divide(final @NotNull Number operand) {
+        final Float last = value;
+        value = value / operand.floatValue();
+        listeners.firePropertyChange("value", last, value);
+        return this;
+    }
+
+    /**
+     * Divides this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately after the division operation. This method is not thread safe.
+     *
+     * @param operand the quantity to divide, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @return the value associated with this instance after dividing the operand
+     */
+    @Override
+    public Float divideAndGet(final @NotNull Number operand) {
+        final Float last = value;
+        value = value / operand.floatValue();
+        listeners.firePropertyChange("value", last, value);
+        return value;
+    }
+
+    /**
+     * Divides this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately prior to the division operation. This method is not thread safe.
+     *
+     * @param operand the quantity to divide, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @return the value associated with this instance immediately before dividing the operand
+     */
+    @Override
+    public Float getAndDivide(final @NotNull Number operand) {
+        final Float last = value;
+        value = value / operand.floatValue();
+        listeners.firePropertyChange("value", last, value);
+        return last;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

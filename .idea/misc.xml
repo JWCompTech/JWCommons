@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="EntryPointsManager">
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue="picocli.CommandLine.Command" />
+      <item index="1" class="java.lang.String" itemvalue="picocli.CommandLine.Command" />
+    </list>
+  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
     <option name="originalFiles">
@@ -8,5 +14,5 @@
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" project-jdk-name="temurin-21 (2)" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" project-jdk-name="temurin-21" project-jdk-type="JavaSDK" />
 </project>

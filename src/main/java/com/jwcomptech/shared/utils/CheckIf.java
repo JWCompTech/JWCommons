@@ -9,6 +9,7 @@ import static com.jwcomptech.shared.Literals.LOCALE_CANNOT_BE_NULL;
 import static com.jwcomptech.shared.utils.StringUtils.strip;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
+@SuppressWarnings("unused")
 public final class CheckIf {
     /**
      * Ensures the truth of an expression involving one or more parameters to the calling method.
@@ -46,7 +47,7 @@ public final class CheckIf {
      */
     public static <T> T checkArgumentNotNull(final T reference, final Object errorMessage)
             throws IllegalArgumentException {
-        checkArgument(reference != null, errorMessage);
+        checkArgument(null != reference, errorMessage);
         return reference;
     }
 
@@ -65,7 +66,7 @@ public final class CheckIf {
                                                       final Object errorMessage,
                                                       final Consumer<T> runnable)
             throws IllegalArgumentException {
-        checkArgument(reference != null, errorMessage);
+        checkArgument(null != reference, errorMessage);
         runnable.accept(reference);
     }
 
@@ -85,7 +86,7 @@ public final class CheckIf {
                                                       final Object errorMessage,
                                                       final Function1<T, R> function)
             throws IllegalArgumentException {
-        checkArgument(reference != null, errorMessage);
+        checkArgument(null != reference, errorMessage);
         return function.apply(reference);
     }
 

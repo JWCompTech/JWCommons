@@ -281,6 +281,100 @@ public final class LongValue extends NumberValue<Long, LongValue> {
     }
 
     /**
+     * Multiplies a value from the value of this instance.
+     *
+     * @param operand  the value to multiply, not null
+     * @throws IllegalArgumentException if the object is null
+     * @return this instance
+     */
+    @Override
+    public LongValue multiply(final @NotNull Number operand) {
+        final Long last = value;
+        value = Math.multiplyExact(value, operand.longValue());
+        listeners.firePropertyChange("value", last, value);
+        return this;
+    }
+
+    /**
+     * Multiplies this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately after the multiplication operation. This method is not thread safe.
+     *
+     * @param operand the quantity to multiply, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @return the value associated with this instance after multiplying the operand
+     */
+    @Override
+    public Long multiplyAndGet(final @NotNull Number operand) {
+        final Long last = value;
+        value = Math.multiplyExact(value, operand.longValue());
+        listeners.firePropertyChange("value", last, value);
+        return value;
+    }
+
+    /**
+     * Multiplies this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately prior to the multiplication operation. This method is not thread safe.
+     *
+     * @param operand the quantity to multiply, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @return the value associated with this instance immediately before multiplying the operand
+     */
+    @Override
+    public Long getAndMultiply(final @NotNull Number operand) {
+        final Long last = value;
+        value = Math.multiplyExact(value, operand.longValue());
+        listeners.firePropertyChange("value", last, value);
+        return last;
+    }
+
+    /**
+     * Divides a value from the value of this instance.
+     *
+     * @param operand  the value to divide, not null
+     * @throws IllegalArgumentException if the object is null
+     * @return this instance
+     */
+    @Override
+    public LongValue divide(final @NotNull Number operand) {
+        final Long last = value;
+        value = Math.divideExact(value, operand.longValue());
+        listeners.firePropertyChange("value", last, value);
+        return this;
+    }
+
+    /**
+     * Divides this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately after the division operation. This method is not thread safe.
+     *
+     * @param operand the quantity to divide, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @return the value associated with this instance after dividing the operand
+     */
+    @Override
+    public Long divideAndGet(final @NotNull Number operand) {
+        final Long last = value;
+        value = Math.divideExact(value, operand.longValue());
+        listeners.firePropertyChange("value", last, value);
+        return value;
+    }
+
+    /**
+     * Divides this instance's value by {@code operand}; this method returns the value associated with the instance
+     * immediately prior to the division operation. This method is not thread safe.
+     *
+     * @param operand the quantity to divide, not null
+     * @throws IllegalArgumentException if {@code operand} is null
+     * @return the value associated with this instance immediately before dividing the operand
+     */
+    @Override
+    public Long getAndDivide(final @NotNull Number operand) {
+        final Long last = value;
+        value = Math.divideExact(value, operand.longValue());
+        listeners.firePropertyChange("value", last, value);
+        return last;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

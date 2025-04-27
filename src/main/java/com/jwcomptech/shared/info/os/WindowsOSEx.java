@@ -3,9 +3,9 @@ package com.jwcomptech.shared.info.os;
 import com.jwcomptech.shared.info.ComputerInfo;
 import com.jwcomptech.shared.info.OperatingSystem;
 import com.jwcomptech.shared.info.enums.OSList;
-import com.jwcomptech.shared.osutils.ExecCommand;
-import com.jwcomptech.shared.osutils.windows.Registry;
-import com.jwcomptech.shared.osutils.windows.enums.*;
+import com.jwcomptech.shared.utils.osutils.ExecCommand;
+import com.jwcomptech.shared.utils.osutils.windows.Registry;
+import com.jwcomptech.shared.utils.osutils.windows.enums.*;
 import com.jwcomptech.shared.values.IntegerValue;
 import com.jwcomptech.shared.values.StringValue;
 import com.sun.jna.Native;
@@ -25,20 +25,21 @@ import static com.jwcomptech.shared.Literals.cannotBeNull;
 import static com.jwcomptech.shared.Literals.cannotBeNullOrEmpty;
 import static com.jwcomptech.shared.info.OSInfo.*;
 import static com.jwcomptech.shared.utils.CheckIf.*;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 /** Returns extended information about the current Windows installation. */
+@SuppressWarnings("unused")
 public final class WindowsOSEx {
     public static final OperatingSystem OS = WindowsOS.getInstance();
 
     /** Returns information about the Windows activation status. */
+    @SuppressWarnings("unused")
     public static final class Activation {
         /**
          * Identifies if OS is activated.
          * @return true if activated, false if not activated
          * @throws IOException if error occurs
          */
-        public static boolean isActivated() throws IOException { return getStatusAsEnum() == Status.Licensed; }
+        public static boolean isActivated() throws IOException { return Status.Licensed == getStatusAsEnum(); }
 
         /**
          * Identifies If Windows is Activated, uses the Software Licensing Manager Script,
@@ -102,6 +103,7 @@ public final class WindowsOSEx {
          * @return Licensed If Genuinely Activated
          * @throws IOException if an error occurs
          */
+        //TODO: fixme
         public static @NotNull StringValue getStatusFromSLMGR() throws IOException {
             final ExecCommand cmd;
             try {
@@ -132,6 +134,7 @@ public final class WindowsOSEx {
         }
 
         /** A list of Activation statuses that are the result of the methods in the {@link WindowsOSEx.Activation} class. */
+        @SuppressWarnings("InnerClassTooDeeplyNested")
         public enum Status {
             Unlicensed,
             Licensed,
@@ -148,13 +151,14 @@ public final class WindowsOSEx {
     }
 
     /** Returns the product type of the operating system running on this Computer. */
+    @SuppressWarnings("unused")
     public static final class Edition {
         /**
          * Identifies if OS is a Windows Server OS.
          * @return true if OS is a Windows Server OS
          */
         public static boolean isWindowsServer() {
-            return Edition.getProductTypeEnum() != ProductType.NTWorkstation;
+            return ProductType.NTWorkstation != Edition.getProductTypeEnum();
         }
 
         /**
@@ -162,7 +166,7 @@ public final class WindowsOSEx {
          * @return true if OS is a Windows Server OS
          */
         public static boolean isWindowsDomainController() {
-            return Edition.getProductTypeEnum() == ProductType.NTDomainController;
+            return ProductType.NTDomainController == Edition.getProductTypeEnum();
         }
 
         /**
@@ -199,11 +203,10 @@ public final class WindowsOSEx {
 
         /**
          * Returns the product type from Windows 2000 to XP and Server 2000 to 2003.
-         * @throws IOException if error occurs
-         * @throws InterruptedException if command is interrupted
          * @return the version string
          */
-        private static StringValue getVersion5() throws IOException, InterruptedException {
+        @SuppressWarnings({"MethodWithMultipleReturnPoints", "OverlyComplexMethod", "OverlyLongMethod"})
+        private static StringValue getVersion5() {
             final WinNT.OSVERSIONINFOEX osVersionInfo = new WinNT.OSVERSIONINFOEX();
             if(getVersionInfoFailed(osVersionInfo)) return StringValue.EMPTY;
             final List<VERSuite> verSuite = VERSuite.parse(osVersionInfo.wSuiteMask);
@@ -249,11 +252,9 @@ public final class WindowsOSEx {
 
         /**
          * Returns the product type from Windows Vista to 10 and Server 2008 to 2016.
-         * @throws IOException if error occurs
-         * @throws InterruptedException if command is interrupted
          * @return the version string
          */
-        private static StringValue getVersion6AndUp() throws IOException, InterruptedException {
+        private static @NotNull StringValue getVersion6AndUp() {
             final IntByReference strProductType = new IntByReference();
             var ignored = Kernel32.INSTANCE.GetProductInfo(Version.getMajor().get(), Version.getMinor().get(),
                     0, 0, strProductType);
@@ -299,7 +300,7 @@ public final class WindowsOSEx {
          * @throws IOException if error occurs
          * @throws InterruptedException if command is interrupted
          */
-        public static StringValue getString() throws IOException, InterruptedException {
+        public static @NotNull StringValue getString() throws IOException, InterruptedException {
             final String sp = getNumber().toString();
             return StringValue.of(isWin8OrLater() ? "" : sp.trim().isEmpty() ? "Service Pack 0" : "Service Pack " + sp);
         }
@@ -308,7 +309,7 @@ public final class WindowsOSEx {
          * Returns the service pack information of the operating system running on this Computer.
          * @return An int containing the operating system service pack number
          */
-        public static IntegerValue getNumber() {
+        public static @NotNull IntegerValue getNumber() {
             final WinNT.OSVERSIONINFOEX osVersionInfo = new WinNT.OSVERSIONINFOEX();
             return IntegerValue.of(getVersionInfoFailed(osVersionInfo)
                     ? -1
@@ -320,6 +321,7 @@ public final class WindowsOSEx {
     }
 
     /** Returns info about the currently logged-in user account. */
+    @SuppressWarnings("unused")
     public static final class Users {
         /**
          * Returns the current Registered Organization.
@@ -410,6 +412,7 @@ public final class WindowsOSEx {
     }
 
     /** Returns the full version of the operating system running on this Computer. */
+    @SuppressWarnings("unused")
     public static final class Version {
         private static final com.jwcomptech.shared.info.Version versionObj;
 
@@ -434,7 +437,7 @@ public final class WindowsOSEx {
          * @return Full version as string
          */
         public static StringValue getMain() {
-            return versionObj.Main();
+            return versionObj.main();
         }
 
         /**
@@ -442,35 +445,35 @@ public final class WindowsOSEx {
          * @return Major version as int
          */
         public static IntegerValue getMajor() {
-            return versionObj.Major(); }
+            return versionObj.major(); }
 
         /**
          * Returns the minor version of the operating system running on this Computer.
          * @return Minor version as int
          */
         public static IntegerValue getMinor() {
-            return versionObj.Minor(); }
+            return versionObj.minor(); }
 
         /**
          * Returns the build version of the operating system running on this Computer.
          * @return Build version as int
          */
         public static IntegerValue getBuild() {
-            return versionObj.Build(); }
+            return versionObj.build(); }
 
         /**
          * Returns the revision version of the operating system running on this Computer.
          * @return Build Revision as int
          */
         public static IntegerValue getRevision() {
-            return versionObj.Revision(); }
+            return versionObj.revision(); }
 
         /**
          * Returns a numeric value representing OS version.
          * @return OSMajorVersion times 10 plus OSMinorVersion
          */
         public static IntegerValue getNumber() {
-            return versionObj.Number();
+            return versionObj.number();
         }
 
         @Contract(" -> new")
@@ -570,7 +573,6 @@ public final class WindowsOSEx {
          * @throws IOException if error occurs
          * @throws InterruptedException if command is interrupted
          */
-        @SuppressWarnings("HardcodedFileSeparator")
         public static @NotNull StringValue getWMIValue(final String wmiQueryStr,
                                                        final String wmiCommaSeparatedFieldName)
                 throws IOException, InterruptedException {
@@ -613,7 +615,7 @@ public final class WindowsOSEx {
      * @return true if OS is a Windows Server OS
      */
     public static boolean isWindowsDomainController() {
-        return ProductType.parse(Edition.getProductType()) == ProductType.NTDomainController;
+        return ProductType.NTDomainController == ProductType.parse(Edition.getProductType());
     }
 
     /**
@@ -653,37 +655,29 @@ public final class WindowsOSEx {
     /**
      * Identifies if OS is XP or later.
      * @return true if XP or later, false if 2000 or previous
-     * @throws IOException if error occurs
-     * @throws InterruptedException if command is interrupted
      */
-    public static boolean isWinXPOrLater() throws IOException, InterruptedException {
+    public static boolean isWinXPOrLater() {
         return Version.getNumber().isGreaterThanOrEqualTo(51); }
 
     /**
      * Identifies if OS is XP x64 or later.
      * @return true if XP x64 or later, false if XP or previous
-     * @throws IOException if error occurs
-     * @throws InterruptedException if command is interrupted
      */
-    public static boolean isWinXP64OrLater() throws IOException, InterruptedException {
+    public static boolean isWinXP64OrLater() {
         return Version.getNumber().isGreaterThanOrEqualTo(52); }
 
     /**
      * Identifies if OS is Vista or later.
      * @return true if Vista or later, false if XP or previous
-     * @throws IOException if error occurs
-     * @throws InterruptedException if command is interrupted
      */
-    public static boolean isWinVistaOrLater() throws IOException, InterruptedException {
+    public static boolean isWinVistaOrLater() {
         return Version.getNumber().isGreaterThanOrEqualTo(60); }
 
     /**
      * Identifies if OS is Windows 7 or later.
      * @return true if Windows 7 or later, false if Vista or previous
-     * @throws IOException if error occurs
-     * @throws InterruptedException if command is interrupted
      */
-    public static boolean isWin7OrLater() throws IOException, InterruptedException {
+    public static boolean isWin7OrLater() {
         return Version.getNumber().isGreaterThanOrEqualTo(61); }
 
     /**
@@ -698,19 +692,15 @@ public final class WindowsOSEx {
     /**
      * Identifies if OS is Windows 8.1 or later.
      * @return true if Windows 8.1 or later, false if Windows 8 or previous
-     * @throws IOException if error occurs
-     * @throws InterruptedException if command is interrupted
      */
-    public static boolean isWin81OrLater() throws IOException, InterruptedException {
+    public static boolean isWin81OrLater() {
         return Version.getNumber().isGreaterThanOrEqualTo(63); }
 
     /**
      * Identifies if OS is Windows 10 or later.
      * @return true if Windows 10 or later, false if Windows 8.1 or previous
-     * @throws IOException if error occurs
-     * @throws InterruptedException if command is interrupted
      */
-    public static boolean isWin10OrLater() throws IOException, InterruptedException {
+    public static boolean isWin10OrLater() {
         return Version.getNumber().isGreaterThanOrEqualTo(100); }
 
     /**
@@ -730,6 +720,7 @@ public final class WindowsOSEx {
      * @throws IOException if error occurs
      * @throws InterruptedException if command is interrupted
      */
+    @SuppressWarnings({"OverlyComplexMethod", "OverlyLongMethod"})
     public static boolean isOrLater(final @NotNull OSList os) throws IOException, InterruptedException {
         return switch (os) {
             case MacOSX -> isMac();

@@ -13,4 +13,5 @@ package com.jwcomptech.shared.annotations;
  *
  * @author Johannes Henkel
  */
+@SuppressWarnings("unused")
 public @interface VisibleForTesting { }
