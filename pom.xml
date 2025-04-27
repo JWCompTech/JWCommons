@@ -178,7 +178,6 @@
                       </requireMavenVersion>
                       <requireEncoding>
                         <encoding>UTF-8</encoding>
-                        <message>Project must be built using UTF-8 encoding. Please configure your IDE and Maven accordingly.</message>
                       </requireEncoding>
                       <requireDependencyConvergence>
                         <message>Dependencies must not have version conflicts! Fix your dependency tree.</message>
