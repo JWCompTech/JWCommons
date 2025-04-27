@@ -140,26 +140,43 @@
 <!--                    </execution>-->
 <!--                </executions>-->
 <!--            </plugin>-->
-<plugin>
-  <groupId>org.apache.maven.plugins</groupId>
-  <artifactId>maven-enforcer-plugin</artifactId>
-  <version>3.4.1</version>
-  <executions>
-    <execution>
-      <id>enforce-java</id>
-      <goals>
-        <goal>enforce</goal>
-      </goals>
-      <configuration>
-        <rules>
-          <requireJavaVersion>
-            <version>[21]</version>
-          </requireJavaVersion>
-        </rules>
-      </configuration>
-    </execution>
-  </executions>
-</plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-enforcer-plugin</artifactId>
+              <version>3.5.0</version>
+              <executions>
+                <execution>
+                  <id>enforce-java</id>
+                  <goals>
+                    <goal>enforce</goal>
+                  </goals>
+                  <configuration>
+                    <rules>
+                      <requireJavaVersion>
+                        <version>[21,22)</version>
+                        <message>Java 21 is required to build this project. Please install Java 21.</message>
+                      </requireJavaVersion>
+                      <requireMavenVersion>
+                        <version>[3.8.0,)</version> <!-- Safe modern baseline -->
+                        <message>Maven 3.8.0 or newer is required to build this project.</message>
+                      </requireMavenVersion>
+                      <requireEncoding>
+                        <encoding>UTF-8</encoding>
+                        <message>Project must be built using UTF-8 encoding. Please configure your IDE and Maven accordingly.</message>
+                      </requireEncoding>
+                      <requireDependencyConvergence>
+                        <message>Dependencies must not have version conflicts! Fix your dependency tree.</message>
+                      </requireDependencyConvergence>
+                      <requireProperty>
+                        <property>project.build.sourceEncoding</property>
+                        <message>project.build.sourceEncoding must be set to UTF-8.</message>
+                      </requireProperty>
+                    </rules>
+                    <failfast>true</failfast>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
