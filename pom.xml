@@ -18,11 +18,20 @@
         <repository-owner>JWCompTech</repository-owner>
     </properties>
 
+    <licenses>
+      <license>
+        <name>GNU Lesser General Public License, Version 3.0</name>
+        <url>https://www.gnu.org/licenses/lgpl-3.0.html</url>
+        <distribution>repo</distribution>
+        <comments>A free software license that allows linking under certain conditions.</comments>
+      </license>
+    </licenses>
+
     <name>JWCT Shared Library</name>
     <description>The JWCT Shared Library is a dependency for all JWCT projects and contains utility functions and classes that can be used in any program.</description>
     <url>https://github.com/JWCompTech/JWCT-Shared-Library</url>
     <organization>
-        <name>J&amp;WCompTech</name>
+        <name>JWCompTech</name>
         <url>https://github.com/JWCompTech</url>
     </organization>
 
@@ -148,7 +157,7 @@
                 <dependency>
                   <groupId>org.codehaus.mojo</groupId>
                   <artifactId>extra-enforcer-rules</artifactId>
-                  <version>1.8</version>
+                  <version>1.10.0</version>
                 </dependency>
               </dependencies>
               <executions>
