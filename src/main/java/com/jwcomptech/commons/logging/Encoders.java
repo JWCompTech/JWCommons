@@ -23,8 +23,14 @@ package com.jwcomptech.commons.logging;
  */
 
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+@Getter
+@AllArgsConstructor
+@ToString
 public enum Encoders {
     /**
      * A {@link PatternLayoutEncoder} with the pattern "%msg%n".
@@ -47,19 +53,4 @@ public enum Encoders {
     ;
 
     private final PatternLayoutEncoder encoder;
-
-    Encoders(final PatternLayoutEncoder encoder) {
-        this.encoder = encoder;
-    }
-
-    public PatternLayoutEncoder getEncoder() {
-        return encoder;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("encoder", encoder)
-                .toString();
-    }
 }

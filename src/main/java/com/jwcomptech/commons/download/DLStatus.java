@@ -42,5 +42,5 @@ public enum DLStatus implements BaseEnum<String> {
     ERROR("Error"),
     IDLE("Idle");
 
-    final String value;
+    private final String value;
 }

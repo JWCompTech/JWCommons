@@ -22,8 +22,8 @@ package com.jwcomptech.commons.functions;
  * #L%
  */
 
-import com.jwcomptech.commons.functions.tuples.Tuple;
-import com.jwcomptech.commons.functions.tuples.Tuple2;
+import com.jwcomptech.commons.tuples.Tuple;
+import com.jwcomptech.commons.tuples.Tuple2;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import org.jetbrains.annotations.Contract;
@@ -33,6 +33,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -70,7 +71,7 @@ public interface Function2<T1, T2, R> extends Serializable, BiFunction<T1, T2, R
      * @return a function always returning the given value
      */
     @Contract(pure = true)
-    static <T1, T2, R> @NotNull Function2<T1, T2, R> constant(R value) {
+    static <T1, T2, R> @NotNull Function2<T1, T2, R> constant(final R value) {
         return (t1, t2) -> value;
     }
 
@@ -109,7 +110,7 @@ public interface Function2<T1, T2, R> extends Serializable, BiFunction<T1, T2, R
      * @param <T2> 2nd argument
      * @return a {@code Function2}
      */
-    static <T1, T2, R> Function2<T1, T2, R> of(Function2<T1, T2, R> methodReference) {
+    static <T1, T2, R> Function2<T1, T2, R> of(final Function2<T1, T2, R> methodReference) {
         return methodReference;
     }
 
@@ -124,7 +125,7 @@ public interface Function2<T1, T2, R> extends Serializable, BiFunction<T1, T2, R
      *         if the function is defined for the given arguments, and {@code None} otherwise.
      */
     @Contract(pure = true)
-    static <T1, T2, R> @NotNull Function2<T1, T2, Option<R>> lift(BiFunction<? super T1, ? super T2, ? extends R> partialFunction) {
+    static <T1, T2, R> @NotNull Function2<T1, T2, Option<R>> lift(final BiFunction<? super T1, ? super T2, ? extends R> partialFunction) {
         return (t1, t2) -> Try.<R>of(() -> partialFunction.apply(t1, t2)).toOption();
     }
 
@@ -139,22 +140,22 @@ public interface Function2<T1, T2, R> extends Serializable, BiFunction<T1, T2, R
      *         if the function is defined for the given arguments, and {@code Failure(throwable)} otherwise.
      */
     @Contract(pure = true)
-    static <T1, T2, R> @NotNull Function2<T1, T2, Try<R>> liftTry(BiFunction<? super T1, ? super T2, ? extends R> partialFunction) {
+    static <T1, T2, R> @NotNull Function2<T1, T2, Try<R>> liftTry(final BiFunction<? super T1, ? super T2, ? extends R> partialFunction) {
         return (t1, t2) -> Try.of(() -> partialFunction.apply(t1, t2));
     }
 
     /**
      * Narrows the given {@code Function2<? super T1, ? super T2, ? extends R>} to {@code Function2<T1, T2, R>}
      *
-     * @param f A {@code Function2}
+     * @param function A {@code Function2}
      * @param <R> return type
      * @param <T1> 1st argument
      * @param <T2> 2nd argument
      * @return the given {@code f} instance as narrowed type {@code Function2<T1, T2, R>}
      */
     @SuppressWarnings("unchecked")
-    static <T1, T2, R> Function2<T1, T2, R> narrow(Function2<? super T1, ? super T2, ? extends R> f) {
-        return (Function2<T1, T2, R>) f;
+    static <T1, T2, R> Function2<T1, T2, R> narrow(final Function2<? super T1, ? super T2, ? extends R> function) {
+        return (Function2<T1, T2, R>) function;
     }
 
     /**
@@ -173,7 +174,7 @@ public interface Function2<T1, T2, R> extends Serializable, BiFunction<T1, T2, R
      * @param t1 argument 1
      * @return a partial application of this function
      */
-    default Function1<T2, R> apply(T1 t1) {
+    default Function1<T2, R> apply(final T1 t1) {
         return (T2 t2) -> apply(t1, t2);
     }
 
@@ -182,6 +183,7 @@ public interface Function2<T1, T2, R> extends Serializable, BiFunction<T1, T2, R
      * @return an int value &gt;= 0
      * @see <a href="http://en.wikipedia.org/wiki/Arity">Arity</a>
      */
+    @SuppressWarnings("SameReturnValue")
     default int arity() {
         return 2;
     }
@@ -201,7 +203,7 @@ public interface Function2<T1, T2, R> extends Serializable, BiFunction<T1, T2, R
      * @return a tupled function equivalent to this.
      */
     default Function1<Tuple2<T1, T2>, R> tupled() {
-        return t -> apply(t._1, t._2);
+        return t -> apply(t._1(), t._2());
     }
 
     /**
@@ -226,7 +228,7 @@ public interface Function2<T1, T2, R> extends Serializable, BiFunction<T1, T2, R
             return this;
         } else {
             final Map<Tuple2<T1, T2>, R> cache = new HashMap<>();
-            final ReentrantLock lock = new ReentrantLock();
+            final Lock lock = new ReentrantLock();
             //noinspection OverlyLongLambda
             return (Function2<T1, T2, R> & Memoized) (t1, t2) -> {
                 final Tuple2<T1, T2> key = Tuple.of(t1, t2);
@@ -265,7 +267,7 @@ public interface Function2<T1, T2, R> extends Serializable, BiFunction<T1, T2, R
      * @return a function composed of this and after
      * @throws IllegalArgumentException if {@code after} is null
      */
-    default <V> @NotNull Function2<T1, T2, V> andThen(@NotNull Function<? super R, ? extends V> after) {
+    default <V> @NotNull Function2<T1, T2, V> andThen(@NotNull final Function<? super R, ? extends V> after) {
         checkArgumentNotNull(after, cannotBeNull("after"));
         return (t1, t2) -> after.apply(apply(t1, t2));
     }

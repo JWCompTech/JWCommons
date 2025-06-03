@@ -22,7 +22,7 @@ package com.jwcomptech.commons.functions;
  * #L%
  */
 
-import com.jwcomptech.commons.functions.tuples.Tuple0;
+import com.jwcomptech.commons.tuples.Tuple0;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import org.jetbrains.annotations.Contract;
@@ -63,7 +63,7 @@ public interface Function0<R> extends Serializable, Supplier<R> {
      * @return a function always returning the given value
      */
     @Contract(pure = true)
-    static <R> @NotNull Function0<R> constant(R value) {
+    static <R> @NotNull Function0<R> constant(final R value) {
         return () -> value;
     }
 
@@ -100,7 +100,7 @@ public interface Function0<R> extends Serializable, Supplier<R> {
      * @param <R> return type
      * @return a {@code Function0}
      */
-    static <R> Function0<R> of(Function0<R> methodReference) {
+    static <R> Function0<R> of(final Function0<R> methodReference) {
         return methodReference;
     }
 
@@ -113,7 +113,7 @@ public interface Function0<R> extends Serializable, Supplier<R> {
      *         if the function is defined for the given arguments, and {@code None} otherwise.
      */
     @Contract(pure = true)
-    static <R> @NotNull Function0<Option<R>> lift(Supplier<? extends R> partialFunction) {
+    static <R> @NotNull Function0<Option<R>> lift(final Supplier<? extends R> partialFunction) {
         return () -> Try.<R>of(partialFunction::get).toOption();
     }
 
@@ -126,20 +126,20 @@ public interface Function0<R> extends Serializable, Supplier<R> {
      *         if the function is defined for the given arguments, and {@code Failure(throwable)} otherwise.
      */
     @Contract(pure = true)
-    static <R> @NotNull Function0<Try<R>> liftTry(Supplier<? extends R> partialFunction) {
+    static <R> @NotNull Function0<Try<R>> liftTry(final Supplier<? extends R> partialFunction) {
         return () -> Try.of(partialFunction::get);
     }
 
     /**
      * Narrows the given {@code Function0<? extends R>} to {@code Function0<R>}
      *
-     * @param f A {@code Function0}
+     * @param function A {@code Function0}
      * @param <R> return type
      * @return the given {@code f} instance as narrowed type {@code Function0<R>}
      */
     @SuppressWarnings("unchecked")
-    static <R> Function0<R> narrow(Function0<? extends R> f) {
-        return (Function0<R>) f;
+    static <R> Function0<R> narrow(final Function0<? extends R> function) {
+        return (Function0<R>) function;
     }
 
     /**
@@ -166,6 +166,7 @@ public interface Function0<R> extends Serializable, Supplier<R> {
      * @return an int value &gt;= 0
      * @see <a href="http://en.wikipedia.org/wiki/Arity">Arity</a>
      */
+    @SuppressWarnings("SameReturnValue")
     default int arity() {
         return 0;
     }
@@ -232,7 +233,7 @@ public interface Function0<R> extends Serializable, Supplier<R> {
      * @return a function composed of this and after
      * @throws IllegalArgumentException if {@code after} is null
      */
-    default <V> Function0<V> andThen(Function<? super R, ? extends V> after) {
+    default <V> Function0<V> andThen(final Function<? super R, ? extends V> after) {
         checkArgumentNotNull(after, cannotBeNull("after"));
         return () -> after.apply(apply());
     }

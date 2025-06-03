@@ -26,6 +26,7 @@ import java.io.File;
 import java.nio.file.FileSystems;
 import java.util.Locale;
 
+import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
 import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNull;
 import static com.jwcomptech.commons.utils.StringUtils.uppercaseFirst;
 
@@ -223,5 +224,5 @@ public final class Literals {
     }
 
     /** Prevents instantiation of this utility class.  */
-    private Literals() { }
+    private Literals() { throwUnsupportedExForUtilityCls(); }
 }

@@ -45,8 +45,8 @@ public final class Version implements Serializable {
     private final IntegerValue number;
 
     @SuppressWarnings("ConstructorWithTooManyParameters")
-    public Version(String main, int major, int minor,
-                   int build, int revision, int number) {
+    public Version(final String main, final int major, final int minor,
+                   final int build, final int revision, final int number) {
         this.main = StringValue.of(main);
         this.major = IntegerValue.of(major);
         this.minor = IntegerValue.of(minor);
@@ -56,8 +56,8 @@ public final class Version implements Serializable {
     }
 
     @SuppressWarnings("ConstructorWithTooManyParameters")
-    public Version(StringValue main, IntegerValue major, IntegerValue minor,
-                   IntegerValue build, IntegerValue revision, IntegerValue number) {
+    public Version(final StringValue main, final IntegerValue major, final IntegerValue minor,
+                   final IntegerValue build, final IntegerValue revision, final IntegerValue number) {
         this.main = main;
         this.major = major;
         this.minor = minor;
@@ -83,12 +83,12 @@ public final class Version implements Serializable {
     public IntegerValue number() { return number; }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
+    public boolean equals(final Object obj) {
+        if (this == obj) return true;
 
-        if (null == o || getClass() != o.getClass()) return false;
+        if (obj == null || getClass() != obj.getClass()) return false;
 
-        Version version = (Version) o;
+        final Version version = (Version) obj;
 
         return new EqualsBuilder()
                 .append(main, version.main)

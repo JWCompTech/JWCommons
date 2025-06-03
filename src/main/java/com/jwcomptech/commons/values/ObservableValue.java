@@ -57,12 +57,12 @@ public abstract class ObservableValue<T, V extends ObservableValue<T, V>> extend
     @Serial
     private static final long serialVersionUID = 5183297117938121441L;
 
-    public ObservableValue(T value) {
+    public ObservableValue(final T value) {
         this.value = value;
     }
 
     //TODO: Figure out if this is necessary
-    protected void setListenersTarget(V target) {
+    protected void setListenersTarget(final V target) {
         this.listeners = new PropertyChangeSupport(target);
     }
 
@@ -150,19 +150,19 @@ public abstract class ObservableValue<T, V extends ObservableValue<T, V>> extend
      * @return this instance
      */
     //TODO: Figure out if it is safe to not make this abstract
-    public V set(T value) {
+    public V set(final T value) {
         this.value = value;
         //noinspection unchecked
         return (V) this;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
+    public boolean equals(final Object obj) {
+        if (this == obj) return true;
 
-        if (null == o || getClass() != o.getClass()) return false;
+        if (obj == null || getClass() != obj.getClass()) return false;
 
-        ObservableValue<?, ?> that = (ObservableValue<?, ?>) o;
+        final ObservableValue<?, ?> that = (ObservableValue<?, ?>) obj;
 
         return new EqualsBuilder().append(value, that.value).append(listeners, that.listeners).isEquals();
     }

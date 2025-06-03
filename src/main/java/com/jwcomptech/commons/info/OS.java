@@ -28,6 +28,7 @@ import com.jwcomptech.commons.values.IntegerValue;
 import com.jwcomptech.commons.values.StringValue;
 
 import static com.jwcomptech.commons.info.OSInfo.*;
+import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
 
 public final class OS {
     public static final OSType osType;
@@ -67,5 +68,5 @@ public final class OS {
     }
 
     /** Prevents instantiation of this utility class. */
-    private OS() { }
+    private OS() { throwUnsupportedExForUtilityCls(); }
 }

@@ -39,8 +39,6 @@ import lombok.Getter;
 import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 /**
  * A Login Dialog implementation for use to authenticate passwords.
  * <p>
@@ -64,18 +62,18 @@ final class LoginDialogImpl extends Dialog<Pair<String, String>> {
      * Sets the path in the resource folder of the window icon.
      * @param iconPath the icon path
      */
-    public void setIconPath(final @NotNull String iconPath) {
+    void setIconPath(final @NotNull String iconPath) {
         this.iconPath = iconPath;
 
         final var stage = (Stage) getDialogPane().getScene().getWindow();
         if(!iconPath.trim().isEmpty()) stage.getIcons().add(new Image(iconPath));
     }
 
-    public LoginDialogImpl(final String warningText, final boolean redText) {
-        ResourceManager resources = ResourceManager.getInstance();
-        Resource lock_red = resources.addResource(ResourceType.IMG, "Lock-Red.png");
-        Resource data_secure = resources.addResource(ResourceType.IMG, "Data-Secure.png");
-        Resource login_dialog_css = resources.addResource(ResourceType.CSS, "LoginDialog.css");
+    LoginDialogImpl(final String warningText, final boolean redText) {
+        final ResourceManager resources = ResourceManager.getInstance();
+        final Resource lock_red = resources.addResource(ResourceType.IMG, "Lock-Red.png");
+        final Resource data_secure = resources.addResource(ResourceType.IMG, "Data-Secure.png");
+        final Resource login_dialog_css = resources.addResource(ResourceType.CSS, "LoginDialog.css");
 
         setTitle("Login");
         setHeaderText("Please Login to Continue!");

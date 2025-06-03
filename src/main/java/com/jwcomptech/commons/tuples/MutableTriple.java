@@ -25,9 +25,6 @@ package com.jwcomptech.commons.tuples;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -43,9 +40,9 @@ public class MutableTriple<L, M, R> extends Triple<L, M, R> {
     @Serial
     private static final long serialVersionUID = 3036724394104122597L;
 
-    public L left;
-    public M middle;
-    public R right;
+    private L left;
+    private M middle;
+    private R right;
 
     @SuppressWarnings("unchecked")
     public static <L, M, R> MutableTriple<L, M, R>[] emptyArray() {
@@ -53,12 +50,12 @@ public class MutableTriple<L, M, R> extends Triple<L, M, R> {
     }
 
     @Contract("_, _, _ -> new")
-    public static <L, M, R> @NotNull MutableTriple<L, M, R> of(L left, M middle, R right) {
+    public static <L, M, R> @NotNull MutableTriple<L, M, R> of(final L left, final M middle, final R right) {
         return new MutableTriple<>(left, middle, right);
     }
 
     @Contract("_, _, _ -> new")
-    public static <L, M, R> @NotNull MutableTriple<L, M, R> ofNonNull(L left, M middle, R right) {
+    public static <L, M, R> @NotNull MutableTriple<L, M, R> ofNonNull(final L left, final M middle, final R right) {
         return of(Objects.requireNonNull(left, "left"), Objects.requireNonNull(middle, "middle"),
                 Objects.requireNonNull(right, "right"));
     }

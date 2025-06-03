@@ -27,7 +27,6 @@ import com.sun.jna.platform.win32.WinDef;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -74,7 +73,7 @@ public enum VERSuite implements BaseEnum<Integer> {
 
     public static List<VERSuite> parse(final WinDef.WORD value) {
         return Arrays.stream(values())
-                .filter(vs -> 0 != (value.intValue() & vs.value))
+                .filter(vs -> (value.intValue() & vs.value) != 0)
                 .collect(Collectors.toList());
     }
 

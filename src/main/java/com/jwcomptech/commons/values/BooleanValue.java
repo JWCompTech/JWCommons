@@ -220,7 +220,6 @@ public final class BooleanValue implements ImmutableValue<Boolean> {
      * @return negative if this is less, zero if equal, positive if greater
      *  where false is less than true
      */
-    @Override
     public int compareTo(final @NotNull Boolean other) {
         return value.compareTo(other);
     }
@@ -233,8 +232,12 @@ public final class BooleanValue implements ImmutableValue<Boolean> {
      *  where false is less than true
      */
     public int compareTo(final @NotNull BooleanValue other) {
-        //noinspection AccessingNonPublicFieldOfAnotherObject
         return value.compareTo(other.value);
+    }
+
+    @Override
+    public int compareTo(@NotNull final ImmutableValue<Boolean> other) {
+        return this.compareTo(other.get());
     }
 
     /**
@@ -258,7 +261,7 @@ public final class BooleanValue implements ImmutableValue<Boolean> {
      */
     @Override
     public boolean equals(final Object obj) {
-        return obj instanceof BooleanValue && value == ((BooleanValue) obj).value;
+        return obj instanceof BooleanValue && value.equals(((BooleanValue) obj).value);
     }
 
     /**

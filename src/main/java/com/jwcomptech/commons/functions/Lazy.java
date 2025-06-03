@@ -55,6 +55,7 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 import java.util.Objects;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -82,6 +83,7 @@ import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNull;
  *
  * <pre><code>final CharSequence chars = Lazy.val(() -&gt; "Yay!", CharSequence.class);</code></pre>
  *
+ * @param <T> the class type of the value
  * @author Daniel Dietrich
  * @since 0.0.1
  */
@@ -93,7 +95,7 @@ public final class Lazy<T> implements Value<T>, Supplier<T>, Serializable {
     @Serial
     private static final long serialVersionUID = 4567338503128116754L;
     @SuppressWarnings("FieldNotUsedInToString")
-    private final ReentrantLock lock = new ReentrantLock();
+    private final Lock lock = new ReentrantLock();
 
     // read http://javarevisited.blogspot.de/2014/05/double-checked-locking-on-singleton-in-java.html
     @SuppressWarnings("FieldNotUsedInToString")
@@ -102,7 +104,7 @@ public final class Lazy<T> implements Value<T>, Supplier<T>, Serializable {
     private T value; // will behave as a volatile in reality, because a supplier volatile read will update all fields (see https://www.cs.umd.edu/~pugh/java/memoryModel/jsr-133-faq.html#volatile)
 
     // should not be called directly
-    private Lazy(Supplier<? extends T> supplier) {
+    private Lazy(final Supplier<? extends T> supplier) {
         this.supplier = supplier;
     }
 
@@ -116,7 +118,7 @@ public final class Lazy<T> implements Value<T>, Supplier<T>, Serializable {
      * @return the given {@code lazy} instance as narrowed type {@code Lazy<T>}.
      */
     @SuppressWarnings("unchecked")
-    public static <T> Lazy<T> narrow(Lazy<? extends T> lazy) {
+    public static <T> Lazy<T> narrow(final Lazy<? extends T> lazy) {
         return (Lazy<T>) lazy;
     }
 
@@ -129,7 +131,7 @@ public final class Lazy<T> implements Value<T>, Supplier<T>, Serializable {
      * @return A new instance of Lazy
      */
     @SuppressWarnings("unchecked")
-    public static <T> @NotNull Lazy<T> of(@NotNull Supplier<? extends T> supplier) {
+    public static <T> @NotNull Lazy<T> of(@NotNull final Supplier<? extends T> supplier) {
         checkArgumentNotNull(supplier, cannotBeNull("supplier"));
         if (supplier instanceof Lazy) {
             return (Lazy<T>) supplier;
@@ -148,7 +150,7 @@ public final class Lazy<T> implements Value<T>, Supplier<T>, Serializable {
      * @throws NullPointerException if values is null
      */
     @SuppressWarnings("Convert2MethodRef") // TODO should be fixed in JDK 9 and Idea
-    public static <T> @NotNull Lazy<Seq<T>> sequence(Iterable<? extends Lazy<? extends T>> values) {
+    public static <T> @NotNull Lazy<Seq<T>> sequence(final Iterable<? extends Lazy<? extends T>> values) {
         Objects.requireNonNull(values, "values is null");
         return Lazy.of(() -> Vector.ofAll(values).map(lazy -> lazy.get()));
     }
@@ -164,7 +166,7 @@ public final class Lazy<T> implements Value<T>, Supplier<T>, Serializable {
      * @throws IllegalArgumentException if either {@code supplier} or {@code type} are null
      */
     @SuppressWarnings("unchecked")
-    public static <T> @NotNull T val(Supplier<? extends T> supplier, Class<T> type) {
+    public static <T> @NotNull T val(final Supplier<? extends T> supplier, final Class<T> type) {
         checkArgumentNotNull(supplier, cannotBeNull("supplier"));
         checkArgumentNotNull(type, cannotBeNull("type"));
         if (!type.isInterface()) {
@@ -175,7 +177,7 @@ public final class Lazy<T> implements Value<T>, Supplier<T>, Serializable {
         return (T) Proxy.newProxyInstance(type.getClassLoader(), new Class<?>[] { type }, handler);
     }
 
-    public Option<T> filter(@NotNull Predicate<? super T> predicate) {
+    public Option<T> filter(@NotNull final Predicate<? super T> predicate) {
         final T v = get();
         return predicate.test(v) ? Option.some(v) : Option.none();
     }
@@ -189,16 +191,16 @@ public final class Lazy<T> implements Value<T>, Supplier<T>, Serializable {
     @Override
     public T get() {
         //noinspection VariableNotUsedInsideIf
-        return (null == supplier) ? value : computeValue();
+        return (supplier == null) ? value : computeValue();
     }
     
     private T computeValue() {
         lock.lock();
         try {
-            final Supplier<? extends T> s = supplier;
-            if (null != s) {
-                value = s.get();
-                supplier = null;
+            final Supplier<? extends T> supplier = this.supplier;
+            if (supplier != null) {
+                value = supplier.get();
+                this.supplier = null;
             }
         } finally {
             lock.unlock();
@@ -230,7 +232,7 @@ public final class Lazy<T> implements Value<T>, Supplier<T>, Serializable {
      * @throws UnsupportedOperationException if this value is undefined
      */
     public boolean isEvaluated() {
-        return null == supplier;
+        return supplier == null;
     }
 
     /**
@@ -254,13 +256,13 @@ public final class Lazy<T> implements Value<T>, Supplier<T>, Serializable {
     }
 
     @Override
-    public <U> @NotNull Lazy<U> map(Function<? super T, ? extends U> mapper) {
+    public <U> @NotNull Lazy<U> map(final Function<? super T, ? extends U> mapper) {
         return Lazy.of(() -> mapper.apply(get()));
     }
 
     @Contract("_ -> this")
     @Override
-    public Lazy<T> peek(@NotNull Consumer<? super T> action) {
+    public Lazy<T> peek(@NotNull final Consumer<? super T> action) {
         action.accept(get());
         return this;
     }
@@ -268,14 +270,14 @@ public final class Lazy<T> implements Value<T>, Supplier<T>, Serializable {
     /**
      * Transforms this {@code Lazy}.
      *
-     * @param f   A transformation
+     * @param function   A transformation
      * @param <U> Type of transformation result
      * @return An instance of type {@code U}
      * @throws IllegalArgumentException if {@code f} is null
      */
-    public <U> U transform(Function<? super Lazy<T>, ? extends U> f) {
-        checkArgumentNotNull(f, cannotBeNull("f"));
-        return f.apply(this);
+    public <U> U transform(final Function<? super Lazy<T>, ? extends U> function) {
+        checkArgumentNotNull(function, cannotBeNull("f"));
+        return function.apply(this);
     }
 
     @Contract(pure = true)
@@ -285,8 +287,8 @@ public final class Lazy<T> implements Value<T>, Supplier<T>, Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        return (o == this) || (o instanceof Lazy && Objects.equals(((Lazy<?>) o).get(), get()));
+    public boolean equals(final Object obj) {
+        return (obj == this) || (obj instanceof Lazy && Objects.equals(((Lazy<?>) obj).get(), get()));
     }
 
     @Override
@@ -302,12 +304,12 @@ public final class Lazy<T> implements Value<T>, Supplier<T>, Serializable {
     /**
      * Ensures that the value is evaluated before serialization.
      *
-     * @param s An object serialization stream.
+     * @param stream An object serialization stream.
      * @throws IOException If an error occurs writing to the stream.
      */
     @Serial
-    private void writeObject(@NotNull ObjectOutputStream s) throws IOException {
+    private void writeObject(@NotNull final ObjectOutputStream stream) throws IOException {
         get(); // evaluates the lazy value if it isn't evaluated yet!
-        s.defaultWriteObject();
+        stream.defaultWriteObject();
     }
 }

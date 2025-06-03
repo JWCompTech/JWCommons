@@ -56,12 +56,13 @@ public class Resource {
     String fullName;
 
     @Contract(pure = true)
-    public Resource(@NotNull ResourceType type, String filename) {
+    public Resource(@NotNull final ResourceType type, final String filename) {
         checkArgumentNotNull(type, cannotBeNull("type"));
         checkArgumentNotNullOrEmpty(filename, "filename");
         this.type = type;
         this.filename = filename;
 
+        //noinspection HardcodedFileSeparator
         fullName = type.getPath() + "/" + filename;
     }
 

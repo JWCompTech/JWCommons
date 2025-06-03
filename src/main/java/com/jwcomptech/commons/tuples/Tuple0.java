@@ -1,4 +1,4 @@
-package com.jwcomptech.commons.functions.tuples;
+package com.jwcomptech.commons.tuples;
 
 /*-
  * #%L
@@ -41,7 +41,7 @@ import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNull;
  * @author Daniel Dietrich
  * @since 0.0.1
  */
-@SuppressWarnings("EqualsAndHashcode")
+@SuppressWarnings({"unused", "MethodMayBeStatic"})
 public final class Tuple0 implements Tuple, Comparable<Tuple0>, Serializable {
 
     @Serial
@@ -70,7 +70,7 @@ public final class Tuple0 implements Tuple, Comparable<Tuple0>, Serializable {
         return INSTANCE;
     }
 
-    public static  Comparator<Tuple0> comparator() {
+    public static Comparator<Tuple0> comparator() {
         return COMPARATOR;
     }
 
@@ -80,21 +80,21 @@ public final class Tuple0 implements Tuple, Comparable<Tuple0>, Serializable {
     }
 
     @Override
-    public int compareTo(@NotNull Tuple0 that) {
+    public int compareTo(@NotNull final Tuple0 that) {
         return 0;
     }
 
     /**
      * Transforms this tuple to an object of type U.
      *
-     * @param f Transformation which creates a new object of type U based on this tuple's contents.
+     * @param function Transformation which creates a new object of type U based on this tuple's contents.
      * @param <U> type of the transformation result
      * @return An object of type U
      * @throws IllegalArgumentException if {@code f} is null
      */
-    public <U> U apply(Supplier<? extends U> f) {
-        checkArgumentNotNull(f, cannotBeNull("f"));
-        return f.get();
+    public <U> U apply(final Supplier<? extends U> function) {
+        checkArgumentNotNull(function, cannotBeNull("function"));
+        return function.get();
     }
 
     @Override
@@ -109,8 +109,9 @@ public final class Tuple0 implements Tuple, Comparable<Tuple0>, Serializable {
      * @param t1 the value to append
      * @return a new Tuple with the value appended
      */
+    @SuppressWarnings("MethodMayBeStatic")
     @Contract(value = "_ -> new", pure = true)
-    public <T1> @NotNull Tuple1<T1> append(T1 t1) {
+    public <T1> @NotNull Tuple1<T1> append(final T1 t1) {
         return Tuple.of(t1);
     }
 
@@ -122,9 +123,10 @@ public final class Tuple0 implements Tuple, Comparable<Tuple0>, Serializable {
      * @return a new Tuple with the tuple values appended
      * @throws IllegalArgumentException if {@code tuple} is null
      */
-    public <T1> @NotNull Tuple1<T1> concat(Tuple1<T1> tuple) {
+
+    public <T1> @NotNull Tuple1<T1> concat(final Tuple1<T1> tuple) {
         checkArgumentNotNull(tuple, cannotBeNull("tuple"));
-        return Tuple.of(tuple._1);
+        return Tuple.of(tuple._1());
     }
 
     /**
@@ -136,9 +138,9 @@ public final class Tuple0 implements Tuple, Comparable<Tuple0>, Serializable {
      * @return a new Tuple with the tuple values appended
      * @throws IllegalArgumentException if {@code tuple} is null
      */
-    public <T1, T2> @NotNull Tuple2<T1, T2> concat(Tuple2<T1, T2> tuple) {
+    public <T1, T2> @NotNull Tuple2<T1, T2> concat(final Tuple2<T1, T2> tuple) {
         checkArgumentNotNull(tuple, cannotBeNull("tuple"));
-        return Tuple.of(tuple._1, tuple._2);
+        return Tuple.of(tuple._1(), tuple._2());
     }
 
     /**
@@ -151,9 +153,9 @@ public final class Tuple0 implements Tuple, Comparable<Tuple0>, Serializable {
      * @return a new Tuple with the tuple values appended
      * @throws IllegalArgumentException if {@code tuple} is null
      */
-    public <T1, T2, T3> @NotNull Tuple3<T1, T2, T3> concat(Tuple3<T1, T2, T3> tuple) {
+    public <T1, T2, T3> @NotNull Tuple3<T1, T2, T3> concat(final Tuple3<T1, T2, T3> tuple) {
         checkArgumentNotNull(tuple, cannotBeNull("tuple"));
-        return Tuple.of(tuple._1, tuple._2, tuple._3);
+        return Tuple.of(tuple._1(), tuple._2(), tuple._3());
     }
 
     /**
@@ -167,9 +169,15 @@ public final class Tuple0 implements Tuple, Comparable<Tuple0>, Serializable {
      * @return a new Tuple with the tuple values appended
      * @throws IllegalArgumentException if {@code tuple} is null
      */
-    public <T1, T2, T3, T4> @NotNull Tuple4<T1, T2, T3, T4> concat(Tuple4<T1, T2, T3, T4> tuple) {
+    public <T1, T2, T3, T4> @NotNull Tuple4<T1, T2, T3, T4> concat(final Tuple4<T1, T2, T3, T4> tuple) {
         checkArgumentNotNull(tuple, cannotBeNull("tuple"));
-        return Tuple.of(tuple._1, tuple._2, tuple._3, tuple._4);
+        return Tuple.of(tuple._1(), tuple._2(), tuple._3(), tuple._4());
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == this) return true;
+        else return obj instanceof final Tuple0 that;
     }
 
     @Override
@@ -191,6 +199,7 @@ public final class Tuple0 implements Tuple, Comparable<Tuple0>, Serializable {
      * @return The singleton instance of Tuple0.
      * @see Serializable
      */
+    @SuppressWarnings("SameReturnValue")
     @Serial
     private Object readResolve() {
         return INSTANCE;

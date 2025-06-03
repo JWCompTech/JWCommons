@@ -56,7 +56,7 @@ public interface CheckedConsumer<T> {
      * @return a new {@code CheckedConsumer}
      * @see CheckedFunction1#of(CheckedFunction1)
      */
-    static <T> CheckedConsumer<T> of(CheckedConsumer<T> methodReference) {
+    static <T> CheckedConsumer<T> of(final CheckedConsumer<T> methodReference) {
         return methodReference;
     }
 
@@ -76,9 +76,9 @@ public interface CheckedConsumer<T> {
      * @return a new {@code CheckedConsumer} that chains {@code this} and {@code after}
      * @throws IllegalArgumentException if {@code after} is null
      */
-    default CheckedConsumer<T> andThen(CheckedConsumer<? super T> after) {
+    default CheckedConsumer<T> andThen(final CheckedConsumer<? super T> after) {
         checkArgumentNotNull(after, cannotBeNull("after"));
-        return (T t) -> { accept(t); after.accept(t); };
+        return (final T t) -> { accept(t); after.accept(t); };
     }
 
     /**
@@ -90,7 +90,7 @@ public interface CheckedConsumer<T> {
         return t -> {
             try {
                 accept(t);
-            } catch(Throwable x) {
+            } catch(final Throwable x) {
                 CheckedConsumerModule.sneakyThrow(x);
             }
         };
@@ -102,7 +102,7 @@ interface CheckedConsumerModule {
 
     // DEV-NOTE: we do not plan to expose this as public API
     @SuppressWarnings({"unchecked", "UnusedReturnValue"})
-    static <T extends Throwable, R> R sneakyThrow(Throwable t) throws T {
+    static <T extends Throwable, R> R sneakyThrow(final Throwable t) throws T {
         throw (T) t;
     }
 

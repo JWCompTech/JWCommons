@@ -26,6 +26,7 @@ import com.google.errorprone.annotations.Immutable;
 import com.jwcomptech.commons.Literals;
 import com.jwcomptech.commons.base.Validated;
 import com.jwcomptech.commons.utils.CollectionUtils;
+import com.jwcomptech.commons.utils.RegExPatterns;
 import com.jwcomptech.commons.validators.EmailValidator;
 import com.jwcomptech.commons.utils.StringUtils;
 import org.apache.commons.lang3.CharUtils;
@@ -56,11 +57,10 @@ import static org.apache.commons.lang3.StringUtils.stripStart;
  * @since 0.0.1
  */
 @SuppressWarnings({"ClassWithTooManyMethods", "OverlyComplexClass", "unused"})
-@Immutable
 public final class StringValue extends Validated
-        implements ImmutableValue<String>, Comparable<String> {
+        implements ImmutableValue<String> {
     private final String value;
-    private final static Integer INDEX_NOT_FOUND = -1;
+    private static final Integer INDEX_NOT_FOUND = -1;
     /**
      * Required for serialization support.
      *
@@ -77,6 +77,7 @@ public final class StringValue extends Validated
         value = input;
     }
 
+    @SuppressWarnings("TypeMayBeWeakened")
     private StringValue(final @NotNull StringBuilder input) {
         value = input.toString();
     }
@@ -93,6 +94,7 @@ public final class StringValue extends Validated
     /**
      * Creates a new StringValue instance with the specified default value.
      * @param defaultValue the value to set
+     * @return a new StringValue instance with the specified default value
      */
     @Contract("_ -> new")
     public static @NotNull StringValue of(final String defaultValue) {
@@ -102,6 +104,7 @@ public final class StringValue extends Validated
     /**
      * Creates a new StringValue instance with the specified default value.
      * @param defaultValue the value to set
+     * @return a new StringValue instance with the specified default value
      */
     @Contract("_ -> new")
     public static @NotNull StringValue of(final StringBuilder defaultValue) {
@@ -111,6 +114,7 @@ public final class StringValue extends Validated
     /**
      * Creates a new StringValue instance with the specified default value.
      * @param defaultValue the value to set
+     * @return a new StringValue instance with the specified default value
      */
     @Contract("_ -> new")
     public static @NotNull StringValue of(final CharSequence defaultValue) {
@@ -119,26 +123,26 @@ public final class StringValue extends Validated
 
     /**
      * Returns the string representation of the {@code boolean} argument.
-     * @param b a {@code boolean}.
+     * @param bool a {@code boolean}.
      * @return if the argument is {@code true}, a string equal to
      *         {@code "true"} is returned; otherwise, a string equal to
      *         {@code "false"} is returned.
      */
     @Contract("_ -> new")
-    public static @NotNull StringValue valueOf(final boolean b) {
-        return StringValue.of(String.valueOf(b));
+    public static @NotNull StringValue valueOf(final boolean bool) {
+        return StringValue.of(String.valueOf(bool));
     }
 
     /**
      * Returns the string representation of the {@code BooleanValue} argument.
-     * @param b a {@code BooleanValue}.
+     * @param value a {@code BooleanValue}.
      * @return if the argument is {@code BooleanValue.TRUE}, a string equal to
      *         {@code "true"} is returned; otherwise, a string equal to
      *         {@code "false"} is returned.
      */
     @Contract("_ -> new")
-    public static @NotNull StringValue valueOf(@NotNull final BooleanValue b) {
-        return StringValue.of(b.toString());
+    public static @NotNull StringValue valueOf(@NotNull final BooleanValue value) {
+        return StringValue.of(value.toString());
     }
 
     /**
@@ -168,13 +172,13 @@ public final class StringValue extends Validated
 
     /**
      * Returns the string representation of the {@code IntegerValue} argument.
-     * @param i an {@code IntegerValue}.
+     * @param value an {@code IntegerValue}.
      * @return a string representation of the {@code IntegerValue} argument.
      * @see Integer#toString(int, int)
      */
     @Contract("_ -> new")
-    public static @NotNull StringValue valueOf(@NotNull final IntegerValue i) {
-        return StringValue.of(String.valueOf(i));
+    public static @NotNull StringValue valueOf(@NotNull final IntegerValue value) {
+        return StringValue.of(String.valueOf(value));
     }
 
     /**
@@ -193,13 +197,13 @@ public final class StringValue extends Validated
 
     /**
      * Returns the string representation of the {@code LongValue} argument.
-     * @param l a {@code LongValue}.
+     * @param value a {@code LongValue}.
      * @return a string representation of the {@code LongValue} argument.
      * @see Long#toString(long)
      */
     @Contract("_ -> new")
-    public static @NotNull StringValue valueOf(final LongValue l) {
-        return StringValue.of(String.valueOf(l));
+    public static @NotNull StringValue valueOf(final LongValue value) {
+        return StringValue.of(String.valueOf(value));
     }
 
     /**
@@ -218,13 +222,13 @@ public final class StringValue extends Validated
 
     /**
      * Returns the string representation of the {@code FloatValue} argument.
-     * @param f a {@code FloatValue}.
+     * @param value a {@code FloatValue}.
      * @return a string representation of the {@code FloatValue} argument.
      * @see Float#toString(float)
      */
     @Contract("_ -> new")
-    public static @NotNull StringValue valueOf(final FloatValue f) {
-        return StringValue.of(String.valueOf(f));
+    public static @NotNull StringValue valueOf(final FloatValue value) {
+        return StringValue.of(String.valueOf(value));
     }
 
     /**
@@ -243,20 +247,28 @@ public final class StringValue extends Validated
 
     /**
      * Returns the string representation of the {@code DoubleValue} argument.
-     * @param d a {@code DoubleValue}.
+     * @param value a {@code DoubleValue}.
      * @return a string representation of the {@code Double} argument.
      * @see Double#toString(double)
      */
     @Contract("_ -> new")
-    public static @NotNull StringValue valueOf(final DoubleValue d) {
-        return StringValue.of(String.valueOf(d));
+    public static @NotNull StringValue valueOf(final DoubleValue value) {
+        return StringValue.of(String.valueOf(value));
     }
 
+    /**
+     * Returns a new StringValue with an empty string as the initial value.
+     * @return a new StringValue with an empty string as the initial value
+     */
     @Contract(" -> new")
     public static @NotNull StringValue blank() {
         return new StringValue();
     }
 
+    /**
+     * Returns a new StringValue with a space as the initial value
+     * @return a new StringValue with a space as the initial value
+     */
     @Contract(" -> new")
     public static @NotNull StringValue space() {
         return new StringValue(" ");
@@ -442,8 +454,7 @@ public final class StringValue extends Validated
      */
     public boolean isValidIPAddress() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        return value.matches("^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-4])\\.){3}"
-                + "([0-9]|[1-9][0-9]|1[0-9‌​]{2}|2[0-4][0-9]|25[0-4])$");
+        return value.matches(RegExPatterns.IPADDRESS.getRegex());
     }
 
     /**
@@ -453,8 +464,7 @@ public final class StringValue extends Validated
      */
     public boolean isValidUrl() {
         checkArgumentNotNull(value, cannotBeNullOrEmpty("value"));
-        return value.matches(
-                "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
+        return value.matches(RegExPatterns.URL.getRegex());
     }
 
     /**
@@ -634,7 +644,7 @@ public final class StringValue extends Validated
      * @see String#indexOf(int)
      */
     @Contract("_ -> new")
-    public @NotNull IntegerValue indexOf(final int ch) {
+    public @NotNull IntegerValue indexOf(final char ch) {
         return IntegerValue.of(value.indexOf(ch));
     }
 
@@ -678,7 +688,7 @@ public final class StringValue extends Validated
      * the string.
      * This result is, by itself, indistinguishable from a genuine absence of
      * {@code ch} in the string.
-     * If stricter behavior is needed, {@link #indexOf(int, int, int)}
+     * If stricter behavior is needed, {@link #indexOf(char, int, int)}
      * should be considered instead.
      * On a {@link String} {@code s}, for example,
      * {@code s.indexOf(ch, fromIndex, s.length())} would throw if
@@ -686,7 +696,7 @@ public final class StringValue extends Validated
      * @see String#indexOf(int, int)
      */
     @Contract("_, _ -> new")
-    public @NotNull IntegerValue indexOf(final int ch, final int fromIndex) {
+    public @NotNull IntegerValue indexOf(final char ch, final int fromIndex) {
         return IntegerValue.of(value.indexOf(ch, fromIndex));
     }
 
@@ -728,7 +738,7 @@ public final class StringValue extends Validated
      * @see String#indexOf(int, int, int)
      */
     @Contract("_, _, _ -> new")
-    public @NotNull IntegerValue indexOf(final int ch, final int beginIndex, final int endIndex) {
+    public @NotNull IntegerValue indexOf(final char ch, final int beginIndex, final int endIndex) {
         return IntegerValue.of(value.indexOf(ch, beginIndex, endIndex));
     }
 
@@ -864,10 +874,10 @@ public final class StringValue extends Validated
     @SuppressWarnings("MethodWithMultipleReturnPoints")
     public @NotNull IntegerValue indexOfIgnoreCase(final CharSequence searchStr, final int startPos) {
         int startPos_ = startPos;
-        if (null == searchStr) {
+        if (searchStr == null) {
             return IntegerValue.of(INDEX_NOT_FOUND);
         }
-        if (0 > startPos_) {
+        if (startPos_ < 0) {
             startPos_ = 0;
         }
         final int endLimit = value.length() - searchStr.length() + 1;
@@ -912,7 +922,7 @@ public final class StringValue extends Validated
         final int otherLen = substring.length() - start;
 
         // Check for invalid parameters
-        if (0 > thisStart || 0 > start || 0 > length) {
+        if (thisStart < 0 || start < 0 || length < 0) {
             return false;
         }
 
@@ -921,7 +931,7 @@ public final class StringValue extends Validated
             return false;
         }
 
-        while (0 < tmpLen--) {
+        while (tmpLen-- > 0) {
             final char c1 = cs.charAt(index1++);
             final char c2 = substring.charAt(index2++);
 
@@ -968,7 +978,7 @@ public final class StringValue extends Validated
      * @see String#lastIndexOf(int)
      */
     @Contract("_ -> new")
-    public @NotNull IntegerValue lastIndexOf(final int ch) {
+    public @NotNull IntegerValue lastIndexOf(final char ch) {
         return IntegerValue.of(value.lastIndexOf(ch));
     }
 
@@ -1006,7 +1016,7 @@ public final class StringValue extends Validated
      * @see String#lastIndexOf(int, int)
      */
     @Contract("_, _ -> new")
-    public @NotNull IntegerValue lastIndexOf(final int ch, final int fromIndex) {
+    public @NotNull IntegerValue lastIndexOf(final char ch, final int fromIndex) {
         return IntegerValue.of(value.lastIndexOf(ch, fromIndex));
     }
 
@@ -1209,12 +1219,12 @@ public final class StringValue extends Validated
     /**
      * Returns true if and only if this string contains the specified
      * sequence of char values.
-     * @param s the sequence to search for
+     * @param charSeq the sequence to search for
      * @return true if this string contains {@code s}, false otherwise
      * @see String#contains(CharSequence)
      */
-    public boolean contains(final CharSequence s) {
-        return value.contains(s);
+    public boolean contains(final CharSequence charSeq) {
+        return value.contains(charSeq);
     }
 
     /**
@@ -1232,7 +1242,7 @@ public final class StringValue extends Validated
      *  {@code null} if null String input
      */
     public StringValue remove(final char remove) {
-        if (isEmpty() || INDEX_NOT_FOUND == value.indexOf(remove)) {
+        if (isEmpty() || value.indexOf(remove) == INDEX_NOT_FOUND) {
             return this;
         }
         final char[] chars = value.toCharArray();
@@ -1291,7 +1301,7 @@ public final class StringValue extends Validated
      *
      *<p>
      * Note that backslashes ({@code \}) and dollar signs ({@code $}) in the
-     * replacement string may cause the results to be different than if it were
+     * replacement string may cause the results to be different from if it were
      * being treated as a literal replacement string; see
      * {@link java.util.regex.Matcher#replaceFirst}.
      * Use {@link java.util.regex.Matcher#quoteReplacement} to suppress the special
@@ -1448,7 +1458,7 @@ public final class StringValue extends Validated
                                 final int max, final boolean ignoreCase) {
         String searchString_ = searchString;
         int max_ = max;
-        if (isEmpty() || searchString_.isEmpty() || null == replacement || 0 == max) {
+        if (isEmpty() || searchString_.isEmpty() || replacement == null || max == 0) {
             return this;
         }
         if (ignoreCase) {
@@ -1461,13 +1471,13 @@ public final class StringValue extends Validated
         }
         final int replLength = searchString_.length();
         int increase = Math.max(replacement.length() - replLength, 0);
-        increase *= 0 > max ? 16 : Math.min(max, 64);
+        increase *= max < 0 ? 16 : Math.min(max, 64);
         final StringBuilder buf = new StringBuilder(value.length() + increase);
         while (!Objects.equals(INDEX_NOT_FOUND, end.get())) {
             buf.append(value).append(replacement);
             start = end.get() + replLength;
             //noinspection ValueOfIncrementOrDecrementUsed
-            if (0 == --max_) {
+            if (--max_ == 0) {
                 break;
             }
             end = ignoreCase ? indexOfIgnoreCase(searchString_, start) : indexOf(searchString_, start);
@@ -1699,7 +1709,7 @@ public final class StringValue extends Validated
      * Examples are programming language identifiers, protocol keys, and HTML
      * tags.
      * For instance, {@code "TITLE".toLowerCase()} in a Turkish locale
-     * returns {@code "t\u005Cu0131tle"}, where '\u005Cu0131' is the
+     * returns {@code "t\u0131tle"}, where '\u0131' is the
      * LATIN SMALL LETTER DOTLESS I character.
      * To obtain correct results for locale insensitive strings, use
      * {@code toLowerCase(Locale.ROOT)}.
@@ -1783,7 +1793,7 @@ public final class StringValue extends Validated
      * Examples are programming language identifiers, protocol keys, and HTML
      * tags.
      * For instance, {@code "title".toUpperCase()} in a Turkish locale
-     * returns {@code "T\u005Cu0130TLE"}, where '\u005Cu0130' is the
+     * returns {@code "T\u0130TLE"}, where '\u0130' is the
      * LATIN CAPITAL LETTER I WITH DOT ABOVE character.
      * To obtain correct results for locale insensitive strings, use
      * {@code toUpperCase(Locale.ROOT)}.
@@ -2074,7 +2084,7 @@ public final class StringValue extends Validated
     @Contract(" -> new")
     public @NotNull StringValue removeAllSpecialCharacters() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        return StringValue.of(value.replaceAll("[^a-zA-Z0-9]+",""));
+        return StringValue.of(value.replaceAll(RegExPatterns.SPECIAL_CHARS.getRegex(), ""));
     }
 
     /**
@@ -2085,7 +2095,7 @@ public final class StringValue extends Validated
     @Contract(" -> new")
     public @NotNull StringValue removeAllAlphanumericCharacters() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        return StringValue.of(value.replaceAll("[a-zA-Z0-9]+",""));
+        return StringValue.of(value.replaceAll(RegExPatterns.ALPHANUMERIC.getRegex(), ""));
     }
 
     /**
@@ -2096,7 +2106,7 @@ public final class StringValue extends Validated
     @Contract(" -> new")
     public @NotNull StringValue removeAllLetters() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        return StringValue.of(value.replaceAll("[a-zA-Z]+",""));
+        return StringValue.of(value.replaceAll(RegExPatterns.ALPHA.getRegex(), ""));
     }
 
     /**
@@ -2107,7 +2117,7 @@ public final class StringValue extends Validated
     @Contract(" -> new")
     public @NotNull StringValue removeAllNumbers() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        return StringValue.of(value.replaceAll("[0-9]+",""));
+        return StringValue.of(value.replaceAll(RegExPatterns.NUMERIC.getRegex(), ""));
     }
 
     /**
@@ -2132,7 +2142,7 @@ public final class StringValue extends Validated
     public @NotNull StringValue leftOf(final char c) {
         checkArgumentNotNull(value, cannotBeNull("value"));
         final var index = value.indexOf(c);
-        if (0 <= index) return StringValue.of(value.substring(0, index));
+        if (index >= 0) return StringValue.of(value.substring(0, index));
         return this;
     }
 
@@ -2147,7 +2157,7 @@ public final class StringValue extends Validated
     public @NotNull StringValue rightOf(final char c) {
         checkArgumentNotNull(value, cannotBeNull("value"));
         final var index = value.indexOf(c);
-        if (0 <= index) return StringValue.of(value.substring(index + 1));
+        if (index >= 0) return StringValue.of(value.substring(index + 1));
         return this;
     }
 
@@ -2159,7 +2169,7 @@ public final class StringValue extends Validated
     @Contract(" -> new")
     public @NotNull StringValue firstChar() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        return StringValue.of(1 < value.length() ? value.substring(0, 1) : value);
+        return StringValue.of(value.length() > 1 ? value.substring(0, 1) : value);
     }
 
     /**
@@ -2170,7 +2180,7 @@ public final class StringValue extends Validated
     @Contract(" -> new")
     public @NotNull StringValue lastChar() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        return StringValue.of(1 < value.length() ? value.substring(value.length() - 1, 1) : value);
+        return StringValue.of(value.length() > 1 ? value.substring(value.length() - 1, 1) : value);
     }
 
     /**
@@ -2253,7 +2263,7 @@ public final class StringValue extends Validated
         //Check if first character is a minus sign
         final boolean isNegative = value.charAt(0) == localeMinusSign;
         //Check if string is not just a minus sign
-        if (isNegative && 1 == value.length()) return false;
+        if (isNegative && value.length() == 1) return false;
 
         boolean isDecimalSeparatorFound = false;
 
@@ -2330,7 +2340,7 @@ public final class StringValue extends Validated
     public StringValue unwrap(final char wrapChar) {
         checkArgumentNotNull(value, cannotBeNull("value"));
         checkArgumentNotNull(wrapChar, cannotBeNull("wrapChar"));
-        if (isEmpty() || CharUtils.NUL == wrapChar) {
+        if (isEmpty() || wrapChar == CharUtils.NUL) {
             return this;
         }
 
@@ -2351,7 +2361,7 @@ public final class StringValue extends Validated
     @Contract(" -> new")
     public @NotNull StringValue uppercaseFirst() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        return StringValue.of(1 < value.length()
+        return StringValue.of(value.length() > 1
                 ? value.substring(0, 1).toUpperCase(Locale.getDefault()) + value.substring(1)
                 : value.toUpperCase(Locale.getDefault()));
     }
@@ -2366,7 +2376,7 @@ public final class StringValue extends Validated
     public @NotNull StringValue uppercaseFirst(final Locale locale) {
         checkArgumentNotNull(value, cannotBeNull("value"));
         checkArgumentNotNull(locale, LOCALE_CANNOT_BE_NULL);
-        return StringValue.of(1 < value.length()
+        return StringValue.of(value.length() > 1
                 ? value.substring(0, 1).toUpperCase(locale) + value.substring(1)
                 : value.toUpperCase(locale));
     }
@@ -2379,13 +2389,14 @@ public final class StringValue extends Validated
     @Contract(" -> new")
     public @NotNull StringValue lowercaseFirst() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        return StringValue.of(1 < value.length()
+        return StringValue.of(value.length() > 1
                 ? value.substring(0, 1).toLowerCase(Locale.getDefault()) + value.substring(1)
                 : value.toLowerCase(Locale.getDefault()));
     }
 
     /**
      * Returns the value with first char lowercase.
+     * @param locale the locale to use for the conversion
      * @return the value with first char lowercase
      * @throws IllegalArgumentException if the value is null or empty
      */
@@ -2393,7 +2404,7 @@ public final class StringValue extends Validated
     public @NotNull StringValue lowercaseFirst(final Locale locale) {
         checkArgumentNotNull(value, cannotBeNull("value"));
         checkArgumentNotNull(locale, LOCALE_CANNOT_BE_NULL);
-        return StringValue.of(1 < value.length()
+        return StringValue.of(value.length() > 1
                 ? value.substring(0, 1).toLowerCase(locale) + value.substring(1)
                 : value.toLowerCase(locale));
     }
@@ -2406,7 +2417,7 @@ public final class StringValue extends Validated
      * @see String#isBlank()
      */
     public boolean isBlank() {
-        return (null == value || value.isEmpty())
+        return (value == null || value.isEmpty())
                 || IntStream.range(0, value.length())
                 .allMatch(i -> Character.isWhitespace(value.charAt(i)));
     }
@@ -2513,64 +2524,64 @@ public final class StringValue extends Validated
      *   </thead>
      *   <tbody>
      *   <tr>
-     *     <th scope="row">{@code \u005Cb}</th>
+     *     <th scope="row">{@code \b}</th>
      *     <td>backspace</td>
      *     <td>{@code U+0008}</td>
      *   </tr>
      *   <tr>
-     *     <th scope="row">{@code \u005Ct}</th>
+     *     <th scope="row">{@code \t}</th>
      *     <td>horizontal tab</td>
      *     <td>{@code U+0009}</td>
      *   </tr>
      *   <tr>
-     *     <th scope="row">{@code \u005Cn}</th>
+     *     <th scope="row">{@code \n}</th>
      *     <td>line feed</td>
      *     <td>{@code U+000A}</td>
      *   </tr>
      *   <tr>
-     *     <th scope="row">{@code \u005Cf}</th>
+     *     <th scope="row">{@code \f}</th>
      *     <td>form feed</td>
      *     <td>{@code U+000C}</td>
      *   </tr>
      *   <tr>
-     *     <th scope="row">{@code \u005Cr}</th>
+     *     <th scope="row">{@code \r}</th>
      *     <td>carriage return</td>
      *     <td>{@code U+000D}</td>
      *   </tr>
      *   <tr>
-     *     <th scope="row">{@code \u005Cs}</th>
+     *     <th scope="row">{@code \s}</th>
      *     <td>space</td>
      *     <td>{@code U+0020}</td>
      *   </tr>
      *   <tr>
-     *     <th scope="row">{@code \u005C"}</th>
+     *     <th scope="row">{@code \"}</th>
      *     <td>double quote</td>
      *     <td>{@code U+0022}</td>
      *   </tr>
      *   <tr>
-     *     <th scope="row">{@code \u005C'}</th>
+     *     <th scope="row">{@code \'}</th>
      *     <td>single quote</td>
      *     <td>{@code U+0027}</td>
      *   </tr>
      *   <tr>
-     *     <th scope="row">{@code \u005C\u005C}</th>
+     *     <th scope="row">{@code \\}</th>
      *     <td>backslash</td>
      *     <td>{@code U+005C}</td>
      *   </tr>
      *   <tr>
-     *     <th scope="row">{@code \u005C0 - \u005C377}</th>
+     *     <th scope="row">{@code \0 - \377}</th>
      *     <td>octal escape</td>
      *     <td>code point equivalents</td>
      *   </tr>
      *   <tr>
-     *     <th scope="row">{@code \u005C<line-terminator>}</th>
+     *     <th scope="row">{@code \<line-terminator>}</th>
      *     <td>continuation</td>
      *     <td>discard</td>
      *   </tr>
      *   </tbody>
      * </table>
      * @implNote
-     * This method does <em>not</em> translate Unicode escapes such as "{@code \u005cu2022}".
+     * This method does <em>not</em> translate Unicode escapes such as "{@code \u2022}".
      * Unicode escapes are translated by the Java compiler when reading input characters and
      * are not part of the string literal specification.
      * @throws IllegalArgumentException when an escape sequence is malformed.
@@ -2640,7 +2651,7 @@ public final class StringValue extends Validated
      * @see String#isEmpty()
      */
     public boolean isEmpty() {
-        return null == value || value.isEmpty();
+        return value == null || value.isEmpty();
     }
 
     /**
@@ -2671,7 +2682,7 @@ public final class StringValue extends Validated
     @Contract("_ -> new")
     public @NotNull StringValue strip(final String stripChars) {
         if (value.isEmpty()) return StringValue.EMPTY;
-        String newValue = stripStart(value, stripChars);
+        final String newValue = stripStart(value, stripChars);
         return StringValue.of(stripEnd(newValue, stripChars));
     }
 
@@ -2755,14 +2766,14 @@ public final class StringValue extends Validated
      * <p>
      * Any exception thrown by {@code f.apply()} will be propagated to the
      * caller.
-     * @param f a function to apply
+     * @param function a function to apply
      * @param <R> the type of the result
      * @return the result of applying the function to this string
      * @see Function
      * @see String#transform(Function)
      */
-    public <R> R transform(final Function<? super String, ? extends R> f) {
-        return value.transform(f);
+    public <R> R transform(final Function<? super String, ? extends R> function) {
+        return value.transform(function);
     }
 
     /**
@@ -3142,7 +3153,6 @@ public final class StringValue extends Validated
      *  where false is less than true
      */
     public int compareTo(final @NotNull StringValue other) {
-        //noinspection AccessingNonPublicFieldOfAnotherObject
         return value.compareTo(other.value);
     }
 
@@ -3191,9 +3201,13 @@ public final class StringValue extends Validated
      *          lexicographically greater than the string argument.
      * @see String#compareTo(String)
      */
-    @Override
     public int compareTo(@NotNull final String anotherString) {
         return value.compareTo(anotherString);
+    }
+
+    @Override
+    public int compareTo(@NotNull final ImmutableValue<String> other) {
+        return this.compareTo(other.get());
     }
 
     /**
@@ -3209,14 +3223,14 @@ public final class StringValue extends Validated
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
+    public boolean equals(final Object obj) {
+        if (this == obj) return true;
 
-        if (null == o || getClass() != o.getClass()) return false;
+        if (obj == null || getClass() != obj.getClass()) return false;
 
-        StringValue that = (StringValue) o;
+        final StringValue that = (StringValue) obj;
 
-        return new EqualsBuilder().appendSuper(super.equals(o)).append(value, that.value).isEquals();
+        return new EqualsBuilder().appendSuper(super.equals(obj)).append(value, that.value).isEquals();
     }
 
     @Override

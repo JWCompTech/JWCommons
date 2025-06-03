@@ -27,6 +27,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.IntStream;
 
+import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
+
 /**
  * Contains methods dealing with numbers.
  *
@@ -39,12 +41,12 @@ public final class NumberUtils {
      * @param input number to check
      * @return true if specified number is prime
      */
-    public boolean isPrime(final long input) {
+    public static boolean isPrime(final long input) {
         // fast even test.
-        if(2 < input && 0 == (input & 1)) return false;
+        if(input > 2 && (input & 1) == 0) return false;
         // only odd factors need to be tested up to input^0.5
         return IntStream.iterate(3, i -> (long) i * i <= input, i -> i + 2)
-                .noneMatch(i -> 0 == input % i);
+                .noneMatch(i -> input % i == 0);
     }
 
     /**
@@ -53,7 +55,7 @@ public final class NumberUtils {
      * @return true if the specified number is even
      */
     @Contract(pure = true)
-    public static @NotNull Boolean isEven(final int input) { return 0 == (input & 1); }
+    public static @NotNull Boolean isEven(final int input) { return (input & 1) == 0; }
 
     /**
      * Checks if the specified number is odd.
@@ -61,21 +63,21 @@ public final class NumberUtils {
      * @return true if the specified number is odd
      */
     @Contract(pure = true)
-    public static @NotNull Boolean isOdd(final int input) { return 0 != (input & 1); }
+    public static @NotNull Boolean isOdd(final int input) { return (input & 1) != 0; }
 
     /**
      * Squares the specified number.
      * @param input number to edit
      * @return the number squared
      */
-    public static double squared(final int input) { return Math.pow(input, 2); }
+    public static double squared(final int input) { return StrictMath.pow(input, 2); }
 
     /**
      * Cubes the specified number.
      * @param input number to edit
      * @return the number cubed
      */
-    public static double cubed(final int input) { return Math.pow(input, 3); }
+    public static double cubed(final int input) { return StrictMath.pow(input, 3); }
 
     /**
      * Returns the square root of the specified number.
@@ -99,5 +101,5 @@ public final class NumberUtils {
     }
 
     /** Prevents instantiation of this utility class. */
-    private NumberUtils() { }
+    private NumberUtils() { throwUnsupportedExForUtilityCls(); }
 }

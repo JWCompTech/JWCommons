@@ -35,35 +35,34 @@ public abstract class Triple<L, M, R> implements Comparable<Triple<L, M, R>>, Se
     private static final long serialVersionUID = 1L;
     public static final Triple<?, ?, ?>[] EMPTY_ARRAY = new Triple[0];
 
+    protected Triple() { }
+
     @SuppressWarnings("unchecked")
     public static <L, M, R> Triple<L, M, R>[] emptyArray() {
         return (Triple<L, M, R>[]) EMPTY_ARRAY;
     }
 
-    public static <L, M, R> Triple<L, M, R> of(L left, M middle, R right) {
+    public static <L, M, R> Triple<L, M, R> of(final L left, final M middle, final R right) {
         return ImmutableTriple.of(left, middle, right);
     }
 
-    public static <L, M, R> Triple<L, M, R> ofNonNull(L left, M middle, R right) {
+    public static <L, M, R> Triple<L, M, R> ofNonNull(final L left, final M middle, final R right) {
         return ImmutableTriple.ofNonNull(left, middle, right);
     }
 
-    public Triple() {
-    }
-
-    public int compareTo(@NotNull Triple<L, M, R> other) {
+    public int compareTo(@NotNull final Triple<L, M, R> other) {
         return (new CompareToBuilder()).append(this.getLeft(), other.getLeft()).append(this.getMiddle(),
                 other.getMiddle()).append(this.getRight(), other.getRight()).toComparison();
     }
 
     @SuppressWarnings("rawtypes")
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this) {
             return true;
         } else if (!(obj instanceof Triple)) {
             return false;
         } else {
-            Triple<?, ?, ?> other = (Triple)obj;
+            final Triple<?, ?, ?> other = (Triple)obj;
             return Objects.equals(this.getLeft(), other.getLeft()) && Objects.equals(this.getMiddle(),
                     other.getMiddle()) && Objects.equals(this.getRight(), other.getRight());
         }
@@ -85,7 +84,7 @@ public abstract class Triple<L, M, R> implements Comparable<Triple<L, M, R>>, Se
         return "(" + this.getLeft() + "," + this.getMiddle() + "," + this.getRight() + ")";
     }
 
-    public String toString(String format) {
+    public String toString(final String format) {
         return String.format(format, this.getLeft(), this.getMiddle(), this.getRight());
     }
 }

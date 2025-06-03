@@ -32,7 +32,7 @@ import java.io.Serializable;
  *            this class to allow for method chaining
  * @since 0.0.1
  */
-public interface Value<T, V> extends Comparable<T>, Serializable {
+public interface Value<T, V> extends Comparable<Value<T, V>>, Serializable {
     /**
      * Returns the value.
      * @return the stored value

@@ -37,6 +37,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.jwcomptech.commons.Literals.*;
+import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
 import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNull;
 import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNullOrEmpty;
 import static org.apache.commons.lang3.StringUtils.stripEnd;
@@ -168,8 +169,7 @@ public final class StringUtils {
      */
     public static @NotNull Boolean isValidIPAddress(final String input) {
         checkArgumentNotNull(input, cannotBeNull("input"));
-        return input.matches("^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-4])\\.){3}"
-                + "([0-9]|[1-9][0-9]|1[0-9‌​]{2}|2[0-4][0-9]|25[0-4])$");
+        return input.matches(RegExPatterns.IPADDRESS.getRegex());
     }
 
     /**
@@ -180,7 +180,7 @@ public final class StringUtils {
      */
     public static @NotNull Boolean isValidUrl(final String input) {
         checkArgumentNotNull(input, cannotBeNullOrEmpty("input"));
-        return input.matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
+        return input.matches(RegExPatterns.URL.getRegex());
     }
 
     /**
@@ -361,7 +361,7 @@ public final class StringUtils {
      */
     public static @NotNull String removeAllSpecialCharacters(final String input) {
         checkArgumentNotNull(input, cannotBeNull("input"));
-        return input.replaceAll("[^a-zA-Z0-9]+","");
+        return input.replaceAll(RegExPatterns.SPECIAL_CHARS.getRegex(), "");
     }
 
     /**
@@ -372,7 +372,7 @@ public final class StringUtils {
      */
     public static @NotNull String removeAllAlphanumericCharacters(final String input) {
         checkArgumentNotNull(input, cannotBeNull("input"));
-        return input.replaceAll("[a-zA-Z0-9]+","");
+        return input.replaceAll(RegExPatterns.ALPHANUMERIC.getRegex(), "");
     }
 
     /**
@@ -383,7 +383,7 @@ public final class StringUtils {
      */
     public static @NotNull String removeAllLetters(final String input) {
         checkArgumentNotNull(input, cannotBeNull("input"));
-        return input.replaceAll("[a-zA-Z]+","");
+        return input.replaceAll(RegExPatterns.ALPHA.getRegex(), "");
     }
 
     /**
@@ -394,7 +394,7 @@ public final class StringUtils {
      */
     public static @NotNull String removeAllNumbers(final String input) {
         checkArgumentNotNull(input, cannotBeNull("input"));
-        return input.replaceAll("[0-9]+","");
+        return input.replaceAll(RegExPatterns.NUMERIC.getRegex(), "");
     }
 
     /**
@@ -419,7 +419,7 @@ public final class StringUtils {
     public static @NotNull String leftOf(final String input, final char c) {
         checkArgumentNotNull(input, cannotBeNull("input"));
         final var index = input.indexOf(c);
-        if (0 <= index) return input.substring(0, index);
+        if (index >= 0) return input.substring(0, index);
         return input;
     }
 
@@ -434,7 +434,7 @@ public final class StringUtils {
     public static @NotNull String rightOf(final String input, final char c) {
         checkArgumentNotNull(input, cannotBeNull("input"));
         final var index = input.indexOf(c);
-        if (0 <= index) return input.substring(index + 1);
+        if (index >= 0) return input.substring(index + 1);
         return input;
     }
 
@@ -446,7 +446,7 @@ public final class StringUtils {
      */
     public static String firstChar(final String input) {
         checkArgumentNotNull(input, cannotBeNull("input"));
-        return 1 < input.length() ? input.substring(0, 1) : input;
+        return input.length() > 1 ? input.substring(0, 1) : input;
     }
 
     /**
@@ -457,7 +457,7 @@ public final class StringUtils {
      */
     public static String lastChar(final String input) {
         checkArgumentNotNull(input, cannotBeNull("input"));
-        return 1 < input.length() ? input.substring(input.length() - 1, 1) : input;
+        return input.length() > 1 ? input.substring(input.length() - 1, 1) : input;
     }
 
     /**
@@ -588,7 +588,7 @@ public final class StringUtils {
         //Check if first character is a minus sign
         final boolean isNegative = input.charAt(0) == localeMinusSign;
         //Check if string is not just a minus sign
-        if (isNegative && 1 == input.length()) return false;
+        if (isNegative && input.length() == 1) return false;
 
         boolean isDecimalSeparatorFound = false;
 
@@ -631,7 +631,7 @@ public final class StringUtils {
     public static @NotNull String unwrap(final String input, final char wrapChar) {
         checkArgumentNotNull(input, cannotBeNull("str"));
         checkArgumentNotNull(wrapChar, cannotBeNull("wrapChar"));
-        if (input.isEmpty() || CharUtils.NUL == wrapChar) {
+        if (input.isEmpty() || wrapChar == CharUtils.NUL) {
             return input;
         }
 
@@ -653,7 +653,7 @@ public final class StringUtils {
 
     public static @NotNull String uppercaseFirst(final String input) {
         checkArgumentNotNull(input, INPUT_CANNOT_BE_NULL);
-        return 1 < input.length()
+        return input.length() > 1
                 ? input.substring(0, 1).toUpperCase(Locale.getDefault()) + input.substring(1)
                 : input.toUpperCase(Locale.getDefault());
     }
@@ -669,7 +669,7 @@ public final class StringUtils {
     public static @NotNull String uppercaseFirst(final String input, final Locale locale) {
         checkArgumentNotNull(input, INPUT_CANNOT_BE_NULL);
         checkArgumentNotNull(locale, LOCALE_CANNOT_BE_NULL);
-        return 1 < input.length()
+        return input.length() > 1
                 ? input.substring(0, 1).toUpperCase(locale) + input.substring(1)
                 : input.toUpperCase(locale);
     }
@@ -682,7 +682,7 @@ public final class StringUtils {
      */
     public static @NotNull String lowercaseFirst(final String input) {
         checkArgumentNotNull(input, INPUT_CANNOT_BE_NULL);
-        return 1 < input.length()
+        return input.length() > 1
                 ? input.substring(0, 1).toLowerCase(Locale.getDefault()) + input.substring(1)
                 : input.toLowerCase(Locale.getDefault());
     }
@@ -690,13 +690,14 @@ public final class StringUtils {
     /**
      * Returns string with first char lowercase.
      * @param input string to edit
+     * @param locale the locale to use for the conversion
      * @return string with first char lowercase
      * @throws IllegalArgumentException if input is null or empty
      */
     public static @NotNull String lowercaseFirst(final String input, final Locale locale) {
         checkArgumentNotNull(input, INPUT_CANNOT_BE_NULL);
         checkArgumentNotNull(locale, LOCALE_CANNOT_BE_NULL);
-        return 1 < input.length()
+        return input.length() > 1
                 ? input.substring(0, 1).toLowerCase(locale) + input.substring(1)
                 : input.toLowerCase(locale);
     }
@@ -746,10 +747,10 @@ public final class StringUtils {
      */
     public static String strip(final @NotNull String input, final String stripChars) {
         if (input.isEmpty()) return input;
-        String input_ = stripStart(input, stripChars);
+        final String input_ = stripStart(input, stripChars);
         return stripEnd(input_, stripChars);
     }
 
     /** Prevents instantiation of this utility class. */
-    private StringUtils() { }
+    private StringUtils() { throwUnsupportedExForUtilityCls(); }
 }

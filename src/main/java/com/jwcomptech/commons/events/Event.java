@@ -22,16 +22,17 @@ package com.jwcomptech.commons.events;
  * #L%
  */
 
+import lombok.Data;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.UnmodifiableView;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Base class for custom events. Each event has associated an event source,
@@ -39,6 +40,7 @@ import java.util.List;
  * @since 0.0.1
  */
 @SuppressWarnings("unused")
+@Data
 public class Event implements Cloneable, Serializable {
 
     @Serial
@@ -49,7 +51,13 @@ public class Event implements Cloneable, Serializable {
     /** The object on which the Event initially occurred. */
     private transient Object source;
 
-    /** Type of the event. */
+    /** Type of the event.
+     * -- GETTER --
+     *  Gets the event type of this event.
+     *  Objects of the same
+     *  class can have different event types.
+     *  These event types further specify what kind of event occurred.
+     */
     private final EventType<? extends Event> eventType;
 
     /** Event target that defines the path through which the event will travel when posted. */
@@ -66,7 +74,7 @@ public class Event implements Cloneable, Serializable {
      * @param target the event target to associate with the event
      */
     public Event(final EventTarget<? extends Event> target) {
-        if (null == target) {
+        if (target == null) {
             throw new IllegalArgumentException("Event target cannot be null!");
         }
         this.target = target;
@@ -80,10 +88,10 @@ public class Event implements Cloneable, Serializable {
      */
     public Event(final EventTarget<? extends Event> target,
                  final EventType<? extends Event> eventType) {
-        if (null == target) {
+        if (target == null) {
             throw new IllegalArgumentException("Event target cannot be null!");
         }
-        if (null == eventType) {
+        if (eventType == null) {
             throw new IllegalArgumentException("Event type cannot be null!");
         }
         this.target = target;
@@ -98,14 +106,14 @@ public class Event implements Cloneable, Serializable {
      */
     public Event(final EventTarget<? extends Event> target,
                  final EventType<? extends Event> eventType,
-                 final List<Object> args) {
-        if(null == target) {
+                 final Collection<Object> args) {
+        if(target == null) {
             throw new IllegalArgumentException("Event target cannot be null!");
         }
-        if(null == eventType) {
+        if(eventType == null) {
             throw new IllegalArgumentException("Event type cannot be null!");
         }
-        if(null == args) {
+        if(args == null) {
             throw new IllegalArgumentException("Args cannot be null!");
         }
         this.target = target;
@@ -127,25 +135,16 @@ public class Event implements Cloneable, Serializable {
     protected final void setTarget(final EventTarget<? extends Event> target) { this.target = target; }
 
     /**
-     * Gets the event type of this event.
-     * Objects of the same {@code Event} class can have different event types.
-     * These event types further specify what kind of event occurred.
-     * @return the event type
-     */
-    public EventType<? extends Event> getEventType() { return eventType; }
-
-    /**
      * Creates and returns a copy of this event with the specified event source and target.
      * @param newSource the new source of the copied event
      * @param newTarget the new target of the copied event
      * @return the event copy with the new source and target
      */
-    @SuppressWarnings("AccessingNonPublicFieldOfAnotherObject")
     public Event copyFor(final Object newSource, final EventTarget<? extends Event> newTarget) {
-        if (null == newSource) {
+        if (newSource == null) {
             throw new IllegalArgumentException("Event source cannot be null!");
         }
-        if (null == newTarget) {
+        if (newTarget == null) {
             throw new IllegalArgumentException("Event target cannot be null!");
         }
         final var newEvent = (Event) clone();
@@ -182,7 +181,8 @@ public class Event implements Cloneable, Serializable {
      * Returns the Event arguments.
      * @return the Event arguments
      */
-    public final List<Object> getArgs() { return Collections.unmodifiableList(args); }
+    @Contract(pure = true)
+    public final @NotNull @UnmodifiableView List<Object> getArgs() { return Collections.unmodifiableList(args); }
 
     /**
      * Creates and returns a copy of this {@code Event}.
@@ -218,42 +218,5 @@ public class Event implements Cloneable, Serializable {
         this.args.addAll(Arrays.asList(args));
         if(!consumed) target.fire(this, eventType);
         this.args.clear();
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-
-        if (!(o instanceof Event event)) return false;
-
-        return new EqualsBuilder()
-                .append(consumed, event.consumed)
-                .append(source, event.source)
-                .append(eventType, event.eventType)
-                .append(target, event.target)
-                .append(args, event.args)
-                .isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(source)
-                .append(eventType)
-                .append(target)
-                .append(consumed)
-                .append(args)
-                .toHashCode();
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("source", source)
-                .append("eventType", eventType)
-                .append("target", target)
-                .append("consumed", consumed)
-                .append("args", args)
-                .toString();
     }
 }

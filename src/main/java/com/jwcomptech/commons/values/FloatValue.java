@@ -74,7 +74,10 @@ public final class FloatValue extends NumberValue<Float, FloatValue> {
         super.setListenersTarget(this);
     }
 
-    /** Creates a new FloatValue instance with the default value of 0.0. */
+    /**
+     * Creates a new FloatValue instance with the default value of 0.0.
+     * @return a new FloatValue instance with the default value of 0.0
+     */
     @Contract(" -> new")
     public static @NotNull FloatValue of() {
         return new FloatValue();
@@ -83,6 +86,7 @@ public final class FloatValue extends NumberValue<Float, FloatValue> {
     /**
      * Creates a new FloatValue instance with the specified default int value.
      * @param defaultValue the value to set
+     * @return a new FloatValue instance with the specified default int value
      */
     @Contract("_ -> new")
     public static @NotNull FloatValue of(final int defaultValue) {
@@ -92,6 +96,7 @@ public final class FloatValue extends NumberValue<Float, FloatValue> {
     /**
      * Creates a new FloatValue instance with the specified default float value.
      * @param defaultValue the value to set
+     * @return a new FloatValue instance with the specified default float value
      */
     @Contract("_ -> new")
     public static @NotNull FloatValue of(final float defaultValue) {
@@ -102,6 +107,7 @@ public final class FloatValue extends NumberValue<Float, FloatValue> {
      * Creates a new FloatValue instance with the specified number value.
      * @param defaultValue the value to set
      * @throws IllegalArgumentException if specified default value is null
+     * @return a new FloatValue instance with the specified number value
      */
     @Contract("_ -> new")
     public static @NotNull FloatValue of(final Number defaultValue) {
@@ -112,6 +118,7 @@ public final class FloatValue extends NumberValue<Float, FloatValue> {
      * Creates a new FloatValue instance with the specified default string value.
      * @param defaultValue the value to set
      * @throws IllegalArgumentException if specified default value is null or empty
+     * @return a new FloatValue instance with the specified default string value
      */
     @Contract("_ -> new")
     public static @NotNull FloatValue of(final String defaultValue) {
@@ -406,7 +413,7 @@ public final class FloatValue extends NumberValue<Float, FloatValue> {
      */
     @Override
     public boolean isPositive() {
-        return 0 < Integer.signum(value.intValue());
+        return Integer.signum(value.intValue()) > 0;
     }
 
     /**
@@ -414,7 +421,7 @@ public final class FloatValue extends NumberValue<Float, FloatValue> {
      */
     @Override
     public boolean isNegative() {
-        return 0 > Integer.signum(value.intValue());
+        return Integer.signum(value.intValue()) < 0;
     }
 
     /**
@@ -422,7 +429,7 @@ public final class FloatValue extends NumberValue<Float, FloatValue> {
      */
     @Override
     public boolean isZero() {
-        return 0.0F == value;
+        return value == 0.0F;
     }
 
     /**
@@ -430,7 +437,7 @@ public final class FloatValue extends NumberValue<Float, FloatValue> {
      */
     @Override
     public boolean isEqualTo(final @NotNull Number number) {
-        return value == number.floatValue();
+        return value.equals(number.floatValue());
     }
 
     /**
@@ -438,7 +445,7 @@ public final class FloatValue extends NumberValue<Float, FloatValue> {
      */
     @Override
     public boolean isNotEqualTo(final @NotNull Number number) {
-        return value != number.floatValue();
+        return !value.equals(number.floatValue());
     }
 
     /**
@@ -480,8 +487,13 @@ public final class FloatValue extends NumberValue<Float, FloatValue> {
     }
 
     @Override
-    public int compareTo(@NotNull Float other) {
+    public int compareTo(@NotNull final Float other) {
         return Float.compare(value, other);
+    }
+
+    @Override
+    public int compareTo(@NotNull final Value<Float, FloatValue> other) {
+        return this.compareTo(other.get());
     }
 
     /**
@@ -521,7 +533,7 @@ public final class FloatValue extends NumberValue<Float, FloatValue> {
 
     @Override
     public boolean equals(final Object obj) {
-        return obj instanceof FloatValue && value == ((FloatValue) obj).floatValue();
+        return obj instanceof FloatValue && value.equals(((FloatValue) obj).floatValue());
     }
 
     @Override

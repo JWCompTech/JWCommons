@@ -23,11 +23,14 @@ package com.jwcomptech.commons.validators;
  */
 
 import com.jwcomptech.commons.functions.Function1;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import static com.jwcomptech.commons.Literals.LOCALE_CANNOT_BE_NULL;
+import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
 import static com.jwcomptech.commons.utils.StringUtils.strip;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -35,31 +38,71 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 public final class CheckIf {
     /**
      * Ensures the truth of an expression involving one or more parameters to the calling method.
+     *
      * @param expression a boolean expression
      * @throws IllegalArgumentException if {@code expression} is false
      */
     @SuppressWarnings("BooleanParameter")
     public static void checkArgument(final boolean expression)
             throws IllegalArgumentException {
-        if (!expression) throw new IllegalArgumentException("Invalid argument specified!");
+        checkArgument(expression,
+                () -> new IllegalArgumentException("Invalid argument specified!"));
     }
 
     /**
      * Ensures the truth of an expression involving one or more parameters to the calling method.
+     *
      * @param expression a boolean expression
-     * @param errorMessage the exception message to use if the check fails; will be converted to a
-     *     string using {@link String#valueOf(Object)}
+     * @param message the message to use for the exception if thrown
      * @throws IllegalArgumentException if {@code expression} is false
      */
     @SuppressWarnings("BooleanParameter")
-    public static void checkArgument(final boolean expression, final Object errorMessage)
+    public static void checkArgument(final boolean expression,
+                                     final @NotNull String message)
             throws IllegalArgumentException {
-        if (!expression) throw new IllegalArgumentException(String.valueOf(errorMessage));
+        checkArgument(expression,
+                () -> new IllegalArgumentException(message));
+    }
+
+    /**
+     * Ensures the truth of an expression involving one or more parameters to the calling method.
+     *
+     * @param expression a boolean expression
+     * @param exceptionSupplier the exception supplier to specify the exception to throw
+     * @throws RuntimeException the supplied exception if {@code expression} is false
+     */
+    @SuppressWarnings("BooleanParameter")
+    public static void checkArgument(final boolean expression,
+                                     final Supplier<? extends RuntimeException> exceptionSupplier) {
+        if (!expression) throw exceptionSupplier.get();
+    }
+
+    /**
+     * Ensures the truth of an expression involving one or more parameters to the calling method.
+     *
+     * @param <T> the input type of the function
+     * @param <R> the return type of the function
+     * @param reference the object to evaluate a condition against
+     * @param conditionFunction a function that checks a condition against the reference
+     * @param exceptionSupplier the exception supplier to specify the exception to throw
+     *                          if the condition function returns false
+     * @param transformFunction the function to use to transform {@code reference}
+     * @throws RuntimeException the supplied exception if {@code conditionFunction} returns false
+     * @return the transformed reference if the condition function returns true
+     */
+    @SuppressWarnings("BooleanParameter")
+    public static <T, R> R checkArgumentAndTransform(final T reference,
+                                                     final @NotNull Function1<T, Boolean> conditionFunction,
+                                                     final Supplier<? extends RuntimeException> exceptionSupplier,
+                                                     final @NotNull Function1<T, R> transformFunction) {
+        if (!conditionFunction.apply(reference)) throw exceptionSupplier.get();
+        else return transformFunction.apply(reference);
     }
 
     /**
      * Ensures that {@code reference} is non-null,
      * throwing an {@code IllegalArgumentException} with a custom message otherwise.
+     *
      * @param <T> the type of the reference
      * @param reference the object to verify
      * @param errorMessage the exception message to use if the check fails; will be converted to a
@@ -67,16 +110,18 @@ public final class CheckIf {
      * @return {@code reference}, guaranteed to be non-null, for convenience
      * @throws IllegalArgumentException if {@code reference} is {@code null}
      */
-    public static <T> T checkArgumentNotNull(final T reference, final Object errorMessage)
-            throws IllegalArgumentException {
-        checkArgument(null != reference, errorMessage);
+    @SuppressWarnings("UnusedReturnValue")
+    public static <T> T checkArgumentNotNull(final T reference, final Object errorMessage) {
+        checkArgument(reference != null,
+                () -> new IllegalArgumentException(String.valueOf(errorMessage)));
         return reference;
     }
 
     /**
      * Ensures that {@code reference} is non-null,
      * throwing an {@code IllegalArgumentException} with a custom message otherwise.
-     * If no exception is thrown, {@code reference} is then passed to the specified supplier.
+     * If no exception is thrown, {@code reference} is then passed to the specified consumer.
+     *
      * @param <T> the type of the reference
      * @param reference the object to verify
      * @param errorMessage the exception message to use if the check fails; will be converted to a
@@ -86,35 +131,40 @@ public final class CheckIf {
      */
     public static <T> void checkArgumentNotNullAndRun(final T reference,
                                                       final Object errorMessage,
-                                                      final Consumer<T> runnable)
+                                                      final @NotNull Consumer<T> runnable)
             throws IllegalArgumentException {
-        checkArgument(null != reference, errorMessage);
+        checkArgument(reference != null,
+                () -> new IllegalArgumentException(String.valueOf(errorMessage)));
         runnable.accept(reference);
     }
 
     /**
      * Ensures that {@code reference} is non-null,
      * throwing an {@code IllegalArgumentException} with a custom message otherwise.
-     * If no exception is thrown, {@code reference} is then passed to the specified supplier.
+     * If no exception is thrown, {@code reference} is then passed to the specified function.
+     *
      * @param <T> the type of the reference
+     * @param <R> the return type of the function
      * @param reference the object to verify
      * @param errorMessage the exception message to use if the check fails; will be converted to a
      *          string using {@link String#valueOf(Object)}
-     * @param function the supplier to run, supplying {@code reference}, guaranteed to be non-null, for convenience
+     * @param function the function to use to transform {@code reference}
      * @return the result of the specified function
      * @throws IllegalArgumentException if {@code reference} is {@code null}
      */
     public static <T, R> R checkArgumentNotNullAndTransform(final T reference,
                                                       final Object errorMessage,
-                                                      final Function1<T, R> function)
+                                                      final @NotNull Function1<T, R> function)
             throws IllegalArgumentException {
-        checkArgument(null != reference, errorMessage);
+        checkArgument(reference != null,
+                () -> new IllegalArgumentException(String.valueOf(errorMessage)));
         return function.apply(reference);
     }
 
     /**
      * Ensures that {@code reference} is non-null and non-empty,
      * throwing an {@code IllegalArgumentException} with a custom message otherwise.
+     *
      * @apiNote This method calls {@link org.apache.commons.lang3.StringUtils#isNotBlank(CharSequence)} on the specified reference.
      * @param reference the object to verify
      * @param errorMessage the exception message to use if the check fails; will be converted to a
@@ -122,54 +172,61 @@ public final class CheckIf {
      * @return {@code reference}, guaranteed to be non-null and non-empty, for convenience
      * @throws IllegalArgumentException if {@code reference} is {@code null} or empty
      */
+    @SuppressWarnings("UnusedReturnValue")
     public static String checkArgumentNotNullOrEmpty(final String reference, final Object errorMessage)
             throws IllegalArgumentException {
-        checkArgument(isNotBlank(reference), errorMessage);
+        checkArgument(isNotBlank(reference),
+                () -> new IllegalArgumentException(String.valueOf(errorMessage)));
         return reference;
     }
 
     /**
      * Ensures that {@code reference} is non-null and non-empty,
      * throwing an {@code IllegalArgumentException} with a custom message otherwise.
-     * If no exception is thrown, {@code reference} is then passed to the specified supplier.
+     * If no exception is thrown, {@code reference} is then passed to the specified consumer.
+     *
      * @apiNote This method calls {@link org.apache.commons.lang3.StringUtils#isNotBlank(CharSequence)} on the specified reference.
      * @param reference the object to verify
      * @param errorMessage the exception message to use if the check fails; will be converted to a
      *          string using {@link String#valueOf(Object)}
-     * @param runnable the consumer to run, supplying {@code reference}, guaranteed to be non-null, for convenience
+     * @param consumer the consumer to run, supplying {@code reference}, guaranteed to be non-null, for convenience
      * @throws IllegalArgumentException if {@code reference} is {@code null} or empty
      */
     public static void checkArgumentNotNullOrEmptyAndRun(final String reference,
                                                            final Object errorMessage,
-                                                           final Consumer<String> runnable)
+                                                           final @NotNull Consumer<String> consumer)
             throws IllegalArgumentException {
-        checkArgument(isNotBlank(reference), errorMessage);
-        runnable.accept(reference);
+        checkArgument(isNotBlank(reference),
+                () -> new IllegalArgumentException(String.valueOf(errorMessage)));
+        consumer.accept(reference);
     }
 
     /**
      * Ensures that {@code reference} is non-null and non-empty,
      * throwing an {@code IllegalArgumentException} with a custom message otherwise.
-     * If no exception is thrown, {@code reference} is then passed to the specified supplier.
+     * If no exception is thrown, {@code reference} is then passed to the specified function.
      *
+     * @param <R> the return type of the function
      * @param reference    the object to verify
      * @param errorMessage the exception message to use if the check fails; will be converted to a
      *                     string using {@link String#valueOf(Object)}
-     * @param function     the supplier to run, supplying {@code reference}, guaranteed to be non-null, for convenience
+     * @param function     the function to use to transform {@code reference}
      * @return the result of the specified function
      * @throws IllegalArgumentException if {@code reference} is {@code null} or empty
      * @apiNote This method calls {@link org.apache.commons.lang3.StringUtils#isNotBlank(CharSequence)} on the specified reference.
      */
     public static <R> R checkArgumentNotNullOrEmptyAndTransform(final String reference,
                                                             final Object errorMessage,
-                                                            final Function1<String, R> function)
+                                                            final @NotNull Function1<String, R> function)
             throws IllegalArgumentException {
-        checkArgument(isNotBlank(reference), errorMessage);
+        checkArgument(isNotBlank(reference),
+                () -> new IllegalArgumentException(String.valueOf(errorMessage)));
         return function.apply(reference);
     }
 
     /**
      * Checks if a string can be converted to a Boolean.
+     *
      * @param input string to check
      * @return true if string matches a boolean, false if string does not match or is null
      */
@@ -179,10 +236,11 @@ public final class CheckIf {
 
     /**
      * Checks if a string can be converted to a Boolean.
+     *
      * @apiNote The following strings are considered true boolean values:
-     *          "true", "t", "yes", "y", "1", "succeeded", "succeed", "enabled".
+     *          "true", "t", "yes", "y", "1", "succeeded", "succeed", "enabled", "on".
      *          The following strings are considered false boolean values:
-     *          "false", "f", "no", "n", "0", "-1", "failed", "fail", "disabled".
+     *          "false", "f", "no", "n", "0", "-1", "failed", "fail", "disabled", "off".
      * @param input string to check
      * @param locale the locale to use
      * @return true if string matches a boolean, false if string does not match or is null
@@ -200,5 +258,5 @@ public final class CheckIf {
     }
 
     /** Prevents instantiation of this utility class. */
-    private CheckIf() { }
+    private CheckIf() { throwUnsupportedExForUtilityCls(); }
 }

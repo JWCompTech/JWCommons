@@ -1,4 +1,4 @@
-package com.jwcomptech.commons.functions.tuples;
+package com.jwcomptech.commons.tuples;
 
 /*-
  * #%L
@@ -57,13 +57,13 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
      * The 1st element of this tuple.
      */
     // Conditionally serializable
-    public final T1 _1;
+    private final T1 _1;
 
     /**
      * The 2nd element of this tuple.
      */
     // Conditionally serializable
-    public final T2 _2;
+    private final T2 _2;
 
     /**
      * Constructs a tuple of two elements.
@@ -71,17 +71,17 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
      * @param t1 the 1st element
      * @param t2 the 2nd element
      */
-    public Tuple2(T1 t1, T2 t2) {
+    public Tuple2(final T1 t1, final T2 t2) {
         this._1 = t1;
         this._2 = t2;
     }
 
     @Contract(pure = true)
-    public static <T1, T2> @NotNull Comparator<Tuple2<T1, T2>> comparator(Comparator<? super T1> t1Comp, Comparator<? super T2> t2Comp) {
+    public static <T1, T2> @NotNull Comparator<Tuple2<T1, T2>> comparator(final Comparator<? super T1> t1Comp, final Comparator<? super T2> t2Comp) {
         //noinspection OverlyLongLambda
         return (Comparator<Tuple2<T1, T2>> & Serializable) (t1, t2) -> {
             final int check1 = t1Comp.compare(t1._1, t2._1);
-            if (0 != check1) {
+            if (check1 != 0) {
                 return check1;
             }
 
@@ -92,12 +92,12 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
 
     @SuppressWarnings("unchecked")
     private static <U1 extends Comparable<? super U1>,
-            U2 extends Comparable<? super U2>> int compareTo(Tuple2<?, ?> o1, Tuple2<?, ?> o2) {
+            U2 extends Comparable<? super U2>> int compareTo(final Tuple2<?, ?> o1, final Tuple2<?, ?> o2) {
         final Tuple2<U1, U2> t1 = (Tuple2<U1, U2>) o1;
         final Tuple2<U1, U2> t2 = (Tuple2<U1, U2>) o2;
 
         final int check1 = t1._1.compareTo(t2._1);
-        if (0 != check1) {
+        if (check1 != 0) {
             return check1;
         }
 
@@ -111,7 +111,7 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
     }
 
     @Override
-    public int compareTo(@NotNull Tuple2<T1, T2> that) {
+    public int compareTo(@NotNull final Tuple2<T1, T2> that) {
         return Tuple2.compareTo(this, that);
     }
 
@@ -131,7 +131,7 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
      * @return a copy of this tuple with a new value for the 1st element of this Tuple.
      */
     @Contract(value = "_ -> new", pure = true)
-    public @NotNull Tuple2<T1, T2> update1(T1 value) {
+    public @NotNull Tuple2<T1, T2> update1(final T1 value) {
         return new Tuple2<>(value, _2);
     }
 
@@ -151,7 +151,7 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
      * @return a copy of this tuple with a new value for the 2nd element of this Tuple.
      */
     @Contract(value = "_ -> new", pure = true)
-    public @NotNull Tuple2<T1, T2> update2(T2 value) {
+    public @NotNull Tuple2<T1, T2> update2(final T2 value) {
         return new Tuple2<>(_1, value);
     }
 
@@ -186,7 +186,7 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
      * @return A new Tuple of same arity.
      * @throws IllegalArgumentException if {@code mapper} is null
      */
-    public <U1, U2> Tuple2<U1, U2> map(BiFunction<? super T1, ? super T2, Tuple2<U1, U2>> mapper) {
+    public <U1, U2> Tuple2<U1, U2> map(final BiFunction<? super T1, ? super T2, Tuple2<U1, U2>> mapper) {
         checkArgumentNotNull(mapper, cannotBeNull("mapper"));
         return mapper.apply(_1, _2);
     }
@@ -201,8 +201,8 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
      * @return A new Tuple of same arity.
      * @throws IllegalArgumentException if one of the arguments is null
      */
-    public <U1, U2> @NotNull Tuple2<U1, U2> map(Function<? super T1, ? extends U1> f1,
-                                                Function<? super T2, ? extends U2> f2) {
+    public <U1, U2> @NotNull Tuple2<U1, U2> map(final Function<? super T1, ? extends U1> f1,
+                                                final Function<? super T2, ? extends U2> f2) {
         checkArgumentNotNull(f1, cannotBeNull("f1"));
         checkArgumentNotNull(f2, cannotBeNull("f2"));
         return Tuple.of(f1.apply(_1), f2.apply(_2));
@@ -215,7 +215,7 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
      * @param mapper A mapping function
      * @return a new tuple based on this tuple and substituted 1st component
      */
-    public <U> @NotNull Tuple2<U, T2> map1(Function<? super T1, ? extends U> mapper) {
+    public <U> @NotNull Tuple2<U, T2> map1(final Function<? super T1, ? extends U> mapper) {
         checkArgumentNotNull(mapper, cannotBeNull("mapper"));
         final U u = mapper.apply(_1);
         return Tuple.of(u, _2);
@@ -228,7 +228,7 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
      * @param mapper A mapping function
      * @return a new tuple based on this tuple and substituted 2nd component
      */
-    public <U> @NotNull Tuple2<T1, U> map2(Function<? super T2, ? extends U> mapper) {
+    public <U> @NotNull Tuple2<T1, U> map2(final Function<? super T2, ? extends U> mapper) {
         checkArgumentNotNull(mapper, cannotBeNull("mapper"));
         final U u = mapper.apply(_2);
         return Tuple.of(_1, u);
@@ -237,14 +237,14 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
     /**
      * Transforms this tuple to an object of type U.
      *
-     * @param f Transformation which creates a new object of type U based on this tuple's contents.
+     * @param function Transformation which creates a new object of type U based on this tuple's contents.
      * @param <U> type of the transformation result
      * @return An object of type U
      * @throws NullPointerException if {@code f} is null
      */
-    public <U> U apply(BiFunction<? super T1, ? super T2, ? extends U> f) {
-        checkArgumentNotNull(f, cannotBeNull("f"));
-        return f.apply(_1, _2);
+    public <U> U apply(final BiFunction<? super T1, ? super T2, ? extends U> function) {
+        checkArgumentNotNull(function, cannotBeNull("function"));
+        return function.apply(_1, _2);
     }
 
     @Override
@@ -260,7 +260,7 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
      * @return a new Tuple with the value appended
      */
     @Contract(value = "_ -> new", pure = true)
-    public <T3> @NotNull Tuple3<T1, T2, T3> append(T3 t3) {
+    public <T3> @NotNull Tuple3<T1, T2, T3> append(final T3 t3) {
         return Tuple.of(_1, _2, t3);
     }
 
@@ -272,9 +272,9 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
      * @return a new Tuple with the tuple values appended
      * @throws IllegalArgumentException if {@code tuple} is null
      */
-    public <T3> @NotNull Tuple3<T1, T2, T3> concat(Tuple1<T3> tuple) {
+    public <T3> @NotNull Tuple3<T1, T2, T3> concat(final Tuple1<T3> tuple) {
         checkArgumentNotNull(tuple, cannotBeNull("tuple"));
-        return Tuple.of(_1, _2, tuple._1);
+        return Tuple.of(_1, _2, tuple._1());
     }
 
     /**
@@ -286,16 +286,16 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
      * @return a new Tuple with the tuple values appended
      * @throws IllegalArgumentException if {@code tuple} is null
      */
-    public <T3, T4> @NotNull Tuple4<T1, T2, T3, T4> concat(Tuple2<T3, T4> tuple) {
+    public <T3, T4> @NotNull Tuple4<T1, T2, T3, T4> concat(final Tuple2<T3, T4> tuple) {
         checkArgumentNotNull(tuple, cannotBeNull("tuple"));
         return Tuple.of(_1, _2, tuple._1, tuple._2);
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (o == this) {
+    public boolean equals(final Object obj) {
+        if (obj == this) {
             return true;
-        } else if (!(o instanceof Tuple2<?, ?> that)) {
+        } else if (!(obj instanceof final Tuple2<?, ?> that)) {
             return false;
         } else {
             return Objects.equals(this._1, that._1)

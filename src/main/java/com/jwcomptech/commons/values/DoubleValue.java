@@ -75,7 +75,10 @@ public final class DoubleValue extends NumberValue<Double, DoubleValue> {
         super.setListenersTarget(this);
     }
 
-    /** Creates a new DoubleValue instance with the default value of 0.0. */
+    /**
+     * Creates a new DoubleValue instance with the default value of 0.0.
+     * @return a new DoubleValue instance with the default value of 0.0
+     * */
     @Contract(" -> new")
     public static @NotNull DoubleValue of() {
         return new DoubleValue();
@@ -84,6 +87,7 @@ public final class DoubleValue extends NumberValue<Double, DoubleValue> {
     /**
      * Creates a new DoubleValue instance with the specified default int value.
      * @param defaultValue the value to set
+     * @return a new DoubleValue instance with the specified default int value
      */
     @Contract("_ -> new")
     public static @NotNull DoubleValue of(final int defaultValue) {
@@ -93,6 +97,7 @@ public final class DoubleValue extends NumberValue<Double, DoubleValue> {
     /**
      * Creates a new DoubleValue instance with the specified default double value.
      * @param defaultValue the value to set
+     * @return a new DoubleValue instance with the specified default double value
      */
     @Contract("_ -> new")
     public static @NotNull DoubleValue of(final double defaultValue) {
@@ -103,6 +108,7 @@ public final class DoubleValue extends NumberValue<Double, DoubleValue> {
      * Creates a new DoubleValue instance with the specified number value.
      * @param defaultValue the value to set
      * @throws IllegalArgumentException if specified default value is null
+     * @return a new DoubleValue instance with the specified number value
      */
     @Contract("_ -> new")
     public static @NotNull DoubleValue of(final Number defaultValue) {
@@ -113,6 +119,7 @@ public final class DoubleValue extends NumberValue<Double, DoubleValue> {
      * Creates a new DoubleValue instance with the specified default string value.
      * @param defaultValue the value to set
      * @throws IllegalArgumentException if specified default value is null or empty
+     * @return a new DoubleValue instance with the specified default string value
      */
     @Contract("_ -> new")
     public static @NotNull DoubleValue of(final String defaultValue) {
@@ -403,7 +410,7 @@ public final class DoubleValue extends NumberValue<Double, DoubleValue> {
      */
     @Override
     public boolean isPositive() {
-        return 0 < Integer.signum(value.intValue());
+        return Integer.signum(value.intValue()) > 0;
     }
 
     /**
@@ -411,7 +418,7 @@ public final class DoubleValue extends NumberValue<Double, DoubleValue> {
      */
     @Override
     public boolean isNegative() {
-        return 0 > Integer.signum(value.intValue());
+        return Integer.signum(value.intValue()) < 0;
     }
 
     /**
@@ -419,7 +426,7 @@ public final class DoubleValue extends NumberValue<Double, DoubleValue> {
      */
     @Override
     public boolean isZero() {
-        return 0.0 == value;
+        return value == 0.0;
     }
 
     /**
@@ -427,7 +434,7 @@ public final class DoubleValue extends NumberValue<Double, DoubleValue> {
      */
     @Override
     public boolean isEqualTo(final @NotNull Number number) {
-        return value == number.doubleValue();
+        return value.equals(number.doubleValue());
     }
 
     /**
@@ -435,7 +442,7 @@ public final class DoubleValue extends NumberValue<Double, DoubleValue> {
      */
     @Override
     public boolean isNotEqualTo(final @NotNull Number number) {
-        return value != number.doubleValue();
+        return !value.equals(number.doubleValue());
     }
 
     /**
@@ -477,8 +484,13 @@ public final class DoubleValue extends NumberValue<Double, DoubleValue> {
     }
 
     @Override
-    public int compareTo(@NotNull Double other) {
+    public int compareTo(@NotNull final Double other) {
         return Double.compare(value, other);
+    }
+
+    @Override
+    public int compareTo(@NotNull final Value<Double, DoubleValue> other) {
+        return this.compareTo(other.get());
     }
 
     /**
@@ -518,7 +530,7 @@ public final class DoubleValue extends NumberValue<Double, DoubleValue> {
 
     @Override
     public boolean equals(final Object obj) {
-        return obj instanceof DoubleValue && value == ((DoubleValue) obj).doubleValue();
+        return obj instanceof DoubleValue && value.equals(((DoubleValue) obj).doubleValue());
     }
 
     @Override

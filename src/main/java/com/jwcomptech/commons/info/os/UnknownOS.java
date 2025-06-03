@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 
 public final class UnknownOS extends AbstractOperatingSystem {
     @SuppressWarnings("unused")
-    private final Logger logger = LoggerFactory.getLogger(UnknownOS.class);
+    private static final Logger logger = LoggerFactory.getLogger(UnknownOS.class);
 
     private UnknownOS() { }
 

@@ -392,7 +392,7 @@ public final class IntegerValue extends NumberValue<Integer, IntegerValue> {
      */
     @Override
     public boolean isPositive() {
-        return 0 < Integer.signum(value);
+        return Integer.signum(value) > 0;
     }
 
     /**
@@ -400,7 +400,7 @@ public final class IntegerValue extends NumberValue<Integer, IntegerValue> {
      */
     @Override
     public boolean isNegative() {
-        return 0 > Integer.signum(value);
+        return Integer.signum(value) < 0;
     }
 
     /**
@@ -408,7 +408,7 @@ public final class IntegerValue extends NumberValue<Integer, IntegerValue> {
      */
     @Override
     public boolean isZero() {
-        return 0 == Integer.signum(value);
+        return Integer.signum(value) == 0;
     }
 
     /**
@@ -466,8 +466,13 @@ public final class IntegerValue extends NumberValue<Integer, IntegerValue> {
     }
 
     @Override
-    public int compareTo(@NotNull Integer other) {
+    public int compareTo(@NotNull final Integer other) {
         return Integer.compare(value, other);
+    }
+
+    @Override
+    public int compareTo(@NotNull final Value<Integer, IntegerValue> other) {
+        return this.compareTo(other.get());
     }
 
     /**

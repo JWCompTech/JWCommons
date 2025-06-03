@@ -24,11 +24,17 @@ package com.jwcomptech.commons.utils.osutils.windows;
 
 import com.jwcomptech.commons.values.StringValue;
 import com.sun.jna.platform.win32.WinReg;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
 import static com.sun.jna.platform.win32.Advapi32Util.*;
 
 /**
@@ -51,19 +57,23 @@ public final class Registry {
         return StringValue.EMPTY;
     }
 
-    public static boolean keyExists(final HKEY root, final String key) {
+    public static boolean keyExists(final @NotNull HKEY root, final String key) {
         return registryKeyExists(root.getKeyObj(), key);
     }
 
-    public static boolean valueExists(final HKEY root, final String key, final String value) {
+    public static boolean valueExists(final @NotNull HKEY root, final String key, final String value) {
         return registryValueExists(root.getKeyObj(), key, value);
     }
 
-    public static List<String> getKeys(final HKEY root, final String keyPath) {
+    @Contract("_, _ -> new")
+    public static @NotNull List<String> getKeys(final @NotNull HKEY root, final String keyPath) {
         return new LinkedList<>(Arrays.asList(registryGetKeys(root.keyObj, keyPath)));
     }
 
     /** A list of the different parent keys in the Windows Registry that are used in the {@link Registry} class. */
+    @AllArgsConstructor
+    @Getter
+    @ToString
     public enum HKEY {
         CLASSES_ROOT(WinReg.HKEY_CLASSES_ROOT),
         CURRENT_USER(WinReg.HKEY_CURRENT_USER),
@@ -72,13 +82,9 @@ public final class Registry {
         PERFORMANCE_DATA(WinReg.HKEY_PERFORMANCE_DATA),
         CURRENT_CONFIG(WinReg.HKEY_CURRENT_CONFIG);
 
-        final WinReg.HKEY keyObj;
-
-        HKEY(final WinReg.HKEY keyObj) { this.keyObj = keyObj;}
-
-        public WinReg.HKEY getKeyObj() { return keyObj;}
+        private final WinReg.HKEY keyObj;
     }
 
     /** Prevents instantiation of this utility class. */
-    private Registry() { }
+    private Registry() { throwUnsupportedExForUtilityCls(); }
 }

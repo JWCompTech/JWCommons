@@ -33,8 +33,7 @@ import java.lang.constant.Constable;
  * @param <T> the type to set and get
  * @since 0.0.1
  */
-@Immutable
-public interface ImmutableValue<T> extends Comparable<T>, Serializable, Constable {
+public interface ImmutableValue<T> extends Comparable<ImmutableValue<T>>, Serializable, Constable {
     /**
      * Returns the value.
      * @return the stored value

@@ -26,6 +26,7 @@ import com.jwcomptech.commons.info.os.WindowsOSEx;
 import com.jwcomptech.commons.SingletonManager;
 import com.jwcomptech.commons.values.IntegerValue;
 import com.jwcomptech.commons.values.StringValue;
+import lombok.Data;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -38,6 +39,7 @@ import java.util.List;
  * Returns Information about the current OS and Hardware on the current system.
  * @since 0.0.1
  */
+@Data
 //TODO: Change all objects to use Builder architecture
 @SuppressWarnings("unused")
 public final class ComputerInfo {
@@ -48,7 +50,7 @@ public final class ComputerInfo {
         return SingletonManager.getInstance(ComputerInfo.class, () -> {
             try {
                 return new ComputerInfo();
-            } catch (IOException | InterruptedException e) {
+            } catch (final IOException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
         });
@@ -163,41 +165,5 @@ public final class ComputerInfo {
         );
 
         return HWI;
-    }
-
-    public OSInfo.OSObject getOSI() {
-        return OSI;
-    }
-
-    public HWInfo.HWObject getHWI() {
-        return HWI;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-
-        if (!(o instanceof ComputerInfo computerInfo)) return false;
-
-        return new EqualsBuilder()
-                .append(OSI, computerInfo.OSI)
-                .append(HWI, computerInfo.HWI)
-                .isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(OSI)
-                .append(HWI)
-                .toHashCode();
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("OSI", OSI)
-                .append("HWI", HWI)
-                .toString();
     }
 }

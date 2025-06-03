@@ -27,7 +27,10 @@ import com.jwcomptech.commons.values.StringValue;
 
 @Beta
 //TODO Finish implementation
-public class DownloadManager {
+public final class DownloadManager {
+    public DownloadManager() {
+    }
+
     public static void download(final String url) {
 
     }

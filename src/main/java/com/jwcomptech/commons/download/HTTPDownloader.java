@@ -29,14 +29,12 @@ import com.jwcomptech.commons.base.Validated;
 import com.jwcomptech.commons.values.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.SneakyThrows;
 import lombok.ToString;
 import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.RandomAccessFile;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -71,9 +69,12 @@ public class HTTPDownloader extends Validated implements AutoCloseable, Runnable
     private StringValue errorMessage;
     private final MutableStringValue filename;
     private final MutableStringValue filepath;
-    private RandomAccessFile file = null;
-    private InputStream stream = null;
-    private HttpURLConnection connection = null;
+    private RandomAccessFile file;
+    private InputStream stream;
+    private HttpURLConnection connection;
+
+    @Serial
+    private static final long serialVersionUID = 1356368919575260587L;
 
     private enum Type {
         FileDownload,
@@ -103,6 +104,7 @@ public class HTTPDownloader extends Validated implements AutoCloseable, Runnable
     }
 
     // Constructor for Download.
+    @SuppressWarnings("HardcodedFileSeparator")
     public HTTPDownloader(final String downloadDir, final URL url) {
         checkArgumentNotNull(downloadDir, cannotBeNull("path"));
         checkArgumentNotNull(url, cannotBeNull("url"));
@@ -218,17 +220,17 @@ public class HTTPDownloader extends Validated implements AutoCloseable, Runnable
     @Override
     public void close() {
         // Close the file.
-        if (null != file) {
+        if (file != null) {
             try {
                 file.close();
-            } catch (Exception ignored) {}
+            } catch (final IOException ignored) {}
         }
 
         // Close the connection to server.
-        if (null != stream) {
+        if (stream != null) {
             try {
                 stream.close();
-            } catch (Exception ignored) {}
+            } catch (final IOException ignored) {}
         }
     }
 
@@ -265,7 +267,7 @@ public class HTTPDownloader extends Validated implements AutoCloseable, Runnable
      */
     @Override
     public void run() {
-        Path filePath;
+        final Path filePath;
 
         try {
             connect();
@@ -274,8 +276,8 @@ public class HTTPDownloader extends Validated implements AutoCloseable, Runnable
             processResponseCode(connection.getResponseCode(), Type.FileDownload);
 
             // Check for valid content length.
-            int contentLength = connection.getContentLength();
-            if (1 > contentLength) error("Invalid Content Length!");
+            final int contentLength = connection.getContentLength();
+            if (contentLength < 1) error("Invalid Content Length!");
 
             //Set the size for this download if it hasn't been already set.
             if (totalDownloadSize.isEqualTo(-1)) {
@@ -294,13 +296,13 @@ public class HTTPDownloader extends Validated implements AutoCloseable, Runnable
             stream = connection.getInputStream();
             while (status.equals(DOWNLOADING)) {
                 // Size buffer according to how much of the file is left to download.
-                byte[] buffer = MAX_BUFFER_SIZE < totalDownloadSize.subtractAndGet(totalBytesDownloaded)
+                final byte[] buffer = totalDownloadSize.subtractAndGet(totalBytesDownloaded) > MAX_BUFFER_SIZE
                         ? new byte[MAX_BUFFER_SIZE]
                         : new byte[totalDownloadSize.subtractAndGet(totalBytesDownloaded)];
 
                 // Read from server into buffer.
-                int read = stream.read(buffer);
-                if (-1 == read) break;
+                final int read = stream.read(buffer);
+                if (read == -1) break;
 
                 // Write buffer to file.
                 file.write(buffer, 0, read);
@@ -356,42 +358,48 @@ public class HTTPDownloader extends Validated implements AutoCloseable, Runnable
         return result;
     }
 
+    //TODO: might not work
     private String getHTTPResponseAsString() {
         try {
+            //This line might not be supported
             stream = connection.getInputStream();
             String encoding = connection.getContentEncoding();
-            encoding = null == encoding ? "UTF-8" : encoding;
+            encoding = encoding == null ? "UTF-8" : encoding;
             return IOUtils.toString(stream, encoding);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new IllegalStateException(e);
         }
     }
 
+    //TODO: might not work
+    @SneakyThrows
     private JsonArray getHTTPResponseAsJSONArray() {
-        try {
-            stream = connection.getInputStream();
-            try (final InputStreamReader isr = new InputStreamReader(stream)) {
-                return JsonParser.parseReader(isr).getAsJsonArray();
-            }
-        } catch (IOException e) {
+        //This line might not be supported
+        try(final var inputStream = connection.getInputStream();
+            final InputStreamReader isr = new InputStreamReader(stream)) {
+            this.stream = inputStream;
+            return JsonParser.parseReader(isr).getAsJsonArray();
+        } catch (final IOException e) {
             throw new IllegalStateException(e);
+        } finally {
+            stream.close();
         }
     }
 
+    //TODO: might not work
     private @NotNull String getHTTPErrorMessage() {
-        try {
-            try (final InputStreamReader isr = new InputStreamReader(connection.getErrorStream())) {
-                return JsonParser.parseReader(isr).getAsJsonObject()
-                        .get("message").getAsString().replace("\"", "");
-            }
-        } catch (IOException e) {
+        //This line might not be supported
+        try (final InputStreamReader isr = new InputStreamReader(connection.getErrorStream())) {
+            return JsonParser.parseReader(isr).getAsJsonObject()
+                    .get("message").getAsString().replace("\"", "");
+        } catch (final IOException e) {
             throw new IllegalStateException(e);
         }
     }
 
-    @SuppressWarnings({"OverlyComplexMethod", "OverlyLongMethod"})
+    @SuppressWarnings({"OverlyComplexMethod", "OverlyLongMethod", "BooleanMethodNameMustStartWithQuestion"})
     private boolean processResponseCode(final int code, final Type type) {
-        Condition github = Condition.of(() -> Type.JSONDownload == type
+        final Condition github = Condition.of(() -> type == Type.JSONDownload
                 && url.getHost().contains("github.com")).evaluate();
 
         switch (code) {
@@ -410,7 +418,7 @@ public class HTTPDownloader extends Validated implements AutoCloseable, Runnable
             }
             case 404 -> {
                 if (github.isResultTrue()) {
-                    String message = getHTTPErrorMessage();
+                    final String message = getHTTPErrorMessage();
 
                     error(message.contains("Not Found") ? "GitHub Page Not Found!" : "GitHub API: " + message);
                 } else error("Not Found!");
@@ -421,9 +429,9 @@ public class HTTPDownloader extends Validated implements AutoCloseable, Runnable
             case 503 -> error("Service Unavailable!");
             case 504 -> error("Gateway Timeout!");
             default -> {
-                String message = getHTTPErrorMessage();
+                final String message = getHTTPErrorMessage();
 
-                error(Type.JSONDownload == type ? "Unknown API Error! Error Message: " + message : message);
+                error(type == Type.JSONDownload ? "Unknown API Error! Error Message: " + message : message);
             }
         }
 
@@ -436,11 +444,13 @@ public class HTTPDownloader extends Validated implements AutoCloseable, Runnable
      * @param url the url to parse
      * @return the filename portion of URL
      */
-    private static @NotNull String parseFilename(@NotNull URL url) {
-        String fileName = url.getFile();
+    private static @NotNull String parseFilename(@NotNull final URL url) {
+        final String fileName = url.getFile();
+        //noinspection HardcodedFileSeparator
         return fileName.substring(fileName.lastIndexOf('/') + 1);
     }
 
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     private boolean preStart() {
         if(status.equals(DOWNLOADING)) return false;
 

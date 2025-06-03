@@ -63,7 +63,7 @@ public class MessageBoxButtonMap {
                     getButton1Data().get()
             );
         } else {
-            MessageBoxButtonType button = MessageBoxButtonType.OK;
+            final MessageBoxButtonType button = MessageBoxButtonType.OK;
 
             return Map.ofEntries(
                     new AbstractMap.SimpleEntry<>(
@@ -86,7 +86,7 @@ public class MessageBoxButtonMap {
         return getButtonEntry(button3);
     }
 
-    private Optional<AbstractMap.SimpleEntry<ButtonBar.ButtonData, DialogResult>> getButtonEntry(
+    private static Optional<AbstractMap.SimpleEntry<ButtonBar.ButtonData, DialogResult>> getButtonEntry(
             final MessageBoxButtonType button) {
         if(button == null) return Optional.empty();
         else {

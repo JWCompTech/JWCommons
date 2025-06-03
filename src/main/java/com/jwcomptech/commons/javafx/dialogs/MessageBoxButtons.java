@@ -61,9 +61,9 @@ public enum MessageBoxButtons {
     Apply(MessageBoxButtonType.APPLY, null, null),
     ApplyCancel(MessageBoxButtonType.APPLY, MessageBoxButtonType.CANCEL, null),;
 
-    final MessageBoxButtonType button1;
-    final MessageBoxButtonType button2;
-    final MessageBoxButtonType button3;
+    private final MessageBoxButtonType button1;
+    private final MessageBoxButtonType button2;
+    private final MessageBoxButtonType button3;
 
     @Contract(pure = true)
     public @NotNull Optional<MessageBoxButtonType> getButton1() {

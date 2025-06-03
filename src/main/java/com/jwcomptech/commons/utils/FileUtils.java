@@ -30,6 +30,7 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
@@ -52,5 +53,5 @@ public final class FileUtils {
     }
 
     /** Prevents instantiation of this utility class. */
-    private FileUtils() { }
+    private FileUtils() { throwUnsupportedExForUtilityCls(); }
 }

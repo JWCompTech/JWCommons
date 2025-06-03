@@ -31,7 +31,6 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Dialog;
 import javafx.util.Pair;
-import lombok.Builder;
 import lombok.Data;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -109,7 +108,7 @@ public final class LoginDialog {
         if(resourceName == null || resourceName.isEmpty()) {
             runLaterCheck(() -> dialog.get().setIconPath(""));
         } else {
-            Resource icon = resources.addResource(ResourceType.IMG, resourceName);
+            final Resource icon = resources.addResource(ResourceType.IMG, resourceName);
             runLaterCheck(() -> dialog.get().setIconPath(icon.getURLString()));
         }
     }
@@ -120,7 +119,7 @@ public final class LoginDialog {
      */
     public void setIconURL(final String resourceURL) {
         if(resourceURL != null && !resourceURL.isEmpty()) {
-            Optional<Resource> icon = resources.addResource(resourceURL);
+            final Optional<Resource> icon = resources.addResource(resourceURL);
             icon.ifPresent(resource ->
                     runLaterCheck(() -> dialog.get().setIconPath(resource.getURLString())));
         }
@@ -200,7 +199,7 @@ public final class LoginDialog {
         private String iconResourceName = "";
 
         public LoginDialog build() {
-            LoginDialog newDialog = new LoginDialog();
+            final LoginDialog newDialog = new LoginDialog();
 
             ifFxThreadElseCheck(() -> newDialog.dialog.set(new LoginDialogImpl(warningText, redText)),
                     () -> {},

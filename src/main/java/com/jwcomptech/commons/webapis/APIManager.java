@@ -24,12 +24,10 @@ package com.jwcomptech.commons.webapis;
 
 import com.jwcomptech.commons.SingletonManager;
 import lombok.Data;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Data
 public class APIManager {
+    @SuppressWarnings("PublicField")
     public final GitHubAPI GITHUB;
 
     public static APIManager getInstance() {

@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 public final class SolarisOS extends AbstractOperatingSystem {
-    private final Logger logger = LoggerFactory.getLogger(SolarisOS.class);
+    private static final Logger logger = LoggerFactory.getLogger(SolarisOS.class);
 
     private SolarisOS() { }
 
@@ -76,8 +76,8 @@ public final class SolarisOS extends AbstractOperatingSystem {
     @Override
     public boolean is64BitOS() {
         try {
-            return 64 == Parse.parseIntOrDefault(ExecCommand
-                    .runNewCmd("isainfo -b").getFirstResult(), 32, logger);
+            return Parse.parseIntOrDefault(ExecCommand
+                    .runNewCmd("isainfo -b").getFirstResult(), 32, logger) == 64;
         } catch (final IOException | InterruptedException e) {
             throw new IllegalStateException(e);
         }

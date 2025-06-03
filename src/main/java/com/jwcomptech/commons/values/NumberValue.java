@@ -27,6 +27,7 @@ import org.jetbrains.annotations.NotNull;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeListenerProxy;
 import java.beans.PropertyChangeSupport;
+import java.io.Serial;
 import java.util.List;
 
 /**
@@ -45,18 +46,21 @@ import java.util.List;
 //TODO: Figure out a way to fix this if possible so that a child class
 // can still be saved to a ObservableValue variable with out casting.
 @SuppressWarnings({"ClassWithTooManyMethods", "unused"})
-public sealed abstract class NumberValue<T extends Number, V extends NumberValue<T, V>>
+public abstract sealed class NumberValue<T extends Number, V extends NumberValue<T, V>>
         extends Number implements Value<T, V>
         permits DoubleValue, FloatValue, IntegerValue, LongValue {
     protected T value;
     @SuppressWarnings("FieldNotUsedInToString")
     protected PropertyChangeSupport listeners;
 
-    public NumberValue(T value) {
+    @Serial
+    private static final long serialVersionUID = -6581876828020928948L;
+
+    public NumberValue(final T value) {
         this.value = value;
     }
 
-    protected void setListenersTarget(V target) {
+    protected void setListenersTarget(final V target) {
         this.listeners = new PropertyChangeSupport(target);
     }
 
@@ -416,7 +420,7 @@ public sealed abstract class NumberValue<T extends Number, V extends NumberValue
     }
 
     @Override
-    public abstract boolean equals(final Object o);
+    public abstract boolean equals(final Object obj);
 
     @Override
     public abstract int hashCode();
@@ -428,7 +432,6 @@ public sealed abstract class NumberValue<T extends Number, V extends NumberValue
 
     public abstract int compareTo(final @NotNull V other);
 
-    @Override
     public abstract int compareTo(final @NotNull T other);
 
     /**

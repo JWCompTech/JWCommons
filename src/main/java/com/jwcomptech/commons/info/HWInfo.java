@@ -22,6 +22,7 @@ package com.jwcomptech.commons.info;
  * #L%
  */
 
+import com.jwcomptech.commons.utils.RegExPatterns;
 import com.jwcomptech.commons.utils.osutils.windows.Registry;
 import com.jwcomptech.commons.values.StringValue;
 import com.sun.jna.Native;
@@ -39,6 +40,7 @@ import java.lang.management.ManagementFactory;
 import java.net.*;
 import java.util.List;
 
+import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
 import static com.jwcomptech.commons.utils.Parse.convertBytesToString;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -46,6 +48,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * Returns information about the system hardware.
  * @since 0.0.1
  */
+@SuppressWarnings("HardcodedFileSeparator")
 public final class HWInfo {
     /** Returns information about the system BIOS. */
     public static final class BIOS {
@@ -89,7 +92,7 @@ public final class HWInfo {
         }
 
         /** Prevents instantiation of this utility class. */
-        private BIOS() { }
+        private BIOS() { throwUnsupportedExForUtilityCls(); }
     }
 
     /** Returns information about the current network. */
@@ -111,7 +114,7 @@ public final class HWInfo {
          */
         public static @NotNull StringValue getExternalIPAddress() {
             final URL url;
-            try { url = URI.create("http://api.ipify.org").toURL(); }
+            try { url = URI.create("https://api.ipify.org").toURL(); }
             catch(final MalformedURLException e) { return StringValue.of(e.getMessage()); }
             try(final var in = new BufferedReader(new InputStreamReader(url.openStream(), UTF_8))) {
                 return StringValue.of((in.readLine()).trim());
@@ -128,7 +131,7 @@ public final class HWInfo {
         public static boolean isConnectedToInternet() { return !getExternalIPAddress().get().equals("N/A"); }
 
         /** Prevents instantiation of this utility class. */
-        private Network() { }
+        private Network() { throwUnsupportedExForUtilityCls(); }
     }
 
     /** Returns information about the system manufacturer. */
@@ -166,7 +169,7 @@ public final class HWInfo {
         }
 
         /** Prevents instantiation of this utility class. */
-        private OEM() { }
+        private OEM() { throwUnsupportedExForUtilityCls(); }
     }
 
     /** Returns information about the system processor. */
@@ -188,7 +191,7 @@ public final class HWInfo {
          * */
         @SuppressWarnings("OverlyComplexMethod")
         public static int Cores() throws IOException {
-            String[] command = new String[]{ "" };
+            String[] command = { "" };
 
             if(OS.isMac) command = new String[]{ "/bin/sh", "-c", "sysctl", "-n", "machdep.cpu.core_count" };
             else if(OS.isLinux) command = new String[]{ "lscpu" };
@@ -200,20 +203,19 @@ public final class HWInfo {
 
             process = Runtime.getRuntime().exec(command);
 
-            assert null != process;
+            assert process != null;
             try(final var reader = new BufferedReader(new InputStreamReader(process.getInputStream(), UTF_8))) {
                 String line;
 
-                while(null != (line = reader.readLine())) {
+                while((line = reader.readLine()) != null) {
                     if(OS.isMac) {
                         numberOfCores = line.trim().isEmpty() ? 0 : Integer.parseInt(line);
                     } else if(OS.isLinux) {
                         if(line.contains("Core(s) per socket:")) {
-                            numberOfCores =
-                                    Integer.parseInt(line.split("\\s+")[line.split("\\s+").length - 1]);
+                            numberOfCores = lineSplit(line);
                         }
                         if(line.contains("Socket(s):")) {
-                            sockets = Integer.parseInt(line.split("\\s+")[line.split("\\s+").length - 1]);
+                            sockets = lineSplit(line);
                         }
                     } else if(OS.isWindows && line.contains("NumberOfCores")) {
                         numberOfCores = Integer.parseInt(line.split("=")[1]);
@@ -225,8 +227,13 @@ public final class HWInfo {
             return numberOfCores;
         }
 
+        private static int lineSplit(final @NotNull String line) {
+            return Integer.parseInt(line.split(RegExPatterns.WHITESPACE.getRegex())[
+                    line.split(RegExPatterns.WHITESPACE.getRegex()).length - 1]);
+        }
+
         /** Prevents instantiation of this utility class. */
-        private Processor() { }
+        private Processor() { throwUnsupportedExForUtilityCls(); }
     }
 
     /** Returns information about the system RAM. */
@@ -242,7 +249,7 @@ public final class HWInfo {
         }
 
         /** Prevents instantiation of this utility class. */
-        private RAM() { }
+        private RAM() { throwUnsupportedExForUtilityCls(); }
     }
 
     /** Returns information about the system storage. */
@@ -285,6 +292,7 @@ public final class HWInfo {
          * */
         public static @NotNull StringValue getDriveSize(final char driveLetter) {
             final var aDrive = new File(driveLetter + ":");
+            //noinspection HardcodedFileSeparator
             return StringValue.of(aDrive.exists() ? convertBytesToString((double) aDrive.getTotalSpace()) : "N/A");
         }
 
@@ -303,11 +311,12 @@ public final class HWInfo {
          * */
         public static @NotNull StringValue getDriveFreeSpace(final char driveLetter) {
             final var aDrive = new File(driveLetter + ":");
+            //noinspection HardcodedFileSeparator
             return StringValue.of(aDrive.exists() ? convertBytesToString((double) aDrive.getUsableSpace()) : "N/A");
         }
 
         /** Prevents instantiation of this utility class. */
-        private Storage() { }
+        private Storage() { throwUnsupportedExForUtilityCls(); }
     }
 
     /**
@@ -362,5 +371,5 @@ public final class HWInfo {
     public record StorageObject(DriveObject systemDrive, List<DriveObject> installedDrives) { }
 
     /** Prevents instantiation of this utility class. */
-    private HWInfo() { }
+    private HWInfo() { throwUnsupportedExForUtilityCls(); }
 }

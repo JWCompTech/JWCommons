@@ -26,6 +26,7 @@ import com.jwcomptech.commons.Condition;
 import com.jwcomptech.commons.Literals;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.WritableObjectValue;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
@@ -90,14 +91,14 @@ public final class MessageBox {
         //Must be ObjectProperty type to work with lambda
         final var dialogResult = new SimpleObjectProperty<DialogResult>();
         //Must be ObjectProperty type to work with lambda
-        final var result = new SimpleObjectProperty<Optional<ButtonType>>();
+        final WritableObjectValue<Optional<ButtonType>> result = new SimpleObjectProperty<>();
 
         final Runnable runnable = () -> {
             result.set(alert.get().showAndWait());
 
             result.get().ifPresentOrElse(
                     buttonType -> {
-                        for(var type : buildResultMap().entrySet()) {
+                        for(final var type : buildResultMap().entrySet()) {
                             if(type != null) {
                                 if(buttonType.getButtonData() == type.getKey()) {
                                     dialogResult.set(type.getValue());
@@ -162,7 +163,7 @@ public final class MessageBox {
         final var button2 = buttons.getButton2();
         final var button3 = buttons.getButton3();
 
-        Map<ButtonBar.ButtonData, DialogResult> resultMap;
+        final Map<ButtonBar.ButtonData, DialogResult> resultMap;
 
         if(button1.isPresent() && button2.isPresent() && button3.isPresent()) {
             resultMap = MessageBoxButtonMap.builder()

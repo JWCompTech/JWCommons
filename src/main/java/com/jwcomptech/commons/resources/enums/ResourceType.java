@@ -31,6 +31,7 @@ import lombok.ToString;
  *
  * @since 0.0.1
  */
+@SuppressWarnings("HardcodedFileSeparator")
 @AllArgsConstructor
 @Getter
 @ToString
@@ -48,5 +49,5 @@ public enum ResourceType {
      */
     FXML("/fxml");
 
-    final String path;
+    private final String path;
 }

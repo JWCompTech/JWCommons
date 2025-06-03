@@ -22,7 +22,12 @@ package com.jwcomptech.commons.utils.osutils.windows.pshell;
  * #L%
  */
 
+import java.io.Serial;
+
 public class PSDivideByZeroException extends PowerShellException {
+    @Serial
+    private static final long serialVersionUID = 2218614621630435570L;
+
     public PSDivideByZeroException() { }
 
     public PSDivideByZeroException(final String message) {

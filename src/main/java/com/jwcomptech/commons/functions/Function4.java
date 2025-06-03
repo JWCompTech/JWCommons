@@ -22,8 +22,8 @@ package com.jwcomptech.commons.functions;
  * #L%
  */
 
-import com.jwcomptech.commons.functions.tuples.Tuple;
-import com.jwcomptech.commons.functions.tuples.Tuple4;
+import com.jwcomptech.commons.tuples.Tuple;
+import com.jwcomptech.commons.tuples.Tuple4;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import org.jetbrains.annotations.Contract;
@@ -33,6 +33,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Function;
 
@@ -73,7 +74,7 @@ public interface Function4<T1, T2, T3, T4, R> extends Serializable {
      * @return a function always returning the given value
      */
     @Contract(pure = true)
-    static <T1, T2, T3, T4, R> @NotNull Function4<T1, T2, T3, T4, R> constant(R value) {
+    static <T1, T2, T3, T4, R> @NotNull Function4<T1, T2, T3, T4, R> constant(final R value) {
         return (t1, t2, t3, t4) -> value;
     }
 
@@ -114,7 +115,7 @@ public interface Function4<T1, T2, T3, T4, R> extends Serializable {
      * @param <T4> 4th argument
      * @return a {@code Function4}
      */
-    static <T1, T2, T3, T4, R> Function4<T1, T2, T3, T4, R> of(Function4<T1, T2, T3, T4, R> methodReference) {
+    static <T1, T2, T3, T4, R> Function4<T1, T2, T3, T4, R> of(final Function4<T1, T2, T3, T4, R> methodReference) {
         return methodReference;
     }
 
@@ -132,7 +133,7 @@ public interface Function4<T1, T2, T3, T4, R> extends Serializable {
      */
     @Contract(pure = true)
     static <T1, T2, T3, T4, R> @NotNull Function4<T1, T2, T3, T4, Option<R>> lift(
-            Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> partialFunction) {
+            final Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> partialFunction) {
         return (t1, t2, t3, t4) -> Try.<R>of(() -> partialFunction.apply(t1, t2, t3, t4)).toOption();
     }
 
@@ -150,14 +151,14 @@ public interface Function4<T1, T2, T3, T4, R> extends Serializable {
      */
     @Contract(pure = true)
     static <T1, T2, T3, T4, R> @NotNull Function4<T1, T2, T3, T4, Try<R>> liftTry(
-            Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> partialFunction) {
+            final Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> partialFunction) {
         return (t1, t2, t3, t4) -> Try.of(() -> partialFunction.apply(t1, t2, t3, t4));
     }
 
     /**
      * Narrows the given {@code Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R>} to {@code Function4<T1, T2, T3, T4, R>}
      *
-     * @param f A {@code Function4}
+     * @param function A {@code Function4}
      * @param <R> return type
      * @param <T1> 1st argument
      * @param <T2> 2nd argument
@@ -167,8 +168,8 @@ public interface Function4<T1, T2, T3, T4, R> extends Serializable {
      */
     @SuppressWarnings("unchecked")
     static <T1, T2, T3, T4, R> Function4<T1, T2, T3, T4, R> narrow(
-            Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> f) {
-        return (Function4<T1, T2, T3, T4, R>) f;
+            final Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> function) {
+        return (Function4<T1, T2, T3, T4, R>) function;
     }
 
     /**
@@ -189,7 +190,7 @@ public interface Function4<T1, T2, T3, T4, R> extends Serializable {
      * @param t1 argument 1
      * @return a partial application of this function
      */
-    default Function3<T2, T3, T4, R> apply(T1 t1) {
+    default Function3<T2, T3, T4, R> apply(final T1 t1) {
         return (T2 t2, T3 t3, T4 t4) -> apply(t1, t2, t3, t4);
     }
 
@@ -200,7 +201,7 @@ public interface Function4<T1, T2, T3, T4, R> extends Serializable {
      * @param t2 argument 2
      * @return a partial application of this function
      */
-    default Function2<T3, T4, R> apply(T1 t1, T2 t2) {
+    default Function2<T3, T4, R> apply(final T1 t1, final T2 t2) {
         return (T3 t3, T4 t4) -> apply(t1, t2, t3, t4);
     }
 
@@ -212,7 +213,7 @@ public interface Function4<T1, T2, T3, T4, R> extends Serializable {
      * @param t3 argument 3
      * @return a partial application of this function
      */
-    default Function1<T4, R> apply(T1 t1, T2 t2, T3 t3) {
+    default Function1<T4, R> apply(final T1 t1, final T2 t2, final T3 t3) {
         return (T4 t4) -> apply(t1, t2, t3, t4);
     }
 
@@ -221,6 +222,7 @@ public interface Function4<T1, T2, T3, T4, R> extends Serializable {
      * @return an int value &gt;= 0
      * @see <a href="http://en.wikipedia.org/wiki/Arity">Arity</a>
      */
+    @SuppressWarnings("SameReturnValue")
     default int arity() {
         return 4;
     }
@@ -240,7 +242,7 @@ public interface Function4<T1, T2, T3, T4, R> extends Serializable {
      * @return a tupled function equivalent to this.
      */
     default Function1<Tuple4<T1, T2, T3, T4>, R> tupled() {
-        return t -> apply(t._1, t._2, t._3, t._4);
+        return t -> apply(t._1(), t._2(), t._3(), t._4());
     }
 
     /**
@@ -265,7 +267,7 @@ public interface Function4<T1, T2, T3, T4, R> extends Serializable {
             return this;
         } else {
             final Map<Tuple4<T1, T2, T3, T4>, R> cache = new HashMap<>();
-            final ReentrantLock lock = new ReentrantLock();
+            final Lock lock = new ReentrantLock();
             //noinspection OverlyLongLambda
             return (Function4<T1, T2, T3, T4, R> & Memoized) (t1, t2, t3, t4) -> {
                 final Tuple4<T1, T2, T3, T4> key = Tuple.of(t1, t2, t3, t4);
@@ -304,7 +306,7 @@ public interface Function4<T1, T2, T3, T4, R> extends Serializable {
      * @return a function composed of this and after
      * @throws IllegalArgumentException if {@code after} is null
      */
-    default <V> Function4<T1, T2, T3, T4, V> andThen(Function<? super R, ? extends V> after) {
+    default <V> Function4<T1, T2, T3, T4, V> andThen(final Function<? super R, ? extends V> after) {
         checkArgumentNotNull(after, cannotBeNull("after"));
         return (t1, t2, t3, t4) -> after.apply(apply(t1, t2, t3, t4));
     }

@@ -43,7 +43,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 @EqualsAndHashCode
 @ToString
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "HardcodedFileSeparator"})
 public class POMManager {
     private final ImmutablePropsValue internalProps;
     @Getter
@@ -54,10 +54,10 @@ public class POMManager {
     }
 
     public POMManager() {
-        String internalPOMPath = "/pom.properties";
-        try(InputStream internalPOMStream = Main.class.getResourceAsStream(internalPOMPath)) {
+        final String internalPOMPath = "/pom.properties";
+        try(final InputStream internalPOMStream = Main.class.getResourceAsStream(internalPOMPath)) {
             internalProps = new ImmutablePropsValue(internalPOMStream);
-            String artifactId = internalProps.get("artifactId");
+            final String artifactId = internalProps.getProperty("artifactId");
             checkArgumentNotNullOrEmpty(artifactId, cannotBeNullOrEmpty("artifact"));
             final String rootPath = "pom.xml";
             final Path path = Paths.get(rootPath);
@@ -69,22 +69,22 @@ public class POMManager {
             } else {
                 try {
                     internalPOM = new MavenStaxReader().read(DateTimeUtils.class.getResourceAsStream(metaPath));
-                } catch(XMLStreamException e) {
+                } catch(final XMLStreamException e) {
                     throw new IllegalStateException("Cannot Access Project POM File!");
                 }
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new IllegalStateException("Cannot Access Project POM File!", e);
-        } catch (XMLStreamException e) {
+        } catch (final XMLStreamException e) {
             throw new IllegalStateException("Cannot Process Project POM File!", e);
         }
     }
 
-    public Model getPOM(final String path) throws IOException, XMLStreamException {
+    public static Model getPOM(final String path) throws IOException, XMLStreamException {
         return getPOM(Paths.get(path));
     }
 
-    public Model getPOM(final Path path) throws IOException, XMLStreamException {
+    public static Model getPOM(final Path path) throws IOException, XMLStreamException {
         return new MavenStaxReader().read(Files.newBufferedReader(path, UTF_8));
     }
 }

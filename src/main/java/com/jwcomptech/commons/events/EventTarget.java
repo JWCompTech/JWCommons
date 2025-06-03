@@ -35,11 +35,9 @@ import java.util.Map;
  * @param <T> the event type to use for the target
  * @since 0.0.1
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "ClassWithoutConstructor"})
 public class EventTarget<T extends Event> {
     private final Map<EventType<? extends Event>, EventHandler<T>> eventHandlers = new HashMap<>();
-
-    public EventTarget() { }
 
     /**
      * Sets the specified singleton handler. There can only be one such handler specified at a time.
@@ -78,10 +76,10 @@ public class EventTarget<T extends Event> {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
+    public boolean equals(final Object obj) {
+        if (this == obj) return true;
 
-        if (!(o instanceof EventTarget<?> eventTarget)) return false;
+        if (!(obj instanceof final EventTarget<?> eventTarget)) return false;
 
         return new EqualsBuilder()
                 .append(eventHandlers, eventTarget.eventHandlers)

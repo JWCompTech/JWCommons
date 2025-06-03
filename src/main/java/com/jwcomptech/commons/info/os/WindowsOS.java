@@ -22,26 +22,24 @@ package com.jwcomptech.commons.info.os;
  * #L%
  */
 
+import com.jwcomptech.commons.SingletonManager;
 import com.jwcomptech.commons.info.AbstractOperatingSystem;
 import com.jwcomptech.commons.info.OSInfo;
 import com.jwcomptech.commons.info.enums.OSList;
 import com.jwcomptech.commons.utils.osutils.windows.WmiUtil;
 import com.jwcomptech.commons.utils.osutils.windows.enums.OtherConsts;
 import com.jwcomptech.commons.utils.osutils.windows.enums.WMIClasses;
-import com.jwcomptech.commons.SingletonManager;
 import com.jwcomptech.commons.values.StringValue;
 import com.sun.jna.platform.win32.COM.WbemcliUtil;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
 import static com.jwcomptech.commons.info.os.WindowsOSEx.*;
 
 public final class WindowsOS extends AbstractOperatingSystem {
     @SuppressWarnings("unused")
-    private final Logger logger = LoggerFactory.getLogger(WindowsOS.class);
+    private static final Logger logger = LoggerFactory.getLogger(WindowsOS.class);
 
     private WindowsOS() { }
 
@@ -54,7 +52,7 @@ public final class WindowsOS extends AbstractOperatingSystem {
     @SuppressWarnings({"OverlyComplexMethod", "OverlyLongMethod"})
     @Override
     public @NotNull StringValue getName() {
-        String value = switch (getNameEnum()) {
+        final String value = switch (getNameEnum()) {
             case WindowsXP -> "Windows XP";
             case WindowsXP64 -> "Windows XP x64";
             case WindowsVista -> "Windows Vista";
@@ -82,25 +80,21 @@ public final class WindowsOS extends AbstractOperatingSystem {
     @SuppressWarnings("OverlyComplexMethod")
     @Override
     public OSList getNameEnum() {
-        try {
-            return switch (WindowsOSEx.Version.getNumber().get()) {
-                case 51 -> OSList.WindowsXP;
-                case 52 -> isServer() ? (getSystemMetrics(OtherConsts.SMServerR2)
-                        ? OSList.WindowsServer2003R2 : OSList.WindowsServer2003) : OSList.WindowsXP64;
-                case 60 -> isServer() ? OSList.WindowsServer2008 : OSList.WindowsVista;
-                case 61 -> isServer() ? OSList.WindowsServer2008R2 : OSList.Windows7;
-                case 62 -> isServer() ? OSList.WindowsServer2012 : OSList.Windows8;
-                case 63 -> isServer() ? OSList.WindowsServer2012R2 : OSList.Windows81;
-                case 100 -> {
-                    if (isServer()) yield OSList.WindowsServer2016;
-                    else if(isWin11OrLater()) yield OSList.Windows11;
-                    else yield OSList.Windows10;
-                }
-                default -> OSList.Unknown;
-            };
-        } catch (final IOException | InterruptedException e) {
-            return OSList.Unknown;
-        }
+        return switch (Version.getNumber().get()) {
+            case 51 -> OSList.WindowsXP;
+            case 52 -> isServer() ? (getSystemMetrics(OtherConsts.SMServerR2)
+                    ? OSList.WindowsServer2003R2 : OSList.WindowsServer2003) : OSList.WindowsXP64;
+            case 60 -> isServer() ? OSList.WindowsServer2008 : OSList.WindowsVista;
+            case 61 -> isServer() ? OSList.WindowsServer2008R2 : OSList.Windows7;
+            case 62 -> isServer() ? OSList.WindowsServer2012 : OSList.Windows8;
+            case 63 -> isServer() ? OSList.WindowsServer2012R2 : OSList.Windows81;
+            case 100 -> {
+                if (isServer()) yield OSList.WindowsServer2016;
+                else if(isWin11OrLater()) yield OSList.Windows11;
+                else yield OSList.Windows10;
+            }
+            default -> OSList.Unknown;
+        };
     }
 
     /**
@@ -109,20 +103,16 @@ public final class WindowsOS extends AbstractOperatingSystem {
      */
     @Override
     public @NotNull StringValue getNameExpanded() {
-        try {
-            //noinspection StringConcatenationMissingWhitespace
-            final String SPString = isWin8OrLater() ? "- " + WindowsOSEx.Version.getBuild()
-                    : " SP" + WindowsOSEx.ServicePack.getString().replace("Service Pack ", "");
+        //noinspection StringConcatenationMissingWhitespace
+        final String SPString = isWin8OrLater() ? "- " + Version.getBuild()
+                : " SP" + ServicePack.getString().replace("Service Pack ", "");
 
-            return StringValue.of(getName().get() + ' ' + WindowsOSEx.Edition.getString().get() + ' '
-                    + SPString + " (" + OSInfo.getBitNumber().get() + " Bit)");
-        } catch (final IOException | InterruptedException e) {
-            return StringValue.of("Unknown");
-        }
+        return StringValue.of(getName().get() + ' ' + Edition.getString().get() + ' '
+                + SPString + " (" + OSInfo.getBitNumber().get() + " Bit)");
     }
 
     @Override
-    public StringValue getVersion() throws IOException, InterruptedException {
+    public StringValue getVersion() {
         return WindowsOSEx.Version.getMain();
     }
 
@@ -138,12 +128,12 @@ public final class WindowsOS extends AbstractOperatingSystem {
 
     @Override
     public boolean is64BitOS() {
-        if (null != System.getenv("ProgramFiles(x86)")) return Boolean.TRUE;
+        if (System.getenv("ProgramFiles(x86)") != null) return Boolean.TRUE;
         final WbemcliUtil.WmiQuery<ArchProperty> query =
                 WindowsOSEx.WMI.newWmiQuery(WMIClasses.Hardware.Processor.getValue(), ArchProperty.class);
         final WbemcliUtil.WmiResult<ArchProperty> result = WmiUtil.queryWMI(query);
-        if (0 < result.getResultCount()) {
-            return 64 == WmiUtil.getUint16(result, ArchProperty.ADDRESS_WIDTH, 0);
+        if (result.getResultCount() > 0) {
+            return WmiUtil.getUint16(result, ArchProperty.ADDRESS_WIDTH, 0) == 64;
         }
 
         return Boolean.FALSE;

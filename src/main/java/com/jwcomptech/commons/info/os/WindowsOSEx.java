@@ -46,6 +46,7 @@ import java.util.List;
 import static com.jwcomptech.commons.Literals.cannotBeNull;
 import static com.jwcomptech.commons.Literals.cannotBeNullOrEmpty;
 import static com.jwcomptech.commons.info.OSInfo.*;
+import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
 import static com.jwcomptech.commons.validators.CheckIf.*;
 
 /**
@@ -58,14 +59,14 @@ public final class WindowsOSEx {
     public static final OperatingSystem OS = WindowsOS.getInstance();
 
     /** Returns information about the Windows activation status. */
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "HardcodedFileSeparator"})
     public static final class Activation {
         /**
          * Identifies if OS is activated.
          * @return true if activated, false if not activated
          * @throws IOException if error occurs
          */
-        public static boolean isActivated() throws IOException { return Status.Licensed == getStatusAsEnum(); }
+        public static boolean isActivated() throws IOException { return getStatusAsEnum() == Status.Licensed; }
 
         /**
          * Identifies If Windows is Activated, uses the Software Licensing Manager Script,
@@ -109,7 +110,7 @@ public final class WindowsOSEx {
                     + "AND ApplicationId='55c92734-d682-4d71-983e-d6ec3f16059f' "
                     + "AND LicenseisAddon=False", "LicenseStatus");
 
-            String value = switch (LicenseStatus.toInteger().get()) {
+            final String value = switch (LicenseStatus.toInteger().get()) {
                 case 0 -> "Unlicensed";
                 case 1 -> "Licensed";
                 case 2 -> "Out-Of-Box Grace";
@@ -139,7 +140,7 @@ public final class WindowsOSEx {
                         return StringValue.of(line.replace("License Status: ", ""));
                     }
                 }
-            } catch (InterruptedException e) {
+            } catch (final InterruptedException e) {
                 throw new RuntimeException(e);
             }
 
@@ -173,7 +174,7 @@ public final class WindowsOSEx {
         }
 
         /** Prevents instantiation of this utility class. */
-        private Activation() { }
+        private Activation() { throwUnsupportedExForUtilityCls(); }
     }
 
     /** Returns the product type of the operating system running on this Computer. */
@@ -184,7 +185,7 @@ public final class WindowsOSEx {
          * @return true if OS is a Windows Server OS
          */
         public static boolean isWindowsServer() {
-            return ProductType.NTWorkstation != Edition.getProductTypeEnum();
+            return Edition.getProductTypeEnum() != ProductType.NTWorkstation;
         }
 
         /**
@@ -192,7 +193,7 @@ public final class WindowsOSEx {
          * @return true if OS is a Windows Server OS
          */
         public static boolean isWindowsDomainController() {
-            return ProductType.NTDomainController == Edition.getProductTypeEnum();
+            return Edition.getProductTypeEnum() == ProductType.NTDomainController;
         }
 
         /**
@@ -217,10 +218,8 @@ public final class WindowsOSEx {
         /**
          * Returns the product type of the OS as a string.
          * @return string containing the operating system product type
-         * @throws IOException if error occurs
-         * @throws InterruptedException if command is interrupted
          */
-        public static StringValue getString() throws IOException, InterruptedException {
+        public static StringValue getString() {
             if(Version.getMajor().isEqualTo(5)) return getVersion5();
             if(Version.getMajor().isEqualTo(6)
                     || Version.getMajor().isEqualTo(10)) return getVersion6AndUp();
@@ -282,13 +281,13 @@ public final class WindowsOSEx {
          */
         private static @NotNull StringValue getVersion6AndUp() {
             final IntByReference strProductType = new IntByReference();
-            var ignored = Kernel32.INSTANCE.GetProductInfo(Version.getMajor().get(), Version.getMinor().get(),
+            final var ignored = Kernel32.INSTANCE.GetProductInfo(Version.getMajor().get(), Version.getMinor().get(),
                     0, 0, strProductType);
             return ProductEdition.parse(strProductType.getValue()).getFullName();
         }
 
         /** Prevents instantiation of this utility class. */
-        private Edition() { }
+        private Edition() { throwUnsupportedExForUtilityCls(); }
     }
 
     /** Returns the different names provided by the operating system. */
@@ -315,7 +314,7 @@ public final class WindowsOSEx {
         }
 
         /** Prevents instantiation of this utility class. */
-        private Name() { }
+        private Name() { throwUnsupportedExForUtilityCls(); }
     }
 
     /** Returns the service pack information of the operating system running on this Computer. */
@@ -323,10 +322,8 @@ public final class WindowsOSEx {
         /**
          * Returns the service pack information of the operating system running on this Computer.
          * @return A String containing the operating system service pack information
-         * @throws IOException if error occurs
-         * @throws InterruptedException if command is interrupted
          */
-        public static @NotNull StringValue getString() throws IOException, InterruptedException {
+        public static @NotNull StringValue getString() {
             final String sp = getNumber().toString();
             return StringValue.of(isWin8OrLater() ? "" : sp.trim().isEmpty() ? "Service Pack 0" : "Service Pack " + sp);
         }
@@ -343,7 +340,7 @@ public final class WindowsOSEx {
         }
 
         /** Prevents instantiation of this utility class. */
-        private ServicePack() { }
+        private ServicePack() { throwUnsupportedExForUtilityCls(); }
     }
 
     /** Returns info about the currently logged-in user account. */
@@ -434,7 +431,7 @@ public final class WindowsOSEx {
         }
 
         /** Prevents instantiation of this utility class. */
-        private Users() { }
+        private Users() { throwUnsupportedExForUtilityCls(); }
     }
 
     /** Returns the full version of the operating system running on this Computer. */
@@ -445,7 +442,7 @@ public final class WindowsOSEx {
         static {
             try {
                 versionObj = getVersionInfo();
-            } catch (IOException | InterruptedException e) {
+            } catch (final IOException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -537,7 +534,7 @@ public final class WindowsOSEx {
         }
 
         /** Prevents instantiation of this utility class. */
-        private Version() { }
+        private Version() { throwUnsupportedExForUtilityCls(); }
     }
 
     /** Returns information from WMI. */
@@ -602,8 +599,8 @@ public final class WindowsOSEx {
         public static @NotNull StringValue getWMIValue(final String wmiQueryStr,
                                                        final String wmiCommaSeparatedFieldName)
                 throws IOException, InterruptedException {
-            var cmd = ExecCommand.runNewVBS(getVBScript(wmiQueryStr, wmiCommaSeparatedFieldName));
-            String output = cmd.getResult().toString();
+            final var cmd = ExecCommand.runNewVBS(getVBScript(wmiQueryStr, wmiCommaSeparatedFieldName));
+            final String output = cmd.getResult().toString();
             return StringValue.of(output.trim());
         }
 
@@ -626,7 +623,7 @@ public final class WindowsOSEx {
         }
 
         /** Prevents instantiation of this utility class. */
-        private WMI() { }
+        private WMI() { throwUnsupportedExForUtilityCls(); }
     }
 
     /**
@@ -641,7 +638,7 @@ public final class WindowsOSEx {
      * @return true if OS is a Windows Server OS
      */
     public static boolean isWindowsDomainController() {
-        return ProductType.NTDomainController == ProductType.parse(Edition.getProductType());
+        return ProductType.parse(Edition.getProductType()) == ProductType.NTDomainController;
     }
 
     /**
@@ -709,10 +706,8 @@ public final class WindowsOSEx {
     /**
      * Identifies if OS is Windows 8 or later.
      * @return true if Windows 8 or later, false if Windows 7 or previous
-     * @throws IOException if error occurs
-     * @throws InterruptedException if command is interrupted
      */
-    public static boolean isWin8OrLater() throws IOException, InterruptedException {
+    public static boolean isWin8OrLater() {
         return Version.getNumber().isGreaterThanOrEqualTo(62); }
 
     /**
@@ -732,10 +727,8 @@ public final class WindowsOSEx {
     /**
      * Identifies if OS is Windows 11 or later.
      * @return true if Windows 11 or later, false if Windows 8.1 or previous
-     * @throws IOException if error occurs
-     * @throws InterruptedException if command is interrupted
      */
-    public static boolean isWin11OrLater() throws IOException, InterruptedException {
+    public static boolean isWin11OrLater() {
         return Version.getNumber().isGreaterThanOrEqualTo(100)
                 && Version.getBuild().isGreaterThanOrEqualTo(22000); }
 
@@ -787,6 +780,7 @@ public final class WindowsOSEx {
      * @param index Value to check for
      * @return False if value is false
      */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     public static boolean getSystemMetrics(final int index) {
         return Kernel32.INSTANCE.GetSystemMetrics(index); }
 
@@ -795,6 +789,7 @@ public final class WindowsOSEx {
      * @param osVersionInfo Empty VersionInfo object to fill
      * @return True if an error occurs
      */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     public static boolean getVersionInfoFailed(final WinNT.OSVERSIONINFOEX osVersionInfo) {
         return !Kernel32.INSTANCE.GetVersionEx(osVersionInfo); }
 
@@ -811,11 +806,12 @@ public final class WindowsOSEx {
     }
 
     /** Interface object to hold all the Kernel32 Instances. */
-    @SuppressWarnings("InterfaceNeverImplemented")
+    @SuppressWarnings({"InterfaceNeverImplemented", "ClassNameSameAsAncestorName"})
     private interface Kernel32 extends com.sun.jna.platform.win32.Kernel32 {
         Kernel32 INSTANCE = Native.load("kernel32", Kernel32.class,
                 W32APIOptions.DEFAULT_OPTIONS);
 
+        @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
         boolean GetProductInfo(
                 int dwOSMajorVersion,
                 int dwOSMinorVersion,
@@ -823,6 +819,7 @@ public final class WindowsOSEx {
                 int dwSpMinorVersion,
                 IntByReference pdwReturnedProductType);
 
+        @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
         boolean GetSystemMetrics(int nIndex);
     }
 
@@ -839,5 +836,5 @@ public final class WindowsOSEx {
                                         com.jwcomptech.commons.info.Version version) { }
 
     /** Prevents instantiation of this utility class. */
-    private WindowsOSEx() { }
+    private WindowsOSEx() { throwUnsupportedExForUtilityCls(); }
 }

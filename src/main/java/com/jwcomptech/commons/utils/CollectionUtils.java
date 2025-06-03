@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.jwcomptech.commons.Literals.cannotBeNull;
+import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
 import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNull;
 
 /**
@@ -79,7 +80,8 @@ public final class CollectionUtils {
         final var pairs = value.split(pairSeparator);
         myMap = Stream.of(pairs)
                 .map(p -> p.split(keySeparator))
-                .collect(Collectors.toMap(keyValue -> keyValue[0], keyValue -> keyValue[1], (a, b) -> b));
+                .collect(Collectors.toMap(keyValue -> keyValue[0],
+                        keyValue -> keyValue[1], (keyStr, valueStr) -> valueStr));
         return myMap;
     }
 
@@ -91,7 +93,7 @@ public final class CollectionUtils {
      * @return true if condition is true
      * @throws IllegalArgumentException if Collection or Predicate is null
      */
-    public static <T> boolean doesItemExistInCollection(final Collection<T> collection, final Predicate<T> condition) {
+    public static <T> boolean hasItemInCollection(final Collection<T> collection, final Predicate<T> condition) {
         checkArgumentNotNull(collection, cannotBeNull("collection"));
         checkArgumentNotNull(condition, cannotBeNull("condition"));
         return collection.parallelStream().anyMatch(condition);
@@ -106,7 +108,7 @@ public final class CollectionUtils {
      * @return true if condition is true
      * @throws IllegalArgumentException if HashMap or Predicate is null
      */
-    public static <K, V> boolean doesItemExistInMap(final Map<K, V> map, final Predicate<V> condition) {
+    public static <K, V> boolean hasItemInMap(final Map<K, V> map, final Predicate<V> condition) {
         checkArgumentNotNull(map, cannotBeNull("map"));
         checkArgumentNotNull(condition, cannotBeNull("condition"));
         return map.values().parallelStream().anyMatch(condition);
@@ -172,5 +174,5 @@ public final class CollectionUtils {
     }
 
     /** Prevents instantiation of this utility class. */
-    private CollectionUtils() { }
+    private CollectionUtils() { throwUnsupportedExForUtilityCls(); }
 }

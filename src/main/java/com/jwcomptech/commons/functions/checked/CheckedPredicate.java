@@ -53,7 +53,7 @@ public interface CheckedPredicate<T> {
      * @return a new {@code CheckedPredicate}
      * @see CheckedFunction1#of(CheckedFunction1)
      */
-    static <T> CheckedPredicate<T> of(CheckedPredicate<T> methodReference) {
+    static <T> CheckedPredicate<T> of(final CheckedPredicate<T> methodReference) {
         return methodReference;
     }
 
@@ -64,6 +64,7 @@ public interface CheckedPredicate<T> {
      * @return {@code true} if the input argument matches the predicate, otherwise {@code false}
      * @throws Throwable if an error occurs
      */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     boolean test(T t) throws Throwable;
 
     /**
@@ -84,7 +85,7 @@ public interface CheckedPredicate<T> {
         return t -> {
             try {
                 return test(t);
-            } catch(Throwable x) {
+            } catch(final Throwable x) {
                 return CheckedPredicateModule.sneakyThrow(x);
             }
         };
@@ -96,7 +97,7 @@ interface CheckedPredicateModule {
 
     // DEV-NOTE: we do not plan to expose this as public API
     @SuppressWarnings("unchecked")
-    static <T extends Throwable, R> R sneakyThrow(Throwable t) throws T {
+    static <T extends Throwable, R> R sneakyThrow(final Throwable t) throws T {
         throw (T) t;
     }
 

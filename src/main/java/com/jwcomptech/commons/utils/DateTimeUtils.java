@@ -30,6 +30,7 @@ import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serial;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -38,6 +39,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static com.jwcomptech.commons.Literals.cannotBeNullOrEmpty;
+import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
 import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNullOrEmpty;
 
 /**
@@ -57,7 +59,7 @@ public final class DateTimeUtils {
     }
 
     public static @NotNull String formatted(final String pattern, final LocalDateTime datetime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern, Locale.ENGLISH);
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern, Locale.ENGLISH);
         return formatter.format(ZonedDateTime.of(datetime, ZoneId.systemDefault()));
     }
 
@@ -67,8 +69,8 @@ public final class DateTimeUtils {
 
     public static @NotNull String formatted(final String pattern, final Instant instant) {
         checkArgumentNotNullOrEmpty(pattern, cannotBeNullOrEmpty("pattern"));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern, Locale.ENGLISH);
-        LocalDateTime datetime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern, Locale.ENGLISH);
+        final LocalDateTime datetime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
         return formatter.format(ZonedDateTime.of(datetime, ZoneId.systemDefault()));
     }
 
@@ -88,7 +90,7 @@ public final class DateTimeUtils {
      * @param runnable the Runnable to benchmark
      * @return the Duration the Runnable took to run
      */
-    public Duration benchmarkRunnable(final @NotNull Runnable runnable) {
+    public static Duration benchmarkRunnable(final @NotNull Runnable runnable) {
         final Instant startTime = Instant.now();
         runnable.run();
         final Instant endTime = Instant.now();
@@ -103,7 +105,7 @@ public final class DateTimeUtils {
      * @param value the value to pass to the Consumer
      * @return the Duration the Consumer took to run
      */
-    public <T> Duration benchmarkConsumer(final @NotNull Consumer<T> consumer, final T value) {
+    public static <T> Duration benchmarkConsumer(final @NotNull Consumer<T> consumer, final T value) {
         final Instant startTime = Instant.now();
         consumer.accept(value);
         final Instant endTime = Instant.now();
@@ -119,7 +121,7 @@ public final class DateTimeUtils {
      * @param value the value to pass to the Function
      * @return the Duration the Function took to run
      */
-    public <T, R> @NotNull ImmutablePair<R, Duration> benchmarkFunction(final @NotNull Function1<T, R> function, final T value) {
+    public static <T, R> @NotNull ImmutablePair<R, Duration> benchmarkFunction(final @NotNull Function1<T, R> function, final T value) {
         final Instant startTime = Instant.now();
         final R result = function.apply(value);
         final Instant endTime = Instant.now();
@@ -135,7 +137,7 @@ public final class DateTimeUtils {
      * @param supplier the Supplier to benchmark
      * @return the result of the Supplier and the Duration the Supplier took to run
      */
-    public <R> @NotNull ImmutablePair<R, Duration> benchmarkSupplier(final @NotNull Supplier<R> supplier) {
+    public static <R> @NotNull ImmutablePair<R, Duration> benchmarkSupplier(final @NotNull Supplier<R> supplier) {
         final Instant startTime = Instant.now();
         final R result = supplier.get();
         final Instant endTime = Instant.now();
@@ -192,7 +194,7 @@ public final class DateTimeUtils {
          */
         public static @NotNull String millisecondsToString(final long milliseconds, final boolean allowNegative)
                 throws NegativeNumberException {
-            if(0 <= milliseconds) return structureTime(milliseconds);
+            if(milliseconds >= 0) return structureTime(milliseconds);
             if(allowNegative) return '-' + structureTime(Math.abs(milliseconds));
             else throw new NegativeNumberException("Milliseconds cannot be negative!");
         }
@@ -216,7 +218,7 @@ public final class DateTimeUtils {
          */
         public static @NotNull String secondsToString(final long seconds, final boolean allowNegative)
                 throws NegativeNumberException {
-            if(0 <= seconds) return structureTime(seconds * Second);
+            if(seconds >= 0) return structureTime(seconds * Second);
             if(allowNegative) return '-' + structureTime(Math.abs(seconds * Second));
             else throw new NegativeNumberException("Seconds cannot be negative!");
         }
@@ -240,7 +242,7 @@ public final class DateTimeUtils {
          */
         public static @NotNull String minutesToString(final long minutes, final boolean allowNegative)
                 throws NegativeNumberException {
-            if(0 <= minutes) return structureTime(minutes * Minute * Second);
+            if(minutes >= 0) return structureTime(minutes * Minute * Second);
             if(allowNegative) return '-' + structureTime(Math.abs(minutes * Minute * Second));
             else throw new NegativeNumberException("Minutes cannot be negative!");
         }
@@ -264,30 +266,31 @@ public final class DateTimeUtils {
          */
         public static @NotNull String hoursToString(final long hours, final boolean allowNegative)
                 throws NegativeNumberException {
-            if(0 <= hours) return structureTime(hours * Hour * Second);
+            if(hours >= 0) return structureTime(hours * Hour * Second);
             if(allowNegative) return '-' + structureTime(Math.abs(hours * Hour * Second));
             else throw new NegativeNumberException("Hours cannot be negative!");
         }
 
+        @SuppressWarnings("NumericCastThatLosesPrecision")
         private static @NotNull String structureTime(final long milliseconds) {
             final var obj = new TimeObj();
-            if(1000 <= milliseconds) {
+            if(milliseconds >= 1000) {
                 obj.setSeconds((int)(milliseconds / 1000));
                 obj.setMillis((int)(milliseconds % 1000));
 
-                if(60 <= obj.getSeconds()) {
+                if(obj.getSeconds() >= 60) {
                     obj.setMinutes(obj.getSeconds() / 60);
                     obj.setSeconds(obj.getSeconds() % 60);
 
-                    if(60 <= obj.getMinutes()) {
+                    if(obj.getMinutes() >= 60) {
                         obj.setHours(obj.getMinutes() / 60);
                         obj.setMinutes(obj.getMinutes() % 60);
 
-                        if(24 <= obj.getHours()) {
+                        if(obj.getHours() >= 24) {
                             obj.setDays(obj.getHours() / 24);
                             obj.setHours(obj.getHours() % 24);
 
-                            if(365 <= obj.getDays()) {
+                            if(obj.getDays() >= 365) {
                                 obj.setYears(obj.getDays() / 365);
                                 obj.setDays(obj.getDays() % 365);
                             }
@@ -309,6 +312,9 @@ public final class DateTimeUtils {
         /** This exception is thrown if a negative number is supplied to the methods in this class. */
         @SuppressWarnings("InnerClassTooDeeplyNested")
         public static class NegativeNumberException extends Exception {
+            @Serial
+            private static final long serialVersionUID = -9211932478286069658L;
+
             //Parameterless Constructor
             public NegativeNumberException() { }
 
@@ -317,7 +323,7 @@ public final class DateTimeUtils {
         }
 
         /** Prevents instantiation of this utility class. */
-        private TimeConverter() { }
+        private TimeConverter() { throwUnsupportedExForUtilityCls(); }
 
         //10:364:23:59:59:00
         //59
@@ -341,5 +347,5 @@ public final class DateTimeUtils {
     }
 
     /** Prevents instantiation of this utility class. */
-    private DateTimeUtils() { }
+    private DateTimeUtils() { throwUnsupportedExForUtilityCls(); }
 }

@@ -32,6 +32,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
+
 /**
  * Stores all global singleton object instances.
  *
@@ -48,14 +50,14 @@ public final class SingletonManager {
      * @param <T> the type of the singleton class
      * @return the specified instance if it exists globally, if not creates it
      */
-    public synchronized static <T> @Nullable T getInstance(final Class<T> singletonClass, final Supplier<T> creator) {
+    public static synchronized <T> @Nullable T getInstance(final Class<T> singletonClass, final Supplier<T> creator) {
         if(!instances.containsKey(singletonClass)) {
             if(creator == null) return null;
             instances.put(singletonClass, creator.get());
         }
         try {
             return singletonClass.cast(instances.get(singletonClass));
-        } catch (ClassCastException e) {
+        } catch (final ClassCastException e) {
             throw new IllegalStateException("Singleton class type mismatch");
         }
     }
@@ -74,10 +76,10 @@ public final class SingletonManager {
      * @param singletonClass the class to lookup
      * @return true if a singleton exists matching the specified class
      */
-    public synchronized static boolean instanceExists(final Class<?> singletonClass) {
+    public static synchronized boolean instanceExists(final Class<?> singletonClass) {
         return instances.containsKey(singletonClass);
     }
 
     /** Prevents instantiation of this utility class. */
-    public SingletonManager() { }
+    private SingletonManager() { throwUnsupportedExForUtilityCls(); }
 }

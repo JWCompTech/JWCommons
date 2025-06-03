@@ -55,7 +55,7 @@ import static picocli.CommandLine.Option;
 @Beta
 //TODO: Finish implementation
 public class Arguments implements Callable<Integer> {
-    private final Logger logger = LoggerFactory.getLogger(Arguments.class);
+    private static final Logger logger = LoggerFactory.getLogger(Arguments.class);
 
     /**
      * The command line object instance.

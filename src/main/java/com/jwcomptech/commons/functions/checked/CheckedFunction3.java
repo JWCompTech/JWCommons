@@ -25,8 +25,8 @@ package com.jwcomptech.commons.functions.checked;
 import com.jwcomptech.commons.functions.Function1;
 import com.jwcomptech.commons.functions.Function3;
 import com.jwcomptech.commons.functions.Memoized;
-import com.jwcomptech.commons.functions.tuples.Tuple;
-import com.jwcomptech.commons.functions.tuples.Tuple3;
+import com.jwcomptech.commons.tuples.Tuple;
+import com.jwcomptech.commons.tuples.Tuple3;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import org.jetbrains.annotations.Contract;
@@ -37,6 +37,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Function;
 
@@ -75,7 +76,7 @@ public interface CheckedFunction3<T1, T2, T3, R> extends Serializable {
      * @return a function always returning the given value
      */
     @Contract(pure = true)
-    static <T1, T2, T3, R> @NotNull CheckedFunction3<T1, T2, T3, R> constant(R value) {
+    static <T1, T2, T3, R> @NotNull CheckedFunction3<T1, T2, T3, R> constant(final R value) {
         return (t1, t2, t3) -> value;
     }
 
@@ -115,7 +116,7 @@ public interface CheckedFunction3<T1, T2, T3, R> extends Serializable {
      * @param <T3> 3rd argument
      * @return a {@code CheckedFunction3}
      */
-    static <T1, T2, T3, R> CheckedFunction3<T1, T2, T3, R> of(CheckedFunction3<T1, T2, T3, R> methodReference) {
+    static <T1, T2, T3, R> CheckedFunction3<T1, T2, T3, R> of(final CheckedFunction3<T1, T2, T3, R> methodReference) {
         return methodReference;
     }
 
@@ -132,7 +133,7 @@ public interface CheckedFunction3<T1, T2, T3, R> extends Serializable {
      */
     @Contract(pure = true)
     static <T1, T2, T3, R> @NotNull Function3<T1, T2, T3, Option<R>> lift(
-            CheckedFunction3<? super T1, ? super T2, ? super T3, ? extends R> partialFunction) {
+            final CheckedFunction3<? super T1, ? super T2, ? super T3, ? extends R> partialFunction) {
         return (t1, t2, t3) -> Try.<R>of(() -> partialFunction.apply(t1, t2, t3)).toOption();
     }
 
@@ -149,14 +150,14 @@ public interface CheckedFunction3<T1, T2, T3, R> extends Serializable {
      */
     @Contract(pure = true)
     static <T1, T2, T3, R> @NotNull Function3<T1, T2, T3, Try<R>> liftTry(
-            CheckedFunction3<? super T1, ? super T2, ? super T3, ? extends R> partialFunction) {
+            final CheckedFunction3<? super T1, ? super T2, ? super T3, ? extends R> partialFunction) {
         return (t1, t2, t3) -> Try.of(() -> partialFunction.apply(t1, t2, t3));
     }
 
     /**
      * Narrows the given {@code CheckedFunction3<? super T1, ? super T2, ? super T3, ? extends R>} to {@code CheckedFunction3<T1, T2, T3, R>}
      *
-     * @param f A {@code CheckedFunction3}
+     * @param function A {@code CheckedFunction3}
      * @param <R> return type
      * @param <T1> 1st argument
      * @param <T2> 2nd argument
@@ -165,8 +166,8 @@ public interface CheckedFunction3<T1, T2, T3, R> extends Serializable {
      */
     @SuppressWarnings("unchecked")
     static <T1, T2, T3, R> CheckedFunction3<T1, T2, T3, R> narrow(
-            CheckedFunction3<? super T1, ? super T2, ? super T3, ? extends R> f) {
-        return (CheckedFunction3<T1, T2, T3, R>) f;
+            final CheckedFunction3<? super T1, ? super T2, ? super T3, ? extends R> function) {
+        return (CheckedFunction3<T1, T2, T3, R>) function;
     }
 
     /**
@@ -186,7 +187,7 @@ public interface CheckedFunction3<T1, T2, T3, R> extends Serializable {
      * @param t1 argument 1
      * @return a partial application of this function
      */
-    default CheckedFunction2<T2, T3, R> apply(T1 t1) {
+    default CheckedFunction2<T2, T3, R> apply(final T1 t1) {
         return (T2 t2, T3 t3) -> apply(t1, t2, t3);
     }
 
@@ -197,7 +198,7 @@ public interface CheckedFunction3<T1, T2, T3, R> extends Serializable {
      * @param t2 argument 2
      * @return a partial application of this function
      */
-    default CheckedFunction1<T3, R> apply(T1 t1, T2 t2) {
+    default CheckedFunction1<T3, R> apply(final T1 t1, final T2 t2) {
         return (T3 t3) -> apply(t1, t2, t3);
     }
 
@@ -206,6 +207,7 @@ public interface CheckedFunction3<T1, T2, T3, R> extends Serializable {
      * @return an int value &gt;= 0
      * @see <a href="http://en.wikipedia.org/wiki/Arity">Arity</a>
      */
+    @SuppressWarnings("SameReturnValue")
     default int arity() {
         return 3;
     }
@@ -225,7 +227,7 @@ public interface CheckedFunction3<T1, T2, T3, R> extends Serializable {
      * @return a tupled function equivalent to this.
      */
     default io.vavr.CheckedFunction1<Tuple3<T1, T2, T3>, R> tupled() {
-        return t -> apply(t._1, t._2, t._3);
+        return t -> apply(t._1(), t._2(), t._3());
     }
 
     /**
@@ -250,7 +252,7 @@ public interface CheckedFunction3<T1, T2, T3, R> extends Serializable {
             return this;
         } else {
             final Map<Tuple3<T1, T2, T3>, R> cache = new HashMap<>();
-            final ReentrantLock lock = new ReentrantLock();
+            final Lock lock = new ReentrantLock();
             //noinspection OverlyLongLambda
             return (CheckedFunction3<T1, T2, T3, R> & Memoized) (t1, t2, t3) -> {
                 final Tuple3<T1, T2, T3> key = Tuple.of(t1, t2, t3);
@@ -288,14 +290,14 @@ public interface CheckedFunction3<T1, T2, T3, R> extends Serializable {
      * @return a function composed of this and recover
      * @throws NullPointerException if recover is null
      */
-    default Function3<T1, T2, T3, R> recover(Function<? super Throwable,
+    default Function3<T1, T2, T3, R> recover(final Function<? super Throwable,
             ? extends Function3<? super T1, ? super T2, ? super T3, ? extends R>> recover) {
         checkArgumentNotNull(recover, cannotBeNull("recover"));
         //noinspection OverlyLongLambda
         return (t1, t2, t3) -> {
             try {
                 return this.apply(t1, t2, t3);
-            } catch (Throwable throwable) {
+            } catch (final Throwable throwable) {
                 final Function3<? super T1, ? super T2, ? super T3, ? extends R> func = recover.apply(throwable);
                 Objects.requireNonNull(func, () -> "recover return null for "
                         + throwable.getClass() + ": " + throwable.getMessage());
@@ -313,7 +315,7 @@ public interface CheckedFunction3<T1, T2, T3, R> extends Serializable {
         return (t1, t2, t3) -> {
             try {
                 return apply(t1, t2, t3);
-            } catch(Throwable t) {
+            } catch(final Throwable t) {
                 return CheckedFunction3Module.sneakyThrow(t);
             }
         };
@@ -328,7 +330,7 @@ public interface CheckedFunction3<T1, T2, T3, R> extends Serializable {
      * @return a function composed of this and after
      * @throws NullPointerException if after is null
      */
-    default <V> CheckedFunction3<T1, T2, T3, V> andThen(CheckedFunction1<? super R, ? extends V> after) {
+    default <V> CheckedFunction3<T1, T2, T3, V> andThen(final CheckedFunction1<? super R, ? extends V> after) {
         checkArgumentNotNull(after, cannotBeNull("after"));
         return (t1, t2, t3) -> after.apply(apply(t1, t2, t3));
     }
@@ -340,7 +342,7 @@ interface CheckedFunction3Module {
 
     // DEV-NOTE: we do not plan to expose this as public API
     @SuppressWarnings("unchecked")
-    static <T extends Throwable, R> R sneakyThrow(Throwable t) throws T {
+    static <T extends Throwable, R> R sneakyThrow(final Throwable t) throws T {
         throw (T) t;
     }
 }

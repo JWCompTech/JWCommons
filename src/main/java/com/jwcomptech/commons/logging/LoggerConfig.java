@@ -24,11 +24,12 @@ package com.jwcomptech.commons.logging;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.ConsoleAppender;
+import ch.qos.logback.core.encoder.Encoder;
 import com.jwcomptech.commons.Literals;
+import lombok.Value;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,8 +43,9 @@ import static com.jwcomptech.commons.utils.StringUtils.isBlank;
  */
 
 @SuppressWarnings({"unused", "UnusedReturnValue"})
+@Value
 public class LoggerConfig {
-    private final Logger logger;
+    Logger logger;
 
     /**
      * Creates a new instance of LoggerConfig with the specified logger object.
@@ -183,12 +185,12 @@ public class LoggerConfig {
     }
 
     /**
-     * Adds a new {@link ConsoleAppender} with the specified encoder and sets the name to "console".
+     * Adds a new {@link ConsoleAppender} with the specified encoder (e.g. PatternLayoutEncoder) and sets the name to "console".
      * @apiNote The start method is automatically run at the end of this method.
      * @param encoder the encoder to set
      * @return this instance
      */
-    public LoggerConfig addNewConsoleAppender(final PatternLayoutEncoder encoder) {
+    public LoggerConfig addNewConsoleAppender(final Encoder<ILoggingEvent> encoder) {
         return addNewConsoleAppender("console", encoder);
     }
 
@@ -216,7 +218,7 @@ public class LoggerConfig {
      * @param encoder the encoder to set
      * @return this instance
      */
-    public LoggerConfig addNewConsoleAppender(final String name, final PatternLayoutEncoder encoder) {
+    public LoggerConfig addNewConsoleAppender(final String name, final Encoder<ILoggingEvent> encoder) {
         checkArgumentNotNullOrEmpty(name, Literals.cannotBeNullOrEmpty("name"));
         final ConsoleAppender<ILoggingEvent> logConsoleAppender = new ConsoleAppender<>();
         logConsoleAppender.setContext(LoggingManager.getContext());
@@ -225,7 +227,7 @@ public class LoggerConfig {
         } else {
             logConsoleAppender.setName(name);
         }
-        if (null == encoder) {
+        if (encoder == null) {
             logConsoleAppender.setEncoder(Encoders.BasicEncoder.getEncoder());
         } else {
             logConsoleAppender.setEncoder(encoder);
@@ -247,6 +249,7 @@ public class LoggerConfig {
      * @param name the name of the appender to remove
      * @return true if no errors occurred
      */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     public boolean removeAppender(final String name) {
         return logger.detachAppender(name);
     }
@@ -256,6 +259,7 @@ public class LoggerConfig {
      * @param appender the appender to remove
      * @return true if no errors occurred
      */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     public boolean removeAppender(final Appender<ILoggingEvent> appender) {
         return logger.detachAppender(appender);
     }
@@ -266,7 +270,7 @@ public class LoggerConfig {
      * @return true if exists
      */
     public boolean hasAppender(final String name) {
-        return null != logger.getAppender(name);
+        return logger.getAppender(name) != null;
     }
 
     /**
@@ -285,20 +289,5 @@ public class LoggerConfig {
      */
     public Appender<ILoggingEvent> getAppender(final String name) {
         return logger.getAppender(name);
-    }
-
-    /**
-     * Returns the stored Logback logger instance.
-     * @return the stored Logback logger instance
-     */
-    public Logger getLogger() {
-        return logger;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("logger", logger)
-                .toString();
     }
 }

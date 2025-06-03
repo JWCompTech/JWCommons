@@ -85,19 +85,19 @@ public final class EventManager {
                                                          final EventType<? extends T> eventType,
                                                          final List<Object> args)
             throws IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException {
-        if (null == eventName || eventName.trim().isEmpty()) {
+        if (eventName == null || eventName.trim().isEmpty()) {
             throw new IllegalArgumentException("Event name cannot be null!");
         }
-        if (null == classRef) {
+        if (classRef == null) {
             throw new IllegalArgumentException("Event class ref cannot be null!");
         }
-        if (null == target) {
+        if (target == null) {
             throw new IllegalArgumentException("Event target cannot be null!");
         }
-        if (null == eventType) {
+        if (eventType == null) {
             throw new IllegalArgumentException("Event type cannot be null!");
         }
-        if(null == args) {
+        if(args == null) {
             throw new IllegalArgumentException("Event Args cannot be null!");
         }
 
@@ -136,12 +136,12 @@ public final class EventManager {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
+    public boolean equals(final Object obj) {
+        if (this == obj) return true;
 
-        if (null == o || getClass() != o.getClass()) return false;
+        if (obj == null || getClass() != obj.getClass()) return false;
 
-        EventManager that = (EventManager) o;
+        final EventManager that = (EventManager) obj;
 
         return new EqualsBuilder()
                 .append(events, that.events)

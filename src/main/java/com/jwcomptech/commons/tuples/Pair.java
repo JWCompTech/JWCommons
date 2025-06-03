@@ -38,44 +38,46 @@ public abstract class Pair<L, R> implements Map.Entry<L, R>, Comparable<Pair<L, 
     private static final long serialVersionUID = 4954918890077093841L;
     public static final Pair<?, ?>[] EMPTY_ARRAY = new Pair[0];
 
+    protected Pair() { }
+
     @SuppressWarnings("unchecked")
     public static <L, R> Pair<L, R>[] emptyArray() {
         return (Pair<L, R>[]) EMPTY_ARRAY;
     }
 
-    public static <L, R> Pair<L, R> of(L left, R right) {
+    public static <L, R> Pair<L, R> of(final L left, final R right) {
         return ImmutablePair.of(left, right);
     }
 
-    public static <L, R> Pair<L, R> of(Map.Entry<L, R> pair) {
+    public static <L, R> Pair<L, R> of(final Map.Entry<L, R> pair) {
         return ImmutablePair.of(pair);
     }
 
-    public static <L, R> Pair<L, R> ofNonNull(L left, R right) {
+    public static <L, R> Pair<L, R> ofNonNull(final L left, final R right) {
         return ImmutablePair.ofNonNull(left, right);
     }
 
-    public <E extends Throwable> void accept(@NotNull FailableBiConsumer<L, R, E> consumer) throws E {
+    public <E extends Throwable> void accept(@NotNull final FailableBiConsumer<L, R, E> consumer) throws E {
         consumer.accept(this.getKey(), this.getValue());
     }
 
-    public <V, E extends Throwable> V apply(@NotNull FailableBiFunction<L, R, V, E> function) throws E {
+    public <V, E extends Throwable> V apply(@NotNull final FailableBiFunction<L, R, V, E> function) throws E {
         return function.apply(this.getKey(), this.getValue());
     }
 
-    public int compareTo(@NotNull Pair<L, R> other) {
+    public int compareTo(@NotNull final Pair<L, R> other) {
         return (new CompareToBuilder()).append(this.getLeft(), other.getLeft()).append(this.getRight(),
                 other.getRight()).toComparison();
     }
 
     @SuppressWarnings("rawtypes")
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this) {
             return true;
         } else if (!(obj instanceof Map.Entry)) {
             return false;
         } else {
-            Map.Entry<?, ?> other = (Map.Entry)obj;
+            final Map.Entry<?, ?> other = (Map.Entry)obj;
             return Objects.equals(this.getKey(), other.getKey()) && Objects.equals(this.getValue(), other.getValue());
         }
     }
@@ -100,7 +102,7 @@ public abstract class Pair<L, R> implements Map.Entry<L, R>, Comparable<Pair<L, 
         return "(" + this.getLeft() + ',' + this.getRight() + ')';
     }
 
-    public String toString(String format) {
+    public String toString(final String format) {
         return String.format(format, this.getLeft(), this.getRight());
     }
 }

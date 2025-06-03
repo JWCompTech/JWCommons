@@ -24,6 +24,7 @@ package com.jwcomptech.commons.values;
 
 import com.jwcomptech.commons.Literals;
 import com.jwcomptech.commons.utils.CollectionUtils;
+import com.jwcomptech.commons.utils.RegExPatterns;
 import com.jwcomptech.commons.validators.EmailValidator;
 import com.jwcomptech.commons.utils.StringUtils;
 import org.apache.commons.lang3.CharUtils;
@@ -74,6 +75,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
         super.setListenersTarget(this);
     }
 
+    @SuppressWarnings("TypeMayBeWeakened")
     private MutableStringValue(final @NotNull StringBuilder input) {
         super(input.toString());
         super.setListenersTarget(this);
@@ -86,13 +88,15 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
 
     /**
      * A static instance of MutableStringValue with the value as an empty string.
+     * @return a static instance of MutableStringValue with the value as an empty string
      */
     @Contract(" -> new")
-    public static @NotNull MutableStringValue EMPTY() { return new MutableStringValue(Literals.EMPTY); };
+    public static @NotNull MutableStringValue EMPTY() { return new MutableStringValue(Literals.EMPTY); }
 
     /**
      * Creates a new MutableStringValue instance with the specified default value.
      * @param defaultValue the value to set
+     * @return a new MutableStringValue instance with the specified default value
      */
     @Contract("_ -> new")
     public static @NotNull MutableStringValue of(final String defaultValue) {
@@ -102,6 +106,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
     /**
      * Creates a new MutableStringValue instance with the specified default value.
      * @param defaultValue the value to set
+     * @return a new MutableStringValue instance with the specified default value
      */
     @Contract("_ -> new")
     public static @NotNull MutableStringValue of(final StringBuilder defaultValue) {
@@ -111,6 +116,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
     /**
      * Creates a new MutableStringValue instance with the specified default value.
      * @param defaultValue the value to set
+     * @return a new MutableStringValue instance with the specified default value
      */
     @Contract("_ -> new")
     public static @NotNull MutableStringValue of(final CharSequence defaultValue) {
@@ -119,26 +125,26 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
 
     /**
      * Returns the string representation of the {@code boolean} argument.
-     * @param b a {@code boolean}.
+     * @param bool a {@code boolean}.
      * @return if the argument is {@code true}, a string equal to
      *         {@code "true"} is returned; otherwise, a string equal to
      *         {@code "false"} is returned.
      */
     @Contract("_ -> new")
-    public static @NotNull MutableStringValue valueOf(boolean b) {
-        return MutableStringValue.of(String.valueOf(b));
+    public static @NotNull MutableStringValue valueOf(final boolean bool) {
+        return MutableStringValue.of(String.valueOf(bool));
     }
 
     /**
      * Returns the string representation of the {@code BooleanValue} argument.
-     * @param b a {@code BooleanValue}.
+     * @param bool a {@code BooleanValue}.
      * @return if the argument is {@code BooleanValue.TRUE}, a string equal to
      *         {@code "true"} is returned; otherwise, a string equal to
      *         {@code "false"} is returned.
      */
     @Contract("_ -> new")
-    public static @NotNull MutableStringValue valueOf(@NotNull BooleanValue b) {
-        return MutableStringValue.of(b.toString());
+    public static @NotNull MutableStringValue valueOf(@NotNull final BooleanValue bool) {
+        return MutableStringValue.of(bool.toString());
     }
 
     /**
@@ -148,7 +154,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      *         as its single character the argument {@code c}.
      */
     @Contract("_ -> new")
-    public static @NotNull MutableStringValue valueOf(char c) {
+    public static @NotNull MutableStringValue valueOf(final char c) {
         return MutableStringValue.of(String.valueOf(c));
     }
 
@@ -162,19 +168,19 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see Integer#toString(int, int)
      */
     @Contract("_ -> new")
-    public static @NotNull MutableStringValue valueOf(int i) {
+    public static @NotNull MutableStringValue valueOf(final int i) {
         return MutableStringValue.of(Integer.toString(i));
     }
 
     /**
      * Returns the string representation of the {@code IntegerValue} argument.
-     * @param i an {@code IntegerValue}.
+     * @param value an {@code IntegerValue}.
      * @return a string representation of the {@code IntegerValue} argument.
      * @see Integer#toString(int, int)
      */
     @Contract("_ -> new")
-    public static @NotNull MutableStringValue valueOf(@NotNull IntegerValue i) {
-        return MutableStringValue.of(String.valueOf(i));
+    public static @NotNull MutableStringValue valueOf(@NotNull final IntegerValue value) {
+        return MutableStringValue.of(String.valueOf(value));
     }
 
     /**
@@ -187,19 +193,19 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see Long#toString(long)
      */
     @Contract("_ -> new")
-    public static @NotNull MutableStringValue valueOf(long l) {
+    public static @NotNull MutableStringValue valueOf(final long l) {
         return MutableStringValue.of(String.valueOf(l));
     }
 
     /**
      * Returns the string representation of the {@code LongValue} argument.
-     * @param l a {@code LongValue}.
+     * @param value a {@code LongValue}.
      * @return a string representation of the {@code LongValue} argument.
      * @see Long#toString(long)
      */
     @Contract("_ -> new")
-    public static @NotNull MutableStringValue valueOf(LongValue l) {
-        return MutableStringValue.of(String.valueOf(l));
+    public static @NotNull MutableStringValue valueOf(final LongValue value) {
+        return MutableStringValue.of(String.valueOf(value));
     }
 
     /**
@@ -212,19 +218,19 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see Float#toString(float)
      */
     @Contract("_ -> new")
-    public static @NotNull MutableStringValue valueOf(float f) {
+    public static @NotNull MutableStringValue valueOf(final float f) {
         return MutableStringValue.of(Float.toString(f));
     }
 
     /**
      * Returns the string representation of the {@code FloatValue} argument.
-     * @param f a {@code FloatValue}.
+     * @param value a {@code FloatValue}.
      * @return a string representation of the {@code FloatValue} argument.
      * @see Float#toString(float)
      */
     @Contract("_ -> new")
-    public static @NotNull MutableStringValue valueOf(FloatValue f) {
-        return MutableStringValue.of(String.valueOf(f));
+    public static @NotNull MutableStringValue valueOf(final FloatValue value) {
+        return MutableStringValue.of(String.valueOf(value));
     }
 
     /**
@@ -237,26 +243,34 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see Double#toString(double)
      */
     @Contract("_ -> new")
-    public static @NotNull MutableStringValue valueOf(double d) {
+    public static @NotNull MutableStringValue valueOf(final double d) {
         return MutableStringValue.of(Double.toString(d));
     }
 
     /**
      * Returns the string representation of the {@code DoubleValue} argument.
-     * @param d a {@code DoubleValue}.
+     * @param value a {@code DoubleValue}.
      * @return a string representation of the {@code Double} argument.
      * @see Double#toString(double)
      */
     @Contract("_ -> new")
-    public static @NotNull MutableStringValue valueOf(DoubleValue d) {
-        return MutableStringValue.of(String.valueOf(d));
+    public static @NotNull MutableStringValue valueOf(final DoubleValue value) {
+        return MutableStringValue.of(String.valueOf(value));
     }
 
+    /**
+     * Returns a new MultipleStringValue with an empty string as the initial value.
+     * @return a new MultipleStringValue with an empty string as the initial value
+     */
     @Contract(" -> new")
     public static @NotNull MutableStringValue blank() {
         return new MutableStringValue();
     }
 
+    /**
+     * Returns a new MultipleStringValue with a space as the initial value
+     * @return a new MultipleStringValue with a space as the initial value
+     */
     @Contract(" -> new")
     public static @NotNull MutableStringValue space() {
         return new MutableStringValue(" ");
@@ -421,8 +435,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      */
     public boolean toBoolean() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        final var value = this.value.toLowerCase(Locale.getDefault()).trim();
-        return switch (value) {
+        return switch (value.toLowerCase(Locale.getDefault()).trim()) {
             case "true", "t", "yes", "y", "1", "succeeded", "succeed", "enabled" -> true;
             case "false", "f", "no", "n", "0", "-1", "failed", "fail", "disabled" -> false;
             default -> throw new IllegalArgumentException("Input is not a boolean value.");
@@ -450,8 +463,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      */
     public boolean isValidIPAddress() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        return value.matches("^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-4])\\.){3}"
-                + "([0-9]|[1-9][0-9]|1[0-9‌​]{2}|2[0-4][0-9]|25[0-4])$");
+        return value.matches(RegExPatterns.IPADDRESS.getRegex());
     }
 
     /**
@@ -461,8 +473,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      */
     public boolean isValidUrl() {
         checkArgumentNotNull(value, cannotBeNullOrEmpty("value"));
-        return value.matches(
-                "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
+        return value.matches(RegExPatterns.URL.getRegex());
     }
 
     /**
@@ -506,7 +517,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @return this instance
      * @throws IllegalArgumentException if the value or prefix are null
      */
-    public @NotNull MutableStringValue ensureStartsWith(final String prefix, final Boolean ignoreCase) {
+    public @NotNull MutableStringValue ensureStartsWith(final String prefix, final boolean ignoreCase) {
         checkArgumentNotNull(value, cannotBeNull("value"));
         checkArgumentNotNull(prefix, cannotBeNull("prefix"));
         var startsWith = value.startsWith(prefix);
@@ -545,7 +556,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @throws IllegalArgumentException if the value or suffix are null
      * @see String#endsWith(String)
      */
-    public boolean endsWith(String suffix) {
+    public boolean endsWith(final String suffix) {
         return value.endsWith(suffix);
     }
 
@@ -642,7 +653,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#indexOf(int)
      */
     @Contract("_ -> new")
-    public @NotNull IntegerValue indexOf(int ch) {
+    public @NotNull IntegerValue indexOf(final char ch) {
         return IntegerValue.of(value.indexOf(ch));
     }
 
@@ -686,7 +697,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * the string.
      * This result is, by itself, indistinguishable from a genuine absence of
      * {@code ch} in the string.
-     * If stricter behavior is needed, {@link #indexOf(int, int, int)}
+     * If stricter behavior is needed, {@link #indexOf(char, int, int)}
      * should be considered instead.
      * On a {@link String} {@code s}, for example,
      * {@code s.indexOf(ch, fromIndex, s.length())} would throw if
@@ -694,7 +705,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#indexOf(int, int)
      */
     @Contract("_, _ -> new")
-    public @NotNull IntegerValue indexOf(int ch, int fromIndex) {
+    public @NotNull IntegerValue indexOf(final char ch, final int fromIndex) {
         return IntegerValue.of(value.indexOf(ch, fromIndex));
     }
 
@@ -736,7 +747,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#indexOf(int, int, int)
      */
     @Contract("_, _, _ -> new")
-    public @NotNull IntegerValue indexOf(int ch, int beginIndex, int endIndex) {
+    public @NotNull IntegerValue indexOf(final char ch, final int beginIndex, final int endIndex) {
         return IntegerValue.of(value.indexOf(ch, beginIndex, endIndex));
     }
 
@@ -754,7 +765,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#indexOf(String)
      */
     @Contract("_ -> new")
-    public @NotNull IntegerValue indexOf(String str) {
+    public @NotNull IntegerValue indexOf(final String str) {
         return IntegerValue.of(value.indexOf(str));
     }
 
@@ -786,7 +797,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#indexOf(String, int)
      */
     @Contract("_, _ -> new")
-    public @NotNull IntegerValue indexOf(String str, int fromIndex) {
+    public @NotNull IntegerValue indexOf(final String str, final int fromIndex) {
         return IntegerValue.of(value.indexOf(str, fromIndex));
     }
 
@@ -813,7 +824,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#indexOf(String, int, int)
      */
     @Contract("_, _, _ -> new")
-    public @NotNull IntegerValue indexOf(String str, int beginIndex, int endIndex) {
+    public @NotNull IntegerValue indexOf(final String str, final int beginIndex, final int endIndex) {
         return IntegerValue.of(value.indexOf(str, beginIndex, endIndex));
     }
 
@@ -841,7 +852,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#lastIndexOf(int)
      */
     @Contract("_ -> new")
-    public @NotNull IntegerValue lastIndexOf(int ch) {
+    public @NotNull IntegerValue lastIndexOf(final char ch) {
         return IntegerValue.of(value.lastIndexOf(ch));
     }
 
@@ -879,7 +890,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#lastIndexOf(int, int)
      */
     @Contract("_, _ -> new")
-    public @NotNull IntegerValue lastIndexOf(int ch, int fromIndex) {
+    public @NotNull IntegerValue lastIndexOf(final char ch, final int fromIndex) {
         return IntegerValue.of(value.lastIndexOf(ch, fromIndex));
     }
 
@@ -898,7 +909,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#lastIndexOf(String)
      */
     @Contract("_ -> new")
-    public @NotNull IntegerValue lastIndexOf(String str) {
+    public @NotNull IntegerValue lastIndexOf(final String str) {
         return IntegerValue.of(value.lastIndexOf(str));
     }
 
@@ -919,7 +930,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#lastIndexOf(String, int)
      */
     @Contract("_, _ -> new")
-    public @NotNull IntegerValue lastIndexOf(String str, int fromIndex) {
+    public @NotNull IntegerValue lastIndexOf(final String str, final int fromIndex) {
         return IntegerValue.of(value.lastIndexOf(str, fromIndex));
     }
 
@@ -940,7 +951,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      *             length of this {@code String} object.
      * @see String#substring(int)
      */
-    public @NotNull MutableStringValue substring(int beginIndex) {
+    public @NotNull MutableStringValue substring(final int beginIndex) {
         value = value.substring(beginIndex);
         return this;
     }
@@ -967,7 +978,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      *             {@code endIndex}.
      * @see String#substring(int, int)
      */
-    public @NotNull MutableStringValue substring(int beginIndex, int endIndex) {
+    public @NotNull MutableStringValue substring(final int beginIndex, final int endIndex) {
         value = value.substring(beginIndex, endIndex);
         return this;
     }
@@ -993,7 +1004,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#subSequence(int, int)
      */
     @Contract(pure = true)
-    public @NotNull CharSequence subSequence(int beginIndex, int endIndex) {
+    public @NotNull CharSequence subSequence(final int beginIndex, final int endIndex) {
         return value.subSequence(beginIndex, endIndex);
     }
 
@@ -1017,7 +1028,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      *          characters followed by the string argument's characters.
      * @see String#concat(String)
      */
-    public @NotNull MutableStringValue concat(String str) {
+    public @NotNull MutableStringValue concat(final String str) {
         value = value + str;
         return this;
     }
@@ -1051,7 +1062,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      *          occurrence of {@code oldChar} with {@code newChar}.
      * @see String#replace(char, char)
      */
-    public @NotNull MutableStringValue replace(char oldChar, char newChar) {
+    public @NotNull MutableStringValue replace(final char oldChar, final char newChar) {
         value = value.replace(oldChar, newChar);
         return this;
     }
@@ -1075,19 +1086,19 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see java.util.regex.Pattern
      * @see String#matches(String)
      */
-    public boolean matches(String regex) {
+    public boolean matches(final String regex) {
         return value.matches(regex);
     }
 
     /**
      * Returns true if and only if this string contains the specified
      * sequence of char values.
-     * @param s the sequence to search for
+     * @param charSeq the sequence to search for
      * @return true if this string contains {@code s}, false otherwise
      * @see String#contains(CharSequence)
      */
-    public boolean contains(CharSequence s) {
-        return value.contains(s);
+    public boolean contains(final CharSequence charSeq) {
+        return value.contains(charSeq);
     }
 
     /**
@@ -1123,7 +1134,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see java.util.regex.Pattern
      * @see String#replaceFirst(String, String)
      */
-    public @NotNull MutableStringValue replaceFirst(String regex, String replacement) {
+    public @NotNull MutableStringValue replaceFirst(final String regex, final String replacement) {
         value = value.replaceFirst(regex, replacement);
         return this;
     }
@@ -1161,7 +1172,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see java.util.regex.Pattern
      * @see String#replaceAll(String, String)
      */
-    public @NotNull MutableStringValue replaceAll(String regex, String replacement) {
+    public @NotNull MutableStringValue replaceAll(final String regex, final String replacement) {
         value = value.replaceAll(regex, replacement);
         return this;
     }
@@ -1177,7 +1188,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @return  The resulting string
      * @see String#replace(CharSequence, CharSequence)
      */
-    public @NotNull MutableStringValue replace(CharSequence target, CharSequence replacement) {
+    public @NotNull MutableStringValue replace(final CharSequence target, final CharSequence replacement) {
         value = value.replace(target, replacement);
         return this;
     }
@@ -1265,7 +1276,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see java.util.regex.Pattern
      * @see String#split(String, int)
      */
-    public MutableStringValue @NotNull [] split(String regex, int limit) {
+    public MutableStringValue @NotNull [] split(final String regex, final int limit) {
         return Arrays.stream(value.split(regex, limit))
                 .map(MutableStringValue::of).toArray(MutableStringValue[]::new);
     }
@@ -1352,7 +1363,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      *          substrings and matching delimiters
      * @see String#splitWithDelimiters(String, int)
      */
-    public MutableStringValue @NotNull [] splitWithDelimiters(String regex, int limit) {
+    public MutableStringValue @NotNull [] splitWithDelimiters(final String regex, final int limit) {
         return Arrays.stream(value.splitWithDelimiters(regex, limit))
                 .map(MutableStringValue::of).toArray(MutableStringValue[]::new);
     }
@@ -1390,7 +1401,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see java.util.regex.Pattern
      * @see String#split(String)
      */
-    public MutableStringValue @NotNull [] split(String regex) {
+    public MutableStringValue @NotNull [] split(final String regex) {
         return Arrays.stream(value.split(regex))
                 .map(MutableStringValue::of).toArray(MutableStringValue[]::new);
     }
@@ -1405,7 +1416,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * Examples are programming language identifiers, protocol keys, and HTML
      * tags.
      * For instance, {@code "TITLE".toLowerCase()} in a Turkish locale
-     * returns {@code "t\u005Cu0131tle"}, where '\u005Cu0131' is the
+     * returns {@code "t\u0131tle"}, where '\u0131' is the
      * LATIN SMALL LETTER DOTLESS I character.
      * To obtain correct results for locale insensitive strings, use
      * {@code toLowerCase(Locale.ROOT)}.
@@ -1415,6 +1426,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#toUpperCase()
      * @see String#toUpperCase(Locale)
      */
+    @SuppressWarnings("UnnecessaryUnicodeEscape")
     public @NotNull MutableStringValue toLowerCase() {
         value = value.toLowerCase(Locale.getDefault());
         return this;
@@ -1473,7 +1485,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#toUpperCase()
      * @see String#toUpperCase(Locale)
      */
-    public @NotNull MutableStringValue toLowerCase(Locale locale) {
+    public @NotNull MutableStringValue toLowerCase(final Locale locale) {
         value = value.toLowerCase(locale);
         return this;
     }
@@ -1489,7 +1501,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * Examples are programming language identifiers, protocol keys, and HTML
      * tags.
      * For instance, {@code "title".toUpperCase()} in a Turkish locale
-     * returns {@code "T\u005Cu0130TLE"}, where '\u005Cu0130' is the
+     * returns {@code "T\u0130TLE"}, where '\u0130' is the
      * LATIN CAPITAL LETTER I WITH DOT ABOVE character.
      * To obtain correct results for locale insensitive strings, use
      * {@code toUpperCase(Locale.ROOT)}.
@@ -1499,6 +1511,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#toUpperCase()
      * @see String#toUpperCase(Locale)
      */
+    @SuppressWarnings("UnnecessaryUnicodeEscape")
     public @NotNull MutableStringValue toUpperCase() {
         value = value.toUpperCase(Locale.getDefault());
         return this;
@@ -1556,7 +1569,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#toUpperCase()
      * @see String#toUpperCase(Locale)
      */
-    public @NotNull MutableStringValue toUpperCase(Locale locale) {
+    public @NotNull MutableStringValue toUpperCase(final Locale locale) {
         value = value.toUpperCase(locale);
         return this;
     }
@@ -1721,7 +1734,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see Character#isWhitespace(int)
      * @see String#indent(int)
      */
-    public @NotNull MutableStringValue indent(int n) {
+    public @NotNull MutableStringValue indent(final int n) {
         value = value.indent(n);
         return this;
     }
@@ -1779,7 +1792,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      */
     public @NotNull MutableStringValue removeAllSpecialCharacters() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = value.replaceAll("[^a-zA-Z0-9]+","");
+        value = value.replaceAll(RegExPatterns.SPECIAL_CHARS.getRegex(), "");
         return this;
     }
 
@@ -1790,7 +1803,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      */
     public @NotNull MutableStringValue removeAllAlphanumericCharacters() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = value.replaceAll("[a-zA-Z0-9]+","");
+        value = value.replaceAll(RegExPatterns.ALPHANUMERIC.getRegex(), "");
         return this;
     }
 
@@ -1801,7 +1814,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      */
     public @NotNull MutableStringValue removeAllLetters() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = value.replaceAll("[a-zA-Z]+","");
+        value = value.replaceAll(RegExPatterns.ALPHA.getRegex(), "");
         return this;
     }
 
@@ -1812,7 +1825,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      */
     public @NotNull MutableStringValue removeAllNumbers() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = value.replaceAll("[0-9]+","");
+        value = value.replaceAll(RegExPatterns.NUMERIC.getRegex(), "");
         return this;
     }
 
@@ -1837,7 +1850,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
     public @NotNull MutableStringValue leftOf(final char c) {
         checkArgumentNotNull(value, cannotBeNull("value"));
         final var index = value.indexOf(c);
-        if (0 <= index) value = value.substring(0, index);
+        if (index >= 0) value = value.substring(0, index);
         return this;
     }
 
@@ -1851,7 +1864,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
     public @NotNull MutableStringValue rightOf(final char c) {
         checkArgumentNotNull(value, cannotBeNull("value"));
         final var index = value.indexOf(c);
-        if (0 <= index) value = value.substring(index + 1);
+        if (index >= 0) value = value.substring(index + 1);
         return this;
     }
 
@@ -1862,7 +1875,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      */
     public @NotNull MutableStringValue firstChar() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = 1 < value.length() ? value.substring(0, 1) : value;
+        value = value.length() > 1 ? value.substring(0, 1) : value;
         return this;
     }
 
@@ -1873,7 +1886,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      */
     public @NotNull MutableStringValue lastChar() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = 1 < value.length() ? value.substring(value.length() - 1, 1) : value;
+        value = value.length() > 1 ? value.substring(value.length() - 1, 1) : value;
         return this;
     }
 
@@ -1957,7 +1970,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
         //Check if first character is a minus sign
         final boolean isNegative = value.charAt(0) == localeMinusSign;
         //Check if string is not just a minus sign
-        if (isNegative && 1 == value.length()) return false;
+        if (isNegative && value.length() == 1) return false;
 
         boolean isDecimalSeparatorFound = false;
 
@@ -2034,7 +2047,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
     public MutableStringValue unwrap(final char wrapChar) {
         checkArgumentNotNull(value, cannotBeNull("value"));
         checkArgumentNotNull(wrapChar, cannotBeNull("wrapChar"));
-        if (isEmpty() || CharUtils.NUL == wrapChar) {
+        if (isEmpty() || wrapChar == CharUtils.NUL) {
             return this;
         }
 
@@ -2054,7 +2067,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      */
     public @NotNull MutableStringValue uppercaseFirst() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = 1 < value.length()
+        value = value.length() > 1
                 ? value.substring(0, 1).toUpperCase(Locale.getDefault()) + value.substring(1)
                 : value.toUpperCase(Locale.getDefault());
         return this;
@@ -2069,7 +2082,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
     public @NotNull MutableStringValue uppercaseFirst(final Locale locale) {
         checkArgumentNotNull(value, cannotBeNull("value"));
         checkArgumentNotNull(locale, LOCALE_CANNOT_BE_NULL);
-        value = 1 < value.length()
+        value = value.length() > 1
                 ? value.substring(0, 1).toUpperCase(locale) + value.substring(1)
                 : value.toUpperCase(locale);
         return this;
@@ -2082,7 +2095,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      */
     public @NotNull MutableStringValue lowercaseFirst() {
         checkArgumentNotNull(value, cannotBeNull("value"));
-        value = 1 < value.length()
+        value = value.length() > 1
                 ? value.substring(0, 1).toLowerCase(Locale.getDefault()) + value.substring(1)
                 : value.toLowerCase(Locale.getDefault());
         return this;
@@ -2090,6 +2103,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
 
     /**
      * Returns the value with first char lowercase.
+     * @param locale the locale to use for the conversion
      * @return the value with first char lowercase
      * @throws IllegalArgumentException if the value is null or empty
      */
@@ -2097,7 +2111,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
     public @NotNull MutableStringValue lowercaseFirst(final Locale locale) {
         checkArgumentNotNull(value, cannotBeNull("value"));
         checkArgumentNotNull(locale, LOCALE_CANNOT_BE_NULL);
-        value = 1 < value.length()
+        value = value.length() > 1
                 ? value.substring(0, 1).toLowerCase(locale) + value.substring(1)
                 : value.toLowerCase(locale);
         return this;
@@ -2111,7 +2125,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#isBlank()
      */
     public boolean isBlank() {
-        return (null == value || value.isEmpty())
+        return (value == null || value.isEmpty())
                 || IntStream.range(0, value.length())
                 .allMatch(i -> Character.isWhitespace(value.charAt(i)));
     }
@@ -2218,64 +2232,64 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      *   </thead>
      *   <tbody>
      *   <tr>
-     *     <th scope="row">{@code \u005Cb}</th>
+     *     <th scope="row">{@code \b}</th>
      *     <td>backspace</td>
      *     <td>{@code U+0008}</td>
      *   </tr>
      *   <tr>
-     *     <th scope="row">{@code \u005Ct}</th>
+     *     <th scope="row">{@code \t}</th>
      *     <td>horizontal tab</td>
      *     <td>{@code U+0009}</td>
      *   </tr>
      *   <tr>
-     *     <th scope="row">{@code \u005Cn}</th>
+     *     <th scope="row">{@code \n}</th>
      *     <td>line feed</td>
      *     <td>{@code U+000A}</td>
      *   </tr>
      *   <tr>
-     *     <th scope="row">{@code \u005Cf}</th>
+     *     <th scope="row">{@code \f}</th>
      *     <td>form feed</td>
      *     <td>{@code U+000C}</td>
      *   </tr>
      *   <tr>
-     *     <th scope="row">{@code \u005Cr}</th>
+     *     <th scope="row">{@code \r}</th>
      *     <td>carriage return</td>
      *     <td>{@code U+000D}</td>
      *   </tr>
      *   <tr>
-     *     <th scope="row">{@code \u005Cs}</th>
+     *     <th scope="row">{@code \s}</th>
      *     <td>space</td>
      *     <td>{@code U+0020}</td>
      *   </tr>
      *   <tr>
-     *     <th scope="row">{@code \u005C"}</th>
+     *     <th scope="row">{@code \"}</th>
      *     <td>double quote</td>
      *     <td>{@code U+0022}</td>
      *   </tr>
      *   <tr>
-     *     <th scope="row">{@code \u005C'}</th>
+     *     <th scope="row">{@code \'}</th>
      *     <td>single quote</td>
      *     <td>{@code U+0027}</td>
      *   </tr>
      *   <tr>
-     *     <th scope="row">{@code \u005C\u005C}</th>
+     *     <th scope="row">{@code \\}</th>
      *     <td>backslash</td>
      *     <td>{@code U+005C}</td>
      *   </tr>
      *   <tr>
-     *     <th scope="row">{@code \u005C0 - \u005C377}</th>
+     *     <th scope="row">{@code \0 - \377}</th>
      *     <td>octal escape</td>
      *     <td>code point equivalents</td>
      *   </tr>
      *   <tr>
-     *     <th scope="row">{@code \u005C<line-terminator>}</th>
+     *     <th scope="row">{@code \<line-terminator>}</th>
      *     <td>continuation</td>
      *     <td>discard</td>
      *   </tr>
      *   </tbody>
      * </table>
      * @implNote
-     * This method does <em>not</em> translate Unicode escapes such as "{@code \u005cu2022}".
+     * This method does <em>not</em> translate Unicode escapes such as "{@code \u2022}".
      * Unicode escapes are translated by the Java compiler when reading input characters and
      * are not part of the string literal specification.
      * @throws IllegalArgumentException when an escape sequence is malformed.
@@ -2311,7 +2325,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see #equals(Object)
      * @see String#equalsIgnoreCase(String)
      */
-    public boolean equalsIgnoreCase(String anotherString) {
+    public boolean equalsIgnoreCase(final String anotherString) {
         return value.equalsIgnoreCase(anotherString);
     }
 
@@ -2345,7 +2359,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#isEmpty()
      */
     public boolean isEmpty() {
-        return null == value || value.isEmpty();
+        return value == null || value.isEmpty();
     }
 
     /**
@@ -2374,7 +2388,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      */
     public @NotNull MutableStringValue strip(final String stripChars) {
         if (value.isEmpty()) return MutableStringValue.EMPTY();
-        String newValue = stripStart(value, stripChars);
+        final String newValue = stripStart(value, stripChars);
         value = stripEnd(newValue, stripChars);
         return this;
     }
@@ -2429,7 +2443,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see  Formatter
      * @see String#formatted(Object...)
      */
-    public @NotNull MutableStringValue formatted(Object... args) {
+    public @NotNull MutableStringValue formatted(final Object... args) {
         value = value.formatted(args);
         return this;
     }
@@ -2447,7 +2461,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @throws  IllegalArgumentException if the {@code count} is negative.
      * @see String#repeat(int)
      */
-    public @NotNull MutableStringValue repeat(int count) {
+    public @NotNull MutableStringValue repeat(final int count) {
         value = value.repeat(count);
         return this;
     }
@@ -2459,14 +2473,14 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * <p>
      * Any exception thrown by {@code f.apply()} will be propagated to the
      * caller.
-     * @param f a function to apply
+     * @param function a function to apply
      * @param <R> the type of the result
      * @return the result of applying the function to this string
      * @see Function
      * @see String#transform(Function)
      */
-    public <R> R transform(Function<? super String, ? extends R> f) {
-        return value.transform(f);
+    public <R> R transform(final Function<? super String, ? extends R> function) {
+        return value.transform(function);
     }
 
     /**
@@ -2484,7 +2498,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#getBytes(Charset)
      */
     @Contract(pure = true)
-    public byte @NotNull [] getBytes(@NotNull Charset charset) {
+    public byte @NotNull [] getBytes(@NotNull final Charset charset) {
         return value.getBytes(charset);
     }
 
@@ -2502,7 +2516,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      *         false} otherwise
      * @see String#contentEquals(CharSequence)
      */
-    public boolean contentEquals(@NotNull CharSequence cs) {
+    public boolean contentEquals(@NotNull final CharSequence cs) {
         return value.contentEquals(cs);
     }
 
@@ -2540,7 +2554,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      *          {@code false} otherwise.
      * @see String#regionMatches(int, String, int, int)
      */
-    public boolean regionMatches(int toffset, @NotNull String other, int ooffset, int len) {
+    public boolean regionMatches(final int toffset, @NotNull final String other, final int ooffset, final int len) {
         return value.regionMatches(toffset, other, ooffset, len);
     }
 
@@ -2565,7 +2579,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#codePointAt(int)
      */
     @Contract("_ -> new")
-    public @NotNull IntegerValue codePointAt(int index) {
+    public @NotNull IntegerValue codePointAt(final int index) {
         return IntegerValue.of(value.codePointAt(index));
     }
 
@@ -2599,7 +2613,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      *                {@code dst.length}</ul>
      * @see String#getChars(int, int, char[], int)
      */
-    public void getChars(int srcBegin, int srcEnd, char @NotNull [] dst, int dstBegin) {
+    public void getChars(final int srcBegin, final int srcEnd, final char @NotNull [] dst, final int dstBegin) {
         value.getChars(srcBegin, srcEnd, dst, dstBegin);
     }
 
@@ -2623,7 +2637,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#offsetByCodePoints(int, int)
      */
     @Contract("_, _ -> new")
-    public @NotNull IntegerValue offsetByCodePoints(int index, int codePointOffset) {
+    public @NotNull IntegerValue offsetByCodePoints(final int index, final int codePointOffset) {
         return IntegerValue.of(value.offsetByCodePoints(index, codePointOffset));
     }
 
@@ -2647,7 +2661,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#compareToIgnoreCase(String)
      */
     @Contract("_ -> new")
-    public @NotNull IntegerValue compareToIgnoreCase(@NotNull String str) {
+    public @NotNull IntegerValue compareToIgnoreCase(@NotNull final String str) {
         return IntegerValue.of(value.compareToIgnoreCase(str));
     }
 
@@ -2667,7 +2681,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#getBytes(String)
      */
     @Contract(pure = true)
-    public byte @NotNull [] getBytes(@NotNull String charsetName) throws UnsupportedEncodingException {
+    public byte @NotNull [] getBytes(@NotNull final String charsetName) throws UnsupportedEncodingException {
         return value.getBytes(charsetName);
     }
 
@@ -2684,7 +2698,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      *          {@code false} otherwise
      * @see String#contentEquals(StringBuffer)
      */
-    public boolean contentEquals(@NotNull StringBuffer sb) {
+    public boolean contentEquals(@NotNull final StringBuffer sb) {
         return value.contentEquals(sb);
     }
 
@@ -2710,7 +2724,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#codePointCount(int, int)
      */
     @Contract("_, _ -> new")
-    public @NotNull IntegerValue codePointCount(int beginIndex, int endIndex) {
+    public @NotNull IntegerValue codePointCount(final int beginIndex, final int endIndex) {
         return IntegerValue.of(value.codePointCount(beginIndex, endIndex));
     }
 
@@ -2761,7 +2775,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see     #codePoints()
      * @see String#regionMatches(boolean, int, String, int, int)
      */
-    public boolean regionMatches(boolean ignoreCase, int toffset, @NotNull String other, int ooffset, int len) {
+    public boolean regionMatches(final boolean ignoreCase, final int toffset, @NotNull final String other, final int ooffset, final int len) {
         return value.regionMatches(ignoreCase, toffset, other, ooffset, len);
     }
 
@@ -2786,7 +2800,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      * @see String#codePointBefore(int)
      */
     @Contract("_ -> new")
-    public @NotNull IntegerValue codePointBefore(int index) {
+    public @NotNull IntegerValue codePointBefore(final int index) {
         return IntegerValue.of(value.codePointBefore(index));
     }
 
@@ -2835,7 +2849,7 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      */
     //TODO: Figure out if this override is necessary
     @Override
-    public MutableStringValue set(String value) {
+    public MutableStringValue set(final String value) {
         this.value = value;
         return this;
     }
@@ -2848,7 +2862,6 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      *  where false is less than true
      */
     public int compareTo(final @NotNull MutableStringValue other) {
-        //noinspection AccessingNonPublicFieldOfAnotherObject
         return value.compareTo(other.value);
     }
 
@@ -2897,25 +2910,35 @@ public final class MutableStringValue extends ObservableValue<String, MutableStr
      *          lexicographically greater than the string argument.
      * @see String#compareTo(String)
      */
-    @Override
-    public int compareTo(@NotNull String anotherString) {
+    public int compareTo(@NotNull final String anotherString) {
         return value.compareTo(anotherString);
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
+    public int compareTo(@NotNull final Value<String, MutableStringValue> other) {
+        return this.compareTo(other.get());
+    }
 
-        if (null == o || getClass() != o.getClass()) return false;
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) return true;
 
-        MutableStringValue that = (MutableStringValue) o;
+        if (obj == null || getClass() != obj.getClass()) return false;
 
-        return new EqualsBuilder().appendSuper(super.equals(o)).append(value, that.value).isEquals();
+        final MutableStringValue that = (MutableStringValue) obj;
+
+        return new EqualsBuilder()
+                .appendSuper(super.equals(obj))
+                .append(value, that.value)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37).appendSuper(super.hashCode()).append(value).toHashCode();
+        return new HashCodeBuilder(17, 37)
+                .appendSuper(super.hashCode())
+                .append(value)
+                .toHashCode();
     }
 
     /**

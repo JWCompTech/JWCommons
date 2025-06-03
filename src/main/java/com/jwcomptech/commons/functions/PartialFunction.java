@@ -64,7 +64,7 @@ public interface PartialFunction<T, R> extends Function1<T, R> {
      * @return a partial function that is not necessarily defined for all input values of type T.
      */
     @Contract(value = "_ -> new", pure = true)
-    static <T, R> @NotNull PartialFunction<T, R> unlift(Function<? super T, ? extends Option<? extends R>> totalFunction) {
+    static <T, R> @NotNull PartialFunction<T, R> unlift(final Function<? super T, ? extends Option<? extends R>> totalFunction) {
         //noinspection AnonymousInnerClassWithTooManyMethods
         return new PartialFunction<>() {
 
@@ -72,12 +72,12 @@ public interface PartialFunction<T, R> extends Function1<T, R> {
             private static final long serialVersionUID = 3011903357621044756L;
 
             @Override
-            public R apply(T t) {
+            public R apply(final T t) {
                 return totalFunction.apply(t).get();
             }
 
             @Override
-            public boolean isDefinedAt(T value) {
+            public boolean isDefinedAt(final T value) {
                 return totalFunction.apply(value).isDefined();
             }
 
@@ -103,12 +103,12 @@ public interface PartialFunction<T, R> extends Function1<T, R> {
             private static final long serialVersionUID = -558868863387532135L;
 
             @Override
-            public T apply(V v) {
+            public T apply(final V v) {
                 return v.get();
             }
 
             @Override
-            public boolean isDefinedAt(V v) {
+            public boolean isDefinedAt(final V v) {
                 return !v.isEmpty();
             }
 

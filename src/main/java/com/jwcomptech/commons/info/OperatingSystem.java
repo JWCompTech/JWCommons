@@ -31,10 +31,12 @@ public interface OperatingSystem {
     StringValue getName();
     OSList getNameEnum();
     StringValue getNameExpanded();
-    StringValue getVersion() throws Exception;
+    StringValue getVersion();
     StringValue getManufacturer();
     boolean isServer();
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     boolean is32BitOS();
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     boolean is64BitOS();
     StringValue getBitString();
     IntegerValue getBitNumber();

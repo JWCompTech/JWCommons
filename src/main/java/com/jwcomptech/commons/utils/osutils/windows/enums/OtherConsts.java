@@ -22,6 +22,8 @@ package com.jwcomptech.commons.utils.osutils.windows.enums;
  * #L%
  */
 
+import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
+
 public final class OtherConsts {
     //sysMetrics ( http://msdn.microsoft.com/en-us/library/ms724385(VS.85).aspx )
     public static final int SMTabletPC = 86;
@@ -30,5 +32,5 @@ public final class OtherConsts {
     public static final int SMServerR2 = 89;
 
     /** Prevents instantiation of this utility class. */
-    private OtherConsts() { }
+    private OtherConsts() { throwUnsupportedExForUtilityCls(); }
 }

@@ -23,6 +23,8 @@ package com.jwcomptech.commons.utils.osutils;
  */
 
 import com.jwcomptech.commons.utils.osutils.windows.pshell.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,6 +40,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.lang3.StringUtils.LF;
 
 @SuppressWarnings({"NestedAssignment", "unused", "ClassWithTooManyMethods"})
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class PShellCommand extends ExecCommand {
     @Contract("_ -> new")
     public static @NotNull PShellCommand newPowerShell(final String command) {
@@ -214,8 +218,8 @@ public class PShellCommand extends ExecCommand {
                     : "iex \"" + scriptPath + '"');
             modifiedCommand.append('"').append(setText);
         }
-        super.command = "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe "
-                + modifiedCommand;
+        super.setCommand("%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe "
+                + modifiedCommand);
         super.run();
         return this;
     }
@@ -244,7 +248,7 @@ public class PShellCommand extends ExecCommand {
                 modifiedCommand.append("\"\"' -Verb RunAs}\"").append(setText);
             }
         }
-        super.command = "PowerShell " + modifiedCommand;
+        super.setCommand("PowerShell " + modifiedCommand);
         super.run();
         return this;
     }

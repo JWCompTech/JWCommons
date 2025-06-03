@@ -30,6 +30,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.ConsoleAppender;
 import ch.qos.logback.core.FileAppender;
+import ch.qos.logback.core.encoder.Encoder;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.TimeBasedFileNamingAndTriggeringPolicy;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
@@ -144,12 +145,13 @@ public final class LoggingManager {
     }
 
     /**
-     * Creates a new {@link ConsoleAppender} with the specified encoder and sets the name to "console".
+     * Creates a new {@link ConsoleAppender} with the specified encoder (e.g. PatternLayoutEncoder)
+     * and sets the name to "console".
      * @apiNote The start method is automatically run at the end of this method.
      * @param encoder the encoder to set
      * @return a new ConsoleAppender instance
      */
-    public static @NotNull ConsoleAppender<ILoggingEvent> createNewConsoleAppender(final PatternLayoutEncoder encoder) {
+    public static @NotNull ConsoleAppender<ILoggingEvent> createNewConsoleAppender(final Encoder<ILoggingEvent> encoder) {
         return createNewConsoleAppender("console", encoder);
     }
 
@@ -177,7 +179,7 @@ public final class LoggingManager {
      * @return a new ConsoleAppender instance
      */
     public static @NotNull ConsoleAppender<ILoggingEvent> createNewConsoleAppender(final String name,
-                                                                                   final PatternLayoutEncoder encoder) {
+                                                                                   final Encoder<ILoggingEvent> encoder) {
         checkArgumentNotNullOrEmpty(name, Literals.cannotBeNullOrEmpty("name"));
         final ConsoleAppender<ILoggingEvent> logConsoleAppender = new ConsoleAppender<>();
         logConsoleAppender.setContext(logCtx);
@@ -186,7 +188,7 @@ public final class LoggingManager {
         } else {
             logConsoleAppender.setName(name);
         }
-        if (null == encoder) {
+        if (encoder == null) {
             logConsoleAppender.setEncoder(Encoders.BasicEncoder.getEncoder());
         } else {
             logConsoleAppender.setEncoder(encoder);
@@ -278,7 +280,7 @@ public final class LoggingManager {
                 logFileAppender.setName(name);
             }
             logFileAppender.setEncoder(requireNonNullElse(encoder, Encoders.BasicEncoder.getEncoder()));
-            if(null != fileName && !isBlank(fileName)) logFileAppender.setFile(fileName);
+            if(fileName != null && !isBlank(fileName)) logFileAppender.setFile(fileName);
 
             logFilePolicy.setParent(logFileAppender);
             logFileAppender.setRollingPolicy(logFilePolicy);
@@ -287,10 +289,10 @@ public final class LoggingManager {
         }
 
         @Override
-        public boolean equals(final Object o) {
-            if (this == o) return true;
+        public boolean equals(final Object obj) {
+            if (this == obj) return true;
 
-            if (!(o instanceof RollingFileAppenderBuilder builder)) return false;
+            if (!(obj instanceof final RollingFileAppenderBuilder builder)) return false;
 
             return new EqualsBuilder()
                     .append(name, builder.name)
@@ -433,21 +435,21 @@ public final class LoggingManager {
             final TimeBasedRollingPolicy<ILoggingEvent> logFilePolicy = new TimeBasedRollingPolicy<>();
             logFilePolicy.setContext(logCtx);
             logFilePolicy.setFileNamePattern(fileNamePattern);
-            if(null != totalSizeCap) logFilePolicy.setTotalSizeCap(totalSizeCap);
-            if(-1 != maxFileHistory) logFilePolicy.setMaxHistory(maxFileHistory);
+            if(totalSizeCap != null) logFilePolicy.setTotalSizeCap(totalSizeCap);
+            if(maxFileHistory != -1) logFilePolicy.setMaxHistory(maxFileHistory);
             logFilePolicy.setCleanHistoryOnStart(cleanHistoryOnStart);
-            if(null != timeBasedFileNamingAndTriggeringPolicy) {
+            if(timeBasedFileNamingAndTriggeringPolicy != null) {
                 logFilePolicy.setTimeBasedFileNamingAndTriggeringPolicy(timeBasedFileNamingAndTriggeringPolicy);
             }
-            if(null != parent) logFilePolicy.setParent(parent);
+            if(parent != null) logFilePolicy.setParent(parent);
             return logFilePolicy;
         }
 
         @Override
-        public boolean equals(final Object o) {
-            if (this == o) return true;
+        public boolean equals(final Object obj) {
+            if (this == obj) return true;
 
-            if (!(o instanceof TimeBasedRollingPolicyBuilder builder)) return false;
+            if (!(obj instanceof final TimeBasedRollingPolicyBuilder builder)) return false;
 
             return new EqualsBuilder()
                     .append(maxFileHistory, builder.maxFileHistory)

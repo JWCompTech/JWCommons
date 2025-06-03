@@ -34,7 +34,7 @@ import java.io.IOException;
 
 public final class FreeBSDOS extends AbstractOperatingSystem {
     @SuppressWarnings("unused")
-    private final Logger logger = LoggerFactory.getLogger(FreeBSDOS.class);
+    private static final Logger logger = LoggerFactory.getLogger(FreeBSDOS.class);
 
     private FreeBSDOS() { }
 

@@ -22,6 +22,7 @@ package com.jwcomptech.commons;
  * #L%
  */
 
+import com.jwcomptech.commons.functions.Function1;
 import lombok.*;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -54,7 +55,7 @@ public final class Condition {
     /**
      * Is true if the evaluation has been run.
      */
-    private boolean validated;
+    private boolean evaluated;
 
     /**
      * Creates a new Condition instance with the specified evaluation.
@@ -62,11 +63,11 @@ public final class Condition {
      * @return a new Condition instance
      */
     @Contract(value = "_ -> new", pure = true)
-    public static @NotNull Condition of(Supplier<Boolean> evaluation) {
+    public static @NotNull Condition of(final Supplier<Boolean> evaluation) {
         return new Condition(evaluation);
     }
 
-    private Condition(Supplier<Boolean> evaluation) {
+    private Condition(final Supplier<Boolean> evaluation) {
         this.evaluation = evaluation;
     }
 
@@ -91,6 +92,7 @@ public final class Condition {
      * Returns the result of the evaluation.
      * @return the result of the evaluation
      */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     public boolean getResult() {
         return result;
     }
@@ -101,12 +103,98 @@ public final class Condition {
      */
     public Condition evaluate() {
         checkArgumentNotNull(evaluation, cannotBeNull("evaluation"));
-        if(!validated) {
-            validated = true;
+        if(!evaluated) {
+            evaluated = true;
             result = evaluation.get();
         }
 
         return this;
+    }
+
+    /**
+     * Reevaluates the condition and stores the result.
+     * @return this instance
+     */
+    public Condition reevaluate() {
+        checkArgumentNotNull(evaluation, cannotBeNull("evaluation"));
+        evaluated = true;
+        result = evaluation.get();
+
+        return this;
+    }
+
+    /**
+     * If this condition evaluated to true, runs the specified runnable
+     * @param action the runnable to run if evaluation result is true
+     * @throws IllegalStateException if the condition has not yet been evaluated
+     * @throws IllegalArgumentException if action is null
+     */
+    public void ifTrue(@NotNull final Runnable action) {
+        checkArgumentNotNull(action, cannotBeNull("action"));
+        if(!evaluated) throw new IllegalStateException("Evaluation not run");
+        if(result) action.run();
+    }
+
+    /**
+     * If this condition evaluated to true, applies the specified reference
+     * to the specified transform function.
+     * @param <T> the type of the reference to transform
+     * @param <R> the return type of the transform function
+     * @param reference the object to transform if the condition evaluated to true
+     * @param transformFunction the function to apply reference to
+     *                          if condition evaluated to true
+     * @return the result of the function if the condition evaluated to true,
+     * otherwise the original reference
+     * @throws IllegalStateException if the condition has not yet been evaluated
+     * @throws IllegalArgumentException if reference or transformFunction is null
+     */
+    public <T, R> R ifTrueTransform(final T reference,
+                                    final Function1<T, R> transformFunction) {
+        checkArgumentNotNull(reference, cannotBeNull("reference"));
+        checkArgumentNotNull(transformFunction, cannotBeNull("transformFunction"));
+        if(!evaluated) throw new IllegalStateException("Evaluation not run");
+        if(result) return transformFunction.apply(reference);
+
+        // T will always equal R because reference wasn't modified
+        //noinspection unchecked
+        return (R) reference;
+    }
+
+    /**
+     * If this condition evaluated to false, runs the specified runnable
+     * @param action the runnable to run if evaluation result is false
+     * @throws IllegalStateException if the condition has not yet been evaluated
+     * @throws IllegalArgumentException if action is null
+     */
+    public void ifFalse(@NotNull final Runnable action) {
+        checkArgumentNotNull(action, cannotBeNull("action"));
+        if(!evaluated) throw new IllegalStateException("Evaluation not run");
+        if(!result) action.run();
+    }
+
+    /**
+     * If this condition evaluated to false, applies the specified reference
+     * to the specified transform function.
+     * @param <T> the type of the reference to transform
+     * @param <R> the return type of the transform function
+     * @param reference the object to transform if the condition evaluated to false
+     * @param transformFunction the function to apply reference to
+     *                          if condition evaluated to false
+     * @return the result of the function if the condition evaluated to false,
+     * otherwise the original reference
+     * @throws IllegalStateException if the condition has not yet been evaluated
+     * @throws IllegalArgumentException if reference or transformFunction is null
+     */
+    public <T, R> R ifFalseTransform(final T reference,
+                                 final Function1<T, R> transformFunction) {
+        checkArgumentNotNull(reference, cannotBeNull("reference"));
+        checkArgumentNotNull(transformFunction, cannotBeNull("transformFunction"));
+        if(!evaluated) throw new IllegalStateException("Evaluation not run");
+        if(!result) return transformFunction.apply(reference);
+
+        // T will always equal R because reference wasn't modified
+        //noinspection unchecked
+        return (R) reference;
     }
 
     /**
@@ -122,6 +210,7 @@ public final class Condition {
     /**
      * Blocks the current thread until the condition evaluates to false.
      */
+    @SuppressWarnings("CallToSimpleGetterFromWithinClass")
     public void waitTillFalse() {
         while(isResultTrue()) {
             waitTime(TimeUnit.MILLISECONDS, 100);

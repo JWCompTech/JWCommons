@@ -22,20 +22,27 @@ package com.jwcomptech.commons.values;
  * #L%
  */
 
+import com.google.errorprone.annotations.Immutable;
+import lombok.Value;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serial;
 import java.lang.constant.ConstantDesc;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
+@Value
 public class ImmutablePropsValue implements ImmutableValue<Properties> {
-    private final Properties props;
+    Properties props;
+
+    @Serial
+    private static final long serialVersionUID = -7212150492226313060L;
 
     public ImmutablePropsValue(final InputStream inStream) throws IOException {
         this.props = new Properties();
@@ -52,7 +59,7 @@ public class ImmutablePropsValue implements ImmutableValue<Properties> {
      * @return the value in this property list with the specified key value.
      * @see Properties#setProperty
      */
-    public String getProperty(String key) {
+    public String getProperty(final String key) {
         return props.getProperty(key);
     }
 
@@ -67,7 +74,7 @@ public class ImmutablePropsValue implements ImmutableValue<Properties> {
      * @return the value in this property list with the specified key value.
      * @see Properties#setProperty
      */
-    public String getProperty(String key, String defaultValue) {
+    public String getPropertyOrDefault(final String key, final String defaultValue) {
         return props.getProperty(key, defaultValue);
     }
 
@@ -127,7 +134,7 @@ public class ImmutablePropsValue implements ImmutableValue<Properties> {
                 }
 
                 @Override
-                public String setValue(String value) {
+                public String setValue(final String value) {
                     return (String) e.setValue(value);
                 }
             };
@@ -138,27 +145,19 @@ public class ImmutablePropsValue implements ImmutableValue<Properties> {
         return props.values().stream().map(Object::toString).collect(Collectors.toSet());
     }
 
-    public boolean containsKey(String key) {
+    public boolean containsKey(final String key) {
         return props.containsKey(key);
     }
 
-    public boolean containsValue(String value) {
+    public boolean containsValue(final String value) {
         return props.containsValue(value);
     }
 
-    public boolean contains(String value) {
-        return props.contains(value);
+    public boolean contains(final String value) {
+        return props.containsValue(value);
     }
 
-    public String get(String key) {
-        return (String) props.get(key);
-    }
-
-    public String getOrDefault(String key, String defaultValue) {
-        return (String) props.getOrDefault(key, defaultValue);
-    }
-
-    public void forEach(BiConsumer<? super Object, ? super Object> action) {
+    public void forEach(final BiConsumer<? super Object, ? super Object> action) {
         props.forEach(action);
     }
 
@@ -167,6 +166,7 @@ public class ImmutablePropsValue implements ImmutableValue<Properties> {
      *
      * @return the stored value
      */
+    @SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
     @Override
     public Properties get() {
         return props;
@@ -205,7 +205,11 @@ public class ImmutablePropsValue implements ImmutableValue<Properties> {
      * inconsistent with equals."
      */
     @Override
-    public int compareTo(@NotNull Properties other) {
+    public int compareTo(@NotNull final ImmutableValue<Properties> other) {
+        return this.compareTo(other.get());
+    }
+
+    public int compareTo(@NotNull final Properties other) {
         throw new UnsupportedOperationException("Not Supported");
     }
 
@@ -220,30 +224,5 @@ public class ImmutablePropsValue implements ImmutableValue<Properties> {
     @Override
     public Optional<? extends ConstantDesc> describeConstable() {
         return Optional.empty();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-
-        if (null == o || getClass() != o.getClass()) return false;
-
-        ImmutablePropsValue that = (ImmutablePropsValue) o;
-
-        return new EqualsBuilder()
-                .append(props, that.props)
-                .isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(props)
-                .toHashCode();
-    }
-
-    @Override
-    public String toString() {
-        return props.toString();
     }
 }

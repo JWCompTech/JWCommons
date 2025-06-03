@@ -22,7 +22,12 @@ package com.jwcomptech.commons.utils.osutils.windows.pshell;
  * #L%
  */
 
+import java.io.Serial;
+
 public class PSCommandNotFoundException extends PowerShellParserErrorException {
+    @Serial
+    private static final long serialVersionUID = 6593243817776902869L;
+
     public PSCommandNotFoundException() { }
 
     public PSCommandNotFoundException(final String message) {

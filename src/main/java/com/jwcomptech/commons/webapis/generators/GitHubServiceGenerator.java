@@ -30,6 +30,8 @@ import org.jetbrains.annotations.NotNull;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
+
 @SuppressWarnings("unused")
 public final class GitHubServiceGenerator {
 
@@ -58,12 +60,12 @@ public final class GitHubServiceGenerator {
 
     public static <S> @NotNull S createService(final Class<S> serviceClass, final String token) {
         Retrofit retrofit = builder.build();
-        if (null != token) {
+        if (token != null) {
             httpClient.interceptors().clear();
             httpClient.addInterceptor(chain -> {
-                Request.Builder authBuilder = chain.request().newBuilder()
+                final Request.Builder authBuilder = chain.request().newBuilder()
                         .header("Authorization", token);
-                Request request = authBuilder.build();
+                final Request request = authBuilder.build();
                 return chain.proceed(request);
             });
             builder.client(httpClient.build());
@@ -81,5 +83,5 @@ public final class GitHubServiceGenerator {
     }
 
     /** Prevents instantiation of this utility class. */
-    private GitHubServiceGenerator() { }
+    private GitHubServiceGenerator() { throwUnsupportedExForUtilityCls(); }
 }

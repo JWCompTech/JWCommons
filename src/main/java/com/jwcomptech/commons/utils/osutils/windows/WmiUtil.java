@@ -32,14 +32,18 @@ import com.sun.jna.platform.win32.Ole32;
 import com.sun.jna.platform.win32.Variant;
 import com.sun.jna.platform.win32.WinError;
 import com.sun.jna.platform.win32.WinNT.HRESULT;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
+
+import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
 
 /**
  * Helper class for WMI
@@ -59,7 +63,7 @@ public final class WmiUtil {
     private static final Set<String> hasNotNamespaceCache = new HashSet<>();
 
     // Cache failed wmi classes
-    private static final Set<String> failedWmiClassNames = new HashSet<>();
+    private static final Collection<String> failedWmiClassNames = new HashSet<>();
     // Not a built-in namespace, failed connections are normal and don't need error logging
     @SuppressWarnings("HardcodedFileSeparator")
     public static final String OHM_NAMESPACE = "ROOT\\OpenHardwareMonitor";
@@ -89,7 +93,7 @@ public final class WmiUtil {
      * @return a WmiResult object containing the query results, wrapping an
      *         EnumMap
      */
-    public static <T extends Enum<T>> WmiResult<T> queryWMI(final WmiQuery<T> query) {
+    public static <T extends Enum<T>> WmiResult<T> queryWMI(final @NotNull WmiQuery<T> query) {
 
         WmiResult<T> result = WbemcliUtil.INSTANCE.new WmiResult<>(query.getPropertyEnum());
         if(failedWmiClassNames.contains(query.getWmiClassName())) return result;
@@ -102,21 +106,17 @@ public final class WmiUtil {
         } catch(final COMException e) {
             // Ignore any exceptions with OpenHardwareMonitor
             if(!OHM_NAMESPACE.equals(query.getNameSpace())) {
-                switch(e.getHresult().intValue()) {
-                    case Wbemcli.WBEM_E_INVALID_NAMESPACE:
-                        LOG.warn("COM exception: Invalid Namespace {}", query.getNameSpace());
-                        break;
-                    case Wbemcli.WBEM_E_INVALID_CLASS:
-                        LOG.warn("COM exception: Invalid Class {}", query.getWmiClassName());
-                        break;
-                    case Wbemcli.WBEM_E_INVALID_QUERY:
-                        LOG.warn("COM exception: Invalid Query: {}", queryToString(query));
-                        break;
-                    default:
-                        LOG.warn(
-                                "COM exception querying {}, which might not be on your system." +
-                                        " Will not attempt to query it again. Error was: {}:",
-                                query.getWmiClassName(), e.getMessage());
+                switch (e.getHresult().intValue()) {
+                    case Wbemcli.WBEM_E_INVALID_NAMESPACE ->
+                            LOG.warn("COM exception: Invalid Namespace {}", query.getNameSpace());
+                    case Wbemcli.WBEM_E_INVALID_CLASS ->
+                            LOG.warn("COM exception: Invalid Class {}", query.getWmiClassName());
+                    case Wbemcli.WBEM_E_INVALID_QUERY ->
+                            LOG.warn("COM exception: Invalid Query: {}", queryToString(query));
+                    default -> LOG.warn(
+                            "COM exception querying {}, which might not be on your system." +
+                                    " Will not attempt to query it again. Error was: {}:",
+                            query.getWmiClassName(), e.getMessage());
                 }
                 failedWmiClassNames.add(query.getWmiClassName());
             }
@@ -135,7 +135,7 @@ public final class WmiUtil {
      *            The WmiQuery object
      * @return The string that is queried in WMI
      */
-    public static <T extends Enum<T>> String queryToString(final WmiQuery<T> query) {
+    public static <T extends Enum<T>> String queryToString(final @NotNull WmiQuery<T> query) {
         final T[] props = query.getPropertyEnum().getEnumConstants();
         return Arrays.stream(props).map(Enum::name).collect(Collectors.joining(",", "SELECT ", " FROM " + query.getWmiClassName()));
     }
@@ -155,16 +155,16 @@ public final class WmiUtil {
      *            The index (row) to fetch
      * @return The stored value if non-null, 0 otherwise
      */
-    public static <T extends Enum<T>> int getUint16(final WmiResult<T> result, final T property, final int index) {
-        if(Wbemcli.CIM_UINT16 == result.getCIMType(property)) return getInt(result, property, index);
+    public static <T extends Enum<T>> int getUint16(final @NotNull WmiResult<T> result, final T property, final int index) {
+        if(result.getCIMType(property) == Wbemcli.CIM_UINT16) return getInt(result, property, index);
         throw new ClassCastException(String.format(CLASS_CAST_MSG, property.name(), "UINT16",
                 result.getCIMType(property), result.getVtType(property)));
     }
 
-    private static <T extends Enum<T>> int getInt(final WmiResult<T> result, final T property, final int index) {
-        final Object o = result.getValue(property, index);
-        if(o == null) return 0;
-        if(Variant.VT_I4 == result.getVtType(property)) return (int) o;
+    private static <T extends Enum<T>> int getInt(final @NotNull WmiResult<T> result, final T property, final int index) {
+        final Object obj = result.getValue(property, index);
+        if(obj == null) return 0;
+        if(result.getVtType(property) == Variant.VT_I4) return (int) obj;
         throw new ClassCastException(String.format(CLASS_CAST_MSG, property.name(), "32-bit integer",
                 result.getCIMType(property), result.getVtType(property)));
     }
@@ -178,18 +178,15 @@ public final class WmiUtil {
         // Initialize COM. ------------------------------------------
         if(!comInitialized) {
             hres = Ole32.INSTANCE.CoInitializeEx(null, Ole32.COINIT_MULTITHREADED);
-            switch(hres.intValue()) {
+            switch (hres.intValue()) {
                 // Successful local initialization
-                case COMUtils.S_OK:
-                    comInitialized = true;
-                    break;
+                case COMUtils.S_OK -> comInitialized = true;
+
                 // COM was already initialized
-                case COMUtils.S_FALSE:
-                case WinError.RPC_E_CHANGED_MODE:
-                    break;
+                case COMUtils.S_FALSE, WinError.RPC_E_CHANGED_MODE -> {
+                }
                 // Any other results is an error
-                default:
-                    throw new COMException("Failed to initialize COM library.");
+                default -> throw new COMException("Failed to initialize COM library.");
             }
         }
         // Step 2: --------------------------------------------------
@@ -200,7 +197,7 @@ public final class WmiUtil {
                     null, Ole32.EOAC_NONE, null);
             // If security already initialized we get RPC_E_TOO_LATE
             // This can be safely ignored
-            if(COMUtils.FAILED(hres) && WinError.RPC_E_TOO_LATE != hres.intValue()) {
+            if(COMUtils.FAILED(hres) && hres.intValue() != WinError.RPC_E_TOO_LATE) {
                 Ole32.INSTANCE.CoUninitialize();
                 throw new COMException("Failed to initialize security.");
             }
@@ -218,4 +215,7 @@ public final class WmiUtil {
             comInitialized = false;
         }
     }
+
+    /** Prevents instantiation of this utility class. */
+    private WmiUtil() { throwUnsupportedExForUtilityCls(); }
 }

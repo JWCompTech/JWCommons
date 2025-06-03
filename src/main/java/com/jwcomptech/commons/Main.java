@@ -23,7 +23,6 @@ package com.jwcomptech.commons;
  */
 
 import ch.qos.logback.classic.Level;
-import com.jwcomptech.commons.javafx.dialogs.*;
 import com.jwcomptech.commons.logging.Loggers;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -38,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 
+import static com.jwcomptech.commons.exceptions.ExceptionUtils.assertThrownException;
 import static com.jwcomptech.commons.utils.DebugUtils.print;
 
 @SuppressWarnings("ClassWithoutConstructor")
@@ -46,16 +46,16 @@ public final class Main extends Application {
      * Application entry point.
      * @param args application command line arguments
      */
-    public static void main(String... args) { launch(); }
+    public static void main(final String... args) { launch(); }
 
     @Override
-    public void start(@NotNull Stage stage) throws XMLStreamException, IOException, InterruptedException {
+    public void start(@NotNull final Stage stage) throws XMLStreamException, IOException, InterruptedException {
         final Logger logger = LoggerFactory.getLogger(Main.class);
         Loggers.RootPackage
                 .setName(Main.class.getPackage().getName())
                 .enableLimitedConsole(Level.INFO);
 
-        Model pom = POMManager.getInstance().getInternalPOM();
+        final Model pom = POMManager.getInstance().getInternalPOM();
 
         logger.info("--------------------------");
         logger.info("{} v{}", pom.getName(), pom.getVersion());
@@ -88,30 +88,42 @@ public final class Main extends Application {
 //        app.setCmd(cmd);
 //        final int exitCode = cmd.execute(args);
 
-        String javaVersion = System.getProperty("java.version");
-        String javafxVersion = System.getProperty("javafx.version");
-        Label l = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
-        Scene scene = new Scene(new StackPane(l), 640, 480);
+        final String javaVersion = System.getProperty("java.version");
+        final String javafxVersion = System.getProperty("javafx.version");
+        final Label label = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
+        final Scene scene = new Scene(new StackPane(label), 640, 480);
         stage.setScene(scene);
-        stage.show();
+        //primaryStage.show();
 
-        var result1 = MessageBox.show("Proceed to next step?", "Confirm",
-                "", MessageBoxButtons.YesNo,
-                MessageBoxIcon.CONFIRMATION,
-                MessageBoxDefaultButton.Button1);
+//        final var result1 = MessageBox.show("Proceed to next step?", "Confirm",
+//                "", MessageBoxButtons.YesNo,
+//                MessageBoxIcon.CONFIRMATION,
+//                MessageBoxDefaultButton.Button1);
+//
+//        final var result2 = MessageBox.builder()
+//                        .text("Proceed to next step?")
+//                        .title("Confirm")
+//                        .buttons(MessageBoxButtons.YesNo)
+//                        .icon(MessageBoxIcon.CONFIRMATION)
+//                        .defaultButton(MessageBoxDefaultButton.Button1)
+//                        .build()
+//                        .showAndWait();
+//
+//        print(result1.toString());
+//        print(result2.toString());
 
-        var result2 = MessageBox.builder()
-                        .text("Proceed to next step?")
-                        .title("Confirm")
-                        .buttons(MessageBoxButtons.YesNo)
-                        .icon(MessageBoxIcon.CONFIRMATION)
-                        .defaultButton(MessageBoxDefaultButton.Button1)
-                        .build()
-                        .showAndWait();
+        assertThrownException(() -> {
+            throw new IllegalStateException();
+        }, IllegalStateException.class);
 
-        print(result1.toString());
-        print(result2.toString());
+        test(1);
 
         //        System.exit(exitCode);
+    }
+
+    private int test(final Integer myNumber) {
+
+        print("");
+        return myNumber + 1;
     }
 }

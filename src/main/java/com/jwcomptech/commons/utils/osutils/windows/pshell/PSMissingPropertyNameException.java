@@ -22,7 +22,12 @@ package com.jwcomptech.commons.utils.osutils.windows.pshell;
  * #L%
  */
 
+import java.io.Serial;
+
 public class PSMissingPropertyNameException extends PowerShellParserErrorException {
+  @Serial
+  private static final long serialVersionUID = 2004578634907397141L;
+
   public PSMissingPropertyNameException() { }
 
   public PSMissingPropertyNameException(final String message) {

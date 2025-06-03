@@ -24,7 +24,6 @@ package com.jwcomptech.commons.utils.osutils.windows.enums;
 
 import com.jwcomptech.commons.enums.BaseEnum;
 import com.jwcomptech.commons.values.StringValue;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;

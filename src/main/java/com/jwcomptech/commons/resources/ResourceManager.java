@@ -30,6 +30,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
 
 import java.util.*;
@@ -47,25 +48,26 @@ import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNullOrEm
 @SuppressWarnings("unused")
 @EqualsAndHashCode
 @ToString
-public class ResourceManager {
+public final class ResourceManager {
     private final Map<ResourceType, Set<Resource>> resources = new HashMap<>();
 
     @Contract(pure = true)
-    public final @NotNull @UnmodifiableView Map<ResourceType, Set<Resource>> getResources() {
+    public @NotNull @UnmodifiableView Map<ResourceType, Set<Resource>> getResources() {
         final Map<ResourceType, Set<Resource>> copy = new HashMap<>();
-        for (final ResourceType resourceType : resources.keySet()) {
-            copy.put(resourceType, Collections.unmodifiableSet(resources.get(resourceType)));
+        for (final Map.Entry<ResourceType, Set<Resource>> entry : resources.entrySet()) {
+            copy.put(entry.getKey(), Collections.unmodifiableSet(entry.getValue()));
         }
         return Collections.unmodifiableMap(copy);
     }
 
-    public Pair<Optional<ResourceType>, Optional<String>> parseResourceURL(@NotNull final String resourceURL) {
+    @Contract("_ -> new")
+    public @NotNull Pair<Optional<ResourceType>, Optional<String>> parseResourceURL(@NotNull final String resourceURL) {
         checkArgumentNotNull(resourceURL, cannotBeNull("resourceURL"));
 
         ResourceType resourceType = null;
         String resourceName = null;
 
-        for(ResourceType type : resources.keySet()) {
+        for(final ResourceType type : resources.keySet()) {
             if(resourceURL.startsWith(type.toString())) {
                 resourceType = type;
                 resourceName = resourceURL.substring(type.toString().length());
@@ -82,7 +84,7 @@ public class ResourceManager {
         checkArgumentNotNull(resourceType, cannotBeNull("resourceType"));
         checkArgumentNotNullOrEmpty(resourceName, cannotBeNullOrEmpty("resourceName"));
 
-        Set<Resource> resourceList = resources.get(resourceType);
+        final Set<Resource> resourceList = resources.get(resourceType);
         if (resourceList != null) {
             for (final Resource resource : resourceList) {
                 if(resource.getURLString().equals(resourceName)) {
@@ -97,14 +99,14 @@ public class ResourceManager {
     public Optional<Resource> getResource(@NotNull final String resourceURL) {
         checkArgumentNotNull(resourceURL, cannotBeNull("resourceURL"));
 
-        Pair<Optional<ResourceType>, Optional<String>> resourcePair = parseResourceURL(resourceURL);
+        final Pair<Optional<ResourceType>, Optional<String>> resourcePair = parseResourceURL(resourceURL);
 
         if(resourcePair.getLeft().isPresent() && resourcePair.getRight().isPresent()) {
-            ResourceType resourceType = resourcePair.getLeft().get();
-            String resourceName = resourcePair.getRight().get();
+            final ResourceType resourceType = resourcePair.getLeft().get();
+            final String resourceName = resourcePair.getRight().get();
 
             if(!resourceName.isBlank()) {
-                Set<Resource> resourceList = resources.get(resourceType);
+                final Set<Resource> resourceList = resources.get(resourceType);
                 if (resourceList != null) {
                     for (final Resource resource : resourceList) {
                         if(resource.getURLString().equals(resourceName)) {
@@ -120,7 +122,7 @@ public class ResourceManager {
 
     public Optional<Set<Resource>> getResources(@NotNull final ResourceType resourceType) {
         checkArgumentNotNull(resourceType, cannotBeNull("resourceType"));
-        Set<Resource> list = resources.get(resourceType);
+        final Set<Resource> list = resources.get(resourceType);
 
         if (list != null) {
             return Optional.of(Collections.unmodifiableSet(list));
@@ -130,15 +132,15 @@ public class ResourceManager {
         return Optional.empty();
     }
 
-    public Resource addResource(@NotNull final ResourceType resourceType,
-                               @NotNull final String resourceName) {
+    public @Nullable Resource addResource(@NotNull final ResourceType resourceType,
+                                          @NotNull final String resourceName) {
         checkArgumentNotNull(resourceType, cannotBeNull("resourceType"));
         checkArgumentNotNullOrEmpty(resourceName, cannotBeNullOrEmpty("resourceName"));
 
         if(resources.containsKey(resourceType)) {
-            Optional<Resource> resource = getResource(resourceType, resourceName);
+            final Optional<Resource> resource = getResource(resourceType, resourceName);
             if(resource.isEmpty()) {
-                Resource newResource = new Resource(resourceType, resourceName);
+                final Resource newResource = new Resource(resourceType, resourceName);
                 resources.get(resourceType).add(newResource);
                 return newResource;
             } else {
@@ -150,14 +152,14 @@ public class ResourceManager {
     }
 
     public Optional<Resource> addResource(@NotNull final String resourceURL) {
-        Pair<Optional<ResourceType>, Optional<String>> resourcePair = parseResourceURL(resourceURL);
+        final Pair<Optional<ResourceType>, Optional<String>> resourcePair = parseResourceURL(resourceURL);
 
         if(resourcePair.getKey().isPresent() && resourcePair.getValue().isPresent()) {
-            ResourceType resourceType = resourcePair.getKey().get();
-            String resourceName = resourcePair.getValue().get();
+            final ResourceType resourceType = resourcePair.getKey().get();
+            final String resourceName = resourcePair.getValue().get();
 
             if(!resourceName.isBlank()) {
-                Set<Resource> resourceList = resources.get(resourceType);
+                final Set<Resource> resourceList = resources.get(resourceType);
                 if (resourceList != null) {
                     Resource resource = null;
                     for (final Resource r : resourceList) {
@@ -194,6 +196,7 @@ public class ResourceManager {
         return false;
     }
 
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     public boolean removeResource(@NotNull final ResourceType resourceType,
                                   @NotNull final String resourceName) {
         checkArgumentNotNull(resourceType, cannotBeNull("resourceType"));
@@ -212,7 +215,7 @@ public class ResourceManager {
         }
 
         if(resourceToRemove != null) {
-            return resources.remove(resourceType) != null;
+            return resources.get(resourceType).remove(resourceToRemove);
         }
 
         return false;
@@ -223,6 +226,7 @@ public class ResourceManager {
     }
 
     /** Prevents public instantiation of this manager class. */
+    @SuppressWarnings("ObjectAllocationInLoop")
     private ResourceManager() {
         for(final ResourceType resourceType : ResourceType.values()) {
             resources.put(resourceType, new HashSet<>());

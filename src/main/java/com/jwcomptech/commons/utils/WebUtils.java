@@ -30,6 +30,8 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 
+import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
+
 /**
  * Web utilities for completing tasks dealing with websites.
  *
@@ -53,7 +55,7 @@ public final class WebUtils {
             try(final var buf = new BufferedInputStream(newurl.openStream())) {
                 sb = new StringBuilder();
                 int data;
-                while(-1 != (data = buf.read())) {
+                while((data = buf.read()) != -1) {
                     sb.append((char) data);
                 }
             }
@@ -61,9 +63,9 @@ public final class WebUtils {
         }
 
         /** Prevents instantiation of this utility class. */
-        private HTML() { }
+        private HTML() { throwUnsupportedExForUtilityCls(); }
     }
 
     /** Prevents instantiation of this utility class. */
-    private WebUtils() { }
+    private WebUtils() { throwUnsupportedExForUtilityCls(); }
 }

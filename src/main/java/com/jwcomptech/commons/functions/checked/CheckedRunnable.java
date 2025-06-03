@@ -51,7 +51,7 @@ public interface CheckedRunnable {
      * @return a new {@code CheckedRunnable}
      * @see CheckedFunction1#of(CheckedFunction1)
      */
-    static CheckedRunnable of(CheckedRunnable methodReference) {
+    static CheckedRunnable of(final CheckedRunnable methodReference) {
         return methodReference;
     }
 
@@ -60,6 +60,7 @@ public interface CheckedRunnable {
      *
      * @throws Throwable if an error occurs
      */
+    @SuppressWarnings("RedundantThrows")
     void run() throws Throwable;
 
     /**
@@ -71,7 +72,7 @@ public interface CheckedRunnable {
         return () -> {
             try {
                 run();
-            } catch(Throwable x) {
+            } catch(final Throwable x) {
                 CheckedRunnableModule.sneakyThrow(x);
             }
         };
@@ -84,7 +85,7 @@ interface CheckedRunnableModule {
     // DEV-NOTE: we do not plan to expose this as public API
     @Contract(value = "_ -> fail", pure = true)
     @SuppressWarnings({"unchecked", "UnusedReturnValue"})
-    static <T extends Throwable, R> R sneakyThrow(Throwable t) throws T {
+    static <T extends Throwable, R> R sneakyThrow(final Throwable t) throws T {
         throw (T) t;
     }
 }

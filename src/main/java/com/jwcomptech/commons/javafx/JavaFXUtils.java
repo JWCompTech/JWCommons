@@ -29,12 +29,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
+
 /**
  * Contains methods to do JavaFX related tasks.
  * @since 0.0.1
  */
 @SuppressWarnings("unused")
-public class JavaFXUtils {
+public final class JavaFXUtils {
     /**
      * Run the specified Runnable on the JavaFX Application Thread at some
      * unspecified
@@ -87,7 +89,7 @@ public class JavaFXUtils {
      * @see Application
      */
     @SuppressWarnings("GrazieInspection")
-    public static void runLater(Runnable runnable) {
+    public static void runLater(final Runnable runnable) {
         Platform.runLater(runnable);
     }
 
@@ -96,7 +98,7 @@ public class JavaFXUtils {
      * if this method is called on the FX application thread.
      * @param runnable the Runnable to run
      */
-    public static void runLaterCheck(Runnable runnable) {
+    public static void runLaterCheck(final Runnable runnable) {
         if (Platform.isFxApplicationThread()) runnable.run();
         else Platform.runLater(runnable);
     }
@@ -176,10 +178,15 @@ public class JavaFXUtils {
      * @param <R> the return type of the Suppliers
      * @param ifSupplier the Supplier to run if this method is called on the FX application thread
      * @param elseSupplier the Supplier to run if this method is NOT called on the FX application thread
+     * @return the value from the specified Supplier if this method is called on the FX application thread
+     * and if not returns the value from another Supplier instead
      */
     public static <R> R ifFxThreadElseGet(final Supplier<R> ifSupplier,
                                           final Supplier<R> elseSupplier) {
         if(isFxThread()) return ifSupplier.get();
         else return elseSupplier.get();
     }
+
+    /** Prevents instantiation of this utility class. */
+    private JavaFXUtils() { throwUnsupportedExForUtilityCls(); }
 }

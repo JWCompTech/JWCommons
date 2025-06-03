@@ -34,7 +34,7 @@ import java.io.IOException;
 
 public final class LinuxOS extends AbstractOperatingSystem {
     @SuppressWarnings("unused")
-    private final Logger logger = LoggerFactory.getLogger(LinuxOS.class);
+    private static final Logger logger = LoggerFactory.getLogger(LinuxOS.class);
 
     private LinuxOS() { }
 

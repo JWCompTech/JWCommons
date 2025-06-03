@@ -25,9 +25,8 @@ package com.jwcomptech.commons.utils.osutils;
 import com.jwcomptech.commons.info.OSInfo;
 import com.jwcomptech.commons.values.StringValue;
 import com.sun.jna.platform.win32.Shell32;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import lombok.Data;
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -56,7 +55,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * @since 0.0.1
  */
 
-@SuppressWarnings("ClassWithTooManyMethods")
+@SuppressWarnings({"ClassWithTooManyMethods", "unused", "HardcodedFileSeparator"})
+@Data
 public class ExecCommand {
     @Contract("_ -> new")
     public static @NotNull ExecCommand newCmd(final String command) {
@@ -71,7 +71,7 @@ public class ExecCommand {
         return new ExecCommand(command).setArgs(args).run();
     }
 
-    public static ExecCommand runNewVBS(final StringValue scriptText) throws IOException, InterruptedException {
+    public static ExecCommand runNewVBS(final @NotNull StringValue scriptText) throws IOException, InterruptedException {
         return runNewVBS(scriptText.get());
     }
 
@@ -91,6 +91,15 @@ public class ExecCommand {
 
     @SuppressWarnings("OverlyComplexAnonymousInnerClass")
     protected final List<String> result = new ArrayList<>() {
+        @Serial
+        private static final long serialVersionUID = -6658795870383087L;
+
+        @Override
+        @SneakyThrows
+        public ArrayList<String> clone() {
+            throw new CloneNotSupportedException();
+        }
+
         @Override
         public String toString() {
             //NOTE: Cannot be OS.isWindows or things will break
@@ -107,24 +116,29 @@ public class ExecCommand {
 
     protected String command;
     private String args = "";
+    /**
+     * -- GETTER --
+     *  Returns the exit code, returns 0 if no error occurred.
+     */
     private int exitCode;
     protected final List<String> errors = new ArrayList<>();
     private Consumer<String> resultHandler = s -> {};
     private Consumer<String> errorHandler = s -> {};
+    /**
+     * -- GETTER --
+     *  If true, pauses cmd window and forces it to stay open after command is completed. <p>
+     *  If false and "elevate" is true, cmd window will close after command is completed. <p>
+     *  This parameter is ignored if "hideWindow" is true, this prevents cmd window from staying
+     *  open when hidden and unnecessarily using RAM.
+     */
     private boolean keepWindowOpen;
     private String workingDirectory;
 
-    public ExecCommand(final String command) {
+    public ExecCommand() { }
+
+    protected ExecCommand(final String command) {
         checkArgumentNotNullOrEmpty(command, cannotBeNullOrEmpty("command"));
         this.command = command;
-    }
-
-    public String getCommand() {
-        return command;
-    }
-
-    public String getArgs() {
-        return args;
     }
 
     public ExecCommand setArgs(final String args) {
@@ -132,25 +146,10 @@ public class ExecCommand {
         return this;
     }
 
-    public String getWorkingDirectory() {
-        return workingDirectory;
-    }
-
     @SuppressWarnings("UnusedReturnValue")
     public ExecCommand setWorkingDirectory(final String workingDirectory) {
         this.workingDirectory = workingDirectory;
         return this;
-    }
-
-    /**
-     * If true, pauses cmd window and forces it to stay open after command is completed. <p>
-     * If false and "elevate" is true, cmd window will close after command is completed. <p>
-     * This parameter is ignored if "hideWindow" is true, this prevents cmd window from staying
-     * open when hidden and unnecessarily using RAM.
-     * @return true if the window is to be kept open
-     */
-    public boolean isKeepWindowOpen() {
-        return keepWindowOpen;
     }
 
     public ExecCommand setKeepWindowOpen(final boolean keepWindowOpen) {
@@ -180,7 +179,7 @@ public class ExecCommand {
      * @return the specified line of the text result of the command
      */
     public String getResultAt(final int lineNumber) {
-        if (1 <= lineNumber && lineNumber < getResult().size()) {
+        if (lineNumber >= 1 && lineNumber < getResult().size()) {
             return getResult().get(lineNumber - 1);
         }
         return "";
@@ -192,26 +191,10 @@ public class ExecCommand {
      */
     public List<String> getErrors() { return Collections.unmodifiableList(errors); }
 
-    /**
-     * Returns the exit code, returns 0 if no error occurred.
-     * @return the exit code, returns 0 if no error occurred
-     */
-    public int getExitCode() {
-        return exitCode;
-    }
-
-    public Consumer<String> getResultHandler() {
-        return resultHandler;
-    }
-
     @SuppressWarnings("UnusedReturnValue")
     public ExecCommand setResultHandler(final Consumer<String> resultHandler) {
         this.resultHandler = resultHandler == null ? (s -> {}) : resultHandler;
         return this;
-    }
-
-    public Consumer<String> getErrorHandler() {
-        return errorHandler;
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -334,36 +317,5 @@ public class ExecCommand {
                 errorHandler.accept(line);
             }
         }
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-
-        if (!(o instanceof ExecCommand output)) return false;
-
-        return new EqualsBuilder()
-                .append(exitCode, output.exitCode)
-                .append(result, output.result)
-                .append(errors, output.errors)
-                .isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(result)
-                .append(errors)
-                .append(exitCode)
-                .toHashCode();
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("result", result)
-                .append("errors", errors)
-                .append("exitCode", exitCode)
-                .toString();
     }
 }

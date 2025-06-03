@@ -70,14 +70,12 @@ public class FXMLDialogWrapper<R, C extends Initializable> {
      * @param icon the icon image to be used in the window decorations and when minimized
      * @param owner the owner of the Window
      * @param fxmlPath the path of the fxml file
-     * @throws IOException if fxml file fails to load
      */
-    private FXMLDialogWrapper(final String title, final Image icon, final Stage owner, final String fxmlPath)
-            throws IOException {
+    private FXMLDialogWrapper(final String title, final Image icon, final Stage owner, final String fxmlPath) {
         checkArgumentNotNullOrEmpty(fxmlPath, cannotBeNullOrEmpty("fxmlPath"));
 
         final ResourceManager resources = ResourceManager.getInstance();
-        Optional<String> fxmlFilename = resources.parseResourceURL(fxmlPath).getValue();
+        final Optional<String> fxmlFilename = resources.parseResourceURL(fxmlPath).getValue();
 
         if(fxmlFilename.isEmpty()) {
             throw new IllegalArgumentException("Invalid fxml path, does not start " +
@@ -86,7 +84,7 @@ public class FXMLDialogWrapper<R, C extends Initializable> {
 
         final Resource fxmlResource = resources.addResource(ResourceType.FXML, fxmlFilename.get());
 
-        ImmutablePair<FXMLLoader, Dialog<R>> dialogPair = fxmlResource.getAsDialog();
+        final ImmutablePair<FXMLLoader, Dialog<R>> dialogPair = fxmlResource.getAsDialog();
         loader = dialogPair.getKey();
         dialog = dialogPair.getValue();
 
@@ -248,21 +246,20 @@ public class FXMLDialogWrapper<R, C extends Initializable> {
         /**
          * The dialog title.
          */
-        final String title;
+        private final String title;
         /**
          * The icon image to be used in the window decorations and when minimized.
          */
-        final Image icon;
+        private final Image icon;
         /**
          * The owner of the Window.
          */
-        final Stage owner;
+        private final Stage owner;
         /**
          * The path of the fxml file.
          */
-        final String fxmlPath;
+        private final String fxmlPath;
 
-        @SneakyThrows(IOException.class)
         public FXMLDialogWrapper<R, C> build() {
             return new FXMLDialogWrapper<>(title, icon, owner, fxmlPath);
         }

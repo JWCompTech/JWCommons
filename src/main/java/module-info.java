@@ -50,6 +50,8 @@ module jwct.commons {
     requires retrofit2;
     requires retrofit2.converter.gson;
     requires org.junit.jupiter.api;
+    requires plexus.utils;
+    requires paranamer;
 
     exports com.jwcomptech.commons;
     exports com.jwcomptech.commons.annotations;
@@ -59,7 +61,7 @@ module jwct.commons {
     exports com.jwcomptech.commons.events;
     exports com.jwcomptech.commons.functions;
     exports com.jwcomptech.commons.functions.checked;
-    exports com.jwcomptech.commons.functions.tuples;
+    exports com.jwcomptech.commons.tuples;
     exports com.jwcomptech.commons.info;
     exports com.jwcomptech.commons.info.enums;
     exports com.jwcomptech.commons.info.os;
@@ -68,7 +70,6 @@ module jwct.commons {
     exports com.jwcomptech.commons.logging;
     exports com.jwcomptech.commons.resources;
     exports com.jwcomptech.commons.resources.enums;
-    exports com.jwcomptech.commons.tuples;
     exports com.jwcomptech.commons.utils;
     exports com.jwcomptech.commons.utils.osutils;
     exports com.jwcomptech.commons.utils.osutils.windows;
@@ -86,4 +87,5 @@ module jwct.commons {
     exports com.jwcomptech.commons.validators;
     opens com.jwcomptech.commons.validators to javafx.fxml;
     exports com.jwcomptech.commons.javafx;
+    exports com.jwcomptech.commons.exceptions;
 }

@@ -26,11 +26,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.security.KeyPair;
 
+import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
+
 @SuppressWarnings({"UseOfSystemOutOrSystemErr", "unused"})
 public final class DebugUtils {
     public static void print(final String str) { System.out.println(str); }
 
-    public static void print(final Boolean str) { System.out.println(str); }
+    public static void print(final Boolean bool) { System.out.println(bool); }
 
     public static void print(final Integer num) { System.out.println(num); }
 
@@ -42,5 +44,5 @@ public final class DebugUtils {
     }
 
     /** Prevents instantiation of this utility class. */
-    private DebugUtils() { }
+    private DebugUtils() { throwUnsupportedExForUtilityCls(); }
 }

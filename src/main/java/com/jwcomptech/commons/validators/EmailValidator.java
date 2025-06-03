@@ -50,7 +50,7 @@ import java.util.regex.Pattern;
  */
 @Data
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "HardcodedFileSeparator"})
 @ToString
 @Builder
 public final class EmailValidator {
@@ -171,7 +171,7 @@ public final class EmailValidator {
 
     public final Pattern validPattern = Pattern.compile(allowQuotedIdentifiers ? mailbox : addressSpec);
 
-    public boolean isValid(final String email) {
+    public boolean isValid(final CharSequence email) {
         return validPattern.matcher(email).matches();
     }
 }

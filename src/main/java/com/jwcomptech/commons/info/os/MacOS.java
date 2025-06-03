@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 public final class MacOS extends AbstractOperatingSystem {
-    private final Logger logger = LoggerFactory.getLogger(MacOS.class);
+    private static final Logger logger = LoggerFactory.getLogger(MacOS.class);
 
     private MacOS() { }
 
@@ -76,8 +76,8 @@ public final class MacOS extends AbstractOperatingSystem {
     @Override
     public boolean is64BitOS() {
         try {
-            return 64 == Parse.parseIntOrDefault(ExecCommand
-                    .runNewCmd("getconf LONG_BIT").getFirstResult(), 32, logger);
+            return Parse.parseIntOrDefault(ExecCommand
+                    .runNewCmd("getconf LONG_BIT").getFirstResult(), 32, logger) == 64;
         } catch (final IOException | InterruptedException e) {
             throw new IllegalStateException(e);
         }

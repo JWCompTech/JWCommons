@@ -22,6 +22,8 @@ package com.jwcomptech.commons;
  * #L%
  */
 
+import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
+
 /**
  * A list of settings that are used throughout the application.
  *
@@ -39,6 +41,7 @@ public final class Settings {
     /**
      * The default installation path for windows.
      */
+    @SuppressWarnings("HardcodedFileSeparator")
     public static final String WINDOWS_DEFAULT_INSTALL_PATH = "C:\\Program Files\\" + COMPANY_NAME;
     /**
      * The current Java LTS version number.
@@ -46,5 +49,5 @@ public final class Settings {
     public static final int CURRENT_LTS = 21;
 
     /** Prevents instantiation of this utility class. */
-    private Settings() { }
+    private Settings() { throwUnsupportedExForUtilityCls(); }
 }

@@ -24,9 +24,6 @@ package com.jwcomptech.commons.tuples;
 
 import lombok.EqualsAndHashCode;
 import lombok.Value;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serial;
 import java.util.Objects;
@@ -55,13 +52,13 @@ public class ImmutableTriple<L, M, R> extends Triple<L, M, R> {
         return NULL;
     }
 
-    public static <L, M, R> ImmutableTriple<L, M, R> of(L left, M middle, R right) {
-        return !(null != left || null != middle) && null == right
+    public static <L, M, R> ImmutableTriple<L, M, R> of(final L left, final M middle, final R right) {
+        return !(left != null || middle != null) && right == null
                 ? nullTriple()
                 : new ImmutableTriple<>(left, middle, right);
     }
 
-    public static <L, M, R> ImmutableTriple<L, M, R> ofNonNull(L left, M middle, R right) {
+    public static <L, M, R> ImmutableTriple<L, M, R> ofNonNull(final L left, final M middle, final R right) {
         return of(Objects.requireNonNull(left, "left"), Objects.requireNonNull(middle, "middle"),
                 Objects.requireNonNull(right, "right"));
     }

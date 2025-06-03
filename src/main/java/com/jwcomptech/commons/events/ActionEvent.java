@@ -22,6 +22,7 @@ package com.jwcomptech.commons.events;
  * #L%
  */
 
+import java.io.Serial;
 import java.util.List;
 
 /**
@@ -35,6 +36,9 @@ public class ActionEvent extends Event {
 
     /** Common supertype for all action event types. */
     public static final EventType<ActionEvent> ANY = ACTION;
+
+    @Serial
+    private static final long serialVersionUID = -839917085012249791L;
 
     /**
      * Construct a new {@code ActionEvent} with the specified event target.

@@ -24,10 +24,6 @@ package com.jwcomptech.commons.webapis;
 
 import com.jwcomptech.commons.SingletonManager;
 import lombok.Data;
-import lombok.Getter;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kohsuke.github.*;
 
 import java.io.IOException;
@@ -47,7 +43,7 @@ public final class GitHubAPI {
         //this.gitHubUserService = GitHubServiceGenerator.createUserService();
         try {
             gitHub = GitHub.connectAnonymously();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }

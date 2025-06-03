@@ -22,16 +22,10 @@ package com.jwcomptech.commons.tuples;
  * #L%
  */
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import lombok.Value;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serial;
-import java.util.AbstractMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -48,7 +42,7 @@ public class ImmutablePair<L, R> extends Pair<L, R> {
     L left;
     R right;
 
-    public R setValue(R value) {
+    public R setValue(final R value) {
         throw new UnsupportedOperationException();
     }
 
@@ -57,7 +51,7 @@ public class ImmutablePair<L, R> extends Pair<L, R> {
         return (ImmutablePair<L, R>[]) EMPTY_ARRAY;
     }
 
-    public static <L, R> Pair<L, R> left(L left) {
+    public static <L, R> Pair<L, R> left(final L left) {
         return of(left, null);
     }
 
@@ -66,19 +60,19 @@ public class ImmutablePair<L, R> extends Pair<L, R> {
         return NULL;
     }
 
-    public static <L, R> ImmutablePair<L, R> of(L left, R right) {
-        return null == left && null == right ? nullPair() : new ImmutablePair<>(left, right);
+    public static <L, R> ImmutablePair<L, R> of(final L left, final R right) {
+        return left == null && right == null ? nullPair() : new ImmutablePair<>(left, right);
     }
 
-    public static <L, R> ImmutablePair<L, R> of(Map.Entry<L, R> pair) {
-        return null != pair ? new ImmutablePair<>(pair.getKey(), pair.getValue()) : nullPair();
+    public static <L, R> ImmutablePair<L, R> of(final Map.Entry<L, R> pair) {
+        return pair != null ? new ImmutablePair<>(pair.getKey(), pair.getValue()) : nullPair();
     }
 
-    public static <L, R> ImmutablePair<L, R> ofNonNull(L left, R right) {
+    public static <L, R> ImmutablePair<L, R> ofNonNull(final L left, final R right) {
         return of(Objects.requireNonNull(left, "left"), Objects.requireNonNull(right, "right"));
     }
 
-    public static <L, R> Pair<L, R> right(R right) {
+    public static <L, R> Pair<L, R> right(final R right) {
         return of(null, right);
     }
 }

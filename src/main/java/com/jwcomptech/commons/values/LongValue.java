@@ -402,7 +402,7 @@ public final class LongValue extends NumberValue<Long, LongValue> {
      */
     @Override
     public boolean isPositive() {
-        return 0L < Long.signum(value);
+        return Long.signum(value) > 0L;
     }
 
     /**
@@ -410,7 +410,7 @@ public final class LongValue extends NumberValue<Long, LongValue> {
      */
     @Override
     public boolean isNegative() {
-        return 0L > Long.signum(value);
+        return Long.signum(value) < 0L;
     }
 
     /**
@@ -418,7 +418,7 @@ public final class LongValue extends NumberValue<Long, LongValue> {
      */
     @Override
     public boolean isZero() {
-        return 0L == Long.signum(value);
+        return Long.signum(value) == 0L;
     }
 
     /**
@@ -476,8 +476,13 @@ public final class LongValue extends NumberValue<Long, LongValue> {
     }
 
     @Override
-    public int compareTo(@NotNull Long other) {
+    public int compareTo(@NotNull final Long other) {
         return Long.compare(value, other);
+    }
+
+    @Override
+    public int compareTo(@NotNull final Value<Long, LongValue> other) {
+        return this.compareTo(other.get());
     }
 
     /**

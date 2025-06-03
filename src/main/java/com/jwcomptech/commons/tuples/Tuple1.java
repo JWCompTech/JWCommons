@@ -1,4 +1,4 @@
-package com.jwcomptech.commons.functions.tuples;
+package com.jwcomptech.commons.tuples;
 
 /*-
  * #%L
@@ -53,19 +53,19 @@ public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializ
      * The 1st element of this tuple.
      */
     // Conditionally serializable
-    public final T1 _1;
+    private final T1 _1;
 
     /**
      * Constructs a tuple of one element.
      *
      * @param t1 the 1st element
      */
-    public Tuple1(T1 t1) {
+    public Tuple1(final T1 t1) {
         this._1 = t1;
     }
 
     @Contract(pure = true)
-    public static <T1> @NotNull Comparator<Tuple1<T1>> comparator(Comparator<? super T1> t1Comp) {
+    public static <T1> @NotNull Comparator<Tuple1<T1>> comparator(final Comparator<? super T1> t1Comp) {
         return (Comparator<Tuple1<T1>> & Serializable) (t1, t2) -> {
             return t1Comp.compare(t1._1, t2._1);
             // all components are equal
@@ -73,7 +73,7 @@ public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializ
     }
 
     @SuppressWarnings("unchecked")
-    private static <U1 extends Comparable<? super U1>> int compareTo(Tuple1<?> o1, Tuple1<?> o2) {
+    private static <U1 extends Comparable<? super U1>> int compareTo(final Tuple1<?> o1, final Tuple1<?> o2) {
         final Tuple1<U1> t1 = (Tuple1<U1>) o1;
         final Tuple1<U1> t2 = (Tuple1<U1>) o2;
 
@@ -87,7 +87,7 @@ public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializ
     }
 
     @Override
-    public int compareTo(@NotNull Tuple1<T1> that) {
+    public int compareTo(@NotNull final Tuple1<T1> that) {
         return Tuple1.compareTo(this, that);
     }
 
@@ -107,7 +107,7 @@ public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializ
      * @return a copy of this tuple with a new value for the 1st element of this Tuple.
      */
     @Contract(value = "_ -> new", pure = true)
-    public @NotNull Tuple1<T1> update1(T1 value) {
+    public @NotNull Tuple1<T1> update1(final T1 value) {
         return new Tuple1<>(value);
     }
 
@@ -119,7 +119,7 @@ public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializ
      * @return A new Tuple of same arity.
      * @throws IllegalArgumentException if {@code mapper} is null
      */
-    public <U1> @NotNull Tuple1<U1> map(Function<? super T1, ? extends U1> mapper) {
+    public <U1> @NotNull Tuple1<U1> map(final Function<? super T1, ? extends U1> mapper) {
         checkArgumentNotNull(mapper, cannotBeNull("mapper"));
         return Tuple.of(mapper.apply(_1));
     }
@@ -127,14 +127,14 @@ public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializ
     /**
      * Transforms this tuple to an object of type U.
      *
-     * @param f Transformation which creates a new object of type U based on this tuple's contents.
+     * @param function Transformation which creates a new object of type U based on this tuple's contents.
      * @param <U> type of the transformation result
      * @return An object of type U
      * @throws IllegalArgumentException if {@code f} is null
      */
-    public <U> U apply(Function<? super T1, ? extends U> f) {
-        checkArgumentNotNull(f, cannotBeNull("f"));
-        return f.apply(_1);
+    public <U> U apply(final Function<? super T1, ? extends U> function) {
+        checkArgumentNotNull(function, cannotBeNull("function"));
+        return function.apply(_1);
     }
 
     @Contract(" -> new")
@@ -151,7 +151,7 @@ public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializ
      * @return a new Tuple with the value appended
      */
     @Contract(value = "_ -> new", pure = true)
-    public <T2> @NotNull Tuple2<T1, T2> append(T2 t2) {
+    public <T2> @NotNull Tuple2<T1, T2> append(final T2 t2) {
         return Tuple.of(_1, t2);
     }
 
@@ -163,7 +163,7 @@ public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializ
      * @return a new Tuple with the tuple values appended
      * @throws IllegalArgumentException if {@code tuple} is null
      */
-    public <T2> @NotNull Tuple2<T1, T2> concat(Tuple1<T2> tuple) {
+    public <T2> @NotNull Tuple2<T1, T2> concat(final Tuple1<T2> tuple) {
         checkArgumentNotNull(tuple, cannotBeNull("tuple"));
         return Tuple.of(_1, tuple._1);
     }
@@ -177,9 +177,9 @@ public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializ
      * @return a new Tuple with the tuple values appended
      * @throws IllegalArgumentException if {@code tuple} is null
      */
-    public <T2, T3> @NotNull Tuple3<T1, T2, T3> concat(Tuple2<T2, T3> tuple) {
+    public <T2, T3> @NotNull Tuple3<T1, T2, T3> concat(final Tuple2<T2, T3> tuple) {
         checkArgumentNotNull(tuple, cannotBeNull("tuple"));
-        return Tuple.of(_1, tuple._1, tuple._2);
+        return Tuple.of(_1, tuple._1(), tuple._2());
     }
 
     /**
@@ -192,16 +192,16 @@ public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializ
      * @return a new Tuple with the tuple values appended
      * @throws IllegalArgumentException if {@code tuple} is null
      */
-    public <T2, T3, T4> @NotNull Tuple4<T1, T2, T3, T4> concat(Tuple3<T2, T3, T4> tuple) {
+    public <T2, T3, T4> @NotNull Tuple4<T1, T2, T3, T4> concat(final Tuple3<T2, T3, T4> tuple) {
         checkArgumentNotNull(tuple, cannotBeNull("tuple"));
-        return Tuple.of(_1, tuple._1, tuple._2, tuple._3);
+        return Tuple.of(_1, tuple._1(), tuple._2(), tuple._3());
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (o == this) {
+    public boolean equals(final Object obj) {
+        if (obj == this) {
             return true;
-        } else if (!(o instanceof Tuple1<?> that)) {
+        } else if (!(obj instanceof final Tuple1<?> that)) {
             return false;
         } else {
             return Objects.equals(this._1, that._1);

@@ -58,12 +58,12 @@ public abstract class AbstractOperatingSystem implements OperatingSystem {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
+    public boolean equals(final Object obj) {
+        if (this == obj) return true;
 
-        if (null == o || getClass() != o.getClass()) return false;
+        if (obj == null || getClass() != obj.getClass()) return false;
 
-        AbstractOperatingSystem that = (AbstractOperatingSystem) o;
+        final AbstractOperatingSystem that = (AbstractOperatingSystem) obj;
 
         return new EqualsBuilder()
                 .append(OS_NAME, that.OS_NAME)

@@ -1,4 +1,4 @@
-package com.jwcomptech.commons.functions.tuples;
+package com.jwcomptech.commons.exceptions;
 /*-
  * #%L
  * JWCT Commons

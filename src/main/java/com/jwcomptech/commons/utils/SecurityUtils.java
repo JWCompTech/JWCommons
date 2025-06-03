@@ -31,10 +31,12 @@ import org.mindrot.jbcrypt.BCrypt;
 import javax.crypto.Cipher;
 import java.io.*;
 import java.security.*;
+import java.security.spec.KeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Locale;
 
+import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
@@ -84,7 +86,7 @@ public final class SecurityUtils {
         public static String getFileHash(final @NotNull HashType type, final String filename, final boolean toUpperCase)
                 throws IOException {
             try(final InputStream stream = new FileInputStream(filename)) {
-                var hash = switch (type) {
+                final var hash = switch (type) {
                     case SHA256 -> DigestUtils.sha256Hex(stream);
                     case SHA384 -> DigestUtils.sha384Hex(stream);
                     case SHA512 -> DigestUtils.sha512Hex(stream);
@@ -145,7 +147,7 @@ public final class SecurityUtils {
         }
 
         /** Prevents instantiation of this utility class. */
-        private FileHashes() { }
+        private FileHashes() { throwUnsupportedExForUtilityCls(); }
     }
 
     /** Contains methods dealing with hashing passwords. */
@@ -236,15 +238,7 @@ public final class SecurityUtils {
          */
         public static @NotNull String createHash(final @NotNull String passwordToHash, final String salt)
                 throws GeneralSecurityException {
-            final var md = MessageDigest.getInstance("SHA-512");
-            md.update(Base64.decodeBase64(salt));
-            final var bytes = md.digest(passwordToHash.getBytes(UTF_8));
-            final var sb = new StringBuilder();
-
-            for(final var aByte : bytes) {
-                sb.append(Integer.toString((aByte & 255) + 256, 16).substring(1));
-            }
-            return sb.toString();
+            return createHash(passwordToHash, Base64.decodeBase64(salt));
         }
 
         /**
@@ -276,7 +270,7 @@ public final class SecurityUtils {
         }
 
         /** Prevents instantiation of this utility class. */
-        private PasswordHashes() { }
+        private PasswordHashes() { throwUnsupportedExForUtilityCls(); }
     }
 
     /** Contains methods dealing with RSA key files. */
@@ -323,7 +317,7 @@ public final class SecurityUtils {
         }
 
         /** Prevents instantiation of this utility class. */
-        private RSAFiles() { }
+        private RSAFiles() { throwUnsupportedExForUtilityCls(); }
     }
 
     /** Contains methods dealing with RSA encryption and decryption. */
@@ -370,7 +364,7 @@ public final class SecurityUtils {
          * @throws GeneralSecurityException if error occurs
          */
         public static PublicKey readPublicKeyFromBytes(final byte[] bytes) throws GeneralSecurityException {
-            final var keySpec = new X509EncodedKeySpec(bytes);
+            final KeySpec keySpec = new X509EncodedKeySpec(bytes);
             final var keyFactory = KeyFactory.getInstance("RSA");
             return keyFactory.generatePublic(keySpec);
         }
@@ -382,7 +376,7 @@ public final class SecurityUtils {
          * @throws GeneralSecurityException if error occurs
          */
         public static PrivateKey readPrivateKeyFromBytes(final byte[] bytes) throws GeneralSecurityException {
-            final var keySpec = new PKCS8EncodedKeySpec(bytes);
+            final KeySpec keySpec = new PKCS8EncodedKeySpec(bytes);
             final var keyFactory = KeyFactory.getInstance("RSA");
             return keyFactory.generatePrivate(keySpec);
         }
@@ -394,7 +388,8 @@ public final class SecurityUtils {
          * @return Encrypted text as byte array
          * @throws GeneralSecurityException if error occurs
          */
-        public static byte[] encrypt(final PublicKey key, final @NotNull String plainText) throws GeneralSecurityException {
+        @SuppressWarnings("HardcodedFileSeparator")
+        public static byte[] encrypt(final Key key, final @NotNull String plainText) throws GeneralSecurityException {
             final var cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA1AndMGF1Padding");
             cipher.init(Cipher.ENCRYPT_MODE, key);
             return cipher.doFinal(plainText.getBytes(UTF_8));
@@ -407,7 +402,7 @@ public final class SecurityUtils {
          * @return Encrypted text as string
          * @throws GeneralSecurityException if error occurs
          */
-        public static String encryptToString(final PublicKey key, final String plainText)
+        public static String encryptToString(final Key key, final String plainText)
                 throws GeneralSecurityException {
             return Base64.encodeBase64String(encrypt(key, plainText));
         }
@@ -419,7 +414,8 @@ public final class SecurityUtils {
          * @return Decrypted text as byte array
          * @throws GeneralSecurityException if error occurs
          */
-        public static byte[] decrypt(final PrivateKey key, final byte[] cipherText) throws GeneralSecurityException {
+        @SuppressWarnings("HardcodedFileSeparator")
+        public static byte[] decrypt(final Key key, final byte[] cipherText) throws GeneralSecurityException {
             final var cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA1AndMGF1Padding");
             cipher.init(Cipher.DECRYPT_MODE, key);
             return cipher.doFinal(cipherText);
@@ -432,15 +428,15 @@ public final class SecurityUtils {
          * @return Decrypted text as string
          * @throws GeneralSecurityException if error occurs
          */
-        public static byte[] decryptFromString(final PrivateKey key, final String cipherText)
+        public static byte[] decryptFromString(final Key key, final String cipherText)
                 throws GeneralSecurityException {
             return decrypt(key, Base64.decodeBase64(cipherText));
         }
 
         /** Prevents instantiation of this utility class. */
-        private RSAHashes() { }
+        private RSAHashes() { throwUnsupportedExForUtilityCls(); }
     }
 
     /** Prevents instantiation of this utility class. */
-    private SecurityUtils() { }
+    private SecurityUtils() { throwUnsupportedExForUtilityCls(); }
 }

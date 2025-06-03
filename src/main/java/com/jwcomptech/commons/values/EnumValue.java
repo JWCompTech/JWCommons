@@ -47,7 +47,7 @@ public class EnumValue<T extends Enum<T>> extends ObservableValue<T, EnumValue<T
     @Serial
     private static final long serialVersionUID = -4700293867509243861L;
 
-    public EnumValue(T value) {
+    public EnumValue(final T value) {
         super(value);
         super.setListenersTarget(this);
     }
@@ -120,9 +120,13 @@ public class EnumValue<T extends Enum<T>> extends ObservableValue<T, EnumValue<T
      *
      * @param other the value to compare
      */
-    @Override
-    public int compareTo(@NotNull T other) {
+    public int compareTo(@NotNull final T other) {
         return value.compareTo(other);
+    }
+
+    @Override
+    public int compareTo(@NotNull final Value<T, EnumValue<T>> other) {
+        return this.compareTo(other.get());
     }
 
     /**
@@ -141,17 +145,25 @@ public class EnumValue<T extends Enum<T>> extends ObservableValue<T, EnumValue<T
      * Returns true if the specified object is equal to this
      * enum constant.
      *
-     * @param other the object to be compared for equality with this object.
+     * @param obj the object to be compared for equality with this enum constant.
      * @return true if the specified object is equal to this
      * enum constant.
      */
     @SuppressWarnings("EqualsDoesntCheckParameterClass")
-    public boolean equals(Object other) {
-        return value.equals(other);
+    public boolean equals(final Object obj) {
+        return value == obj;
     }
 
-    public boolean equals(T other) {
-        return value.equals(other);
+    /**
+     * Returns true if the specified enum is equal to this
+     * enum constant.
+     *
+     * @param other the enum to be compared for equality with this enum constant.
+     * @return true if the specified enum constant is equal to this
+     * enum constant.
+     */
+    public boolean equals(final T other) {
+        return value == other;
     }
 
     /**

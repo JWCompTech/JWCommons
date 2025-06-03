@@ -35,7 +35,7 @@ import org.apache.commons.lang3.SystemUtils;
  * @since 0.0.1
  */
 @SuppressWarnings("unused")
-public class OSInfo {
+public final class OSInfo {
     public static final OperatingSystem OS;
 
     static {
@@ -127,6 +127,7 @@ public class OSInfo {
      *
      * @return True if OS is a 32-Bit OS
      */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     public static boolean is32BitOS() {
         return !is64BitOS();
     }
@@ -136,10 +137,12 @@ public class OSInfo {
      *
      * @return True if OS is a 64-Bit OS
      */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     public static boolean is64BitOS() {
         return is64BitJVM() && OS.is64BitOS();
     }
 
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     private static boolean is64BitJVM() {
         return System.getProperty("os.arch").contains("64");
     }
@@ -248,7 +251,7 @@ public class OSInfo {
     /**
      * Prevents instantiation of this utility class.
      */
-    protected OSInfo() { }
+    private OSInfo() { }
 
     /**
      * An Operating System Object for use with the {@link ComputerInfo} class.

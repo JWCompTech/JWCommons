@@ -25,6 +25,8 @@ package com.jwcomptech.commons.base;
 import com.jwcomptech.commons.Condition;
 import lombok.Data;
 import lombok.Getter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -47,7 +49,7 @@ public class Validated implements Serializable {
     /**
      * Is true if the evaluation has been run.
      */
-    private boolean alreadyValidated;
+    private boolean validated;
     /**
      * The list of true validations
      * -- GETTER --
@@ -70,7 +72,7 @@ public class Validated implements Serializable {
      */
     public Validated() {
         valid = false;
-        alreadyValidated = false;
+        validated = false;
         trueValidations = new ArrayList<>();
         falseValidations = new ArrayList<>();
     }
@@ -90,7 +92,7 @@ public class Validated implements Serializable {
     public Validated evaluateAll() {
         boolean failure = false;
 
-        for(Condition condition : trueValidations) {
+        for(final Condition condition : trueValidations) {
             if(condition.evaluate().isResultFalse()) {
                 failure = true;
                 break;
@@ -98,7 +100,7 @@ public class Validated implements Serializable {
         }
 
         if(!failure) {
-            for (Condition condition : falseValidations) {
+            for (final Condition condition : falseValidations) {
                 if (condition.evaluate().isResultTrue()) {
                     failure = true;
                     break;
@@ -108,7 +110,7 @@ public class Validated implements Serializable {
 
         if(!failure) valid = true;
 
-        alreadyValidated = true;
+        validated = true;
 
         return this;
     }
@@ -119,7 +121,7 @@ public class Validated implements Serializable {
      * @return the result of all validations
      */
     public boolean isValid() {
-        if(!alreadyValidated) evaluateAll();
+        if(!validated) evaluateAll();
         return valid;
     }
 
@@ -152,7 +154,7 @@ public class Validated implements Serializable {
      * @param conditions one or more conditions to add
      * @return this instance
      */
-    public Validated addToTrue(Condition... conditions) {
+    public Validated addToTrue(final Condition... conditions) {
         this.trueValidations.addAll(List.of(conditions));
         return this;
     }
@@ -162,8 +164,29 @@ public class Validated implements Serializable {
      * @param conditions one or more conditions to add
      * @return this instance
      */
-    public Validated addToFalse(Condition... conditions) {
+    public Validated addToFalse(final Condition... conditions) {
         this.falseValidations.addAll(List.of(conditions));
         return this;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) return true;
+
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        final Validated that = (Validated) obj;
+
+        return new EqualsBuilder()
+                .append(valid, that.valid)
+                .append(validated, that.validated)
+                .append(trueValidations, that.trueValidations)
+                .append(falseValidations, that.falseValidations)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(valid).append(validated).append(trueValidations).append(falseValidations).toHashCode();
     }
 }

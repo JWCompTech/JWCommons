@@ -28,31 +28,21 @@ import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.ConsoleAppender;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @SuppressWarnings({"ClassWithTooManyMethods", "unused"})
+@Getter
+@AllArgsConstructor
+@ToString
 public enum Loggers {
     Root(new LoggerConfig("root")),
     RootPackage(new LoggerConfig("root")),
     ;
 
     private LoggerConfig config;
-
-    Loggers(final LoggerConfig config) {
-        this.config = config;
-    }
-
-    public LoggerConfig getConfig() {
-        return config;
-    }
-
-    /**
-     * Sets the config of the logger.
-     * @param config the config of the logger
-     */
-    public void setConfig(final LoggerConfig config) {
-        this.config = config;
-    }
 
     /**
      * Returns the name of the logger.
@@ -65,6 +55,7 @@ public enum Loggers {
     /**
      * Sets the name of the logger.
      * @param name the name of the logger
+     * @return this instance
      */
     public Loggers setName(final String name) {
         config = new LoggerConfig(name);
@@ -219,6 +210,7 @@ public enum Loggers {
      * @param name the name of the appender to remove
      * @return true if no errors occurred
      */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     public boolean removeAppender(final String name) {
         return config.removeAppender(name);
     }
@@ -228,6 +220,7 @@ public enum Loggers {
      * @param appender the appender to remove
      * @return true if no errors occurred
      */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     public boolean removeAppender(final Appender<ILoggingEvent> appender) {
         return config.removeAppender(appender);
     }
@@ -265,12 +258,5 @@ public enum Loggers {
      */
     public Logger getLogger() {
         return config.getLogger();
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("config", config)
-                .toString();
     }
 }

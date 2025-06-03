@@ -22,7 +22,12 @@ package com.jwcomptech.commons.utils.osutils.windows.pshell;
  * #L%
  */
 
+import java.io.Serial;
+
 public class PowerShellParserErrorException extends PowerShellException {
+    @Serial
+    private static final long serialVersionUID = -4657188136551507965L;
+
     public PowerShellParserErrorException() { }
 
     public PowerShellParserErrorException(final String message) {

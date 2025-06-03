@@ -25,10 +25,6 @@ package com.jwcomptech.commons.tuples;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -44,8 +40,8 @@ public class MutablePair<L, R> extends Pair<L, R> {
     public static final MutablePair<?, ?>[] EMPTY_ARRAY = new MutablePair[0];
     @Serial
     private static final long serialVersionUID = 4954918890077093841L;
-    public L left;
-    public R right;
+    private L left;
+    private R right;
 
     @SuppressWarnings("unchecked")
     public static <L, R> MutablePair<L, R>[] emptyArray() {
@@ -53,15 +49,15 @@ public class MutablePair<L, R> extends Pair<L, R> {
     }
 
     @Contract("_, _ -> new")
-    public static <L, R> @NotNull MutablePair<L, R> of(L left, R right) {
+    public static <L, R> @NotNull MutablePair<L, R> of(final L left, final R right) {
         return new MutablePair<>(left, right);
     }
 
     @Contract("_ -> new")
-    public static <L, R> @NotNull MutablePair<L, R> of(Map.Entry<L, R> pair) {
-        L left;
-        R right;
-        if (null != pair) {
+    public static <L, R> @NotNull MutablePair<L, R> of(final Map.Entry<L, R> pair) {
+        final L left;
+        final R right;
+        if (pair != null) {
             left = pair.getKey();
             right = pair.getValue();
         } else {
@@ -73,12 +69,12 @@ public class MutablePair<L, R> extends Pair<L, R> {
     }
 
     @Contract("_, _ -> new")
-    public static <L, R> @NotNull MutablePair<L, R> ofNonNull(L left, R right) {
+    public static <L, R> @NotNull MutablePair<L, R> ofNonNull(final L left, final R right) {
         return of(Objects.requireNonNull(left, "left"), Objects.requireNonNull(right, "right"));
     }
 
-    public R setValue(R value) {
-        R result = this.right;
+    public R setValue(final R value) {
+        final R result = this.right;
         this.right = value;
         return result;
     }

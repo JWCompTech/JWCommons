@@ -22,7 +22,7 @@ package com.jwcomptech.commons.functions;
  * #L%
  */
 
-import com.jwcomptech.commons.functions.tuples.Tuple1;
+import com.jwcomptech.commons.tuples.Tuple1;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import org.jetbrains.annotations.Contract;
@@ -32,6 +32,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -67,7 +68,7 @@ public interface Function1<T1, R> extends Serializable, Function<T1, R> {
      * @return a function always returning the given value
      */
     @Contract(pure = true)
-    static <T1, R> @NotNull Function1<T1, R> constant(R value) {
+    static <T1, R> @NotNull Function1<T1, R> constant(final R value) {
         return (t1) -> value;
     }
 
@@ -105,7 +106,7 @@ public interface Function1<T1, R> extends Serializable, Function<T1, R> {
      * @param <T1> 1st argument
      * @return a {@code Function1}
      */
-    static <T1, R> Function1<T1, R> of(Function1<T1, R> methodReference) {
+    static <T1, R> Function1<T1, R> of(final Function1<T1, R> methodReference) {
         return methodReference;
     }
 
@@ -119,7 +120,7 @@ public interface Function1<T1, R> extends Serializable, Function<T1, R> {
      *         if the function is defined for the given arguments, and {@code None} otherwise.
      */
     @Contract(pure = true)
-    static <T1, R> @NotNull Function1<T1, Option<R>> lift(Function<? super T1, ? extends R> partialFunction) {
+    static <T1, R> @NotNull Function1<T1, Option<R>> lift(final Function<? super T1, ? extends R> partialFunction) {
         return t1 -> Try.<R>of(() -> partialFunction.apply(t1)).toOption();
     }
 
@@ -133,21 +134,21 @@ public interface Function1<T1, R> extends Serializable, Function<T1, R> {
      *         if the function is defined for the given arguments, and {@code Failure(throwable)} otherwise.
      */
     @Contract(pure = true)
-    static <T1, R> @NotNull Function1<T1, Try<R>> liftTry(Function<? super T1, ? extends R> partialFunction) {
+    static <T1, R> @NotNull Function1<T1, Try<R>> liftTry(final Function<? super T1, ? extends R> partialFunction) {
         return t1 -> Try.of(() -> partialFunction.apply(t1));
     }
 
     /**
      * Narrows the given {@code Function1<? super T1, ? extends R>} to {@code Function1<T1, R>}
      *
-     * @param f A {@code Function1}
+     * @param function A {@code Function1}
      * @param <R> return type
      * @param <T1> 1st argument
      * @return the given {@code f} instance as narrowed type {@code Function1<T1, R>}
      */
     @SuppressWarnings("unchecked")
-    static <T1, R> Function1<T1, R> narrow(Function1<? super T1, ? extends R> f) {
-        return (Function1<T1, R>) f;
+    static <T1, R> Function1<T1, R> narrow(final Function1<? super T1, ? extends R> function) {
+        return (Function1<T1, R>) function;
     }
 
     /**
@@ -175,6 +176,7 @@ public interface Function1<T1, R> extends Serializable, Function<T1, R> {
      * @return an int value &gt;= 0
      * @see <a href="http://en.wikipedia.org/wiki/Arity">Arity</a>
      */
+    @SuppressWarnings("SameReturnValue")
     default int arity() {
         return 1;
     }
@@ -194,7 +196,7 @@ public interface Function1<T1, R> extends Serializable, Function<T1, R> {
      * @return a tupled function equivalent to this.
      */
     default Function1<Tuple1<T1>, R> tupled() {
-        return t -> apply(t._1);
+        return t -> apply(t._1());
     }
 
     /**
@@ -219,7 +221,7 @@ public interface Function1<T1, R> extends Serializable, Function<T1, R> {
             return this;
         } else {
             final Map<T1, R> cache = new HashMap<>();
-            final ReentrantLock lock = new ReentrantLock();
+            final Lock lock = new ReentrantLock();
             //noinspection OverlyLongLambda
             return (Function1<T1, R> & Memoized) (t1) -> {
                 lock.lock();
@@ -250,7 +252,7 @@ public interface Function1<T1, R> extends Serializable, Function<T1, R> {
 
     /**
      * Converts this {@code Function1} to a {@link PartialFunction} by adding an {@code isDefinedAt} condition.
-     * <p>
+     *
      * @param isDefinedAt a predicate that states if an element is in the domain of
      *                    the returned {@code PartialFunction}.
      * @return a new {@code PartialFunction} that has the same behavior as this function
@@ -258,7 +260,7 @@ public interface Function1<T1, R> extends Serializable, Function<T1, R> {
      * @throws IllegalArgumentException if {@code isDefinedAt} is null
      */
     @SuppressWarnings("ClassReferencesSubclass")
-    default PartialFunction<T1, R> partial(Predicate<? super T1> isDefinedAt) {
+    default PartialFunction<T1, R> partial(final Predicate<? super T1> isDefinedAt) {
         checkArgumentNotNull(isDefinedAt, cannotBeNull("isDefinedAt"));
         final Function1<T1, R> self = this;
         //noinspection AnonymousInnerClassWithTooManyMethods
@@ -268,12 +270,12 @@ public interface Function1<T1, R> extends Serializable, Function<T1, R> {
             private static final long serialVersionUID = -9210503878499495959L;
 
             @Override
-            public boolean isDefinedAt(T1 t1) {
+            public boolean isDefinedAt(final T1 t1) {
                 return isDefinedAt.test(t1);
             }
 
             @Override
-            public R apply(T1 t1) {
+            public R apply(final T1 t1) {
                 return self.apply(t1);
             }
         };
@@ -288,7 +290,7 @@ public interface Function1<T1, R> extends Serializable, Function<T1, R> {
      * @return a function composed of this and after
      * @throws IllegalArgumentException if {@code after} is null
      */
-    default <V> @NotNull Function1<T1, V> andThen(@NotNull Function<? super R, ? extends V> after) {
+    default <V> @NotNull Function1<T1, V> andThen(@NotNull final Function<? super R, ? extends V> after) {
         checkArgumentNotNull(after, cannotBeNull("after"));
         return (t1) -> after.apply(apply(t1));
     }
@@ -302,7 +304,7 @@ public interface Function1<T1, R> extends Serializable, Function<T1, R> {
      * @return a function composed of before and this
      * @throws IllegalArgumentException if {@code before} is null
      */
-    default <V> @NotNull Function1<V, R> compose(@NotNull Function<? super V, ? extends T1> before) {
+    default <V> @NotNull Function1<V, R> compose(@NotNull final Function<? super V, ? extends T1> before) {
         checkArgumentNotNull(before, cannotBeNull("before"));
         return v -> apply(before.apply(v));
     }
