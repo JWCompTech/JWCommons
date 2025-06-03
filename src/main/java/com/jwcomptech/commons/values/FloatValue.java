@@ -29,8 +29,8 @@ import java.io.Serial;
 
 import static com.jwcomptech.commons.Literals.cannotBeNull;
 import static com.jwcomptech.commons.Literals.cannotBeNullOrEmpty;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNull;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNullOrEmpty;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNull;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNullOrEmpty;
 
 /**
  * Provides mutable access to an {@link Float}.

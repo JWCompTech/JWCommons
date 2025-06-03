@@ -26,7 +26,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import static com.jwcomptech.commons.Literals.cannotBeNull;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNull;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNull;
 
 /**
  * Contains methods for dealing with exceptions.

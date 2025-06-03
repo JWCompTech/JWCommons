@@ -33,7 +33,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNull;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNull;
 
 /**
  * A base object to easily add validations to any class.
@@ -93,7 +93,7 @@ public class Validated implements Serializable {
         boolean failure = false;
 
         for(final Condition condition : trueValidations) {
-            if(condition.evaluate().isResultFalse()) {
+            if(condition.evaluate().hasEvaluatedFalse()) {
                 failure = true;
                 break;
             }
@@ -101,7 +101,7 @@ public class Validated implements Serializable {
 
         if(!failure) {
             for (final Condition condition : falseValidations) {
-                if (condition.evaluate().isResultTrue()) {
+                if (condition.evaluate().hasEvaluatedTrue()) {
                     failure = true;
                     break;
                 }

@@ -43,7 +43,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import static com.jwcomptech.commons.Literals.cannotBeNull;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNull;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNull;
 
 /**
  * Represents a function with two arguments.

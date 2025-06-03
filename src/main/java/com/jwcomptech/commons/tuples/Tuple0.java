@@ -33,7 +33,7 @@ import java.util.Comparator;
 import java.util.function.Supplier;
 
 import static com.jwcomptech.commons.Literals.cannotBeNull;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNull;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNull;
 
 /**
  * A tuple of no elements which can be seen as cartesian product of no components.

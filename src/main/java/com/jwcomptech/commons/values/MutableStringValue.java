@@ -44,8 +44,8 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static com.jwcomptech.commons.Literals.*;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNull;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNullOrEmpty;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNull;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNullOrEmpty;
 import static org.apache.commons.lang3.StringUtils.stripEnd;
 import static org.apache.commons.lang3.StringUtils.stripStart;
 

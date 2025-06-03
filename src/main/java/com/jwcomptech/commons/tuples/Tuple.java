@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import static com.jwcomptech.commons.Literals.cannotBeNull;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNull;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNull;
 
 /**
  * The base interface of all tuples.

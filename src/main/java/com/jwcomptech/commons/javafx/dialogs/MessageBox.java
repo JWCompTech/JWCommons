@@ -113,7 +113,7 @@ public final class MessageBox {
                     () -> dialogResult.set(DialogResult.NONE)
             );
 
-            Condition.of(() -> dialogResult.get() != null).waitTillTrue();
+            Condition.of(() -> dialogResult.get() != null).waitTillEvalTrue();
         };
 
         runLaterCheck(runnable);

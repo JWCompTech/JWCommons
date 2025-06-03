@@ -38,8 +38,8 @@ import java.util.stream.IntStream;
 
 import static com.jwcomptech.commons.Literals.*;
 import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNull;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNullOrEmpty;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNull;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNullOrEmpty;
 import static org.apache.commons.lang3.StringUtils.stripEnd;
 import static org.apache.commons.lang3.StringUtils.stripStart;
 
@@ -712,6 +712,19 @@ public final class StringUtils {
     public static boolean isBlank(final CharSequence input) {
         return (input == null || input.isEmpty())
                 || IntStream.range(0, input.length())
+                .allMatch(i -> Character.isWhitespace(input.charAt(i)));
+    }
+
+    /**
+     * <p>Checks if a CharSequence is NOT empty (""), null or whitespace only.</p>
+     * <p>Whitespace is defined by {@link Character#isWhitespace(char)}.</p>
+     *
+     * @param input the CharSequence to check, may be null
+     * @return {@code true} if input is NOT null, empty or whitespace only
+     */
+    public static boolean isNotBlank(final CharSequence input) {
+        return input != null && !input.isEmpty()
+                && !IntStream.range(0, input.length())
                 .allMatch(i -> Character.isWhitespace(input.charAt(i)));
     }
 

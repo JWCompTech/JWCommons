@@ -34,7 +34,7 @@ import java.util.stream.Stream;
 
 import static com.jwcomptech.commons.Literals.cannotBeNull;
 import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNull;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNull;
 
 /**
  * Contains methods for dealing with collections.

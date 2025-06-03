@@ -47,7 +47,7 @@ import static com.jwcomptech.commons.Literals.cannotBeNull;
 import static com.jwcomptech.commons.Literals.cannotBeNullOrEmpty;
 import static com.jwcomptech.commons.info.OSInfo.*;
 import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
-import static com.jwcomptech.commons.validators.CheckIf.*;
+import static com.jwcomptech.commons.validators.Preconditions.*;
 
 /**
  * Returns extended information about the current Windows installation.

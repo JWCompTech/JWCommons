@@ -30,10 +30,9 @@ import ch.qos.logback.core.ConsoleAppender;
 import ch.qos.logback.core.encoder.Encoder;
 import com.jwcomptech.commons.Literals;
 import lombok.Value;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.jetbrains.annotations.NotNull;
 
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNullOrEmpty;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNullOrEmpty;
 import static com.jwcomptech.commons.utils.StringUtils.isBlank;
 
 /**

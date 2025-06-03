@@ -32,7 +32,7 @@ import java.lang.constant.DynamicConstantDesc;
 import java.util.Optional;
 
 import static com.jwcomptech.commons.Literals.cannotBeNullOrEmpty;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNull;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNull;
 
 /**
  * Provides immutable access to a {@link Boolean}.

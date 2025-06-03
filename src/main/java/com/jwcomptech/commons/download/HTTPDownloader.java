@@ -46,8 +46,9 @@ import java.util.function.Supplier;
 
 import static com.jwcomptech.commons.Literals.cannotBeNull;
 import static com.jwcomptech.commons.download.DLStatus.*;
-import static com.jwcomptech.commons.validators.CheckIf.*;
 import static com.jwcomptech.commons.utils.Parse.convertBytesToString;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNull;
+import static com.jwcomptech.commons.validators.Preconditions.isBoolean;
 
 /**
  * Uses the {@link java.net.HttpURLConnection} class to download files.
@@ -408,16 +409,16 @@ public class HTTPDownloader extends Validated implements AutoCloseable, Runnable
             }
             case 400 -> error("Bad Request!");
             case 401 ->
-                    error(github.isResultTrue() ? "GitHub API Bad Credentials!" : "Unauthorized Or Bad Credentials!");
+                    error(github.hasEvaluatedTrue() ? "GitHub API Bad Credentials!" : "Unauthorized Or Bad Credentials!");
             case 403 -> {
-                if (github.isResultTrue()) {
+                if (github.hasEvaluatedTrue()) {
                     error("GitHub API Rate Limit Reached!");
                     throw new IllegalStateException("GitHub API Rate Limit Reached!");
                 }
                 error("Forbidden!");
             }
             case 404 -> {
-                if (github.isResultTrue()) {
+                if (github.hasEvaluatedTrue()) {
                     final String message = getHTTPErrorMessage();
 
                     error(message.contains("Not Found") ? "GitHub Page Not Found!" : "GitHub API: " + message);

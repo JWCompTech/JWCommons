@@ -33,16 +33,14 @@ import javafx.scene.control.Dialog;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import lombok.Data;
-import lombok.SneakyThrows;
 import lombok.Value;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
 import java.util.Optional;
 
 import static com.jwcomptech.commons.Literals.cannotBeNullOrEmpty;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNull;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNullOrEmpty;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNull;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNullOrEmpty;
 
 /**
  * Loads a dialog using the specified JavaFX fxml file.

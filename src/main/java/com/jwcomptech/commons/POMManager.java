@@ -38,7 +38,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static com.jwcomptech.commons.Literals.cannotBeNullOrEmpty;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNullOrEmpty;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNullOrEmpty;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @EqualsAndHashCode

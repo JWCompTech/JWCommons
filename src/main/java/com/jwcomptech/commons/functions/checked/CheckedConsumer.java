@@ -25,7 +25,7 @@ package com.jwcomptech.commons.functions.checked;
 import java.util.function.Consumer;
 
 import static com.jwcomptech.commons.Literals.cannotBeNull;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNull;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNull;
 
 /**
  * A consumer that may throw, equivalent to {@linkplain Consumer}.

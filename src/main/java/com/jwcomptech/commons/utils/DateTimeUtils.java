@@ -40,7 +40,7 @@ import java.util.function.Supplier;
 
 import static com.jwcomptech.commons.Literals.cannotBeNullOrEmpty;
 import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNullOrEmpty;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNullOrEmpty;
 
 /**
  * Contains methods and objects for dealing with date and time.

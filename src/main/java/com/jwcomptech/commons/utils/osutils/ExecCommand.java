@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
 import static com.jwcomptech.commons.Literals.NEW_LINE;
 import static com.jwcomptech.commons.Literals.cannotBeNullOrEmpty;
 import static com.jwcomptech.commons.info.os.WindowsOSEx.WMI.getEnvironmentVar;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNullOrEmpty;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNullOrEmpty;
 import static com.jwcomptech.commons.utils.FileUtils.writeStringToFile;
 import static java.nio.charset.StandardCharsets.UTF_8;
 

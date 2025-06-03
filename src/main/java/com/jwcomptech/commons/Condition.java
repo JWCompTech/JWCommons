@@ -23,7 +23,9 @@ package com.jwcomptech.commons;
  */
 
 import com.jwcomptech.commons.functions.Function1;
-import lombok.*;
+import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,7 +34,7 @@ import java.util.function.Supplier;
 
 import static com.jwcomptech.commons.Literals.cannotBeNull;
 import static com.jwcomptech.commons.utils.DateTimeUtils.waitTime;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNull;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNull;
 
 /**
  * An object that can be used to lazily evaluate boolean expressions.
@@ -42,7 +44,6 @@ import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNull;
 @SuppressWarnings("unused")
 @Data
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Condition {
     /**
      * The evaluation to evaluate.
@@ -59,6 +60,7 @@ public final class Condition {
 
     /**
      * Creates a new Condition instance with the specified evaluation.
+     *
      * @param evaluation a boolean supplier that provides the evaluation condition
      * @return a new Condition instance
      */
@@ -73,32 +75,46 @@ public final class Condition {
 
     /**
      * Returns true if the result evaluated to true.
-     * @return true if the result evaluated to true
+     *
+     * @return true if the result evaluated to true, false otherwise
      */
-    @SuppressWarnings("SuspiciousGetterSetter")
-    public boolean isResultTrue() {
+    public boolean hasEvaluatedTrue() {
         return result;
     }
 
     /**
      * Returns true if the result evaluated to false.
-     * @return true if the result evaluated to false
+     *
+     * @return true if the result evaluated to false, true otherwise
      */
-    public boolean isResultFalse() {
+    public boolean hasEvaluatedFalse() {
         return !result;
     }
 
     /**
      * Returns the result of the evaluation.
+     *
      * @return the result of the evaluation
      */
-    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     public boolean getResult() {
         return result;
     }
 
     /**
+     * Returns the evaluation status.
+     *
+     * @return true if condition has been evaluated, false otherwise
+     */
+    public boolean hasBeenEvaluated() {
+        return evaluated;
+    }
+
+    /**
      * Evaluates the condition and stores the result.
+     *
+     * @apiNote Subsequent calls do not reevaluate the condition.
+     * To do this call {@link Condition#reevaluate()} instead.
+     *
      * @return this instance
      */
     public Condition evaluate() {
@@ -113,6 +129,7 @@ public final class Condition {
 
     /**
      * Reevaluates the condition and stores the result.
+     *
      * @return this instance
      */
     public Condition reevaluate() {
@@ -124,12 +141,21 @@ public final class Condition {
     }
 
     /**
-     * If this condition evaluated to true, runs the specified runnable
+     * Does a full reset on the evaluation result.
+     */
+    public void reset() {
+        result = false;
+        evaluated = false;
+    }
+
+    /**
+     * If this condition evaluated to true, runs the specified runnable.
+     *
      * @param action the runnable to run if evaluation result is true
      * @throws IllegalStateException if the condition has not yet been evaluated
      * @throws IllegalArgumentException if action is null
      */
-    public void ifTrue(@NotNull final Runnable action) {
+    public void ifEvalTrue(@NotNull final Runnable action) {
         checkArgumentNotNull(action, cannotBeNull("action"));
         if(!evaluated) throw new IllegalStateException("Evaluation not run");
         if(result) action.run();
@@ -138,6 +164,7 @@ public final class Condition {
     /**
      * If this condition evaluated to true, applies the specified reference
      * to the specified transform function.
+     *
      * @param <T> the type of the reference to transform
      * @param <R> the return type of the transform function
      * @param reference the object to transform if the condition evaluated to true
@@ -148,8 +175,8 @@ public final class Condition {
      * @throws IllegalStateException if the condition has not yet been evaluated
      * @throws IllegalArgumentException if reference or transformFunction is null
      */
-    public <T, R> R ifTrueTransform(final T reference,
-                                    final Function1<T, R> transformFunction) {
+    public <T, R> R ifEvalTrueTransform(final T reference,
+                                        final Function1<T, R> transformFunction) {
         checkArgumentNotNull(reference, cannotBeNull("reference"));
         checkArgumentNotNull(transformFunction, cannotBeNull("transformFunction"));
         if(!evaluated) throw new IllegalStateException("Evaluation not run");
@@ -161,12 +188,13 @@ public final class Condition {
     }
 
     /**
-     * If this condition evaluated to false, runs the specified runnable
+     * If this condition evaluated to false, runs the specified runnable.
+     *
      * @param action the runnable to run if evaluation result is false
      * @throws IllegalStateException if the condition has not yet been evaluated
      * @throws IllegalArgumentException if action is null
      */
-    public void ifFalse(@NotNull final Runnable action) {
+    public void ifEvalFalse(@NotNull final Runnable action) {
         checkArgumentNotNull(action, cannotBeNull("action"));
         if(!evaluated) throw new IllegalStateException("Evaluation not run");
         if(!result) action.run();
@@ -175,6 +203,7 @@ public final class Condition {
     /**
      * If this condition evaluated to false, applies the specified reference
      * to the specified transform function.
+     *
      * @param <T> the type of the reference to transform
      * @param <R> the return type of the transform function
      * @param reference the object to transform if the condition evaluated to false
@@ -185,8 +214,8 @@ public final class Condition {
      * @throws IllegalStateException if the condition has not yet been evaluated
      * @throws IllegalArgumentException if reference or transformFunction is null
      */
-    public <T, R> R ifFalseTransform(final T reference,
-                                 final Function1<T, R> transformFunction) {
+    public <T, R> R ifEvalFalseTransform(final T reference,
+                                         final Function1<T, R> transformFunction) {
         checkArgumentNotNull(reference, cannotBeNull("reference"));
         checkArgumentNotNull(transformFunction, cannotBeNull("transformFunction"));
         if(!evaluated) throw new IllegalStateException("Evaluation not run");
@@ -200,8 +229,57 @@ public final class Condition {
     /**
      * Blocks the current thread until the condition evaluates to true.
      */
-    public void waitTillTrue() {
-        while(isResultFalse()) {
+    public void waitTillEvalTrue() {
+        while(hasEvaluatedFalse()) {
+            waitTime(TimeUnit.MILLISECONDS, 100);
+            evaluate();
+        }
+    }
+
+    /**
+     * Blocks the current thread until the condition evaluates to true.
+     *
+     * @param interval the time to wait
+     * @param unit the unit of time to wait
+     */
+    public void waitTillEvalTrue(final long interval, final TimeUnit unit) {
+        checkArgumentNotNull(interval, cannotBeNull("interval"));
+        checkArgumentNotNull(unit, cannotBeNull("unit"));
+        while(hasEvaluatedFalse()) {
+            waitTime(unit, interval);
+            evaluate();
+        }
+    }
+
+    /**
+     * Blocks the current thread until the condition evaluates to true
+     * and quits if the specified timeout is reached.
+     *
+     * @param timeout the timeout interval
+     * @param unit the unit of time to wait
+     * @return true if the timeout wasn't reached, false otherwise
+     */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
+    public boolean waitTillEvalTrueWithTimeout(final long timeout, final TimeUnit unit) {
+        checkArgumentNotNull(timeout, cannotBeNull("interval"));
+        checkArgumentNotNull(unit, cannotBeNull("unit"));
+
+        final long start = System.nanoTime();
+        final long timeoutNs = unit.toNanos(timeout);
+        while(hasEvaluatedTrue()) {
+            if(System.nanoTime() - start >= timeoutNs) return false;
+            waitTime(TimeUnit.MILLISECONDS, 100);
+            evaluate();
+        }
+
+        return true;
+    }
+
+    /**
+     * Blocks the current thread until the condition evaluates to false.
+     */
+    public void waitTillEvalFalse() {
+        while(hasEvaluatedTrue()) {
             waitTime(TimeUnit.MILLISECONDS, 100);
             evaluate();
         }
@@ -209,12 +287,40 @@ public final class Condition {
 
     /**
      * Blocks the current thread until the condition evaluates to false.
+     *
+     * @param interval the time to wait
+     * @param unit the unit of time to wait
      */
-    @SuppressWarnings("CallToSimpleGetterFromWithinClass")
-    public void waitTillFalse() {
-        while(isResultTrue()) {
+    public void waitTillEvalFalse(final long interval, final TimeUnit unit) {
+        checkArgumentNotNull(interval, cannotBeNull("interval"));
+        checkArgumentNotNull(unit, cannotBeNull("unit"));
+        while(hasEvaluatedTrue()) {
+            waitTime(unit, interval);
+            evaluate();
+        }
+    }
+
+    /**
+     * Blocks the current thread until the condition evaluates to false
+     * and quits if the specified timeout is reached.
+     *
+     * @param timeout the timeout interval
+     * @param unit the unit of time to wait
+     * @return true if the timeout wasn't reached, false otherwise
+     */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
+    public boolean waitTillEvalFalseWithTimeout(final long timeout, final TimeUnit unit) {
+        checkArgumentNotNull(timeout, cannotBeNull("interval"));
+        checkArgumentNotNull(unit, cannotBeNull("unit"));
+
+        final long start = System.nanoTime();
+        final long timeoutNs = unit.toNanos(timeout);
+        while(hasEvaluatedFalse()) {
+            if(System.nanoTime() - start >= timeoutNs) return false;
             waitTime(TimeUnit.MILLISECONDS, 100);
             evaluate();
         }
+
+        return true;
     }
 }

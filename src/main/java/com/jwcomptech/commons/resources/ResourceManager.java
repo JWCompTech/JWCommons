@@ -37,8 +37,8 @@ import java.util.*;
 
 import static com.jwcomptech.commons.Literals.cannotBeNull;
 import static com.jwcomptech.commons.Literals.cannotBeNullOrEmpty;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNull;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNullOrEmpty;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNull;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNullOrEmpty;
 
 /**
  * A resource manager for managing resources in the project "resources" directory.

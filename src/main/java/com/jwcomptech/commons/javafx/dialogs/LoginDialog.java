@@ -63,7 +63,7 @@ public final class LoginDialog {
     private LoginDialog() {
         ifFxThreadElseCheck(() -> dialog.set(new LoginDialogImpl(warningText, redText)),
                 () -> {},
-                () -> Condition.of(() -> dialog.get() != null).waitTillTrue()
+                () -> Condition.of(() -> dialog.get() != null).waitTillEvalTrue()
         );
     }
 
@@ -80,7 +80,7 @@ public final class LoginDialog {
         final var result = new SimpleObjectProperty<Optional<Pair<String, String>>>();
         ifFxThreadElseCheck(() -> result.set(dialog.get().showAndWait()),
                 () -> {},
-                () -> Condition.of(() -> result.get().isPresent()).waitTillTrue()
+                () -> Condition.of(() -> result.get().isPresent()).waitTillEvalTrue()
         );
 
         return result.get();
@@ -203,7 +203,7 @@ public final class LoginDialog {
 
             ifFxThreadElseCheck(() -> newDialog.dialog.set(new LoginDialogImpl(warningText, redText)),
                     () -> {},
-                    () -> Condition.of(() -> newDialog.getDialog() != null).waitTillTrue()
+                    () -> Condition.of(() -> newDialog.getDialog() != null).waitTillEvalTrue()
             );
 
             if(title != null && !title.isBlank()) {

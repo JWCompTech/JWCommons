@@ -27,7 +27,7 @@ import java.nio.file.FileSystems;
 import java.util.Locale;
 
 import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedExForUtilityCls;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNull;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNull;
 import static com.jwcomptech.commons.utils.StringUtils.uppercaseFirst;
 
 /**

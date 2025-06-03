@@ -35,7 +35,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 import static com.jwcomptech.commons.Literals.cannotBeNull;
-import static com.jwcomptech.commons.validators.CheckIf.checkArgumentNotNull;
+import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNull;
 
 /**
  * A tuple of three elements which can be seen as cartesian product of three components.
