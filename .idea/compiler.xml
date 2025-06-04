@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <option name="BUILD_PROCESS_ADDITIONAL_VM_OPTIONS" value="--module-path %PATH_TO_FX% --add-modules javafx.controls,javafx.fxml" />
     <annotationProcessing>
-      <profile default="true" name="Default" enabled="true" />
       <profile name="Annotation profile for JWCT Commons" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -93,13 +91,20 @@
           <entry name="$MAVEN_REPOSITORY$/com/google/flogger/flogger/0.7.4/flogger-0.7.4.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
         </processorPath>
-        <module name="jwct-commons" />
+        <module name="jwct.commons.mavenbridge" />
+        <module name="jwct.commons.javafx" />
+        <module name="jwct.commons.demo" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="jwct-commons" options="-parameters -Xlint:unchecked -XDcompilePolicy=simple --should-stop=ifError=FLOW -Xplugin:ErrorProne" />
+      <module name="jwct.commons" options="-parameters -Xlint:unchecked -XDcompilePolicy=simple --should-stop=ifError=FLOW -Xplugin:ErrorProne" />
+      <module name="jwct.commons.core" options="-parameters -Xlint:unchecked -XDcompilePolicy=simple --should-stop=ifError=FLOW -Xplugin:ErrorProne" />
+      <module name="jwct.commons.demo" options="-parameters -Xlint:unchecked -XDcompilePolicy=simple --should-stop=ifError=FLOW -Xplugin:ErrorProne" />
+      <module name="jwct.commons.javafx" options="-parameters -Xlint:unchecked -XDcompilePolicy=simple --should-stop=ifError=FLOW -Xplugin:ErrorProne" />
+      <module name="jwct.commons.mavenbridge" options="-parameters -Xlint:unchecked -XDcompilePolicy=simple --should-stop=ifError=FLOW -Xplugin:ErrorProne" />
+      <module name="jwct.commons.test" options="-parameters -Xlint:unchecked -XDcompilePolicy=simple --should-stop=ifError=FLOW -Xplugin:ErrorProne" />
     </option>
   </component>
 </project>
