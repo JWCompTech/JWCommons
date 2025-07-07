@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.jwcomptech.commons.javafx.wizard.controllers.LoginPageController"
+      spacing="10" alignment="CENTER" prefWidth="400" prefHeight="300">
+
+    <Label text="Username" />
+    <TextField fx:id="usernameField" promptText="Enter your username" />
+
+    <Label text="Password" />
+    <PasswordField fx:id="passwordField" promptText="Enter your password" />
+
+    <Label fx:id="errorLabel" text="Password" />
+
+    <CheckBox fx:id="acceptLicenseCheckBox"
+              text="I accept the terms of the software license agreement." />
+
+    <Hyperlink fx:id="viewLicenseLink" text="View license agreement" />
+</VBox>
+

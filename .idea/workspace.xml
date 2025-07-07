@@ -4,220 +4,295 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3259777e-e545-45c6-b906-6830bc8737fd" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jwct.commons.core/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/consts/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/internal/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/module-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jwct.commons.demo/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jwct.commons.demo/src/main/java/com/jwcomptech/commons/demo/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jwct.commons.demo/src/main/java/module-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jwct.commons.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jwct.commons.javafx.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jwct.commons.javafx/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/module-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jwct.commons.mavenbridge/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jwct.commons.mavenbridge/src/main/java/com/jwcomptech/commons/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jwct.commons.test.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jwct.commons.test/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jwct.commons.test/src/main/java/module-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jwct.mavenbridge.iml" afterDir="false" />
+    <list default="true" id="a7fe6eb2-17df-4bf2-9d65-017b03724fd5" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/actions/Action.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/annotations/FeatureComplete.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/base/Actionable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/consts/Numbers.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/FXData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/FXEventType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/FXMLEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/HeadlessFX.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/controls/FXButton.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/controls/FXButtonTypeGroup.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/controls/FXControls.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/controls/FXPaneType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/controls/locations/AnchorPaneNodeLocation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/controls/locations/BorderPaneNodeLocation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/controls/locations/BorderPanePosition.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/controls/locations/GridPaneNodeLocation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/controls/locations/NodeLocation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/dialogs/DialogButton.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/dialogs/DialogPaneBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/dialogs/DialogResult.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/dialogs/FXDialog.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/dialogs/FXMLDialog.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/ServerInstallWizard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/base/AbstractWizard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/base/AbstractWizardPageController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/base/WizardContext.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/base/WizardNavigator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/base/WizardPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/base/WizardPageLoader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/controllers/FinishPageController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/controllers/LocationValidationErrorPageController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/controllers/LoginPageController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/controllers/ReviewPageController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/controllers/StartInstallPageController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/controllers/WelcomePageController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/controllers/selectorpages/SelectCompanyPageController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/controllers/selectorpages/SelectFeaturesPageController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/controllers/selectorpages/SelectInstallLocationPageController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/controllers/selectorpages/SelectLicensePageController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/controllers/selectorpages/SelectLogAndDataPathsPageController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/controllers/selectorpages/SelectOptionalSettingsPageController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/controllers/selectorpages/SelectRegionAndLocationPageController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/controllers/selectorpages/SelectRolesPageController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/data/Company.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/data/Location.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/data/Region.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/enums/WizardPages.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/services/CompanyService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/wizard/services/RegionService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/resources/Resource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/resources/enums/Builtin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/resources/enums/ResourceExtension.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/resources/enums/ResourceType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fxml/LoginPage.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/jwcomptech/commons/javafx/FXControlsTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/jwcomptech/commons/javafx/dialogs/DialogResultTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/jwcomptech/commons/javafx/dialogs/FXDataTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/jwcomptech/commons/javafx/dialogs/MessageBoxTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codestream.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dictionaries/project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/easycode.ignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/easycode/codebase-v2.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jwct-commons.iml" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/jvm.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/JWCT-Commons.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/jwct.commons.core.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/annotations/Beta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/annotations/Beta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/annotations/VisibleForTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/annotations/VisibleForTesting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/annotations/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/annotations/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/base/Validated.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/base/Validated.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/base/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/base/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/consts/Consts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/consts/Consts.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/consts/Literals.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/consts/Literals.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/consts/package-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/download/DLStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/download/DLStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/download/DownloadManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/download/DownloadManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/download/HTTPDownloader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/download/HTTPDownloader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/download/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/download/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/enums/BaseEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/enums/BaseEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/enums/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/enums/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/events/ActionEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/events/ActionEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/events/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/events/Event.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/events/EventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/events/EventHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/events/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/events/EventManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/events/EventTarget.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/events/EventTarget.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/events/EventType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/events/EventType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/events/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/events/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/exceptions/ExceptionUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/exceptions/ExceptionUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/exceptions/ParseException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/exceptions/ParseException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/exceptions/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/exceptions/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/Function0.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/Function0.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/Function1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/Function1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/Function2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/Function2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/Function3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/Function3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/Function4.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/Function4.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/Lazy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/Lazy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/Memoized.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/Memoized.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/PartialFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/PartialFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/checked/CheckedConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/checked/CheckedConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/checked/CheckedFunction0.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/checked/CheckedFunction0.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/checked/CheckedFunction1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/checked/CheckedFunction1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/checked/CheckedFunction2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/checked/CheckedFunction2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/checked/CheckedFunction3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/checked/CheckedFunction3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/checked/CheckedFunction4.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/checked/CheckedFunction4.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/checked/CheckedPredicate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/checked/CheckedPredicate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/checked/CheckedRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/checked/CheckedRunnable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/checked/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/checked/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/AbstractOperatingSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/AbstractOperatingSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/ComputerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/ComputerInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/HWInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/HWInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/OS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/OS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/OSInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/OSInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/OperatingSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/OperatingSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/Version.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/Version.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/enums/OSList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/enums/OSList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/enums/OSType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/enums/OSType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/enums/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/enums/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/os/AndroidOS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/os/AndroidOS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/os/FreeBSDOS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/os/FreeBSDOS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/os/LinuxOS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/os/LinuxOS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/os/MacOS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/os/MacOS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/os/SolarisOS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/os/SolarisOS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/os/UnknownOS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/os/UnknownOS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/os/WindowsOS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/os/WindowsOS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/os/WindowsOSEx.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/os/WindowsOSEx.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/os/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/os/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/interfaces/Buildable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/interfaces/Buildable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/interfaces/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/interfaces/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/internal/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/internal/Settings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/internal/package-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/logging/Appenders.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/logging/Appenders.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/logging/Encoders.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/logging/Encoders.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/logging/LoggerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/logging/LoggerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/logging/Loggers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/logging/Loggers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/logging/LoggingManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/logging/LoggingManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/logging/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/logging/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/package-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/ImmutablePair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/ImmutablePair.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/ImmutableTriple.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/ImmutableTriple.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/MutablePair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/MutablePair.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/MutableTriple.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/MutableTriple.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/Pair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/Pair.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/Triple.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/Triple.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/Tuple.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/Tuple.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/Tuple0.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/Tuple0.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/Tuple1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/Tuple1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/Tuple2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/Tuple2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/Tuple3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/Tuple3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/Tuple4.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/Tuple4.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/CollectionUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/CollectionUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/DateTimeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/DateTimeUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/DebugUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/DebugUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/FileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/FileUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/NumberUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/NumberUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/Parse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/Parse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/RegExPatterns.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/RegExPatterns.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/SecurityUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/SecurityUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/SingletonManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/SingletonManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/StringUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/StringUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/WebUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/WebUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/ExecCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/ExecCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/PShellCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/PShellCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/Registry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/Registry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/WmiUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/WmiUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/OtherConsts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/OtherConsts.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/ProductEdition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/ProductEdition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/ProductType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/ProductType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/VERSuite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/VERSuite.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/WMIClasses.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/WMIClasses.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSCommandNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSCommandNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSDivideByZeroException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSDivideByZeroException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSExpectedExpressionException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSExpectedExpressionException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSExpectedValueExpressionException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSExpectedValueExpressionException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSMissingPropertyNameException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSMissingPropertyNameException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSUnexpectedTokenException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSUnexpectedTokenException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PowerShellException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PowerShellException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PowerShellParserErrorException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PowerShellParserErrorException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/validators/Condition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/validators/Condition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/validators/EmailValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/validators/EmailValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/validators/Preconditions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/validators/Preconditions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/validators/Range.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/validators/Range.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/validators/Validate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/validators/Validate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/validators/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/validators/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/BooleanValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/BooleanValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/DoubleValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/DoubleValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/EnumValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/EnumValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/FloatValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/FloatValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/ImmutablePropsValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/ImmutablePropsValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/ImmutableValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/ImmutableValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/IntegerValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/IntegerValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/LongValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/LongValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/MutableStringValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/MutableStringValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/NumberValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/NumberValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/ObservableValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/ObservableValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/StringValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/StringValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/Value.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/Value.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/webapis/APIManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/webapis/APIManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/webapis/GitHubAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/webapis/GitHubAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/webapis/generators/GitHubServiceGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/webapis/generators/GitHubServiceGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/webapis/generators/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/webapis/generators/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/webapis/models/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/webapis/models/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/webapis/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/webapis/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/webapis/services/GitHubUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/webapis/services/GitHubUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/webapis/services/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/webapis/services/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.core/src/main/java/module-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.demo/jwct.commons.demo.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.demo/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.demo/src/main/java/com/jwcomptech/commons/demo/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.demo/src/main/java/com/jwcomptech/commons/demo/package-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.demo/src/main/java/module-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/jwct.commons.javafx.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/JavaFXUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/JavaFXUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/dialogs/DialogResult.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/dialogs/FXMLDialogWrapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/dialogs/LoginDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/dialogs/LoginDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/dialogs/LoginDialogImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/dialogs/MessageBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/dialogs/MessageBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/dialogs/MessageBoxButtonMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/dialogs/MessageBoxButtonType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/controls/FXButtonType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/dialogs/MessageBoxButtons.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/dialogs/MessageBoxDefaultButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/dialogs/MessageBoxDefaultButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/dialogs/MessageBoxIcon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/dialogs/MessageBoxIcon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/dialogs/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/dialogs/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/resources/Resource.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/resources/ResourceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/resources/ResourceManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/resources/enums/ResourceType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/resources/enums/ResourceDir.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/resources/enums/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/resources/enums/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/resources/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/resources/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/module-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/resources/css/LoginDialog.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/Login-Dialog.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/resources/img/Data-Secure.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/image/Data-Secure.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/resources/img/Key.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/image/Key.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/resources/img/Lock-Red.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/image/Lock-Red.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/resources/img/User-Login.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/image/User-Login.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.javafx/src/main/resources/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.mavenbridge/jwct.commons.mavenbridge.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.mavenbridge/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.mavenbridge/src/main/java/com/jwcomptech/commons/POMManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/resources/POMManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.mavenbridge/src/main/java/com/jwcomptech/commons/package-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.test.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.test/jwct.commons.test.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.test/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.test/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.test/src/test/java/com/jwcomptech/commons/tests/validators/RangeTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/jwcomptech/commons/validators/RangeTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.test/src/test/java/com/jwcomptech/commons/tests/validators/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/consts/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.commons.test/src/test/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/internal/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jwct.mavenbridge.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/Arguments.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/Condition.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/validators/Condition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/Consts.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/consts/Consts.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/Literals.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/consts/Literals.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.demo/src/main/java/com/jwcomptech/commons/demo/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/POMManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.mavenbridge/src/main/java/com/jwcomptech/commons/POMManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/internal/Settings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/SingletonManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/SingletonManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/annotations/Beta.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/annotations/Beta.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/annotations/VisibleForTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/annotations/VisibleForTesting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/annotations/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/annotations/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/base/Validated.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/base/Validated.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/base/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/base/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/download/DLStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/download/DLStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/download/DownloadManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/download/DownloadManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/download/HTTPDownloader.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/download/HTTPDownloader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/download/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/download/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/enums/BaseEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/enums/BaseEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/enums/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/enums/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/events/ActionEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/events/ActionEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/events/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/events/Event.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/events/EventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/events/EventHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/events/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/events/EventManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/events/EventTarget.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/events/EventTarget.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/events/EventType.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/events/EventType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/events/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/events/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/exceptions/ExceptionUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/exceptions/ExceptionUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/exceptions/ParseException.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/exceptions/ParseException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/exceptions/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/exceptions/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/Function0.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/Function0.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/Function1.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/Function1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/Function2.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/Function2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/Function3.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/Function3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/Function4.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/Function4.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/Lazy.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/Lazy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/Memoized.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/Memoized.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/PartialFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/PartialFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/checked/CheckedConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/checked/CheckedConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/checked/CheckedFunction0.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/checked/CheckedFunction0.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/checked/CheckedFunction1.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/checked/CheckedFunction1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/checked/CheckedFunction2.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/checked/CheckedFunction2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/checked/CheckedFunction3.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/checked/CheckedFunction3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/checked/CheckedFunction4.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/checked/CheckedFunction4.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/checked/CheckedPredicate.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/checked/CheckedPredicate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/checked/CheckedRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/checked/CheckedRunnable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/checked/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/checked/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/functions/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/functions/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/AbstractOperatingSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/AbstractOperatingSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/ComputerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/ComputerInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/HWInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/HWInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/OS.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/OS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/OSInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/OSInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/OperatingSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/OperatingSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/Version.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/Version.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/enums/OSList.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/enums/OSList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/enums/OSType.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/enums/OSType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/enums/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/enums/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/os/AndroidOS.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/os/AndroidOS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/os/FreeBSDOS.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/os/FreeBSDOS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/os/LinuxOS.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/os/LinuxOS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/os/MacOS.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/os/MacOS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/os/SolarisOS.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/os/SolarisOS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/os/UnknownOS.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/os/UnknownOS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/os/WindowsOS.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/os/WindowsOS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/os/WindowsOSEx.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/os/WindowsOSEx.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/os/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/os/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/info/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/info/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/interfaces/Buildable.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/interfaces/Buildable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/interfaces/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/interfaces/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/JavaFXUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/JavaFXUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/dialogs/DialogResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/dialogs/DialogResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/dialogs/FXMLDialogWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/dialogs/FXMLDialogWrapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/dialogs/LoginDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/dialogs/LoginDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/dialogs/LoginDialogImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/dialogs/LoginDialogImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/dialogs/MessageBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/dialogs/MessageBox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/dialogs/MessageBoxButtonMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/dialogs/MessageBoxButtonMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/dialogs/MessageBoxButtonType.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/dialogs/MessageBoxButtonType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/dialogs/MessageBoxButtons.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/dialogs/MessageBoxButtons.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/dialogs/MessageBoxDefaultButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/dialogs/MessageBoxDefaultButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/dialogs/MessageBoxIcon.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/dialogs/MessageBoxIcon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/dialogs/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/dialogs/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/javafx/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/logging/Appenders.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/logging/Appenders.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/logging/Encoders.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/logging/Encoders.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/logging/LoggerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/logging/LoggerConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/logging/Loggers.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/logging/Loggers.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/logging/LoggingManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/logging/LoggingManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/logging/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/logging/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.test/src/test/java/com/jwcomptech/commons/tests/validators/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/resources/Resource.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/resources/Resource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/resources/ResourceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/resources/ResourceManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/resources/enums/ResourceType.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/resources/enums/ResourceType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/resources/enums/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/resources/enums/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/resources/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/java/com/jwcomptech/commons/javafx/resources/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/ImmutablePair.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/ImmutablePair.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/ImmutableTriple.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/ImmutableTriple.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/MutablePair.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/MutablePair.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/MutableTriple.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/MutableTriple.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/Pair.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/Pair.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/Triple.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/Triple.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/Tuple.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/Tuple.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/Tuple0.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/Tuple0.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/Tuple1.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/Tuple1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/Tuple2.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/Tuple2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/Tuple3.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/Tuple3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/Tuple4.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/Tuple4.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/tuples/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/tuples/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/CollectionUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/CollectionUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/DateTimeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/DateTimeUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/DebugUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/DebugUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/FileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/FileUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/NumberUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/NumberUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/Parse.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/Parse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/RegExPatterns.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/RegExPatterns.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/SecurityUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/SecurityUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/StringUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/StringUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/WebUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/WebUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/ExecCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/ExecCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/PShellCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/PShellCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/Registry.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/Registry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/WmiUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/WmiUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/OtherConsts.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/OtherConsts.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/ProductEdition.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/ProductEdition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/ProductType.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/ProductType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/VERSuite.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/VERSuite.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/WMIClasses.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/WMIClasses.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/enums/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSCommandNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSCommandNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSDivideByZeroException.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSDivideByZeroException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSExpectedExpressionException.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSExpectedExpressionException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSExpectedValueExpressionException.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSExpectedValueExpressionException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSMissingPropertyNameException.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSMissingPropertyNameException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSUnexpectedTokenException.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PSUnexpectedTokenException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PowerShellException.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PowerShellException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PowerShellParserErrorException.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/PowerShellParserErrorException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/osutils/windows/pshell/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/utils/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/utils/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/validators/EmailValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/validators/EmailValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/validators/Preconditions.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/validators/Preconditions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/validators/Range.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/validators/Range.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/validators/Validate.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/validators/Validate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/validators/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/validators/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/BooleanValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/BooleanValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/DoubleValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/DoubleValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/EnumValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/EnumValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/FloatValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/FloatValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/ImmutablePropsValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/ImmutablePropsValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/ImmutableValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/ImmutableValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/IntegerValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/IntegerValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/LongValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/LongValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/MutableStringValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/MutableStringValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/NumberValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/NumberValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/ObservableValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/ObservableValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/StringValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/StringValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/Value.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/Value.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/values/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/values/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/webapis/APIManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/webapis/APIManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/webapis/GitHubAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/webapis/GitHubAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/webapis/generators/GitHubServiceGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/webapis/generators/GitHubServiceGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/webapis/generators/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/webapis/generators/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/webapis/models/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/webapis/models/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/webapis/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/webapis/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/webapis/services/GitHubUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/webapis/services/GitHubUserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jwcomptech/commons/webapis/services/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.core/src/main/java/com/jwcomptech/commons/webapis/services/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/css/LoginDialog.css" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/resources/css/LoginDialog.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/img/Data-Secure.png" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/resources/img/Data-Secure.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/img/Key.png" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/resources/img/Key.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/img/Lock-Red.png" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/resources/img/Lock-Red.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/img/User-Login.png" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/resources/img/User-Login.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.javafx/src/main/resources/pom.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/jwcomptech/commons/tests/validators/RangeTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.test/src/test/java/com/jwcomptech/commons/tests/validators/RangeTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/jwcomptech/commons/tests/validators/package-info.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/jwct.commons.test/src/test/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/jwcomptech/commons/validators/package-info.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Enum" />
+        <option value="FxmlFile" />
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -237,36 +312,51 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="checksumPolicy" value="WARN" />
+        <option name="localRepository" value="J:\.m2\repository" />
+        <option name="userSettingsFile" value="J:\.m2\settings.xml" />
       </MavenGeneralSettings>
     </option>
   </component>
   <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 0
+  &quot;associatedIndex&quot;: 6
 }</component>
-  <component name="ProjectId" id="2y1xqowFFQZCcraHo52T61Cwm8Q" />
+  <component name="ProjectId" id="2yFhanmuHz59qOfuXRUeqPHooWV" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Downloaded.Files.Path.Enabled": "false",
+    "Application.HeadlessFX$FXApplication.executor": "Run",
+    "JUnit.DialogDataTest.executor": "Run",
+    "JUnit.DialogDataTest.testUnsupportedTypeThrowsException.executor": "Run",
+    "JUnit.DialogResultTest.executor": "Run",
+    "JUnit.DialogResultTest.testGetButtonType.executor": "Run",
+    "JUnit.DialogResultTest.testGetDataValue.executor": "Run",
+    "JUnit.DialogResultTest.testInstanceMergeKeepOriginalWith.executor": "Debug",
+    "JUnit.DialogResultTest.testNoDataConstructor.executor": "Run",
+    "JUnit.DialogResultTest.testUnsupportedTypeThrowsException.executor": "Run",
+    "JUnit.FXControlsTest.executor": "Run",
+    "JUnit.FXControlsTest.testAddControlIgnoreExistingSkipsDuplicates.executor": "Run",
+    "JUnit.FXControlsTest.testGetControlRejectsNullKey.executor": "Run",
+    "JUnit.FXControlsTests.executor": "Run",
+    "JUnit.java in JWCT-Commons.executor": "Run",
+    "Maven.Run Tests.executor": "Run",
+    "Maven.Run.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
+    "last_directory_selection": "J:/repositories/JWCT-Commons/src/test/java/com/jwcomptech/commons/javafx",
+    "last_opened_file_path": "J:/repositories/JWCT-Commons",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Problems",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "MavenSettings",
@@ -274,27 +364,505 @@
   }
 }]]></component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="F:\Documents\Programming\repositories\JWCT-Commons\.idea" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.jwcomptech.commons.javafx" />
+      <recent name="com.jwcomptech.commons.javafx.dialogs" />
     </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.jwcomptech.commons.javafx" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.jwcomptech.commons.resources.enums" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.java in JWCT-Commons">
+    <configuration name="FXControlsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="JWCT-Commons" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.jwcomptech.commons.javafx.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.jwcomptech.commons.javafx" />
+      <option name="MAIN_CLASS_NAME" value="com.jwcomptech.commons.javafx.FXControlsTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FXControlsTest.testAddControlIgnoreExistingSkipsDuplicates" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="JWCT-Commons" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.jwcomptech.commons.javafx.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.jwcomptech.commons.javafx" />
+      <option name="MAIN_CLASS_NAME" value="com.jwcomptech.commons.javafx.FXControlsTest" />
+      <option name="METHOD_NAME" value="testAddControlIgnoreExistingSkipsDuplicates" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FXControlsTest.testGetControlRejectsNullKey" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="JWCT-Commons" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.jwcomptech.commons.javafx.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.jwcomptech.commons.javafx" />
+      <option name="MAIN_CLASS_NAME" value="com.jwcomptech.commons.javafx.FXControlsTest" />
+      <option name="METHOD_NAME" value="testGetControlRejectsNullKey" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FXDataTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="JWCT-Commons" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.jwcomptech.commons.javafx.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.jwcomptech.commons.javafx.dialogs" />
+      <option name="MAIN_CLASS_NAME" value="com.jwcomptech.commons.javafx.dialogs.FXDataTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="java in JWCT-Commons" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="JWCT-Commons" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/src/test/java" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Compile" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="compile" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="Compile" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="compile" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="Compile" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="compile" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="Install" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="install" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="Install" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="install" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="Install" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="install" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="Run Tests" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="test" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="Run Tests" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="test" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="Run Tests" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="test" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="Run" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="install" />
+                <option value="exec:java" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="Run" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="install" />
+                <option value="exec:java" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="Run" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="install" />
+                <option value="exec:java" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.java in JWCT-Commons" />
+      <item itemvalue="Maven.Compile" />
+      <item itemvalue="Maven.Install" />
+      <item itemvalue="Maven.Run Tests" />
+      <item itemvalue="Maven.Run" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.java in JWCT-Commons" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.25410.129" />
-        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-IU-251.25410.129" />
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.26927.53" />
+        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-IU-251.26927.53" />
       </set>
     </attachedChunks>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="3259777e-e545-45c6-b906-6830bc8737fd" name="Changes" comment="" />
-      <created>1749016074989</created>
+      <changelist id="a7fe6eb2-17df-4bf2-9d65-017b03724fd5" name="Changes" comment="" />
+      <created>1749436296368</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1749016074989</updated>
-      <workItem from="1749016077619" duration="436000" />
-      <workItem from="1749016528151" duration="688000" />
+      <updated>1749436296368</updated>
+      <workItem from="1749436298809" duration="12622000" />
+      <workItem from="1749477073892" duration="2495000" />
+      <workItem from="1749489985653" duration="956000" />
+      <workItem from="1749491697973" duration="61217000" />
+      <workItem from="1749672564765" duration="3173000" />
+      <workItem from="1749687627666" duration="414000" />
+      <workItem from="1749695456420" duration="11000" />
+      <workItem from="1749698682312" duration="3693000" />
+      <workItem from="1749702425144" duration="24082000" />
+      <workItem from="1750185195513" duration="35000" />
+      <workItem from="1750185401574" duration="23000" />
+      <workItem from="1750185552462" duration="14000" />
+      <workItem from="1750185718089" duration="26866000" />
+      <workItem from="1750277892894" duration="3125000" />
+      <workItem from="1750366656717" duration="31155000" />
+      <workItem from="1750697507039" duration="28779000" />
+      <workItem from="1750901446618" duration="606000" />
+      <workItem from="1750982925060" duration="16755000" />
+      <workItem from="1751045948472" duration="52106000" />
+      <workItem from="1751142770935" duration="26953000" />
+      <workItem from="1751313206151" duration="2124000" />
+      <workItem from="1751334457098" duration="56892000" />
+      <workItem from="1751756171159" duration="3000" />
+      <workItem from="1751780189494" duration="551000" />
+      <workItem from="1751780773784" duration="233000" />
+      <workItem from="1751917915392" duration="2165000" />
     </task>
     <servers />
   </component>
