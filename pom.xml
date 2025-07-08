@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.jwcomptech.commons</groupId>
-    <artifactId>JWCT-Commons</artifactId>
+    <artifactId>JWCommons</artifactId>
     <version>1.0.0-alpha</version>
 
     <properties>
@@ -31,11 +31,6 @@
         <squareup.retrofit2.version>2.11.0</squareup.retrofit2.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <mainClass>com.jwcomptech.commons.Main</mainClass>
-        <organization.name>JWCompTech</organization.name>
-        <organization.github.url>https://github.com/${organization.name}</organization.github.url>
-        <project.github.url>${organization.github.url}/JWCT-Commons</project.github.url>
-        <repository-name>JWCT-Commons</repository-name>
-        <repository-owner>${organization.name}</repository-owner>
     </properties>
 
     <licenses>
@@ -47,33 +42,42 @@
         </license>
     </licenses>
 
-    <name>JWCT Commons</name>
-    <description>The JWCT Commons is a dependency for all JWCT projects and contains utility functions and classes that can be used in any program.</description>
-    <url>${project.github.url}</url>
+    <name>JWCommons</name>
+    <description>The JWCommons is a dependency for all JWCT projects and contains utility functions and classes that can be used in any program.</description>
+    <url>https://github.com/JWCompTech/JWCommons</url>
     <organization>
-        <name>${organization.name}</name>
-        <url>${organization.github.url}</url>
+        <name>JWCompTech</name>
+        <url>https://github.com/JWCompTech</url>
     </organization>
     <inceptionYear>2025</inceptionYear>
 
     <developers>
         <developer>
+            <id>jlwisedev</id>
             <name>Joshua Wise</name>
             <email>jlwise@jwcomptech.com</email>
+            <url>https://github.com/jlwisedev</url>
             <roles>
                 <role>Lead Developer</role>
             </roles>
-            <organization>${organization.name}</organization>
-            <organizationUrl>${organization.github.url}</organizationUrl>
+            <organization>JWCompTech</organization>
+            <organizationUrl>https://github.com/JWCompTech/JWCommons</organizationUrl>
             <timezone>America/New_York</timezone>
         </developer>
     </developers>
 
+    <scm>
+        <connection>scm:git:https://github.com/JWCompTech/JWCommons.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/JWCompTech/JWCommons.git</developerConnection>
+        <url>https://github.com/JWCompTech/JWCommons</url>
+        <tag>HEAD</tag>
+    </scm>
+
     <distributionManagement>
         <repository>
             <id>repsy</id>
-            <name>${organization.name} Maven Repository on Repsy</name>
-            <url>https://repo.repsy.io/mvn/jwcomptech/internal</url>
+            <name>JWCompTech Maven Repository on Repsy</name>
+            <url>https://repo.repsy.io/mvn/jwcomptech/public</url>
         </repository>
     </distributionManagement>
 
@@ -187,12 +191,12 @@
                 <artifactId>maven-model</artifactId>
                 <version>4.0.0-rc-3</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>33.4.6-jre</version>
-            </dependency>
+<!--            &lt;!&ndash; https://mvnrepository.com/artifact/com.google.guava/guava &ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>com.google.guava</groupId>-->
+<!--                <artifactId>guava</artifactId>-->
+<!--                <version>33.4.6-jre</version>-->
+<!--            </dependency>-->
             <!-- https://mvnrepository.com/artifact/io.vavr/vavr -->
             <dependency>
                 <groupId>io.vavr</groupId>
@@ -229,12 +233,12 @@
                 <artifactId>github-api</artifactId>
                 <version>2.0-rc.3</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/com.thoughtworks.paranamer/paranamer -->
-            <dependency>
-                <groupId>com.thoughtworks.paranamer</groupId>
-                <artifactId>paranamer</artifactId>
-                <version>2.8.3</version>
-            </dependency>
+<!--            &lt;!&ndash; https://mvnrepository.com/artifact/com.thoughtworks.paranamer/paranamer &ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>com.thoughtworks.paranamer</groupId>-->
+<!--                <artifactId>paranamer</artifactId>-->
+<!--                <version>2.8.3</version>-->
+<!--            </dependency>-->
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
@@ -367,11 +371,11 @@
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-model</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.google.guava/guava &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.google.guava</groupId>-->
+<!--            <artifactId>guava</artifactId>-->
+<!--        </dependency>-->
         <!-- https://mvnrepository.com/artifact/io.vavr/vavr -->
         <dependency>
             <groupId>io.vavr</groupId>
@@ -736,5 +740,11 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 </project>
