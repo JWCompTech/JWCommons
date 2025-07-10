@@ -23,22 +23,120 @@ package com.jwcomptech.commons.logging;
  */
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.ConsoleAppender;
+import ch.qos.logback.core.rolling.RollingFileAppender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+/**
+ * Defines commonly used {@link ch.qos.logback.core.Appender} templates
+ * for consistent logging configuration across the application.
+ *
+ * <p>Each enum constant wraps a pre-configured {@link ch.qos.logback.core.ConsoleAppender} or
+ * file-based appender instance using one of the encoders defined in {@link Encoders}.
+ *
+ * <p>Use {@link #getAppender()} to retrieve the singleton instance or
+ * {@link #newAppenderInstance()} to create a fresh appender with the same configuration.
+ *
+ * <p>Intended for quick plug-and-play with {@link JWLogger} or {@link LoggingManager}.
+ *
+ * @see Encoders
+ * @see JWLogger
+ * @see LoggingManager
+ *
+ * @since 1.0.0-alpha
+ */
 @Getter
 @AllArgsConstructor
 @ToString
 public enum Appenders {
-    /** A console extender that uses the {@link Encoders#LimitedEncoder}. */
+    /** A console appender that uses the {@link Encoders#LimitedEncoder} encoder. */
     LimitedConsoleAppender(LoggingManager.createNewConsoleAppender(Encoders.LimitedEncoder)),
-    /** A console extender that uses the {@link Encoders#BasicEncoder}. */
+    /** A console appender that uses the {@link Encoders#BasicEncoder} encoder. */
     BasicConsoleAppender(LoggingManager.createNewConsoleAppender(Encoders.BasicEncoder)),
-    /** A console extender that uses the {@link Encoders#ExtendedEncoder}. */
-    ExtendedConsoleAppender(LoggingManager.createNewConsoleAppender(Encoders.ExtendedEncoder));
+    /** A console appender that uses the {@link Encoders#ExtendedEncoder} encoder. */
+    ExtendedConsoleAppender(LoggingManager.createNewConsoleAppender(Encoders.ExtendedEncoder)),
+    /**
+     * A file appender that uses a {@link RollingFileAppender},
+     * the {@link Encoders#LimitedEncoder} encoder, and sets
+     * the log file to use the filename "limited.log"
+     */
+    LimitedFileAppender(LoggingManager.getRollingFileAppenderBuilder()
+                    .setEncoder(Encoders.LimitedEncoder.getEncoder())
+                    .setFileName("limited.log")
+                    .build()
+    ),
+    /**
+     * A file appender that uses a {@link RollingFileAppender},
+     * the {@link Encoders#CompactFileEncoder} encoder, and sets
+     * the log file to use the filename "compact.log"
+     */
+    CompactFileAppender(LoggingManager.getRollingFileAppenderBuilder()
+            .setEncoder(Encoders.CompactFileEncoder.getEncoder())
+            .setFileName("compact.log")
+            .build()
+    ),
+    /**
+     * A file appender that uses a {@link RollingFileAppender},
+     * the {@link Encoders#BasicEncoder} encoder, and sets
+     * the log file to use the filename "basic.log"
+     */
+    BasicFileAppender(LoggingManager.getRollingFileAppenderBuilder()
+                    .setEncoder(Encoders.BasicEncoder.getEncoder())
+                    .setFileName("basic.log")
+                    .build()
+    ),
+    /**
+     * A file appender that uses a {@link RollingFileAppender},
+     * the {@link Encoders#ExtendedEncoder} encoder, and sets
+     * the log file to use the filename "extended.log"
+     */
+    ExtendedFileAppender(LoggingManager.getRollingFileAppenderBuilder()
+                    .setEncoder(Encoders.ExtendedEncoder.getEncoder())
+                    .setFileName("extended.log")
+                    .build()
+    ),
+    ;
 
-    private final ConsoleAppender<ILoggingEvent> appender;
+    private final Appender<ILoggingEvent> appender;
+
+    /**
+     * Returns a fresh appender instance with the same configuration as the enum constant.
+     *
+     * @return a new instance of this appender
+     * @throws IllegalStateException if the enum constant is unhandled
+     */
+    public @NotNull Appender<ILoggingEvent> newAppenderInstance() {
+        return switch (this) {
+            case LimitedConsoleAppender ->
+                    LoggingManager.createNewConsoleAppender(Encoders.LimitedEncoder);
+            case BasicConsoleAppender ->
+                    LoggingManager.createNewConsoleAppender(Encoders.BasicEncoder);
+            case ExtendedConsoleAppender ->
+                    LoggingManager.createNewConsoleAppender(Encoders.ExtendedEncoder);
+            case LimitedFileAppender -> LoggingManager.getRollingFileAppenderBuilder()
+                        .setEncoder(Encoders.LimitedEncoder.getEncoder())
+                        .setFileName("limited.log")
+                        .build();
+            case CompactFileAppender -> LoggingManager.getRollingFileAppenderBuilder()
+                        .setEncoder(Encoders.CompactFileEncoder.getEncoder())
+                        .setFileName("compact.log")
+                        .build();
+            case BasicFileAppender -> LoggingManager.getRollingFileAppenderBuilder()
+                        .setEncoder(Encoders.BasicEncoder.getEncoder())
+                        .setFileName("basic.log")
+                        .build();
+            case ExtendedFileAppender -> LoggingManager.getRollingFileAppenderBuilder()
+                        .setEncoder(Encoders.ExtendedEncoder.getEncoder())
+                        .setFileName("extended.log")
+                        .build();
+            //noinspection UnnecessaryDefault
+            default -> throw new IllegalStateException("Unexpected value: " + this);
+        };
+    }
 }

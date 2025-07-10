@@ -23,12 +23,10 @@ package com.jwcomptech.commons;
  */
 
 import ch.qos.logback.classic.Level;
-import com.jwcomptech.commons.javafx.controls.FXButtonTypeGroup;
-import com.jwcomptech.commons.javafx.dialogs.*;
 import com.jwcomptech.commons.javafx.wizard.ServerInstallWizard;
-import com.jwcomptech.commons.logging.Loggers;
+import com.jwcomptech.commons.logging.JWLogger;
+import com.jwcomptech.commons.logging.LoggingManager;
 import com.jwcomptech.commons.resources.POMManager;
-import com.jwcomptech.commons.resources.ResourceManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.apache.maven.api.model.Model;
@@ -37,8 +35,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.xml.stream.XMLStreamException;
-
-import static com.jwcomptech.commons.utils.DebugUtils.print;
 
 @SuppressWarnings("ClassWithoutConstructor")
 public final class Main extends Application {
@@ -51,9 +47,8 @@ public final class Main extends Application {
     @Override
     public void start(@NotNull final Stage stage) throws XMLStreamException, InterruptedException {
         final Logger logger = LoggerFactory.getLogger(Main.class);
-        Loggers.RootPackage
-                .setName(Main.class.getPackage().getName())
-                .enableLimitedConsole(Level.INFO);
+        JWLogger.of(Main.class.getPackage())
+                .useLimitedConsole(Level.INFO);
 
         final Model pom = POMManager.getInstance().getInternalPOM();
 

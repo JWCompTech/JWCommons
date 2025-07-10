@@ -28,28 +28,85 @@ import lombok.Getter;
 import lombok.ToString;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+/**
+ * Defines reusable {@link ch.qos.logback.classic.encoder.PatternLayoutEncoder} configurations
+ * for log formatting consistency.
+ *
+ * <p>Encoders control the format of log messages and can be used across multiple
+ * {@link ch.qos.logback.core.Appender} instances.
+ *
+ * <p>This enum offers various formatting styles such as:
+ * <ul>
+ *   <li>{@link #LimitedEncoder} – minimal output, message only</li>
+ *   <li>{@link #BasicEncoder} – includes timestamp, log level, logger name</li>
+ *   <li>{@link #ExtendedEncoder} – includes timestamp with milliseconds, thread name, and full logger path</li>
+ * </ul>
+ *
+ * <p>Each encoder is pre-started and ready to use in console or file appenders.
+ *
+ * @see Appenders
+ * @see JWLogger
+ * @see LoggingManager
+ *
+ * @since 1.0.0-alpha
+ */
 @Getter
 @AllArgsConstructor
 @ToString
 public enum Encoders {
     /**
      * A {@link PatternLayoutEncoder} with the pattern "%msg%n".
+     *
      * @apiNote This encoder is automatically started after initialization.
      */
     LimitedEncoder(LoggingManager.createNewLogEncoder("%msg%n")),
     /**
      * A {@link PatternLayoutEncoder} with the pattern
-     * "%-12d{YYYY-MM-dd HH:mm:ss} %level %logger{0} - %msg%n".
+     * "%-12d{YYYY-MM-dd HH:mm:ss} %level %logger{0} %X - %msg%n".
+     *
      * @apiNote This encoder is automatically started after initialization.
      */
-    BasicEncoder(LoggingManager.createNewLogEncoder("%-12d{YYYY-MM-dd HH:mm:ss} %level %logger{0} - %msg%n")),
+    BasicEncoder(LoggingManager.createNewLogEncoder("%-12d{YYYY-MM-dd HH:mm:ss} %level %logger{0} %X - %msg%n")),
     /**
      * A {@link PatternLayoutEncoder} with the pattern
-     * "%-12d{YYYY-MM-dd HH:mm:ss.SSS} [%thread] %level %logger{100} - %msg%n".
+     * "%-12d{YYYY-MM-dd HH:mm:ss.SSS} [%thread] %level %logger{100} %X - %msg%n".
+     *
      * @apiNote This encoder is automatically started after initialization.
      */
     ExtendedEncoder(LoggingManager.createNewLogEncoder(
-            "%-12d{YYYY-MM-dd HH:mm:ss.SSS} [%thread] %level %logger{100} - %msg%n"))
+            "%-12d{YYYY-MM-dd HH:mm:ss.SSS} [%thread] %level %logger{100} %X - %msg%n")),
+    /**
+     * A {@link PatternLayoutEncoder} with the pattern
+     * "%level [%thread] %logger - %msg%n".
+     *
+     * @apiNote This encoder is automatically started after initialization.
+     */
+    CompactFileEncoder(LoggingManager.createNewLogEncoder(
+            "%level [%thread] %logger - %msg%n")),
+    /**
+     * A {@link PatternLayoutEncoder} with the pattern
+     * "%highlight(%-12d{HH:mm:ss.SSS}) [%thread] %highlight(%-5level) %cyan(%logger{36}) %X - %msg%n".
+     *
+     * @apiNote This encoder is automatically started after initialization.
+     */
+    ColoredEncoder(LoggingManager.createNewLogEncoder(
+            "%highlight(%-12d{HH:mm:ss.SSS}) [%thread] %highlight(%-5level) %cyan(%logger{36}) %X - %msg%n")),
+
+    /**
+     * A {@link PatternLayoutEncoder} with the pattern "%ex%n".
+     *
+     * @apiNote This encoder is automatically started after initialization.
+     */
+    ExceptionOnlyEncoder(LoggingManager.createNewLogEncoder("%ex%n")),
+
+    /**
+     * A {@link PatternLayoutEncoder} with the pattern
+     * "%date{ISO8601} [%thread] %-5level %logger{36} %X [%file:%line] %msg%n".
+     *
+     * @apiNote This encoder is automatically started after initialization.
+     */
+    DebugEncoder(LoggingManager.createNewLogEncoder(
+            "%date{ISO8601} [%thread] %-5level %logger{36} %X [%file:%line] %msg%n")),
     ;
 
     private final PatternLayoutEncoder encoder;

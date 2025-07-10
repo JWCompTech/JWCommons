@@ -28,215 +28,100 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.ConsoleAppender;
 import ch.qos.logback.core.encoder.Encoder;
-import com.jwcomptech.commons.consts.Literals;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.Value;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNullOrEmpty;
-import static com.jwcomptech.commons.utils.StringUtils.isBlank;
-
 /**
- * Contains methods to manage a Logback logger instance.
+ * A fluent wrapper around a single Logback {@link ch.qos.logback.classic.Logger} instance
+ * for more readable and expressive logger configuration.
  *
- * @since 0.0.1
+ * <p>Use this class to dynamically control a logger’s level, attach/detach appenders,
+ * and apply specific encoder-based output patterns.
+ *
+ * <p>Supports adding predefined {@link Appenders}, building new console appenders,
+ * and enabling extended logging output with or without MDC.
+ *
+ * <p>Example usage:
+ * <pre>{@code
+ * JWLogger.of(MyClass.class)
+ *     .useBasicConsole(Level.INFO)
+ *     .addAppender(Appenders.BasicFileAppender);
+ * }</pre>
+ *
+ * <p>This class is intended for advanced use-cases where logger configuration
+ * needs to be programmatic or dynamic (e.g., in plugin systems or CLI tools).
+ *
+ * @see LoggingManager
+ * @see Appenders
+ * @see Encoders
+ * @see MDCManager
+ *
+ * @since 1.0.0-alpha
  */
-
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 @Value
-public class LoggerConfig {
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+public class JWLogger {
     Logger logger;
 
     /**
      * Creates a new instance of LoggerConfig with the specified logger object.
+     *
      * @param logger the logger object to set
      */
-    public LoggerConfig(final Logger logger) {
-        this.logger = logger;
-        disable();
+    @Contract(value = "_ -> new", pure = true)
+    public static @NotNull JWLogger of(final Logger logger) {
+        return new JWLogger(logger);
     }
 
     /**
      * Creates a new instance of LoggerConfig with the specified logger name.
+     *
      * @param className the name of the logger object to set
+     * @apiNote calls {@code LoggingManager.getContext().getLogger(Class)} to retrieve
+     * the logger instance and then stores it.
+     * <p>
+     * See: {@link LoggingManager#getContext()} for details.
      */
-    public LoggerConfig(final String className) {
-        logger = LoggingManager.getContext().getLogger(className);
-        disable();
+    @Contract("_ -> new")
+    public static @NotNull JWLogger of(final String className) {
+        return new JWLogger(LoggingManager.getContext().getLogger(className));
     }
 
     /**
-     * Enables the logger to use the specified log level.
-     * @apiNote Additive is automatically disabled in this method
-     * @param logLevel the log level to set
-     * @return this instance
+     * Creates a new instance of LoggerConfig with the specified logger name.
+     *
+     * @param clazz the class of the logger object to set
+     * @apiNote calls {@code LoggingManager.getContext().getLogger(Class)} to retrieve
+     * the logger instance and then stores it.
+     * <p>
+     * See: {@link LoggingManager#getContext()} for details.
      */
-    public LoggerConfig enable(final Level logLevel) {
-        logger.setAdditive(false);
-        logger.setLevel(logLevel);
-        return this;
+    @Contract("_ -> new")
+    public static @NotNull JWLogger of(final Class<?> clazz) {
+        return new JWLogger(LoggingManager.getContext().getLogger(clazz));
     }
 
     /**
-     * Enables the logger to use the specified log level and adds
-     * the {@link Appenders#LimitedConsoleAppender}.
-     * @apiNote Additive is automatically disabled in this method
-     * @param logLevel the log level to set
-     * @return this instance
+     * Creates a new instance of LoggerConfig with the specified logger name.
+     *
+     * @param packageObj the package of the logger object to set
+     * @apiNote calls {@code LoggingManager.getContext().getLogger(Class)} to retrieve
+     * the logger instance and then stores it.
+     * <p>
+     * See: {@link LoggingManager#getContext()} for details.
      */
-    public LoggerConfig enableLimitedConsole(final Level logLevel) {
-        logger.setAdditive(false);
-        logger.setLevel(logLevel);
-        if(!logger.isAttached(Appenders.LimitedConsoleAppender.getAppender())) {
-            logger.addAppender(Appenders.LimitedConsoleAppender.getAppender());
-        }
-        return this;
-    }
-
-    /**
-     * Enables the logger to use the specified log level and adds
-     * the {@link Appenders#BasicConsoleAppender}.
-     * @apiNote Additive is automatically disabled in this method
-     * @param logLevel the log level to set
-     * @return this instance
-     */
-    public LoggerConfig enableBasicConsole(final Level logLevel) {
-        logger.setAdditive(false);
-        logger.setLevel(logLevel);
-        if(!logger.isAttached(Appenders.BasicConsoleAppender.getAppender())) {
-            logger.addAppender(Appenders.BasicConsoleAppender.getAppender());
-        }
-        return this;
-    }
-
-    /**
-     * Enables the logger to use the specified log level and adds
-     * the {@link Appenders#ExtendedConsoleAppender}.
-     * @apiNote Additive is automatically disabled in this method
-     * @param logLevel the log level to set
-     * @return this instance
-     */
-    public LoggerConfig enableExtendedConsole(final Level logLevel) {
-        logger.setAdditive(false);
-        logger.setLevel(logLevel);
-        if(!logger.isAttached(Appenders.ExtendedConsoleAppender.getAppender())) {
-            logger.addAppender(Appenders.ExtendedConsoleAppender.getAppender());
-        }
-        return this;
-    }
-
-    /**
-     * Disables the logger by setting the log level to {@link Level#OFF}.
-     * @apiNote Additive is automatically disabled in this method
-     * @return this instance
-     */
-    public LoggerConfig disable() {
-        logger.setAdditive(false);
-        logger.setLevel(Level.OFF);
-        return this;
-    }
-
-    /**
-     * Adds the specified {@link Appender} to the logger.
-     * @apiNote Additive is automatically disabled in this method
-     * @param appender the appender to add
-     * @return this instance
-     */
-    public LoggerConfig addAppender(final @NotNull Appenders appender) {
-        logger.setAdditive(false);
-        if(!logger.isAttached(appender.getAppender())) {
-            logger.addAppender(appender.getAppender());
-        }
-        return this;
-    }
-
-    /**
-     * Adds the specified {@link Appender} to the logger.
-     * @apiNote Additive is automatically disabled in this method
-     * @param newAppender the appender to add
-     * @return this instance
-     */
-    public LoggerConfig addAppender(final Appender<ILoggingEvent> newAppender) {
-        logger.setAdditive(false);
-        if(!logger.isAttached(newAppender)) {
-            logger.addAppender(newAppender);
-        }
-        return this;
-    }
-
-    /**
-     * Adds a new {@link ConsoleAppender} with the encoder from {@link Encoders#BasicEncoder}
-     * and sets the name to "console".
-     * @apiNote The start method is automatically called at the end of this method.
-     * @return this instance
-     */
-    public LoggerConfig addNewConsoleAppender() {
-        return addNewConsoleAppender("console", Encoders.BasicEncoder);
-    }
-
-    /**
-     * Adds a new {@link ConsoleAppender} with the specified encoder and sets the name to "console".
-     * @apiNote The start method is automatically run at the end of this method.
-     * @param encoder the encoder to set
-     * @return this instance
-     */
-    public LoggerConfig addNewConsoleAppender(final @NotNull Encoders encoder) {
-        return addNewConsoleAppender(encoder.getEncoder());
-    }
-
-    /**
-     * Adds a new {@link ConsoleAppender} with the specified encoder (e.g. PatternLayoutEncoder) and sets the name to "console".
-     * @apiNote The start method is automatically run at the end of this method.
-     * @param encoder the encoder to set
-     * @return this instance
-     */
-    public LoggerConfig addNewConsoleAppender(final Encoder<ILoggingEvent> encoder) {
-        return addNewConsoleAppender("console", encoder);
-    }
-
-    /**
-     * Adds a new {@link ConsoleAppender} with the specified name and encoder.
-     * @apiNote if the name value is null or empty the default is "console" and
-     * if encoder is null then the encoder from
-     * {@link Encoders#BasicEncoder} is used instead.
-     * Also, the start method is automatically run at the end of this method.
-     * @param name the name to set
-     * @param encoder the encoder to set
-     * @return this instance
-     */
-    public LoggerConfig addNewConsoleAppender(final String name, final @NotNull Encoders encoder) {
-        return addNewConsoleAppender(name, encoder.getEncoder());
-    }
-
-    /**
-     * Adds a new {@link ConsoleAppender} with the specified name and encoder.
-     * @apiNote if the name value is null or empty the default is "console" and
-     * if encoder is null then the encoder from
-     * {@link Encoders#BasicEncoder} is used instead.
-     * Also, the start method is automatically run at the end of this method.
-     * @param name the name to set
-     * @param encoder the encoder to set
-     * @return this instance
-     */
-    public LoggerConfig addNewConsoleAppender(final String name, final Encoder<ILoggingEvent> encoder) {
-        checkArgumentNotNullOrEmpty(name, Literals.cannotBeNullOrEmpty("name"));
-        final ConsoleAppender<ILoggingEvent> logConsoleAppender = new ConsoleAppender<>();
-        logConsoleAppender.setContext(LoggingManager.getContext());
-        if (isBlank(name)) {
-            logConsoleAppender.setName("console");
-        } else {
-            logConsoleAppender.setName(name);
-        }
-        if (encoder == null) {
-            logConsoleAppender.setEncoder(Encoders.BasicEncoder.getEncoder());
-        } else {
-            logConsoleAppender.setEncoder(encoder);
-        }
-        logConsoleAppender.start();
-        return addAppender(logConsoleAppender);
+    @Contract("_ -> new")
+    public static @NotNull JWLogger of(final @NotNull Package packageObj) {
+        return new JWLogger(LoggingManager.getContext().getLogger(packageObj.getName()));
     }
 
     /**
      * Returns the name of the logger.
+     *
      * @return the name of the logger
      */
     public String getName() {
@@ -244,7 +129,194 @@ public class LoggerConfig {
     }
 
     /**
+     * Configures the log level of the logger.
+     *
+     * @param logLevel the log level to set
+     * @return this instance
+     * @apiNote Additive is automatically disabled in this method
+     */
+    public JWLogger setLogLevel(final Level logLevel) {
+        logger.setAdditive(false);
+        logger.setLevel(logLevel);
+        return this;
+    }
+
+    /**
+     * Returns the log level of the logger.
+     *
+     * @return the log level of the logger
+     */
+    public Level getLogLevel() {
+        return logger.getLevel();
+    }
+
+    /**
+     * Resets the logger level and appenders to inherit from parent.
+     *
+     * @return this instance
+     */
+    public JWLogger reset() {
+        logger.setLevel(null); // null means inherit
+        logger.setAdditive(true);
+        logger.detachAndStopAllAppenders();
+        return this;
+    }
+
+    /**
+     * Configures the logger to use the specified log level and adds
+     * the {@link Appenders#LimitedConsoleAppender}.
+     *
+     * @param logLevel the log level to set
+     * @return this instance
+     * @apiNote Additive is automatically disabled in this method
+     */
+    public JWLogger useLimitedConsole(final Level logLevel) {
+        logger.setAdditive(false);
+        logger.setLevel(logLevel);
+        attachIfAbsent(Appenders.LimitedConsoleAppender.getAppender());
+        return this;
+    }
+
+    /**
+     * Configures the logger to use the specified log level and adds
+     * the {@link Appenders#BasicConsoleAppender}.
+     *
+     * @param logLevel the log level to set
+     * @return this instance
+     * @apiNote Additive is automatically disabled in this method
+     */
+    public JWLogger useBasicConsole(final Level logLevel) {
+        logger.setAdditive(false);
+        logger.setLevel(logLevel);
+        attachIfAbsent(Appenders.BasicConsoleAppender.getAppender());
+        return this;
+    }
+
+    /**
+     * Configures the logger to use the specified log level and adds
+     * the {@link Appenders#ExtendedConsoleAppender}.
+     *
+     * @param logLevel the log level to set
+     * @return this instance
+     * @apiNote Additive is automatically disabled in this method
+     */
+    public JWLogger useExtendedConsole(final Level logLevel) {
+        logger.setAdditive(false);
+        logger.setLevel(logLevel);
+        attachIfAbsent(Appenders.ExtendedConsoleAppender.getAppender());
+        return this;
+    }
+
+    /**
+     * Disables the logger by setting the log level to {@link Level#OFF}.
+     *
+     * @return this instance
+     * @apiNote Additive is automatically disabled in this method
+     */
+    public JWLogger disable() {
+        logger.setAdditive(false);
+        logger.setLevel(Level.OFF);
+        return this;
+    }
+
+    /**
+     * Adds the specified {@link Appender} to the logger.
+     *
+     * @param appender the appender to add
+     * @return this instance
+     * @apiNote Additive is automatically disabled in this method
+     */
+    public JWLogger addAppender(final @NotNull Appenders appender) {
+        logger.setAdditive(false);
+        attachIfAbsent(appender.getAppender());
+        return this;
+    }
+
+    /**
+     * Adds the specified {@link Appender} to the logger.
+     *
+     * @param newAppender the appender to add
+     * @return this instance
+     * @apiNote Additive is automatically disabled in this method
+     */
+    public JWLogger addAppender(final Appender<ILoggingEvent> newAppender) {
+        logger.setAdditive(false);
+        attachIfAbsent(newAppender);
+        return this;
+    }
+
+    private void attachIfAbsent(final Appender<ILoggingEvent> appender) {
+        if (!hasAppender(appender)) {
+            logger.addAppender(appender);
+        }
+    }
+
+    /**
+     * Adds a new {@link ConsoleAppender} with the encoder from {@link Encoders#BasicEncoder}
+     * and sets the name to "console".
+     *
+     * @return this instance
+     * @apiNote The start method is automatically called at the end of this method.
+     */
+    public JWLogger addNewConsoleAppender() {
+        return addNewConsoleAppender("console", Encoders.BasicEncoder);
+    }
+
+    /**
+     * Adds a new {@link ConsoleAppender} with the specified encoder and sets the name to "console".
+     *
+     * @param encoder the encoder to set
+     * @return this instance
+     * @apiNote The start method is automatically called at the end of this method.
+     */
+    public JWLogger addNewConsoleAppender(final @NotNull Encoders encoder) {
+        return addNewConsoleAppender(encoder.getEncoder());
+    }
+
+    /**
+     * Adds a new {@link ConsoleAppender} with the specified encoder (e.g. PatternLayoutEncoder) and sets the name to "console".
+     *
+     * @param encoder the encoder to set
+     * @return this instance
+     * @apiNote The start method is automatically called at the end of this method.
+     */
+    public JWLogger addNewConsoleAppender(final Encoder<ILoggingEvent> encoder) {
+        return addNewConsoleAppender("console", encoder);
+    }
+
+    /**
+     * Adds a new {@link ConsoleAppender} with the specified name and encoder.
+     *
+     * @param name the name to set
+     * @param encoder the encoder to set
+     * @return this instance
+     * @apiNote if the name value is null or empty the default is "console" and
+     * if encoder is null then the encoder from
+     * {@link Encoders#BasicEncoder} is used instead.
+     * Also, the start method is automatically run at the end of this method.
+     */
+    public JWLogger addNewConsoleAppender(final String name, final @NotNull Encoders encoder) {
+        return addNewConsoleAppender(name, encoder.getEncoder());
+    }
+
+    /**
+     * Adds a new {@link ConsoleAppender} with the specified name and encoder.
+     *
+     * @param name the name to set
+     * @param encoder the encoder to set
+     * @return this instance
+     * @apiNote if the name value is null or empty the default is "console" and
+     * if encoder is null then the encoder from
+     * {@link Encoders#BasicEncoder} is used instead.
+     * Also, the start method is automatically run at the end of this method.
+     */
+    public JWLogger addNewConsoleAppender(final String name, final Encoder<ILoggingEvent> encoder) {
+        return addAppender(LoggingManager.createNewConsoleAppender(name, encoder));
+    }
+
+    /**
      * Removes the specified appender.
+     *
      * @param name the name of the appender to remove
      * @return true if no errors occurred
      */
@@ -255,6 +327,7 @@ public class LoggerConfig {
 
     /**
      * Removes the specified appender.
+     *
      * @param appender the appender to remove
      * @return true if no errors occurred
      */
@@ -265,6 +338,7 @@ public class LoggerConfig {
 
     /**
      * Checks if the logger has the specified appender.
+     *
      * @param name the name of the appender to lookup
      * @return true if exists
      */
@@ -274,6 +348,7 @@ public class LoggerConfig {
 
     /**
      * Checks if the logger has the specified appender.
+     *
      * @param appender the appender to lookup
      * @return true if exists
      */
@@ -283,6 +358,7 @@ public class LoggerConfig {
 
     /**
      * Returns the specified appender.
+     *
      * @param name the name of the appender to lookup
      * @return the appender instance
      */

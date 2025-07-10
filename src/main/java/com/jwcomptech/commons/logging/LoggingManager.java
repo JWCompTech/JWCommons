@@ -31,94 +31,282 @@ import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.ConsoleAppender;
 import ch.qos.logback.core.FileAppender;
 import ch.qos.logback.core.encoder.Encoder;
+import ch.qos.logback.core.rolling.DefaultTimeBasedFileNamingAndTriggeringPolicy;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.TimeBasedFileNamingAndTriggeringPolicy;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
-import com.jwcomptech.commons.consts.Literals;
 import com.jwcomptech.commons.interfaces.Buildable;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import lombok.*;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
-import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNull;
-import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNullOrEmpty;
+import java.util.List;
+import java.util.function.Supplier;
+
 import static com.jwcomptech.commons.utils.StringUtils.isBlank;
-import static java.util.Objects.requireNonNullElse;
 
 /**
- * Contains methods to allow setting the base parameters for the logback implementation
- * that this library uses for all file and console logging with SLF4J.
- * @apiNote If this class is used a logback configuration file is not
- * required to be added to your project and if included that configuration
- * will be overwritten by the methods in this class.
+ * Central utility class for managing application-wide logging configuration.
  *
- * @since 0.0.1
+ * <p>This class provides methods to configure and control Logback loggers dynamically
+ * at runtime. It includes support for:
+ * <ul>
+ *   <li>Setting log levels by name, class, or package</li>
+ *   <li>Attaching or detaching appenders</li>
+ *   <li>Creating new appenders and encoders</li>
+ *   <li>Enabling/disabling specific loggers</li>
+ *   <li>Creating {@link JWLogger} wrappers for fluent configuration</li>
+ *   <li>Optionally including MDC key/value pairs in logs</li>
+ * </ul>
+ *
+ * <p>This class delegates to the Logback {@link ch.qos.logback.classic.LoggerContext}
+ * and works seamlessly with SLF4J’s API.
+ *
+ * <p>Common usage examples include:
+ * <pre>{@code
+ * LoggingManager.setLoggerLevel("my.package", Level.DEBUG);
+ * LoggingManager.enableSpecificClassLogging(MyClass.class, Level.INFO);
+ * }</pre>
+ *
+ * <p>For fluent, chainable logger setup, see {@link JWLogger}.
+ *
+ * @apiNote If this class is used, a logback configuration file is not
+ * required to be added to your project and if included that configuration
+ * will be overwritten by the methods in this class. Also, all methods in
+ * this class disable the logger additive setting to allow for more control
+ * when using the loggers.
+ * @see JWLogger
+ * @see Appenders
+ * @see Encoders
+ * @see MDCManager
+ *
+ * @since 1.0.0-alpha
  */
-@SuppressWarnings("unused")
+@Data
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class LoggingManager {
-    private static final LoggerContext logCtx = (LoggerContext) LoggerFactory.getILoggerFactory();
 
-    /** A basic log file filename with name "logfile.log"*/
-    @SuppressWarnings("unused")
-    public static final String LOG_FILE_NAME = "logfile.log";
-    /** A basic log file filename with name "logfile-%d{yyyy-MM-dd_HH}.log"*/
-    public static final String LOG_FILE_NAME_DATED = "logfile-%d{yyyy-MM-dd_HH}.log";
+    /** The Logback logger context */
+    @Getter
+    private static final LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+
+    public static final JWLogger ROOT = JWLogger.of(Logger.ROOT_LOGGER_NAME);
+
+    /** A basic log file filename with name "logfile.log" */
+    public static final String DEFAULT_LOG_FILE_NAME = "logfile.log";
+    /** A basic log file filename with name "logfile-%d{yyyy-MM-dd_HH}.log" */
+    public static final String DEFAULT_LOG_FILE_NAME_DATED = "logfile-%d{yyyy-MM-dd_HH}.log";
+
+    /** The setting to use if you want an unlimited file history when building a TimeBasedRollingPolicy. */
+    public static final int MAX_HISTORY_UNLIMITED = 0;
+
+    /** The setting to use if you want an unlimited file cap when building a TimeBasedRollingPolicy. */
+    public static final FileSize FILE_SIZE_UNLIMITED = new FileSize(0L);
 
     /**
-     * Returns the Logback logger context.
-     * @return  the Logback logger context
-     */
-    @SuppressWarnings("SuspiciousGetterSetter")
-    public static LoggerContext getContext() {
-        return logCtx;
-    }
-
-    /**
-     * Enables the logger for the specified class to use the specified log level.
-     * @param className the logger name
+     * Sets the log level for the specified logger name.
+     *
+     * @param name the logger name
      * @param logLevel the log level to set
      */
-    public static void enableSpecificClassLogging(final String className, final Level logLevel) {
-        final Logger logger = logCtx.getLogger(className);
+    public static void setLoggerLevel(final String name,
+                                       final Level logLevel) {
+        final Logger logger = context.getLogger(name);
         logger.setAdditive(false);
         logger.setLevel(logLevel);
     }
 
     /**
-     * Disables the logger for the specified class by setting the log level to {@link Level#OFF}.
-     * @param className the logger name
+     * Gets the current log level for the specified logger name.
+     *
+     * @param name the logger name
+     * @return the current log level, or null if not explicitly set
      */
-    public static void disableSpecificClassLogging(final String className) {
-        final Logger logger = logCtx.getLogger(className);
-        logger.setAdditive(false);
-        logger.setLevel(Level.OFF);
+    public static Level getLoggerLevel(final String name) {
+        return context.getLogger(name).getLevel();
+    }
+
+    /**
+     * Checks if the logger with the specified name is enabled.
+     *
+     * @param name the name of the logger to check
+     * @return true if the logger with the specified name is enabled
+     */
+    public static boolean isLoggerEnabled(final String name) {
+        final Level level = getLoggerLevel(name);
+        return level != null && !level.equals(Level.OFF);
+    }
+
+    /**
+     * Resets the logger to inherit settings from its parent.
+     *
+     * @param name the logger name
+     */
+    public static void resetLogger(final String name) {
+        final Logger logger = context.getLogger(name);
+        logger.setLevel(null); // null means inherit
+        logger.setAdditive(true);
+        logger.detachAndStopAllAppenders();
+    }
+
+    /**
+     * Returns a list of all currently registered loggers.
+     *
+     * @return a list of all currently registered loggers
+     */
+    public static List<Logger> listAllLoggers() {
+        return context.getLoggerList();
+    }
+
+    /**
+     * Executes a task with the specified MDC key/value set.
+     * The key will be removed after the task completes (even on error).
+     *
+     * @param key the MDC key
+     * @param value the MDC value
+     * @param task the task to run
+     */
+    public static void withMDC(final String key,
+                               final String value,
+                               final @NotNull Runnable task) {
+        try (MDC.MDCCloseable ignored = MDCManager.put(key, value)) {
+            task.run();
+        }
+    }
+
+    /**
+     * Executes a task with the specified MDC key/value set.
+     * The key will be removed after the task completes (even on error).
+     *
+     * @param key the MDC key
+     * @param value the MDC value
+     * @param task the task to run
+     */
+    public static <T> T withMDC(final String key,
+                                final String value,
+                                final @NotNull Supplier<T> task) {
+        try (MDC.MDCCloseable ignored = MDCManager.put(key, value)) {
+            return task.get();
+        }
+    }
+
+    /**
+     * Enables the logger for the specified class to use the specified log level.
+     *
+     * @param className the logger name
+     * @param logLevel the log level to set
+     * @apiNote the name can be any name (class name, package name, custom name,
+     * etc.) because Logback loggers don't specifically tie a class to
+     * a logger, just it's name.
+     */
+    public static void enableSpecificClassLogging(final String className, final Level logLevel) {
+        enableLoggerByName(className, logLevel);
+    }
+
+    /**
+     * Enables the logger for the specified package to use the specified log level.
+     *
+     * @param packageName the logger name
+     * @param logLevel the log level to set
+     * @apiNote the name can be any name (class name, package name, custom name,
+     * etc.) because Logback loggers don't specifically tie a class to
+     * a logger, just it's name.
+     */
+    public static void enableSpecificPackageLogging(final String packageName,
+                                                    final Level logLevel) {
+        enableLoggerByName(packageName, logLevel);
+    }
+
+    /**
+     * Enables the logger for the specified class to use the specified log level.
+     *
+     * @param clazz the class to use for the logger
+     * @param logLevel the log level to set
+     * @apiNote the name can be any name (class name, package name, custom name,
+     * etc.) because Logback loggers don't specifically tie a class to
+     * a logger, just it's name.
+     */
+    public static void enableSpecificClassLogging(final @NotNull Class<?> clazz, final Level logLevel) {
+        enableLoggerByName(clazz.getName(), logLevel);
+    }
+
+    /**
+     * Enables the logger for the specified package to use the specified log level.
+     *
+     * @param packageObj the package to use for the logger
+     * @param logLevel the log level to set
+     * @apiNote the name can be any name (class name, package name, custom name,
+     * etc.) because Logback loggers don't specifically tie a class to
+     * a logger, just it's name.
+     */
+    public static void enableSpecificPackageLogging(final @NotNull Package packageObj,
+                                                    final Level logLevel) {
+        enableLoggerByName(packageObj.getName(), logLevel);
+    }
+
+    /**
+     * Enables the logger for the specified name to use the specified log level.
+     *
+     * @param name the logger name
+     * @apiNote the name can be any name (class name, package name, custom name,
+     * etc.) because Logback loggers don't specifically tie a class to
+     * a logger, just it's name.
+     */
+    public static void enableLoggerByName(final String name,
+                                          final Level logLevel) {
+        setLoggerLevel(name, logLevel);
+    }
+
+    /**
+     * Disables the logger for the specified name by setting the log level
+     * to {@link Level#OFF}.
+     *
+     * @param name the logger name
+     */
+    public static void disableLoggerByName(final String name) {
+        setLoggerLevel(name, Level.OFF);
     }
 
     /**
      * Adds the specified {@link Appender} to the logger for the specified class.
+     *
      * @param className the logger name
      * @param newAppender the appender to add
      */
     public static void addSpecificClassLoggingAppender(final String className,
                                                        final Appender<ILoggingEvent> newAppender) {
-        final Logger logger = logCtx.getLogger(className);
+        final Logger logger = context.getLogger(className);
         logger.setAdditive(false);
         logger.addAppender(newAppender);
     }
 
     /**
+     * Creates a new logger with the specified log level and calls
+     * {@link #createNewConsoleAppender()} to set a console appender.
+     *
+     * @param level the log level to set
+     */
+    public static void initDefaultConsoleLogger(final Level level) {
+        final Logger root = context.getLogger(Logger.ROOT_LOGGER_NAME);
+        root.setAdditive(false);
+        root.setLevel(level);
+        root.addAppender(createNewConsoleAppender());
+    }
+
+    /**
      * Creates a new {@link PatternLayoutEncoder} with the specified pattern.
-     * @apiNote The start method is automatically called at the end of this method.
+     *
      * @param pattern the String pattern
      * @return a new PatternLayoutEncoder instance
+     * @apiNote The start method is automatically called at the end of this method.
      */
     public static @NotNull PatternLayoutEncoder createNewLogEncoder(final String pattern) {
         final PatternLayoutEncoder logEncoder = new PatternLayoutEncoder();
-        logEncoder.setContext(logCtx);
+        logEncoder.setContext(context);
         logEncoder.setPattern(pattern);
         logEncoder.start();
         return logEncoder;
@@ -127,29 +315,33 @@ public final class LoggingManager {
     /**
      * Creates a new {@link ConsoleAppender} with the
      * {@link Encoders#BasicEncoder} and sets the name to "console".
-     * @apiNote The start method is automatically called at the end of this method.
+     *
      * @return a new ConsoleAppender instance
+     * @apiNote The start method is automatically called at the end of this method.
      */
     public static @NotNull ConsoleAppender<ILoggingEvent> createNewConsoleAppender() {
         return createNewConsoleAppender("console", Encoders.BasicEncoder);
     }
 
     /**
-     * Creates a new {@link ConsoleAppender} with the specified encoder and sets the name to "console".
-     * @apiNote The start method is automatically run at the end of this method.
+     * Creates a new {@link ConsoleAppender} with the specified encoder and sets
+     * the name to "console".
+     *
      * @param encoder the encoder to set
      * @return a new ConsoleAppender instance
+     * @apiNote The start method is automatically run at the end of this method.
      */
     public static @NotNull ConsoleAppender<ILoggingEvent> createNewConsoleAppender(final @NotNull Encoders encoder) {
         return createNewConsoleAppender(encoder.getEncoder());
     }
 
     /**
-     * Creates a new {@link ConsoleAppender} with the specified encoder (e.g. PatternLayoutEncoder)
-     * and sets the name to "console".
-     * @apiNote The start method is automatically run at the end of this method.
+     * Creates a new {@link ConsoleAppender} with the specified encoder
+     * (e.g. PatternLayoutEncoder) and sets the name to "console".
+     *
      * @param encoder the encoder to set
      * @return a new ConsoleAppender instance
+     * @apiNote The start method is automatically run at the end of this method.
      */
     public static @NotNull ConsoleAppender<ILoggingEvent> createNewConsoleAppender(final Encoder<ILoggingEvent> encoder) {
         return createNewConsoleAppender("console", encoder);
@@ -157,12 +349,13 @@ public final class LoggingManager {
 
     /**
      * Creates a new {@link ConsoleAppender} with the specified name and encoder.
-     * @apiNote if the name value is null or empty the default is "console" and
-     * if encoder is null then the {@link Encoders#BasicEncoder} is used instead.
-     * Also, the start method is automatically run at the end of this method.
+     *
      * @param name the name to set
      * @param encoder the encoder to set
      * @return a new ConsoleAppender instance
+     * @apiNote if the name value is null or empty the default is "console" and
+     * if encoder is null then the {@link Encoders#BasicEncoder} is used instead.
+     * Also, the start method is automatically run at the end of this method.
      */
     public static @NotNull ConsoleAppender<ILoggingEvent> createNewConsoleAppender(final String name,
                                                                                    final @NotNull Encoders encoder) {
@@ -171,34 +364,40 @@ public final class LoggingManager {
 
     /**
      * Creates a new {@link ConsoleAppender} with the specified name and encoder.
-     * @apiNote if the name value is null or empty the default is "console" and
-     * if encoder is null then the {@link Encoders#BasicEncoder} is used instead.
-     * Also, the start method is automatically run at the end of this method.
+     *
      * @param name the name to set
      * @param encoder the encoder to set
      * @return a new ConsoleAppender instance
+     * @apiNote if the name value is null or empty the default is "console" and
+     * if encoder is null then the {@link Encoders#BasicEncoder} is used instead.
+     * Also, the start method is automatically run at the end of this method.
      */
     public static @NotNull ConsoleAppender<ILoggingEvent> createNewConsoleAppender(final String name,
                                                                                    final Encoder<ILoggingEvent> encoder) {
-        checkArgumentNotNullOrEmpty(name, Literals.cannotBeNullOrEmpty("name"));
         final ConsoleAppender<ILoggingEvent> logConsoleAppender = new ConsoleAppender<>();
-        logConsoleAppender.setContext(logCtx);
-        if (isBlank(name)) {
-            logConsoleAppender.setName("console");
-        } else {
-            logConsoleAppender.setName(name);
-        }
-        if (encoder == null) {
-            logConsoleAppender.setEncoder(Encoders.BasicEncoder.getEncoder());
-        } else {
-            logConsoleAppender.setEncoder(encoder);
-        }
+        logConsoleAppender.setContext(context);
+        logConsoleAppender.setName((name == null || isBlank(name)) ? "console" : name);
+        logConsoleAppender.setEncoder(safeEncoder(encoder));
         logConsoleAppender.start();
         return logConsoleAppender;
     }
 
+    private static @NotNull Encoder<ILoggingEvent> safeEncoder(@Nullable Encoder<ILoggingEvent> encoder) {
+        return encoder == null ? Encoders.BasicEncoder.getEncoder() : encoder;
+    }
+
+    /**
+     * Creates a new RollingFileAppender with the default values.
+     *
+     * @return a new RollingFileAppender instance
+     */
+    public static @NotNull RollingFileAppender<ILoggingEvent> createDefaultRollingFileAppender() {
+        return getRollingFileAppenderBuilder().build();
+    }
+
     /**
      * Gets a new RollingFileAppenderBuilder instance.
+     *
      * @return a new RollingFileAppenderBuilder instance
      */
     @Contract(value = " -> new", pure = true)
@@ -209,122 +408,91 @@ public final class LoggingManager {
     /**
      * This class contains methods to build a RollingFileAppender.
      */
-    @SuppressWarnings("FieldHasSetterButNoGetter")
+    @Data
+    @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class RollingFileAppenderBuilder implements Buildable<RollingFileAppender<ILoggingEvent>> {
-        private String name;
-        private TimeBasedRollingPolicy<ILoggingEvent> logFilePolicy;
-        private PatternLayoutEncoder encoder;
-        private String fileName;
-
-        private RollingFileAppenderBuilder() { }
+        private String name = "logFile";
+        private TimeBasedRollingPolicy<ILoggingEvent> logFilePolicy = createDefaultTimeBasedRollingPolicy();
+        private PatternLayoutEncoder encoder = Encoders.BasicEncoder.getEncoder();
+        private String fileName = DEFAULT_LOG_FILE_NAME_DATED;
 
         /**
          * Sets the name of the appender.
+         *
          * @param name the name to set
          * @return this instance
          */
         public RollingFileAppenderBuilder setName(final String name) {
-            this.name = name;
+            if(name != null && !isBlank(name)) this.name = name;
             return this;
         }
 
         /**
          * Sets the TimeBasedRollingPolicy.
-         * @apiNote This must be set or the build method will throw an IllegalArgumentException.
+         *
          * @param logFilePolicy the policy to set
          * @return this instance
+         * @apiNote This must be set or the build method will
+         * throw an IllegalArgumentException.
          */
         public RollingFileAppenderBuilder setLogFilePolicy(final TimeBasedRollingPolicy<ILoggingEvent> logFilePolicy) {
-            this.logFilePolicy = logFilePolicy;
+            if(logFilePolicy != null) this.logFilePolicy = logFilePolicy;
             return this;
         }
 
         /**
          * Sets the PatternLayoutEncoder.
+         *
          * @param encoder the encoder to set
          * @return this instance
          */
         public RollingFileAppenderBuilder setEncoder(final PatternLayoutEncoder encoder) {
-            this.encoder = encoder;
+            if(encoder != null) this.encoder = encoder;
             return this;
         }
 
         /**
          * Sets the filename.
+         *
          * @param fileName the filename to set
          * @return this instance
          */
         public RollingFileAppenderBuilder setFileName(final String fileName) {
-            this.fileName = fileName;
+            if(fileName != null && !isBlank(fileName)) this.fileName = fileName;
             return this;
         }
 
         /**
          * Builds a new RollingFileAppender instance.
+         *
+         * @return a new RollingFileAppender instance
          * @apiNote If the name is not set the default is "logFile" and
          * if the encoder is not set the {@link Encoders#BasicEncoder} is used instead.
          * The start method on both the TimeBasedRollingPolicy
          * and the new RollingFileAppender are called automatically.
-         * @return a new RollingFileAppender instance
          */
         @Override
         public @NotNull RollingFileAppender<ILoggingEvent> build() {
-            checkArgumentNotNull(logFilePolicy, "LogFilePolicy Must Be Set!");
             final RollingFileAppender<ILoggingEvent> logFileAppender = new RollingFileAppender<>();
-            logFileAppender.setContext(logCtx);
+            logFileAppender.setContext(context);
             logFileAppender.setAppend(true);
-
-            if (isBlank(name)) {
-                logFileAppender.setName("logFile");
-            } else {
-                logFileAppender.setName(name);
-            }
-            logFileAppender.setEncoder(requireNonNullElse(encoder, Encoders.BasicEncoder.getEncoder()));
-            if(fileName != null && !isBlank(fileName)) logFileAppender.setFile(fileName);
-
+            logFileAppender.setName(name);
+            logFileAppender.setEncoder(encoder);
+            logFileAppender.setFile(fileName);
             logFilePolicy.setParent(logFileAppender);
             logFileAppender.setRollingPolicy(logFilePolicy);
             logFileAppender.start();
             return logFileAppender;
         }
+    }
 
-        @Override
-        public boolean equals(final Object obj) {
-            if (this == obj) return true;
-
-            if (!(obj instanceof final RollingFileAppenderBuilder builder)) return false;
-
-            return new EqualsBuilder()
-                    .append(name, builder.name)
-                    .append(logFilePolicy, builder.logFilePolicy)
-                    .append(encoder, builder.encoder)
-                    .append(fileName, builder.fileName)
-                    .isEquals();
-        }
-
-        @Override
-        public int hashCode() {
-            return new HashCodeBuilder(17, 37)
-                    .append(name)
-                    .append(logFilePolicy)
-                    .append(encoder)
-                    .append(fileName)
-                    .toHashCode();
-        }
-
-        @Override
-        public String toString() {
-            return new ToStringBuilder(this)
-                    .append("name", name)
-                    .append("logFilePolicy", logFilePolicy)
-                    .append("encoder", encoder)
-                    .append("fileName", fileName)
-                    .toString();
-        }
+    public static @NotNull TimeBasedRollingPolicy<ILoggingEvent> createDefaultTimeBasedRollingPolicy() {
+        return new TimeBasedRollingPolicyBuilder().build();
     }
 
     /**
      * Gets a new TimeBasedRollingPolicyBuilder instance.
+     *
      * @return a new TimeBasedRollingPolicyBuilder instance
      */
     @Contract(value = " -> new", pure = true)
@@ -335,54 +503,60 @@ public final class LoggingManager {
     /**
      * This class contains methods to build a TimeBasedRollingPolicy.
      */
-    @SuppressWarnings("FieldHasSetterButNoGetter")
+    @Data
+    @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class TimeBasedRollingPolicyBuilder implements Buildable<TimeBasedRollingPolicy<ILoggingEvent>> {
-        private String fileNamePattern;
-        private FileSize totalSizeCap;
-        private int maxFileHistory;
-        private boolean cleanHistoryOnStart;
-        private TimeBasedFileNamingAndTriggeringPolicy<ILoggingEvent> timeBasedFileNamingAndTriggeringPolicy;
-        private FileAppender<ILoggingEvent> parent;
-
-        private TimeBasedRollingPolicyBuilder() {
-            fileNamePattern = "logfile-%d{yyyy-MM-dd_HH}.log";
-        }
+        private String fileNamePattern = DEFAULT_LOG_FILE_NAME_DATED;
+        private FileSize totalSizeCap = FILE_SIZE_UNLIMITED;
+        private int maxFileHistory = MAX_HISTORY_UNLIMITED;
+        private boolean cleanHistoryOnStart = false;
+        private TimeBasedFileNamingAndTriggeringPolicy<ILoggingEvent> timeBasedFileNamingAndTriggeringPolicy =
+                new DefaultTimeBasedFileNamingAndTriggeringPolicy<>();
+        private FileAppender<ILoggingEvent> parent = null;
 
         /**
          * Sets the fileName pattern.
+         *
          * @param fileNamePattern the pattern to set
          * @return this instance
          */
         public TimeBasedRollingPolicyBuilder setFileNamePattern(final String fileNamePattern) {
-            this.fileNamePattern = fileNamePattern;
+            if(fileNamePattern != null && !isBlank(fileNamePattern)) {
+                this.fileNamePattern = fileNamePattern;
+            }
             return this;
         }
 
         /**
          * Sets the total size cap parsed from a string.
+         *
          * @param totalSizeCap the total size cap to set
          * @return this instance
          */
         public TimeBasedRollingPolicyBuilder setTotalSizeCap(final String totalSizeCap) {
-            this.totalSizeCap = FileSize.valueOf(totalSizeCap);
+            if(totalSizeCap != null && !isBlank(totalSizeCap)) {
+                this.totalSizeCap = FileSize.valueOf(totalSizeCap);
+            }
             return this;
         }
 
         /**
          * Sets the total size cap parsed from a {@link FileSize} object.
+         *
          * @param totalSizeCap the total size cap to set
          * @return this instance
          */
         public TimeBasedRollingPolicyBuilder setTotalSizeCap(final FileSize totalSizeCap) {
-            this.totalSizeCap = totalSizeCap;
+            if(totalSizeCap != null) this.totalSizeCap = totalSizeCap;
             return this;
         }
 
         /**
          * Sets the maximum number of archive files to keep.
-         * @apiNote if this value is less than 0 then this setting is ignored.
+         *
          * @param maxFileHistory the value to set
          * @return this instance
+         * @apiNote if this value is less than 0 then this setting is ignored.
          */
         public TimeBasedRollingPolicyBuilder setMaxFileHistory(final int maxFileHistory) {
             this.maxFileHistory = maxFileHistory;
@@ -391,6 +565,7 @@ public final class LoggingManager {
 
         /**
          * Sets if archive removal should be attempted on application start up.
+         *
          * @param cleanHistoryOnStart the value to set
          * @return this instance
          */
@@ -401,6 +576,7 @@ public final class LoggingManager {
 
         /**
          * Sets the TimeBasedFileNamingAndTriggeringPolicy.
+         *
          * @param timeBasedTriggering the policy to set
          * @return this instance
          */
@@ -412,11 +588,12 @@ public final class LoggingManager {
 
         /**
          * Sets the parent FileAppender.
+         *
+         * @param appender the parent appender to set
+         * @return this instance
          * @apiNote This method is not necessary if passing this object to the
          * {@link RollingFileAppenderBuilder#setLogFilePolicy(TimeBasedRollingPolicy)}
          * method as this value is set automatically during the build method.
-         * @param appender the parent appender to set
-         * @return this instance
          */
         public TimeBasedRollingPolicyBuilder setParent(final FileAppender<ILoggingEvent> appender) {
             this.parent = appender;
@@ -425,66 +602,22 @@ public final class LoggingManager {
 
         /**
          * Builds a new TimeBasedRollingPolicy instance.
+         *
+         * @return a new TimeBasedRollingPolicy instance
          * @apiNote The start method is not called automatically to allow adding the
          * policy to a RollingFileAppender first.
-         * @return a new TimeBasedRollingPolicy instance
          */
-        @SuppressWarnings("MethodWithMoreThanThreeNegations")
         @Override
         public @NotNull TimeBasedRollingPolicy<ILoggingEvent> build() {
-            final TimeBasedRollingPolicy<ILoggingEvent> logFilePolicy = new TimeBasedRollingPolicy<>();
-            logFilePolicy.setContext(logCtx);
-            logFilePolicy.setFileNamePattern(fileNamePattern);
-            if(totalSizeCap != null) logFilePolicy.setTotalSizeCap(totalSizeCap);
-            if(maxFileHistory != -1) logFilePolicy.setMaxHistory(maxFileHistory);
-            logFilePolicy.setCleanHistoryOnStart(cleanHistoryOnStart);
-            if(timeBasedFileNamingAndTriggeringPolicy != null) {
-                logFilePolicy.setTimeBasedFileNamingAndTriggeringPolicy(timeBasedFileNamingAndTriggeringPolicy);
-            }
-            if(parent != null) logFilePolicy.setParent(parent);
-            return logFilePolicy;
-        }
-
-        @Override
-        public boolean equals(final Object obj) {
-            if (this == obj) return true;
-
-            if (!(obj instanceof final TimeBasedRollingPolicyBuilder builder)) return false;
-
-            return new EqualsBuilder()
-                    .append(maxFileHistory, builder.maxFileHistory)
-                    .append(cleanHistoryOnStart, builder.cleanHistoryOnStart)
-                    .append(fileNamePattern, builder.fileNamePattern)
-                    .append(totalSizeCap, builder.totalSizeCap)
-                    .append(timeBasedFileNamingAndTriggeringPolicy, builder.timeBasedFileNamingAndTriggeringPolicy)
-                    .append(parent, builder.parent)
-                    .isEquals();
-        }
-
-        @Override
-        public int hashCode() {
-            return new HashCodeBuilder(17, 37)
-                    .append(fileNamePattern)
-                    .append(totalSizeCap)
-                    .append(maxFileHistory)
-                    .append(cleanHistoryOnStart)
-                    .append(timeBasedFileNamingAndTriggeringPolicy)
-                    .append(parent)
-                    .toHashCode();
-        }
-
-        @Override
-        public String toString() {
-            return new ToStringBuilder(this)
-                    .append("fileNamePattern", fileNamePattern)
-                    .append("totalSizeCap", totalSizeCap)
-                    .append("maxFileHistory", maxFileHistory)
-                    .append("cleanHistoryOnStart", cleanHistoryOnStart)
-                    .append("timeBasedFileNamingAndTriggeringPolicy", timeBasedFileNamingAndTriggeringPolicy)
-                    .append("parent", parent)
-                    .toString();
+            final TimeBasedRollingPolicy<ILoggingEvent> rollingPolicy = new TimeBasedRollingPolicy<>();
+            rollingPolicy.setContext(context);
+            rollingPolicy.setFileNamePattern(fileNamePattern);
+            rollingPolicy.setTotalSizeCap(totalSizeCap);
+            rollingPolicy.setMaxHistory(maxFileHistory);
+            rollingPolicy.setCleanHistoryOnStart(cleanHistoryOnStart);
+            rollingPolicy.setTimeBasedFileNamingAndTriggeringPolicy(timeBasedFileNamingAndTriggeringPolicy);
+            if(parent != null) rollingPolicy.setParent(parent);
+            return rollingPolicy;
         }
     }
-
-    private LoggingManager() { }
 }

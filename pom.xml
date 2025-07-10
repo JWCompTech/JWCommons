@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.jwcomptech.commons</groupId>
-    <artifactId>JWCommons</artifactId>
+    <artifactId>jwcommons</artifactId>
     <version>1.0.0-alpha</version>
 
     <properties>
@@ -61,7 +61,7 @@
                 <role>Lead Developer</role>
             </roles>
             <organization>JWCompTech</organization>
-            <organizationUrl>https://github.com/JWCompTech/JWCommons</organizationUrl>
+            <organizationUrl>https://github.com/JWCompTech</organizationUrl>
             <timezone>America/New_York</timezone>
         </developer>
     </developers>
