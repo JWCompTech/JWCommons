@@ -1,7 +1,28 @@
 package com.jwcomptech.commons.logging;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+/*-
+ * #%L
+ * JWCT Commons
+ * %%
+ * Copyright (C) 2025 JWCompTech
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Lesser Public License for more details.
+ *
+ * You should have received a copy of the GNU General Lesser Public
+ * License along with this program.  If not, see
+ * <http://www.gnu.org/licenses/lgpl-3.0.html>.
+ * #L%
+ */
+
+import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.LoggerFactory;
@@ -40,8 +61,19 @@ import java.util.function.Supplier;
  *
  * @since 1.0.0-alpha
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Data
 public final class MDCManager {
+
+    private final JWLoggerConfigMethods methods;
+
+    public MDCManager() {
+        this.methods = null;
+    }
+
+    public MDCManager(final JWLoggerConfigMethods methods) {
+        this.methods = methods;
+    }
+
     /**
      * Puts a key-value pair into MDC.
      *
@@ -62,7 +94,7 @@ public final class MDCManager {
      * @return a closable object for use in try-with-resources,
      * will return null if key is null
      */
-    public static @Nullable MDC.MDCCloseable put(final String key, final String value) {
+    public @Nullable MDC.MDCCloseable put(final String key, final String value) {
         if (!isNullOrBlank(key) && value != null) {
             return MDC.putCloseable(key, value);
         }
@@ -80,7 +112,7 @@ public final class MDCManager {
      * @return the string value identified by the {@code key} parameter,
      * will return null if {@code key} is null
      */
-    public static @Nullable String get(final String key) {
+    public @Nullable String get(final String key) {
         return isNullOrBlank(key) ? null : MDC.get(key);
     }
 
@@ -92,7 +124,7 @@ public final class MDCManager {
      * @apiNote This method does nothing if {@code key} is null
      * or if there is no previous value associated with {@code key}.
      */
-    public static void remove(final String key) {
+    public void remove(final String key) {
         if (!isNullOrBlank(key)) {
             MDC.remove(key);
         }
@@ -101,7 +133,7 @@ public final class MDCManager {
     /**
      * Clears the entire MDC context.
      */
-    public static void clear() {
+    public void clear() {
         MDC.clear();
     }
 
@@ -111,7 +143,7 @@ public final class MDCManager {
      *
      * @return A copy of the current thread's context map. May be null.
      */
-    public static Map<String, String> getCopyOfContextMap() {
+    public Map<String, String> getCopyOfContextMap() {
         return MDC.getCopyOfContextMap();
     }
 
@@ -125,7 +157,7 @@ public final class MDCManager {
      * @param contextMap
      *          must contain only keys and values of type String
      */
-    public static void setContextMap(final Map<String, String> contextMap) {
+    public void setContextMap(final Map<String, String> contextMap) {
         MDC.setContextMap(contextMap);
     }
 
@@ -137,7 +169,7 @@ public final class MDCManager {
      * the adapter returned by the SLF4JProvider. However, in the vast majority of cases
      * the MDCAdapter will be set earlier (during initialization) by {@link LoggerFactory}.
      */
-    public static MDCAdapter getMDCAdapter() {
+    public MDCAdapter getMDCAdapter() {
         return MDC.getMDCAdapter();
     }
 
@@ -147,7 +179,7 @@ public final class MDCManager {
      * @param key identifies the  stack
      * @return copy of stack referenced by 'key'. May be null.
      */
-    public static Deque<String> getCopyOfDequeByKey(final @Nullable String key) {
+    public Deque<String> getCopyOfDequeByKey(final @Nullable String key) {
         return MDC.getMDCAdapter().getCopyOfDequeByKey(key);
     }
 
@@ -159,7 +191,7 @@ public final class MDCManager {
      * @param value the MDC value
      * @param task the task to run
      */
-    public static void with(final String key,
+    public void with(final String key,
                                final String value,
                                final @NotNull Runnable task) {
         try (MDC.MDCCloseable ignored = put(key, value)) {
@@ -176,7 +208,7 @@ public final class MDCManager {
      * @param task the task to run
      * @return the value from the supplier task
      */
-    public static <T> T with(final String key,
+    public <T> T with(final String key,
                                 final String value,
                                 final @NotNull Supplier<T> task) {
         try (MDC.MDCCloseable ignored = put(key, value)) {
@@ -186,5 +218,14 @@ public final class MDCManager {
 
     private static boolean isNullOrBlank(String s) {
         return s == null || s.isBlank(); // Java 11+
+    }
+
+    /**
+     * Returns to the parent {@link JWLoggerConfigMethods} instance if available.
+     *
+     * @return the parent JWLoggerConfigMethods instance, or null if unavailable
+     */
+    public JWLoggerConfigMethods back() {
+        return methods;
     }
 }

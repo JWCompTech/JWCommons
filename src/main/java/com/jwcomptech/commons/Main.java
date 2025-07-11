@@ -47,7 +47,7 @@ public final class Main extends Application {
     @Override
     public void start(@NotNull final Stage stage) throws XMLStreamException, InterruptedException {
         final Logger logger = LoggerFactory.getLogger(Main.class);
-        JWLogger.of(Main.class.getPackage())
+        JWLogger.of(Main.class.getPackage()).config()
                 .useLimitedConsole(Level.INFO);
 
         final Model pom = POMManager.getInstance().getInternalPOM();

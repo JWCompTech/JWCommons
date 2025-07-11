@@ -173,7 +173,7 @@ public final class LoggingManager {
     public static void withMDC(final String key,
                                final String value,
                                final @NotNull Runnable task) {
-        try (MDC.MDCCloseable ignored = MDCManager.put(key, value)) {
+        try (MDC.MDCCloseable ignored = new MDCManager().put(key, value)) {
             task.run();
         }
     }
@@ -189,7 +189,7 @@ public final class LoggingManager {
     public static <T> T withMDC(final String key,
                                 final String value,
                                 final @NotNull Supplier<T> task) {
-        try (MDC.MDCCloseable ignored = MDCManager.put(key, value)) {
+        try (MDC.MDCCloseable ignored = new MDCManager().put(key, value)) {
             return task.get();
         }
     }

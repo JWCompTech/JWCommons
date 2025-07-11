@@ -24,15 +24,19 @@ package com.jwcomptech.commons.logging;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.ConsoleAppender;
 import ch.qos.logback.core.encoder.Encoder;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.Value;
+import lombok.*;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Marker;
+import org.slf4j.event.LoggingEvent;
+import org.slf4j.spi.LoggingEventBuilder;
+
+import java.util.Iterator;
 
 /**
  * A fluent wrapper around a single Logback {@link ch.qos.logback.classic.Logger} instance
@@ -62,10 +66,11 @@ import org.jetbrains.annotations.NotNull;
  * @since 1.0.0-alpha
  */
 @SuppressWarnings({"unused", "UnusedReturnValue"})
-@Value
+@Data
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.NONE)
 public class JWLogger {
-    Logger logger;
+    private final Logger logger;
 
     /**
      * Creates a new instance of LoggerConfig with the specified logger object.
@@ -128,6 +133,10 @@ public class JWLogger {
         return logger.getName();
     }
 
+    public LoggerContext getLoggerContext() {
+        return logger.getLoggerContext();
+    }
+
     /**
      * Configures the log level of the logger.
      *
@@ -135,7 +144,7 @@ public class JWLogger {
      * @return this instance
      * @apiNote Additive is automatically disabled in this method
      */
-    public JWLogger setLogLevel(final Level logLevel) {
+    public JWLogger setLevel(final Level logLevel) {
         logger.setAdditive(false);
         logger.setLevel(logLevel);
         return this;
@@ -146,223 +155,582 @@ public class JWLogger {
      *
      * @return the log level of the logger
      */
-    public Level getLogLevel() {
+    public Level getLevel() {
         return logger.getLevel();
     }
 
     /**
-     * Resets the logger level and appenders to inherit from parent.
+     * Returns the effective log level of the logger.
      *
-     * @return this instance
+     * @return the effective log level of the logger
      */
-    public JWLogger reset() {
-        logger.setLevel(null); // null means inherit
-        logger.setAdditive(true);
-        logger.detachAndStopAllAppenders();
-        return this;
+    public Level getEffectiveLevel() {
+        return logger.getEffectiveLevel();
+    }
+
+    //region Logging Methods
+
+    /**
+     * Logs an error-level message.
+     *
+     * @param msg the message to log
+     */
+    public void error(final String msg) {
+        logger.error(msg);
     }
 
     /**
-     * Configures the logger to use the specified log level and adds
-     * the {@link Appenders#LimitedConsoleAppender}.
+     * Logs an error-level message using the specified SLF4J marker.
      *
-     * @param logLevel the log level to set
-     * @return this instance
-     * @apiNote Additive is automatically disabled in this method
+     * @param marker the marker associated with the log event
+     * @param msg the message to log
      */
-    public JWLogger useLimitedConsole(final Level logLevel) {
-        logger.setAdditive(false);
-        logger.setLevel(logLevel);
-        attachIfAbsent(Appenders.LimitedConsoleAppender.getAppender());
-        return this;
+    public void error(final Marker marker, final String msg) {
+        logger.error(marker, msg);
     }
 
     /**
-     * Configures the logger to use the specified log level and adds
-     * the {@link Appenders#BasicConsoleAppender}.
+     * Logs an error-level message along with a {@link Throwable} cause.
      *
-     * @param logLevel the log level to set
-     * @return this instance
-     * @apiNote Additive is automatically disabled in this method
+     * @param msg the message to log
+     * @param t the exception to include in the log
      */
-    public JWLogger useBasicConsole(final Level logLevel) {
-        logger.setAdditive(false);
-        logger.setLevel(logLevel);
-        attachIfAbsent(Appenders.BasicConsoleAppender.getAppender());
-        return this;
+    public void error(final String msg, final Throwable t) {
+        logger.error(msg, t);
     }
 
     /**
-     * Configures the logger to use the specified log level and adds
-     * the {@link Appenders#ExtendedConsoleAppender}.
+     * Logs an error-level message with a throwable and an SLF4J marker.
      *
-     * @param logLevel the log level to set
-     * @return this instance
-     * @apiNote Additive is automatically disabled in this method
+     * @param marker the marker associated with the log event
+     * @param msg the message to log
+     * @param t the exception to include in the log
      */
-    public JWLogger useExtendedConsole(final Level logLevel) {
-        logger.setAdditive(false);
-        logger.setLevel(logLevel);
-        attachIfAbsent(Appenders.ExtendedConsoleAppender.getAppender());
-        return this;
+    public void error(final Marker marker, final String msg, final Throwable t) {
+        logger.error(marker, msg, t);
     }
 
     /**
-     * Disables the logger by setting the log level to {@link Level#OFF}.
+     * Logs an error-level formatted message with variable arguments.
      *
-     * @return this instance
-     * @apiNote Additive is automatically disabled in this method
+     * @param format the message format string
+     * @param argArray the arguments to substitute into the format
      */
-    public JWLogger disable() {
-        logger.setAdditive(false);
-        logger.setLevel(Level.OFF);
-        return this;
+    public void error(final String format, final Object... argArray) {
+        logger.error(format, argArray);
     }
 
     /**
-     * Adds the specified {@link Appender} to the logger.
+     * Logs an error-level formatted message with one argument.
      *
-     * @param appender the appender to add
-     * @return this instance
-     * @apiNote Additive is automatically disabled in this method
+     * @param format the format string
+     * @param arg the argument to insert
      */
-    public JWLogger addAppender(final @NotNull Appenders appender) {
-        logger.setAdditive(false);
-        attachIfAbsent(appender.getAppender());
-        return this;
+    public void error(final String format, final Object arg) {
+        logger.error(format, arg);
     }
 
     /**
-     * Adds the specified {@link Appender} to the logger.
+     * Logs an error-level formatted message with two arguments.
      *
-     * @param newAppender the appender to add
-     * @return this instance
-     * @apiNote Additive is automatically disabled in this method
+     * @param format the format string
+     * @param arg1 the first argument
+     * @param arg2 the second argument
      */
-    public JWLogger addAppender(final Appender<ILoggingEvent> newAppender) {
-        logger.setAdditive(false);
-        attachIfAbsent(newAppender);
-        return this;
-    }
-
-    private void attachIfAbsent(final Appender<ILoggingEvent> appender) {
-        if (!hasAppender(appender)) {
-            logger.addAppender(appender);
-        }
+    public void error(final String format, final Object arg1, final Object arg2) {
+        logger.error(format, arg1, arg2);
     }
 
     /**
-     * Adds a new {@link ConsoleAppender} with the encoder from {@link Encoders#BasicEncoder}
-     * and sets the name to "console".
+     * Logs an error-level formatted message with a marker and multiple arguments.
      *
-     * @return this instance
-     * @apiNote The start method is automatically called at the end of this method.
+     * @param marker the marker associated with the log event
+     * @param format the format string
+     * @param argArray the arguments to insert
      */
-    public JWLogger addNewConsoleAppender() {
-        return addNewConsoleAppender("console", Encoders.BasicEncoder);
+    public void error(final Marker marker, final String format, final Object... argArray) {
+        logger.error(marker, format, argArray);
     }
 
     /**
-     * Adds a new {@link ConsoleAppender} with the specified encoder and sets the name to "console".
+     * Logs an error-level formatted message with a marker and one argument.
      *
-     * @param encoder the encoder to set
-     * @return this instance
-     * @apiNote The start method is automatically called at the end of this method.
+     * @param marker the marker associated with the log event
+     * @param format the format string
+     * @param arg the argument to insert
      */
-    public JWLogger addNewConsoleAppender(final @NotNull Encoders encoder) {
-        return addNewConsoleAppender(encoder.getEncoder());
+    public void error(final Marker marker, final String format, final Object arg) {
+        logger.error(marker, format, arg);
     }
 
     /**
-     * Adds a new {@link ConsoleAppender} with the specified encoder (e.g. PatternLayoutEncoder) and sets the name to "console".
+     * Logs an error-level formatted message with a marker and two arguments.
      *
-     * @param encoder the encoder to set
-     * @return this instance
-     * @apiNote The start method is automatically called at the end of this method.
+     * @param marker the marker associated with the log event
+     * @param format the format string
+     * @param arg1 the first argument
+     * @param arg2 the second argument
      */
-    public JWLogger addNewConsoleAppender(final Encoder<ILoggingEvent> encoder) {
-        return addNewConsoleAppender("console", encoder);
+    public void error(final Marker marker, final String format, final Object arg1, final Object arg2) {
+        logger.error(marker, format, arg1, arg2);
+    }
+
+
+    /**
+     * Logs a warn-level message.
+     *
+     * @param msg the message to log
+     */
+    public void warn(final String msg) {
+        logger.warn(msg);
     }
 
     /**
-     * Adds a new {@link ConsoleAppender} with the specified name and encoder.
+     * Logs a warn-level message using the specified SLF4J marker.
      *
-     * @param name the name to set
-     * @param encoder the encoder to set
-     * @return this instance
-     * @apiNote if the name value is null or empty the default is "console" and
-     * if encoder is null then the encoder from
-     * {@link Encoders#BasicEncoder} is used instead.
-     * Also, the start method is automatically run at the end of this method.
+     * @param marker the marker associated with the log event
+     * @param msg the message to log
      */
-    public JWLogger addNewConsoleAppender(final String name, final @NotNull Encoders encoder) {
-        return addNewConsoleAppender(name, encoder.getEncoder());
+    public void warn(final Marker marker, final String msg) {
+        logger.warn(marker, msg);
     }
 
     /**
-     * Adds a new {@link ConsoleAppender} with the specified name and encoder.
+     * Logs a warn-level message along with a {@link Throwable} cause.
      *
-     * @param name the name to set
-     * @param encoder the encoder to set
-     * @return this instance
-     * @apiNote if the name value is null or empty the default is "console" and
-     * if encoder is null then the encoder from
-     * {@link Encoders#BasicEncoder} is used instead.
-     * Also, the start method is automatically run at the end of this method.
+     * @param msg the message to log
+     * @param t the exception to include in the log
      */
-    public JWLogger addNewConsoleAppender(final String name, final Encoder<ILoggingEvent> encoder) {
-        return addAppender(LoggingManager.createNewConsoleAppender(name, encoder));
+    public void warn(final String msg, final Throwable t) {
+        logger.warn(msg, t);
     }
 
     /**
-     * Removes the specified appender.
+     * Logs a warn-level message with a throwable and an SLF4J marker.
      *
-     * @param name the name of the appender to remove
-     * @return true if no errors occurred
+     * @param marker the marker associated with the log event
+     * @param msg the message to log
+     * @param t the exception to include in the log
      */
-    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
-    public boolean removeAppender(final String name) {
-        return logger.detachAppender(name);
+    public void warn(final Marker marker, final String msg, final Throwable t) {
+        logger.warn(marker, msg, t);
     }
 
     /**
-     * Removes the specified appender.
+     * Logs a warn-level formatted message with variable arguments.
      *
-     * @param appender the appender to remove
-     * @return true if no errors occurred
+     * @param format the message format string
+     * @param argArray the arguments to substitute into the format
      */
-    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
-    public boolean removeAppender(final Appender<ILoggingEvent> appender) {
-        return logger.detachAppender(appender);
+    public void warn(final String format, final Object... argArray) {
+        logger.warn(format, argArray);
     }
 
     /**
-     * Checks if the logger has the specified appender.
+     * Logs a warn-level formatted message with one argument.
      *
-     * @param name the name of the appender to lookup
-     * @return true if exists
+     * @param format the format string
+     * @param arg the argument to insert
      */
-    public boolean hasAppender(final String name) {
-        return logger.getAppender(name) != null;
+    public void warn(final String format, final Object arg) {
+        logger.warn(format, arg);
     }
 
     /**
-     * Checks if the logger has the specified appender.
+     * Logs a warn-level formatted message with two arguments.
      *
-     * @param appender the appender to lookup
-     * @return true if exists
+     * @param format the format string
+     * @param arg1 the first argument
+     * @param arg2 the second argument
      */
-    public boolean hasAppender(final Appender<ILoggingEvent> appender) {
-        return logger.isAttached(appender);
+    public void warn(final String format, final Object arg1, final Object arg2) {
+        logger.warn(format, arg1, arg2);
     }
 
     /**
-     * Returns the specified appender.
+     * Logs a warn-level formatted message with a marker and multiple arguments.
      *
-     * @param name the name of the appender to lookup
-     * @return the appender instance
+     * @param marker the marker associated with the log event
+     * @param format the format string
+     * @param argArray the arguments to insert
      */
-    public Appender<ILoggingEvent> getAppender(final String name) {
-        return logger.getAppender(name);
+    public void warn(final Marker marker, final String format, final Object... argArray) {
+        logger.warn(marker, format, argArray);
+    }
+
+    /**
+     * Logs a warn-level formatted message with a marker and one argument.
+     *
+     * @param marker the marker associated with the log event
+     * @param format the format string
+     * @param arg the argument to insert
+     */
+    public void warn(final Marker marker, final String format, final Object arg) {
+        logger.warn(marker, format, arg);
+    }
+
+    /**
+     * Logs a warn-level formatted message with a marker and two arguments.
+     *
+     * @param marker the marker associated with the log event
+     * @param format the format string
+     * @param arg1 the first argument
+     * @param arg2 the second argument
+     */
+    public void warn(final Marker marker, final String format, final Object arg1, final Object arg2) {
+        logger.warn(marker, format, arg1, arg2);
+    }
+
+
+    /**
+     * Logs an info-level message.
+     *
+     * @param msg the message to log
+     */
+    public void info(final String msg) {
+        logger.info(msg);
+    }
+
+    /**
+     * Logs an info-level message using the specified SLF4J marker.
+     *
+     * @param marker the marker associated with the log event
+     * @param msg the message to log
+     */
+    public void info(final Marker marker, final String msg) {
+        logger.info(marker, msg);
+    }
+
+    /**
+     * Logs an info-level message along with a {@link Throwable} cause.
+     *
+     * @param msg the message to log
+     * @param t the exception to include in the log
+     */
+    public void info(final String msg, final Throwable t) {
+        logger.info(msg, t);
+    }
+
+    /**
+     * Logs an info-level message with a throwable and an SLF4J marker.
+     *
+     * @param marker the marker associated with the log event
+     * @param msg the message to log
+     * @param t the exception to include in the log
+     */
+    public void info(final Marker marker, final String msg, final Throwable t) {
+        logger.info(marker, msg, t);
+    }
+
+    /**
+     * Logs an info-level formatted message with variable arguments.
+     *
+     * @param format the message format string
+     * @param argArray the arguments to substitute into the format
+     */
+    public void info(final String format, final Object... argArray) {
+        logger.info(format, argArray);
+    }
+
+    /**
+     * Logs an info-level formatted message with one argument.
+     *
+     * @param format the format string
+     * @param arg the argument to insert
+     */
+    public void info(final String format, final Object arg) {
+        logger.info(format, arg);
+    }
+
+    /**
+     * Logs an info-level formatted message with two arguments.
+     *
+     * @param format the format string
+     * @param arg1 the first argument
+     * @param arg2 the second argument
+     */
+    public void info(final String format, final Object arg1, final Object arg2) {
+        logger.info(format, arg1, arg2);
+    }
+
+    /**
+     * Logs an info-level formatted message with a marker and multiple arguments.
+     *
+     * @param marker the marker associated with the log event
+     * @param format the format string
+     * @param argArray the arguments to insert
+     */
+    public void info(final Marker marker, final String format, final Object... argArray) {
+        logger.info(marker, format, argArray);
+    }
+
+    /**
+     * Logs an info-level formatted message with a marker and one argument.
+     *
+     * @param marker the marker associated with the log event
+     * @param format the format string
+     * @param arg the argument to insert
+     */
+    public void info(final Marker marker, final String format, final Object arg) {
+        logger.info(marker, format, arg);
+    }
+
+    /**
+     * Logs an info-level formatted message with a marker and two arguments.
+     *
+     * @param marker the marker associated with the log event
+     * @param format the format string
+     * @param arg1 the first argument
+     * @param arg2 the second argument
+     */
+    public void info(final Marker marker, final String format, final Object arg1, final Object arg2) {
+        logger.info(marker, format, arg1, arg2);
+    }
+
+
+    /**
+     * Logs a debug-level message.
+     *
+     * @param msg the message to log
+     */
+    public void debug(final String msg) {
+        logger.debug(msg);
+    }
+
+    /**
+     * Logs a debug-level message using the specified SLF4J marker.
+     *
+     * @param marker the marker associated with the log event
+     * @param msg the message to log
+     */
+    public void debug(final Marker marker, final String msg) {
+        logger.debug(marker, msg);
+    }
+
+    /**
+     * Logs a debug-level message along with a {@link Throwable} cause.
+     *
+     * @param msg the message to log
+     * @param t the exception to include in the log
+     */
+    public void debug(final String msg, final Throwable t) {
+        logger.debug(msg, t);
+    }
+
+    /**
+     * Logs a debug-level message with a throwable and an SLF4J marker.
+     *
+     * @param marker the marker associated with the log event
+     * @param msg the message to log
+     * @param t the exception to include in the log
+     */
+    public void debug(final Marker marker, final String msg, final Throwable t) {
+        logger.debug(marker, msg, t);
+    }
+
+    /**
+     * Logs a debug-level formatted message with variable arguments.
+     *
+     * @param format the message format string
+     * @param argArray the arguments to substitute into the format
+     */
+    public void debug(final String format, final Object... argArray) {
+        logger.debug(format, argArray);
+    }
+
+    /**
+     * Logs a debug-level formatted message with one argument.
+     *
+     * @param format the format string
+     * @param arg the argument to insert
+     */
+    public void debug(final String format, final Object arg) {
+        logger.debug(format, arg);
+    }
+
+    /**
+     * Logs a debug-level formatted message with two arguments.
+     *
+     * @param format the format string
+     * @param arg1 the first argument
+     * @param arg2 the second argument
+     */
+    public void debug(final String format, final Object arg1, final Object arg2) {
+        logger.debug(format, arg1, arg2);
+    }
+
+    /**
+     * Logs a debug-level formatted message with a marker and multiple arguments.
+     *
+     * @param marker the marker associated with the log event
+     * @param format the format string
+     * @param argArray the arguments to insert
+     */
+    public void debug(final Marker marker, final String format, final Object... argArray) {
+        logger.debug(marker, format, argArray);
+    }
+
+    /**
+     * Logs a debug-level formatted message with a marker and one argument.
+     *
+     * @param marker the marker associated with the log event
+     * @param format the format string
+     * @param arg the argument to insert
+     */
+    public void debug(final Marker marker, final String format, final Object arg) {
+        logger.debug(marker, format, arg);
+    }
+
+    /**
+     * Logs a debug-level formatted message with a marker and two arguments.
+     *
+     * @param marker the marker associated with the log event
+     * @param format the format string
+     * @param arg1 the first argument
+     * @param arg2 the second argument
+     */
+    public void debug(final Marker marker, final String format, final Object arg1, final Object arg2) {
+        logger.debug(marker, format, arg1, arg2);
+    }
+
+
+    /**
+     * Logs a trace-level message.
+     *
+     * @param msg the message to log
+     */
+    public void trace(final String msg) {
+        logger.trace(msg);
+    }
+
+    /**
+     * Logs a trace-level message using the specified SLF4J marker.
+     *
+     * @param marker the marker associated with the log event
+     * @param msg the message to log
+     */
+    public void trace(final Marker marker, final String msg) {
+        logger.trace(marker, msg);
+    }
+
+    /**
+     * Logs a trace-level message along with a {@link Throwable} cause.
+     *
+     * @param msg the message to log
+     * @param t the exception to include in the log
+     */
+    public void trace(final String msg, final Throwable t) {
+        logger.trace(msg, t);
+    }
+
+    /**
+     * Logs a trace-level message with a throwable and an SLF4J marker.
+     *
+     * @param marker the marker associated with the log event
+     * @param msg the message to log
+     * @param t the exception to include in the log
+     */
+    public void trace(final Marker marker, final String msg, final Throwable t) {
+        logger.trace(marker, msg, t);
+    }
+
+    /**
+     * Logs a trace-level formatted message with variable arguments.
+     *
+     * @param format the message format string
+     * @param argArray the arguments to substitute into the format
+     */
+    public void trace(final String format, final Object... argArray) {
+        logger.trace(format, argArray);
+    }
+
+    /**
+     * Logs a trace-level formatted message with one argument.
+     *
+     * @param format the format string
+     * @param arg the argument to insert
+     */
+    public void trace(final String format, final Object arg) {
+        logger.trace(format, arg);
+    }
+
+    /**
+     * Logs a trace-level formatted message with two arguments.
+     *
+     * @param format the format string
+     * @param arg1 the first argument
+     * @param arg2 the second argument
+     */
+    public void trace(final String format, final Object arg1, final Object arg2) {
+        logger.trace(format, arg1, arg2);
+    }
+
+    /**
+     * Logs a trace-level formatted message with a marker and multiple arguments.
+     *
+     * @param marker the marker associated with the log event
+     * @param format the format string
+     * @param argArray the arguments to insert
+     */
+    public void trace(final Marker marker, final String format, final Object... argArray) {
+        logger.trace(marker, format, argArray);
+    }
+
+    /**
+     * Logs a trace-level formatted message with a marker and one argument.
+     *
+     * @param marker the marker associated with the log event
+     * @param format the format string
+     * @param arg the argument to insert
+     */
+    public void trace(final Marker marker, final String format, final Object arg) {
+        logger.trace(marker, format, arg);
+    }
+
+    /**
+     * Logs a trace-level formatted message with a marker and two arguments.
+     *
+     * @param marker the marker associated with the log event
+     * @param format the format string
+     * @param arg1 the first argument
+     * @param arg2 the second argument
+     */
+    public void trace(final Marker marker, final String format, final Object arg1, final Object arg2) {
+        logger.trace(marker, format, arg1, arg2);
+    }
+
+
+    /**
+     * Logs a fully constructed {@link LoggingEvent}.
+     *
+     * @param slf4jEvent the SLF4J logging event to dispatch
+     */
+    public void log(final LoggingEvent slf4jEvent) {
+        logger.log(slf4jEvent);
+    }
+
+    /**
+     * Logs a custom event at a specific log level, bypassing SLF4J formatting.
+     *
+     * @param marker the SLF4J marker associated with the log event
+     * @param fqcn the fully qualified class name of the calling logger
+     * @param levelInt the numeric level (e.g., {@code Level.INFO.toInt()})
+     * @param message the log message
+     * @param argArray optional format arguments
+     * @param t optional throwable to include
+     */
+    public void log(final Marker marker, final String fqcn, final int levelInt, final String message, final Object[] argArray, final Throwable t) {
+        logger.log(marker, fqcn, levelInt, message, argArray, t);
+    }
+
+    //endregion Logging Methods
+
+    public JWLoggerConfigMethods config() {
+        return new JWLoggerConfigMethods(this);
+    }
+
+    @Override
+    public String toString() {
+        return "JWLogger[" + getName() + "]";
     }
 }
