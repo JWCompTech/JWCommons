@@ -27,8 +27,8 @@ import com.jwcomptech.commons.javafx.FXData;
 import com.jwcomptech.commons.javafx.dialogs.DialogResult;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -43,7 +43,7 @@ import java.util.Optional;
  *
  * @since 1.0.0-alpha
  */
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @ToString
 @FeatureComplete(since = "1.0.0-alpha")
@@ -51,36 +51,61 @@ public enum FXButtonType {
     /**
      * A custom {@code ButtonType} that displays "Abort" and has a
      * {@code ButtonBar.ButtonData} of {@code ButtonBar.ButtonData.CANCEL_CLOSE}.
+     *
+     * @apiNote Do not use this in the same dialog as {@link FXButtonType#CANCEL}
+     * or a nasty exception will be thrown. Also, you won't be able to tell which
+     * button is actually pressed.
      */
     ABORT(new ButtonType("Abort", ButtonBar.ButtonData.CANCEL_CLOSE)),
 
     /**
      * A pre-defined {@code ButtonType} that displays "Apply" and has a
      * {@code ButtonBar.ButtonData} of {@code ButtonBar.ButtonData.APPLY}.
+     *
+     * @apiNote Do not use this in the same dialog as {@link FXButtonType#INSTALL},
+     * {@link FXButtonType#LOGIN} or {@link FXButtonType#SUBMIT}, as this will
+     * cause a nasty exception to be thrown. Also, you won't be able to tell
+     * which button is actually pressed.
      */
     APPLY(ButtonType.APPLY),
 
     /**
      * A custom {@code ButtonType} that displays "Back" and has a
      * {@code ButtonBar.ButtonData} of {@code ButtonBar.ButtonData.BACK_PREVIOUS}.
+     *
+     * @apiNote Do not use this in the same dialog as {@link FXButtonType#RETRY}
+     * or {@link FXButtonType#TRYAGAIN} as this will cause a nasty exception to
+     * be thrown. Also, you won't be able to tell which button is actually pressed.
      */
     BACK(new ButtonType("Back", ButtonBar.ButtonData.BACK_PREVIOUS)),
 
     /**
      * A pre-defined {@code ButtonType} that displays "Cancel" and has a
      * {@code ButtonBar.ButtonData} of {@code ButtonBar.ButtonData.CANCEL_CLOSE}.
+     *
+     * @apiNote Do not use this in the same dialog as {@link FXButtonType#CLOSE}
+     * as this will cause a nasty exception to be thrown. Also, you won't be able
+     * to tell which button is actually pressed.
      */
     CANCEL(ButtonType.CANCEL),
 
     /**
      * A pre-defined {@code ButtonType} that displays "Close" and has a
      * {@code ButtonBar.ButtonData} of {@code ButtonBar.ButtonData.CANCEL_CLOSE}.
+     *
+     * @apiNote Do not use this in the same dialog as {@link FXButtonType#CANCEL}
+     * as this will cause a nasty exception to be thrown. Also, you won't be able
+     * to tell which button is actually pressed.
      */
     CLOSE(ButtonType.CLOSE),
 
     /**
      * A custom {@code ButtonType} that displays "Continue" and has a
      * {@code ButtonBar.ButtonData} of {@code ButtonBar.ButtonData.NEXT_FORWARD}.
+     *
+     * @apiNote Do not use this in the same dialog as {@link FXButtonType#NEXT}
+     * or {@link FXButtonType#IGNORE} as this will cause a nasty exception to
+     * be thrown. Also, you won't be able to tell which button is actually pressed.
      */
     CONTINUE(new ButtonType("Continue", ButtonBar.ButtonData.NEXT_FORWARD)),
 
@@ -93,24 +118,42 @@ public enum FXButtonType {
     /**
      * A custom {@code ButtonType} that displays "Ignore" and has a
      * {@code ButtonBar.ButtonData} of {@code ButtonBar.ButtonData.NEXT_FORWARD}.
+     *
+     * @apiNote Do not use this in the same dialog as {@link FXButtonType#NEXT}
+     * or {@link FXButtonType#CONTINUE} as this will cause a nasty exception to
+     * be thrown. Also, you won't be able to tell which button is actually pressed.
      */
     IGNORE(new ButtonType("Ignore", ButtonBar.ButtonData.NEXT_FORWARD)),
 
     /**
      * A custom {@code ButtonType} that displays "Install" and has a
      * {@code ButtonBar.ButtonData} of {@code ButtonBar.ButtonData.APPLY}.
+     *
+     * @apiNote Do not use this in the same dialog as {@link FXButtonType#APPLY},
+     * {@link FXButtonType#LOGIN} or {@link FXButtonType#SUBMIT}, as this will
+     * cause a nasty exception to be thrown. Also, you won't be able to tell
+     * which button is actually pressed.
      */
     INSTALL(new ButtonType("Install", ButtonBar.ButtonData.APPLY)),
 
     /**
      * A custom {@code ButtonType} that displays "Login" and has a
      * {@code ButtonBar.ButtonData} of {@code ButtonBar.ButtonData.APPLY}.
+     *
+     * @apiNote Do not use this in the same dialog as {@link FXButtonType#APPLY},
+     * {@link FXButtonType#INSTALL} or {@link FXButtonType#SUBMIT}, as this will
+     * cause a nasty exception to be thrown. Also, you won't be able to tell
+     * which button is actually pressed.
      */
     LOGIN(new ButtonType("Login", ButtonBar.ButtonData.APPLY)),
 
     /**
      * A pre-defined {@code ButtonType} that displays "Next" and has a
      * {@code ButtonBar.ButtonData} of {@code ButtonBar.ButtonData.NEXT_FORWARD}.
+     *
+     * @apiNote Do not use this in the same dialog as {@link FXButtonType#CONTINUE}
+     * or {@link FXButtonType#IGNORE} as this will cause a nasty exception to
+     * be thrown. Also, you won't be able to tell which button is actually pressed.
      */
     NEXT(ButtonType.NEXT),
 
@@ -141,18 +184,31 @@ public enum FXButtonType {
     /**
      * A custom {@code ButtonType} that displays "Retry" and has a
      * {@code ButtonBar.ButtonData} of {@code ButtonBar.ButtonData.BACK_PREVIOUS}.
+     *
+     * @apiNote Do not use this in the same dialog as {@link FXButtonType#BACK}
+     * or {@link FXButtonType#TRYAGAIN} as this will cause a nasty exception to
+     * be thrown. Also, you won't be able to tell which button is actually pressed.
      */
     RETRY(new ButtonType("Retry", ButtonBar.ButtonData.BACK_PREVIOUS)),
 
     /**
      * A custom {@code ButtonType} that displays "Submit" and has a
      * {@code ButtonBar.ButtonData} of {@code ButtonBar.ButtonData.APPLY}.
+     *
+     * @apiNote Do not use this in the same dialog as {@link FXButtonType#APPLY},
+     * {@link FXButtonType#LOGIN} or {@link FXButtonType#LOGIN}, as this will
+     * cause a nasty exception to be thrown. Also, you won't be able to tell
+     * which button is actually pressed.
      */
     SUBMIT(new ButtonType("Submit", ButtonBar.ButtonData.APPLY)),
 
     /**
      * A custom {@code ButtonType} that displays "Try Again" and has a
      * {@code ButtonBar.ButtonData} of {@code ButtonBar.ButtonData.BACK_PREVIOUS}.
+     *
+     * @apiNote Do not use this in the same dialog as {@link FXButtonType#BACK}
+     * or {@link FXButtonType#RETRY} as this will cause a nasty exception to
+     * be thrown. Also, you won't be able to tell which button is actually pressed.
      */
     TRYAGAIN(new ButtonType("Try Again", ButtonBar.ButtonData.BACK_PREVIOUS)),
 

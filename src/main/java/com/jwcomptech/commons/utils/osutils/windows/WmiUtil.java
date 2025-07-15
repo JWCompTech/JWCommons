@@ -49,9 +49,9 @@ import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedE
  * Helper class for WMI
  *
  * @author Daniel Widdis(widdis[at]gmail[dot]com)
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
-@SuppressWarnings("ProhibitedExceptionThrown")
+@SuppressWarnings({"ProhibitedExceptionThrown", "unused"})
 public final class WmiUtil {
     private static final Logger LOG = LoggerFactory.getLogger(WmiUtil.class);
 
@@ -155,6 +155,7 @@ public final class WmiUtil {
      *            The index (row) to fetch
      * @return The stored value if non-null, 0 otherwise
      */
+    @SuppressWarnings("GrazieInspection")
     public static <T extends Enum<T>> int getUint16(final @NotNull WmiResult<T> result, final T property, final int index) {
         if(result.getCIMType(property) == Wbemcli.CIM_UINT16) return getInt(result, property, index);
         throw new ClassCastException(String.format(CLASS_CAST_MSG, property.name(), "UINT16",

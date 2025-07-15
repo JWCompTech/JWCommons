@@ -24,8 +24,8 @@ package com.jwcomptech.commons.utils.osutils.windows;
 
 import com.jwcomptech.commons.values.StringValue;
 import com.sun.jna.platform.win32.WinReg;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -40,8 +40,9 @@ import static com.sun.jna.platform.win32.Advapi32Util.*;
 /**
  * Returns information from the Windows registry.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
+@SuppressWarnings("unused")
 public final class Registry {
     /**
      * Gets string value from a registry key.
@@ -71,7 +72,7 @@ public final class Registry {
     }
 
     /** A list of the different parent keys in the Windows Registry that are used in the {@link Registry} class. */
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     @Getter
     @ToString
     public enum HKEY {

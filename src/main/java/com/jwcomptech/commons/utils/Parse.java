@@ -45,7 +45,7 @@ import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedE
 /**
  * Contains methods for parsing data into various types with fallbacks and logging.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 @Getter

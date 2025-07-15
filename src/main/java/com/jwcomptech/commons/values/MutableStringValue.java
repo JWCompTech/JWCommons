@@ -51,7 +51,7 @@ import static org.apache.commons.lang3.StringUtils.stripStart;
 /**
  * Provides mutable access to an {@link String}.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings({"ClassWithTooManyMethods", "OverlyComplexClass", "unused"})
 public final class MutableStringValue extends ObservableValue<String, MutableStringValue> {

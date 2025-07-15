@@ -25,7 +25,7 @@ package com.jwcomptech.commons.download;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import com.jwcomptech.commons.validators.Condition;
-import com.jwcomptech.commons.base.Validated;
+import com.jwcomptech.commons.validators.Validated;
 import com.jwcomptech.commons.values.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -52,7 +52,7 @@ import static com.jwcomptech.commons.validators.Preconditions.isBoolean;
 
 /**
  * Uses the {@link java.net.HttpURLConnection} class to download files.
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings({"unused", "ClassWithTooManyFields", "ClassWithTooManyMethods", "ClassWithTooManyConstructors", "OverlyComplexClass"})
 @Data

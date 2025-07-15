@@ -24,6 +24,7 @@ package com.jwcomptech.commons.utils.osutils.windows.pshell;
 
 import java.io.Serial;
 
+@SuppressWarnings("unused")
 public class PSExpectedValueExpressionException extends PowerShellParserErrorException {
     @Serial
     private static final long serialVersionUID = 8999890493687541363L;

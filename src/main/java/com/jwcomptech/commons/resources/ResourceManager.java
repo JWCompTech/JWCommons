@@ -45,7 +45,7 @@ import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNu
 /**
  * A resource manager for managing resources in the project "resources" directory.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  * @implNote To comply with separation of concerns (SoC), keep specific resource type
  * related methods and logic out of this class. All of those methods
  * should be solely contained in the {@link Resource} or {@link ResourceType} objects.

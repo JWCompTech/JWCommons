@@ -24,6 +24,7 @@ package com.jwcomptech.commons.utils.osutils.windows.pshell;
 
 import java.io.Serial;
 
+@SuppressWarnings("unused")
 public class PSCommandNotFoundException extends PowerShellParserErrorException {
     @Serial
     private static final long serialVersionUID = 6593243817776902869L;

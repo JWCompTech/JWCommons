@@ -71,6 +71,7 @@ import org.slf4j.spi.LoggingEventBuilder;
  * @see JWLoggerLevelMethods
  * @since 1.0.0-alpha
  */
+@SuppressWarnings("unused")
 @Data
 @NoArgsConstructor(access = AccessLevel.NONE)
 public class JWLoggerConfigMethods {
@@ -162,9 +163,11 @@ public class JWLoggerConfigMethods {
      * should propagate to parent loggers.
      *
      * @param additive {@code true} to enable propagation; {@code false} to isolate the logger
+     * @return this instance for fluent chaining
      */
-    public void setAdditive(final boolean additive) {
+    public JWLoggerConfigMethods setAdditive(final boolean additive) {
         logger.setAdditive(additive);
+        return this;
     }
 
     /**

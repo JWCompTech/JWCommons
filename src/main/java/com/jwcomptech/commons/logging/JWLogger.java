@@ -25,18 +25,11 @@ package com.jwcomptech.commons.logging;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.Appender;
-import ch.qos.logback.core.ConsoleAppender;
-import ch.qos.logback.core.encoder.Encoder;
 import lombok.*;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Marker;
 import org.slf4j.event.LoggingEvent;
-import org.slf4j.spi.LoggingEventBuilder;
-
-import java.util.Iterator;
 
 /**
  * A fluent wrapper around a single Logback {@link ch.qos.logback.classic.Logger} instance
@@ -89,7 +82,7 @@ public class JWLogger {
      * @apiNote calls {@code LoggingManager.getContext().getLogger(Class)} to retrieve
      * the logger instance and then stores it.
      * <p>
-     * See: {@link LoggingManager#getContext()} for details.
+     * See: {@code LoggingManager#getContext()} for details.
      */
     @Contract("_ -> new")
     public static @NotNull JWLogger of(final String className) {
@@ -103,7 +96,7 @@ public class JWLogger {
      * @apiNote calls {@code LoggingManager.getContext().getLogger(Class)} to retrieve
      * the logger instance and then stores it.
      * <p>
-     * See: {@link LoggingManager#getContext()} for details.
+     * See: {@code LoggingManager#getContext()} for details.
      */
     @Contract("_ -> new")
     public static @NotNull JWLogger of(final Class<?> clazz) {
@@ -117,7 +110,7 @@ public class JWLogger {
      * @apiNote calls {@code LoggingManager.getContext().getLogger(Class)} to retrieve
      * the logger instance and then stores it.
      * <p>
-     * See: {@link LoggingManager#getContext()} for details.
+     * See: {@code LoggingManager#getContext()} for details.
      */
     @Contract("_ -> new")
     public static @NotNull JWLogger of(final @NotNull Package packageObj) {
@@ -725,6 +718,12 @@ public class JWLogger {
 
     //endregion Logging Methods
 
+    /**
+     * Returns a fluent utility for managing logger config such as
+     * log level or appenders.
+     *
+     * @return a new {@link JWLoggerConfigMethods} instance
+     */
     public JWLoggerConfigMethods config() {
         return new JWLoggerConfigMethods(this);
     }

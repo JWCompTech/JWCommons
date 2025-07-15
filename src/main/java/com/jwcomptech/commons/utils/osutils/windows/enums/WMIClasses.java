@@ -23,11 +23,11 @@ package com.jwcomptech.commons.utils.osutils.windows.enums;
  */
 
 import com.jwcomptech.commons.enums.BaseEnum;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @ToString
 public enum WMIClasses implements BaseEnum<String> {
@@ -36,7 +36,7 @@ public enum WMIClasses implements BaseEnum<String> {
 
     private final String value;
 
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     @Getter
     @ToString
     public enum COM implements BaseEnum<String> {
@@ -60,7 +60,7 @@ public enum WMIClasses implements BaseEnum<String> {
         private final String value;
     }
 
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     @Getter
     @ToString
     public enum File_System implements BaseEnum<String> {
@@ -87,7 +87,7 @@ public enum WMIClasses implements BaseEnum<String> {
         private final String value;
     }
 
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     @Getter
     @ToString
     public enum Hardware implements BaseEnum<String> {
@@ -181,7 +181,7 @@ public enum WMIClasses implements BaseEnum<String> {
         private final String value;
     }
 
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     @Getter
     @ToString
     public enum Networking implements BaseEnum<String> {
@@ -199,7 +199,7 @@ public enum WMIClasses implements BaseEnum<String> {
         private final String value;
     }
 
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     @Getter
     @ToString
     public enum OS implements BaseEnum<String> {
@@ -234,7 +234,7 @@ public enum WMIClasses implements BaseEnum<String> {
         private final String value;
     }
 
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     @Getter
     @ToString
     public enum Other implements BaseEnum<String> {
@@ -307,7 +307,7 @@ public enum WMIClasses implements BaseEnum<String> {
         private final String value;
     }
 
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     @Getter
     @ToString
     public enum Performance_FormattedData implements BaseEnum<String> {
@@ -382,7 +382,7 @@ public enum WMIClasses implements BaseEnum<String> {
         private final String value;
     }
 
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     @Getter
     @ToString
     public enum Performance_RawData implements BaseEnum<String> {
@@ -458,7 +458,7 @@ public enum WMIClasses implements BaseEnum<String> {
         private final String value;
     }
 
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     @Getter
     @ToString
     public enum Security implements BaseEnum<String> {
@@ -488,7 +488,7 @@ public enum WMIClasses implements BaseEnum<String> {
         private final String value;
     }
 
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     @Getter
     @ToString
     public enum Shares implements BaseEnum<String> {
@@ -507,7 +507,7 @@ public enum WMIClasses implements BaseEnum<String> {
         private final String value;
     }
 
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     @Getter
     @ToString
     public enum Storage implements BaseEnum<String> {
@@ -526,7 +526,7 @@ public enum WMIClasses implements BaseEnum<String> {
         private final String value;
     }
 
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     @Getter
     @ToString
     public enum Users implements BaseEnum<String> {
@@ -544,7 +544,7 @@ public enum WMIClasses implements BaseEnum<String> {
         private final String value;
     }
 
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     @Getter
     @ToString
     public enum Unknown implements BaseEnum<String> {

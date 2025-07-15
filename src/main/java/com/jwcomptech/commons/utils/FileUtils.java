@@ -36,7 +36,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 /**
  * Contains methods for dealing with files.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 public final class FileUtils {
     /**

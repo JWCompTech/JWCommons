@@ -35,7 +35,7 @@ import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNu
 /**
  * Provides mutable access to an {@link Integer}.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("ClassWithTooManyMethods")
 public final class IntegerValue extends NumberValue<Integer, IntegerValue> {

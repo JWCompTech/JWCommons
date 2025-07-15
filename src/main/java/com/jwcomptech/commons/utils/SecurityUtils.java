@@ -42,7 +42,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 /**
  * Contains methods dealing with encryption and hashing.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 public final class SecurityUtils {

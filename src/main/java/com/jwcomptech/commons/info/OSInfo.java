@@ -32,7 +32,7 @@ import org.apache.commons.lang3.SystemUtils;
 
 /**
  * Returns information about the operating system.
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 public final class OSInfo {
@@ -255,6 +255,13 @@ public final class OSInfo {
 
     /**
      * An Operating System Object for use with the {@link ComputerInfo} class.
+     * @param computerName the active computer name
+     * @param computerNamePending the pending computer name
+     * @param installInfo the InstallInfo object
+     * @param registeredOrganization the name of the registered organization
+     * @param registeredOwner the name of the registered owner
+     * @param loggedInUserName the currently logged-in username
+     * @param domainName the network domain name
      */
         public record OSObject(StringValue computerName,
                                StringValue computerNamePending,

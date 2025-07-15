@@ -33,7 +33,7 @@ import java.util.Map;
  * Allows object event handler registration and forwards received
  * events to the appropriate registered event handlers.
  * @param <T> the event type to use for the target
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings({"unused", "ClassWithoutConstructor"})
 public class EventTarget<T extends Event> {

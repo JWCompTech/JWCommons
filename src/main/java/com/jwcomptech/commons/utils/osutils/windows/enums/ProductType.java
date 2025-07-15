@@ -24,8 +24,8 @@ package com.jwcomptech.commons.utils.osutils.windows.enums;
 
 import com.jwcomptech.commons.enums.BaseEnum;
 import com.jwcomptech.commons.values.IntegerValue;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.util.Arrays;
@@ -34,9 +34,9 @@ import java.util.Arrays;
  * A list of Product Types according to
  * <a href="http://msdn.microsoft.com/en-us/library/ms724833(VS.85).aspx">Microsoft Documentation</a>.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @ToString
 public enum ProductType implements BaseEnum<Integer> {

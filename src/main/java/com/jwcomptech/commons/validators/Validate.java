@@ -60,7 +60,7 @@ import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedE
  * <p>#ThreadSafe#</p>
  *
  * @see String#format(String, Object...)
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings({"ClassWithTooManyMethods", "OverlyComplexClass", "unused"})
 public final class Validate {
@@ -105,7 +105,7 @@ public final class Validate {
      * @param end   the exclusive end value
      * @param value the value to validate
      * @throws IllegalArgumentException if the value falls out of the boundaries
-     * @since 0.0.1
+     * @since 1.0.0-alpha
      */
     public static void exclusiveBetween(final double start,
                                         final double end,
@@ -129,7 +129,7 @@ public final class Validate {
      * @param value the value to validate
      * @param message the exception message if invalid, not null
      * @throws IllegalArgumentException if the value falls outside the boundaries
-     * @since 0.0.1
+     * @since 1.0.0-alpha
      */
     public static void exclusiveBetween(final double start,
                                         final double end,
@@ -151,7 +151,7 @@ public final class Validate {
      * @param end   the exclusive end value
      * @param value the value to validate
      * @throws IllegalArgumentException if the value falls out of the boundaries
-     * @since 0.0.1
+     * @since 1.0.0-alpha
      */
     public static void exclusiveBetween(final long start,
                                         final long end,
@@ -175,7 +175,7 @@ public final class Validate {
      * @param value the value to validate
      * @param message the exception message if invalid, not null
      * @throws IllegalArgumentException if the value falls outside the boundaries
-     * @since 0.0.1
+     * @since 1.0.0-alpha
      */
     public static void exclusiveBetween(final long start,
                                         final long end,
@@ -199,7 +199,7 @@ public final class Validate {
      * @param value  the object to validate, not null
      * @throws IllegalArgumentException if the value falls outside the boundaries
      * @see #exclusiveBetween(Object, Object, Comparable, String, Object...)
-     * @since 0.0.1
+     * @since 1.0.0-alpha
      */
     public static <T> void exclusiveBetween(final T start, final T end, final @NotNull Comparable<T> value) {
         // TODO when breaking BC, consider returning value
@@ -224,7 +224,7 @@ public final class Validate {
      * @param values  the optional values for the formatted exception message, null array not recommended
      * @throws IllegalArgumentException if the value falls outside the boundaries
      * @see #exclusiveBetween(Object, Object, Comparable)
-     * @since 0.0.1
+     * @since 1.0.0-alpha
      */
     @FormatMethod
     public static <T> void exclusiveBetween(final T start, final T end, final @NotNull Comparable<T> value,
@@ -246,7 +246,7 @@ public final class Validate {
      * @param value  the value to validate
      * @throws IllegalArgumentException if the value is infinite or Not-a-Number (NaN)
      * @see #ensureFinite(double, String, Object...)
-     * @since 0.0.1
+     * @since 1.0.0-alpha
      */
     public static void ensureFinite(final double value) {
         ensureFinite(value, DEFAULT_FINITE_EX_MESSAGE, String.valueOf(value));
@@ -263,7 +263,7 @@ public final class Validate {
      * @param values  the optional values for the formatted exception message
      * @throws IllegalArgumentException if the value is infinite or Not-a-Number (NaN)
      * @see #ensureFinite(double)
-     * @since 0.0.1
+     * @since 1.0.0-alpha
      */
     @FormatMethod
     public static void ensureFinite(final double value, @FormatString final String message, final Object... values) {
@@ -283,7 +283,7 @@ public final class Validate {
      * @param values the optional values for the formatted message
      * @return formatted message using {@link String#format(String, Object...) String.format(message, values)}
      * if the values are not empty, otherwise return the unformatted message.
-     * @since 0.0.1
+     * @since 1.0.0-alpha
      */
     @FormatMethod
     private static String getMessage(@FormatString final String message, final Object... values) {
@@ -300,7 +300,7 @@ public final class Validate {
      * @param end   the inclusive end value
      * @param value the value to validate
      * @throws IllegalArgumentException if the value falls outside the boundaries (inclusive)
-     * @since 0.0.1
+     * @since 1.0.0-alpha
      */
     public static void inclusiveBetween(final double start, final double end, final double value) {
         // TODO when breaking BC, consider returning value
@@ -322,7 +322,7 @@ public final class Validate {
      * @param value the value to validate
      * @param message the exception message if invalid, not null
      * @throws IllegalArgumentException if the value falls outside the boundaries
-     * @since 0.0.1
+     * @since 1.0.0-alpha
      */
     public static void inclusiveBetween(final double start, final double end, final double value, final String message) {
         // TODO when breaking BC, consider returning value
@@ -341,7 +341,7 @@ public final class Validate {
      * @param end   the inclusive end value
      * @param value the value to validate
      * @throws IllegalArgumentException if the value falls outside the boundaries (inclusive)
-     * @since 0.0.1
+     * @since 1.0.0-alpha
      */
     public static void inclusiveBetween(final long start, final long end, final long value) {
         // TODO when breaking BC, consider returning value
@@ -363,7 +363,7 @@ public final class Validate {
      * @param value the value to validate
      * @param message the exception message if invalid, not null
      * @throws IllegalArgumentException if the value falls outside the boundaries
-     * @since 0.0.1
+     * @since 1.0.0-alpha
      */
     public static void inclusiveBetween(final long start, final long end, final long value, final String message) {
         // TODO when breaking BC, consider returning value
@@ -384,7 +384,7 @@ public final class Validate {
      * @param value  the object to validate, not null
      * @throws IllegalArgumentException if the value falls outside the boundaries
      * @see #inclusiveBetween(Object, Object, Comparable, String, Object...)
-     * @since 0.0.1
+     * @since 1.0.0-alpha
      */
     public static <T> void inclusiveBetween(final T start, final T end, final @NotNull Comparable<T> value) {
         // TODO when breaking BC, consider returning value

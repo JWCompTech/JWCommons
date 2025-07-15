@@ -46,6 +46,12 @@ import static com.jwcomptech.commons.validators.Preconditions.*;
  * Represents predefined button configurations for use in dialogs.
  * Each group defines up to three {@link FXButtonType} values, which are used
  * to create JavaFX {@link Button} instances and map user interactions to {@link DialogResult}.
+ * <p>
+ * IMPORTANT: Adding new constants to this enum must avoid using two
+ * button types with the same {@link ButtonBar.ButtonData},
+ * because this will cause class init to fail.
+ * <p>
+ * The constructor includes a runtime validation to enforce this rule.
  *
  * @since 1.0.0-alpha
  */
@@ -55,7 +61,7 @@ import static com.jwcomptech.commons.validators.Preconditions.*;
 @SuppressWarnings("unused")
 public enum FXButtonTypeGroup {
 
-    AbortRetryIgnore(FXButtonType.ABORT, FXButtonType.RETRY, FXButtonType.CANCEL),
+    AbortRetryIgnore(FXButtonType.ABORT, FXButtonType.RETRY, FXButtonType.IGNORE),
     Apply(FXButtonType.APPLY, null, null),
     ApplyCancel(FXButtonType.APPLY, FXButtonType.CANCEL, null),
     BackApply(FXButtonType.BACK, FXButtonType.APPLY, null),
@@ -66,8 +72,6 @@ public enum FXButtonTypeGroup {
     BackInstallCancel(FXButtonType.BACK, FXButtonType.INSTALL, FXButtonType.CANCEL),
     BackNext(FXButtonType.BACK, FXButtonType.NEXT, null),
     BackNextCancel(FXButtonType.BACK, FXButtonType.NEXT, FXButtonType.CANCEL),
-    BackRetry(FXButtonType.BACK, FXButtonType.RETRY, null),
-    BackRetryCancel(FXButtonType.BACK, FXButtonType.RETRY, FXButtonType.CANCEL),
     BackSubmit(FXButtonType.BACK, FXButtonType.SUBMIT, null),
     BackSubmitCancel(FXButtonType.BACK, FXButtonType.SUBMIT, FXButtonType.CANCEL),
     CancelTryAgainContinue(FXButtonType.CANCEL, FXButtonType.TRYAGAIN, FXButtonType.CONTINUE),
@@ -88,8 +92,6 @@ public enum FXButtonTypeGroup {
     PreviousFinishCancel(FXButtonType.PREVIOUS, FXButtonType.FINISH, FXButtonType.CANCEL),
     PreviousInstall(FXButtonType.PREVIOUS, FXButtonType.INSTALL, null),
     PreviousInstallCancel(FXButtonType.PREVIOUS, FXButtonType.INSTALL, FXButtonType.CANCEL),
-    PreviousRetry(FXButtonType.PREVIOUS, FXButtonType.RETRY, null),
-    PreviousRetryCancel(FXButtonType.PREVIOUS, FXButtonType.RETRY, FXButtonType.CANCEL),
     PreviousNext(FXButtonType.PREVIOUS, FXButtonType.NEXT, null),
     PreviousNextCancel(FXButtonType.PREVIOUS, FXButtonType.NEXT, FXButtonType.CANCEL),
     PreviousSubmit(FXButtonType.PREVIOUS, FXButtonType.SUBMIT, null),
@@ -114,7 +116,49 @@ public enum FXButtonTypeGroup {
         this.button1 = button1;
         this.button2 = button2;
         this.button3 = button3;
+
+        // Filter nulls before validating
+        List<FXButtonType> nonNullButtons = Stream.of(button1, button2, button3)
+                .filter(Objects::nonNull)
+                .toList();
+
+        validateButtonTypes(nonNullButtons);
+
         this.cachedResultMap = buildResultMap();
+    }
+
+    private static void validateButtonTypes(@NotNull Collection<FXButtonType> types) {
+        final Set<FXButtonType> seenTypes = new HashSet<>();
+        final Map<ButtonBar.ButtonData, FXButtonType> usedData = new HashMap<>();
+        final Set<String> labels = new HashSet<>();
+
+        for (final FXButtonType type : types) {
+            if (type == null) {
+                throw new IllegalArgumentException("FXButtonTypeGroup cannot contain null buttons.");
+            }
+
+            if (!seenTypes.add(type)) {
+                throw new IllegalArgumentException(
+                        String.format("Duplicate FXButtonType used: %s", type.name()));
+            }
+
+            final ButtonBar.ButtonData data = type.getButtonType().getButtonData();
+            final FXButtonType existing = usedData.get(data);
+
+            if (existing != null) {
+                throw new IllegalArgumentException(
+                        String.format("FXButtonType conflict: %s and %s share ButtonData %s",
+                                existing.name(), type.name(), data));
+            }
+
+            final String label = type.getButtonType().getText().toLowerCase(Locale.ROOT).trim();
+            if (!labels.add(label)) {
+                throw new IllegalArgumentException(
+                        String.format("Duplicate button label detected: '%s'", label));
+            }
+
+            usedData.put(data, type);
+        }
     }
 
     /**

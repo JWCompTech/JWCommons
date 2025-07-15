@@ -39,7 +39,7 @@ import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNu
  * The base interface of all tuples.
  *
  * @author Daniel Dietrich
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings({"unused", "ClassReferencesSubclass"})
 public interface Tuple extends Serializable {

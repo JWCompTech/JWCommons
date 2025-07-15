@@ -73,6 +73,7 @@ import org.slf4j.spi.LoggingEventBuilder;
  * @see org.slf4j.Marker
  * @since 1.0.0-alpha
  */
+@SuppressWarnings("unused")
 @Data
 @NoArgsConstructor(access = AccessLevel.NONE)
 public class JWLoggerLevelMethods {
@@ -100,7 +101,7 @@ public class JWLoggerLevelMethods {
      * individual loggers (e.g., plugin loggers or CLI tools).
      *
      * <p><strong>Note:</strong> If you want to inherit the log level from the parent,
-     * use {@link #getLogger().setLevel(null)} or {@link JWLoggerConfigMethods#reset()} instead.
+     * use {@code getLogger().setLevel(null)} or {@link JWLoggerConfigMethods#reset()} instead.
      *
      * @param logLevel the explicit log level to apply (e.g., {@code Level.INFO}, {@code Level.DEBUG})
      * @return this instance for fluent chaining

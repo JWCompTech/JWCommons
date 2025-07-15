@@ -22,23 +22,28 @@ package com.jwcomptech.commons.download;
  * #L%
  */
 
+import com.google.errorprone.annotations.DoNotCall;
 import com.jwcomptech.commons.annotations.Beta;
 import com.jwcomptech.commons.values.StringValue;
 
+@SuppressWarnings("unused")
 @Beta
 //TODO Finish implementation
 public final class DownloadManager {
     private DownloadManager() {
     }
 
+    @DoNotCall
     public static void download(final String url) {
 
     }
 
+    @DoNotCall
     public static StringValue getString(final String url) {
         return StringValue.of("");
     }
 
+    @DoNotCall
     public static StringValue getJSON(final String url) {
         return StringValue.of("");
     }

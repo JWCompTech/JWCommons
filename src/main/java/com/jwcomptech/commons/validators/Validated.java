@@ -1,4 +1,4 @@
-package com.jwcomptech.commons.base;
+package com.jwcomptech.commons.validators;
 
 /*-
  * #%L
@@ -22,7 +22,6 @@ package com.jwcomptech.commons.base;
  * #L%
  */
 
-import com.jwcomptech.commons.validators.Condition;
 import lombok.Data;
 import lombok.Getter;
 
@@ -36,9 +35,9 @@ import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNu
 
 /**
  * A base object to easily add validations to any class.
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 @Data
 public abstract class Validated implements Serializable {
     /**

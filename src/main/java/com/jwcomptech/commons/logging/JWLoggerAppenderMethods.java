@@ -76,6 +76,7 @@ import java.util.Iterator;
  * @see ch.qos.logback.core.Appender
  * @since 1.0.0-alpha
  */
+@SuppressWarnings("unused")
 @Data
 @NoArgsConstructor(access = AccessLevel.NONE)
 public class JWLoggerAppenderMethods {
@@ -99,7 +100,7 @@ public class JWLoggerAppenderMethods {
      * Adds the specified {@link Appender} to the logger.
      *
      * @param appender the appender to add
-     * @return this instance
+     * @return this instance for fluent chaining
      * @apiNote Additive is automatically disabled in this method
      */
     public JWLoggerAppenderMethods addAppender(final @NotNull Appenders appender) {
@@ -112,7 +113,7 @@ public class JWLoggerAppenderMethods {
      * Adds the specified {@link Appender} to the logger.
      *
      * @param newAppender the appender to add
-     * @return this instance
+     * @return this instance for fluent chaining
      * @apiNote Additive is automatically disabled in this method
      */
     public JWLoggerAppenderMethods addAppender(final Appender<ILoggingEvent> newAppender) {
@@ -131,7 +132,7 @@ public class JWLoggerAppenderMethods {
      * Adds a new {@link ConsoleAppender} with the encoder from {@link Encoders#BasicEncoder}
      * and sets the name to "console".
      *
-     * @return this instance
+     * @return this instance for fluent chaining
      * @apiNote The start method is automatically called at the end of this method.
      */
     public JWLoggerAppenderMethods addNewConsoleAppender() {
@@ -143,7 +144,7 @@ public class JWLoggerAppenderMethods {
      * and sets the name to the specified name.
      *
      * @param name the name to set
-     * @return this instance
+     * @return this instance for fluent chaining
      * @apiNote The start method is automatically called at the end of this method.
      */
     public JWLoggerAppenderMethods addNewConsoleAppender(final String name) {
@@ -155,7 +156,7 @@ public class JWLoggerAppenderMethods {
      * Adds a new {@link ConsoleAppender} with the specified encoder and sets the name to "console".
      *
      * @param encoder the encoder to set
-     * @return this instance
+     * @return this instance for fluent chaining
      * @apiNote The start method is automatically called at the end of this method.
      */
     public JWLoggerAppenderMethods addNewConsoleAppender(final @NotNull Encoders encoder) {
@@ -166,7 +167,7 @@ public class JWLoggerAppenderMethods {
      * Adds a new {@link ConsoleAppender} with the specified encoder (e.g. PatternLayoutEncoder) and sets the name to "console".
      *
      * @param encoder the encoder to set
-     * @return this instance
+     * @return this instance for fluent chaining
      * @apiNote The start method is automatically called at the end of this method.
      */
     public JWLoggerAppenderMethods addNewConsoleAppender(final Encoder<ILoggingEvent> encoder) {
@@ -178,7 +179,7 @@ public class JWLoggerAppenderMethods {
      *
      * @param name the name to set
      * @param encoder the encoder to set
-     * @return this instance
+     * @return this instance for fluent chaining
      * @apiNote if the name value is null or empty the default is "console" and
      * if encoder is null then the encoder from
      * {@link Encoders#BasicEncoder} is used instead.
@@ -193,7 +194,7 @@ public class JWLoggerAppenderMethods {
      *
      * @param name the name to set
      * @param encoder the encoder to set
-     * @return this instance
+     * @return this instance for fluent chaining
      * @apiNote if the name value is null or empty the default is "console" and
      * if encoder is null then the encoder from
      * {@link Encoders#BasicEncoder} is used instead.
@@ -298,17 +299,22 @@ public class JWLoggerAppenderMethods {
      * Invokes all attached appenders with the provided logging event.
      *
      * @param event the logging event to process
+     * @return this instance for fluent chaining
      */
-    public void callAppenders(final ILoggingEvent event) {
+    public JWLoggerAppenderMethods callAppenders(final ILoggingEvent event) {
         logger.callAppenders(event);
+        return this;
     }
 
     /**
      * Detaches all appenders from the logger and calls {@code stop()} on each.
      * Useful for resetting the logger or cleaning up resources.
+     *
+     * @return this instance for fluent chaining
      */
-    public void detachAndStopAllAppenders() {
+    public JWLoggerAppenderMethods detachAndStopAllAppenders() {
         logger.detachAndStopAllAppenders();
+        return this;
     }
 
     /**

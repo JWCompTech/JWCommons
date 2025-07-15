@@ -39,7 +39,7 @@ import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNu
  * A tuple of no elements which can be seen as cartesian product of no components.
  *
  * @author Daniel Dietrich
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings({"unused", "MethodMayBeStatic"})
 public final class Tuple0 implements Tuple, Comparable<Tuple0>, Serializable {

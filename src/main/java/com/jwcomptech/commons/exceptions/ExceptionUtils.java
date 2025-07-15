@@ -31,7 +31,7 @@ import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNu
 /**
  * Contains methods for dealing with exceptions.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 public final class ExceptionUtils {

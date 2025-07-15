@@ -23,18 +23,36 @@ package com.jwcomptech.commons;
  */
 
 import ch.qos.logback.classic.Level;
-import com.jwcomptech.commons.javafx.wizard.ServerInstallWizard;
+import com.jwcomptech.commons.info.HWInfo;
+import com.jwcomptech.commons.info.OS;
+import com.jwcomptech.commons.info.OSInfo;
+import com.jwcomptech.commons.info.os.WindowsOSEx;
+import com.jwcomptech.commons.javafx.HeadlessFX;
+import com.jwcomptech.commons.javafx.controls.FXButtonTypeGroup;
+import com.jwcomptech.commons.javafx.dialogs.MessageBox;
+import com.jwcomptech.commons.javafx.dialogs.MessageBoxDefaultButton;
+import com.jwcomptech.commons.javafx.dialogs.MessageBoxIcon;
 import com.jwcomptech.commons.logging.JWLogger;
-import com.jwcomptech.commons.logging.LoggingManager;
 import com.jwcomptech.commons.resources.POMManager;
+import com.jwcomptech.commons.utils.DateTimeUtils;
+import com.jwcomptech.commons.validators.Condition;
+import com.jwcomptech.commons.webapis.APIManager;
+import com.jwcomptech.commons.webapis.GitHubAPI;
 import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.maven.api.model.Model;
-import org.jetbrains.annotations.NotNull;
+import org.kohsuke.github.GHUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.stream.XMLStreamException;
+import java.io.IOException;
+
+import static com.jwcomptech.commons.utils.osutils.ExecCommand.runNewCmd;
 
 @SuppressWarnings("ClassWithoutConstructor")
 public final class Main extends Application {
@@ -42,10 +60,7 @@ public final class Main extends Application {
      * Application entry point.
      * @param args application command line arguments
      */
-    public static void main(final String... args) { Application.launch(); }
-
-    @Override
-    public void start(@NotNull final Stage stage) throws XMLStreamException, InterruptedException {
+    public static void main(final String... args) throws IOException, InterruptedException {
         final Logger logger = LoggerFactory.getLogger(Main.class);
         JWLogger.of(Main.class.getPackage()).config()
                 .useLimitedConsole(Level.INFO);
@@ -72,7 +87,7 @@ public final class Main extends Application {
 //        logger.info("Result: {}", condition.evaluate().getResult());
 
 //        APIManager apiManager = APIManager.getInstance();
-//        GitHubApi github = apiManager.GITHUB.login();
+//        GitHubAPI github = apiManager.GITHUB.login();
 //        GHUser user = github.getUser("jlwisedev");
 //        logger.info(user.getName());
 //        logger.info(DateTimeUtils.formatted(user.getUpdatedAt()));
@@ -88,12 +103,24 @@ public final class Main extends Application {
 //        final Label label = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
 //        final Scene scene = new Scene(new StackPane(label), 640, 480);
 //        stage.setScene(scene);
-        //primaryStage.show();
+//        primaryStage.show();
 
-//        final var result1 = MessageBox.show("Proceed to next step?", "Confirm",
-//                "", FXButtonTypeGroup.YesNo,
-//                MessageBoxIcon.CONFIRMATION,
-//                MessageBoxDefaultButton.Button1);
+        //launch(args);
+
+        HeadlessFX.runLaterIfNeeded(() -> {
+            System.out.println("Showing Message Box...");
+//            final var result1 = MessageBox.show("Proceed to next step?", "Confirm",
+//                    "", FXButtonTypeGroup.YesNo,
+//                    MessageBoxIcon.CONFIRMATION,
+//                    MessageBoxDefaultButton.Button1);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.initModality(Modality.NONE);
+            alert.setTitle("Test");
+            alert.setContentText("Dialog with no modality");
+            alert.show();
+        });
+
+
 //
 //        final var result2 = MessageBox.builder()
 //                        .withText("Proceed to next step?")
@@ -139,11 +166,20 @@ public final class Main extends Application {
 //            print("Login Canceled!");
 //        }
 
-        ServerInstallWizard wizard = new ServerInstallWizard();
-        wizard.show();
+//        ServerInstallWizard wizard = new ServerInstallWizard();
+//        wizard.show();
 
         int exitCode = 0;
         System.exit(exitCode);
+    }
+
+    @Override
+    public void start(final Stage primaryStage) throws Exception {
+        final var result1 = MessageBox.show("Proceed to next step?", "Confirm",
+                "", FXButtonTypeGroup.YesNo,
+                MessageBoxIcon.CONFIRMATION,
+                MessageBoxDefaultButton.Button1);
+        System.out.println(result1.getButtonType().getText());
     }
 
 //    private int test(final Integer myNumber) {

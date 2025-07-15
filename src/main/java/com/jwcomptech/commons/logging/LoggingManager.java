@@ -25,12 +25,13 @@ package com.jwcomptech.commons.logging;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
+import ch.qos.logback.classic.PatternLayout;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.ConsoleAppender;
 import ch.qos.logback.core.FileAppender;
 import ch.qos.logback.core.encoder.Encoder;
+import ch.qos.logback.core.encoder.LayoutWrappingEncoder;
 import ch.qos.logback.core.rolling.DefaultTimeBasedFileNamingAndTriggeringPolicy;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.TimeBasedFileNamingAndTriggeringPolicy;
@@ -43,6 +44,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.springframework.boot.logging.logback.ColorConverter;
+import org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -86,6 +89,7 @@ import static com.jwcomptech.commons.utils.StringUtils.isBlank;
  *
  * @since 1.0.0-alpha
  */
+@SuppressWarnings("unused")
 @Data
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class LoggingManager {
@@ -298,18 +302,47 @@ public final class LoggingManager {
     }
 
     /**
-     * Creates a new {@link PatternLayoutEncoder} with the specified pattern.
+     * Creates a new {@link LayoutWrappingEncoder<ILoggingEvent>} with the specified pattern.
      *
      * @param pattern the String pattern
-     * @return a new PatternLayoutEncoder instance
+     * @return a new {@link LayoutWrappingEncoder<ILoggingEvent>} instance
      * @apiNote The start method is automatically called at the end of this method.
      */
-    public static @NotNull PatternLayoutEncoder createNewLogEncoder(final String pattern) {
-        final PatternLayoutEncoder logEncoder = new PatternLayoutEncoder();
+    public static @NotNull LayoutWrappingEncoder<ILoggingEvent> createNewLogEncoder(final String pattern) {
+        final PatternLayout layout = new PatternLayout();
+
+        layout.setContext(context);
+        layout.setPattern(pattern);
+
+        layout.start();
+
+        // Wrap in encoder
+        final LayoutWrappingEncoder<ILoggingEvent> logEncoder = new LayoutWrappingEncoder<>();
         logEncoder.setContext(context);
-        logEncoder.setPattern(pattern);
+        logEncoder.setLayout(layout);
         logEncoder.start();
         return logEncoder;
+    }
+
+    public static @NotNull LayoutWrappingEncoder<ILoggingEvent> createNewSpringBootLogEncoder(final String pattern) {
+        final PatternLayout layout = new PatternLayout();
+
+        layout.setContext(context);
+        layout.setPattern(pattern);
+
+        // Register Spring Boot color & exception converters
+        layout.getInstanceConverterMap().put("clr", ColorConverter::new);
+        layout.getInstanceConverterMap().put("xwEx", WhitespaceThrowableProxyConverter::new);
+
+        layout.start();
+
+        // Wrap in encoder
+        final LayoutWrappingEncoder<ILoggingEvent> encoder = new LayoutWrappingEncoder<>();
+        encoder.setContext(context);
+        encoder.setLayout(layout);
+        encoder.start();
+
+        return encoder;
     }
 
     /**
@@ -337,7 +370,7 @@ public final class LoggingManager {
 
     /**
      * Creates a new {@link ConsoleAppender} with the specified encoder
-     * (e.g. PatternLayoutEncoder) and sets the name to "console".
+     * (e.g. {@link LayoutWrappingEncoder<ILoggingEvent>}) and sets the name to "console".
      *
      * @param encoder the encoder to set
      * @return a new ConsoleAppender instance
@@ -413,7 +446,7 @@ public final class LoggingManager {
     public static final class RollingFileAppenderBuilder implements Buildable<RollingFileAppender<ILoggingEvent>> {
         private String name = "logFile";
         private TimeBasedRollingPolicy<ILoggingEvent> logFilePolicy = createDefaultTimeBasedRollingPolicy();
-        private PatternLayoutEncoder encoder = Encoders.BasicEncoder.getEncoder();
+        private LayoutWrappingEncoder<ILoggingEvent> encoder = Encoders.BasicEncoder.getEncoder();
         private String fileName = DEFAULT_LOG_FILE_NAME_DATED;
 
         /**
@@ -441,12 +474,12 @@ public final class LoggingManager {
         }
 
         /**
-         * Sets the PatternLayoutEncoder.
+         * Sets the {@link LayoutWrappingEncoder<ILoggingEvent>}.
          *
          * @param encoder the encoder to set
          * @return this instance
          */
-        public RollingFileAppenderBuilder setEncoder(final PatternLayoutEncoder encoder) {
+        public RollingFileAppenderBuilder setEncoder(final LayoutWrappingEncoder<ILoggingEvent> encoder) {
             if(encoder != null) this.encoder = encoder;
             return this;
         }

@@ -37,7 +37,7 @@ import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedE
 /**
  * Stores all global singleton object instances.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 public final class SingletonManager {

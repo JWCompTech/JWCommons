@@ -61,6 +61,7 @@ import java.util.function.Supplier;
  *
  * @since 1.0.0-alpha
  */
+@SuppressWarnings("unused")
 @Data
 public final class MDCManager {
 

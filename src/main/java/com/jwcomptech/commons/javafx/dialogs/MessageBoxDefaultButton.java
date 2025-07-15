@@ -25,7 +25,7 @@ package com.jwcomptech.commons.javafx.dialogs;
 /**
  * Used to specify which button is selected by default on a message box.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 public enum MessageBoxDefaultButton {
     /**

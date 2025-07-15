@@ -40,7 +40,7 @@ import java.util.Set;
  * Note that you cannot construct two different EventType objects with the same
  * name and parent.
  * @param <T> the event class to which this type applies
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 @Data

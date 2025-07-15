@@ -34,7 +34,7 @@ import java.util.Optional;
  * Provides immutable access to a {@link Enum}.
  *
  * @param <T> the enum type to wrap
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 public class EnumValue<T extends Enum<T>> extends ObservableValue<T, EnumValue<T>> {

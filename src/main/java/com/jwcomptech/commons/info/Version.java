@@ -34,7 +34,7 @@ import java.io.Serializable;
 /**
  * A Basic Version Object.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 public final class Version implements Serializable {
     private final StringValue main;

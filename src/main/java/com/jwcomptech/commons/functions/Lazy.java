@@ -85,7 +85,7 @@ import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNu
  *
  * @param <T> the class type of the value
  * @author Daniel Dietrich
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 // DEV-NOTE: No flatMap and orElse because this more like a Functor than a Monad.
 //           It represents a value rather than capturing a specific state.

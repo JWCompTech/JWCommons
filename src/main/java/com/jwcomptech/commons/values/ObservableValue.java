@@ -22,7 +22,7 @@ package com.jwcomptech.commons.values;
  * #L%
  */
 
-import com.jwcomptech.commons.base.Validated;
+import com.jwcomptech.commons.validators.Validated;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -42,7 +42,7 @@ import java.util.List;
  * @param <T> the type to set and get
  * @param <V> the value of the object that implements
  *            this class to allow for method chaining
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 public abstract class ObservableValue<T, V extends ObservableValue<T, V>> extends Validated implements Value<T, V> {

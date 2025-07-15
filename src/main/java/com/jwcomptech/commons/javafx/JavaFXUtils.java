@@ -48,7 +48,7 @@ import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNu
 /**
  * Contains methods to do JavaFX related tasks.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 public final class JavaFXUtils {

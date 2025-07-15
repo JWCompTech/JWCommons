@@ -37,7 +37,7 @@ import java.util.*;
 /**
  * Base class for custom events. Each event has associated an event source,
  * event target and an event type.
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 @Data

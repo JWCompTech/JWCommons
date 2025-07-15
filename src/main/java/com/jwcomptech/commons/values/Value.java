@@ -30,7 +30,7 @@ import java.io.Serializable;
  * @param <T> the type to set and get
  * @param <V> the value of the object that implements
  *            this class to allow for method chaining
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 public interface Value<T, V> extends Comparable<Value<T, V>>, Serializable {
     /**

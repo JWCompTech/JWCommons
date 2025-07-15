@@ -35,7 +35,7 @@ import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedE
 /**
  * Web utilities for completing tasks dealing with websites.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 public final class WebUtils {

@@ -24,8 +24,8 @@ package com.jwcomptech.commons.utils.osutils.windows.enums;
 
 import com.jwcomptech.commons.enums.BaseEnum;
 import com.jwcomptech.commons.values.StringValue;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -36,9 +36,9 @@ import java.util.Arrays;
  * A list of Product Editions according to
  * <a href="http://msdn.microsoft.com/en-us/library/ms724358(VS.85).aspx">Microsoft Documentation</a>.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @ToString
 public enum ProductEdition implements BaseEnum<Integer> {
@@ -229,6 +229,7 @@ public enum ProductEdition implements BaseEnum<Integer> {
                 .orElse(Undefined);
     }
 
+    @SuppressWarnings("unused")
     public static ProductEdition parseString(final String name) {
         return Arrays.stream(ProductEdition.values())
                 .filter(type -> type.fullName.equalsIgnoreCase(name))

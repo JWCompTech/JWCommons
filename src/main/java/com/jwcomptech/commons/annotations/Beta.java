@@ -36,7 +36,7 @@ import java.lang.annotation.*;
  * included on users' CLASSPATHs, outside the library developers' control) to do so.
  *
  * @author Kevin Bourrillion
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 @Retention(RetentionPolicy.CLASS)

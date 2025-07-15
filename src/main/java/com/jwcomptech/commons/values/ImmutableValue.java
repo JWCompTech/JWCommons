@@ -22,8 +22,6 @@ package com.jwcomptech.commons.values;
  * #L%
  */
 
-import com.google.errorprone.annotations.Immutable;
-
 import java.io.Serializable;
 import java.lang.constant.Constable;
 
@@ -31,7 +29,7 @@ import java.lang.constant.Constable;
  * Provides immutable access to a value.
  *
  * @param <T> the type to set and get
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 public interface ImmutableValue<T> extends Comparable<ImmutableValue<T>>, Serializable, Constable {
     /**

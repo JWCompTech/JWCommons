@@ -23,10 +23,11 @@ package com.jwcomptech.commons.logging;
  */
 
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
-import lombok.AllArgsConstructor;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.encoder.LayoutWrappingEncoder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * Defines reusable {@link ch.qos.logback.classic.encoder.PatternLayoutEncoder} configurations
@@ -51,7 +52,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @since 1.0.0-alpha
  */
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 @ToString
 public enum Encoders {
     /**
@@ -107,7 +108,33 @@ public enum Encoders {
      */
     DebugEncoder(LoggingManager.createNewLogEncoder(
             "%date{ISO8601} [%thread] %-5level %logger{36} %X [%file:%line] %msg%n")),
+
+    SpringBootBasicEncoder(LoggingManager.createNewLogEncoder(
+            "%d{yyyy-MM-dd HH:mm:ss} %5p ${PID:- } --- [%15.15t] %X %-40.40logger{39} : %m%n%ex"
+    )),
+
+    SpringBootExtendedEncoder(LoggingManager.createNewLogEncoder(
+            "%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${PID:- } --- [%15.15t] %X %-40.40logger{39} : %m%n%ex"
+    )),
+
+    SpringBootBasicColoredEncoder(LoggingManager.createNewSpringBootLogEncoder(
+            "%clr(%d{yyyy-MM-dd HH:mm:ss}){faint} " +
+                    "%clr([%15.15t]){faint} " +
+                    "%clr(%X){faint} " +
+                    "%clr(%-40.40logger{39}){cyan} %clr(:){faint} " +
+                    "%clr(%5p) %clr(:){faint} %m%n%xwEx"
+    )),
+
+    //TODO: Add PID parsing
+    SpringBootExtendedColoredEncoder(LoggingManager.createNewSpringBootLogEncoder(
+            "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} " +
+                    "%clr(${PID}){magenta} " +
+                    "%clr([%15.15t]){faint} " +
+                    "%clr(%X){faint} " +
+                    "%clr(%-40.40logger{39}){cyan} %clr(:){faint} " +
+                    "%clr(%5p) %clr(:){faint} %m%n%xwEx"
+    )),
     ;
 
-    private final PatternLayoutEncoder encoder;
+    private final LayoutWrappingEncoder<ILoggingEvent> encoder;
 }

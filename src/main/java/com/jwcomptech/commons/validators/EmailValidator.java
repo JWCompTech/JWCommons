@@ -46,7 +46,7 @@ import java.util.regex.Pattern;
  * information of interest.
  *
  * @author Les Hazlewood (www.leshazlewood.com)
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @Data
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

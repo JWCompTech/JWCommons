@@ -46,7 +46,7 @@ import static org.apache.commons.lang3.StringUtils.stripStart;
 /**
  * Contains methods dealing with strings.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings({"ClassWithTooManyMethods", "OverlyComplexClass", "unused"})
 public final class StringUtils {

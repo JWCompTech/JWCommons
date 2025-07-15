@@ -23,15 +23,15 @@ package com.jwcomptech.commons.download;
  */
 
 import com.jwcomptech.commons.enums.BaseEnum;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 /**
  * Represents the current status of the HTTPDownloader.
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @ToString
 public enum DLStatus implements BaseEnum<String> {

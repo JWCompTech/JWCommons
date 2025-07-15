@@ -34,7 +34,7 @@ import java.util.List;
 
 /**
  * Returns Information about the current OS and Hardware on the current system.
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @Data
 //TODO: Change all objects to use Builder architecture
@@ -59,7 +59,7 @@ public final class ComputerInfo {
     }
 
     /* Reprocesses the OS information and returns a new OSObject. */
-    public OSInfo.OSObject reinitializeOS() throws IOException, InterruptedException {
+    public OSInfo.OSObject reinitializeOS() throws IOException {
         final var activationStatus = WindowsOSEx.Activation.getStatusString();
         final var architecture = OS.architectureString;
         final var name = OS.name;

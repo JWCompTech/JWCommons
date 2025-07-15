@@ -1,6 +1,28 @@
 package com.jwcomptech.commons.actions;
 
-import com.jwcomptech.commons.base.Validated;
+/*-
+ * #%L
+ * JWCommons
+ * %%
+ * Copyright (C) 2025 JWCompTech
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Lesser Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Lesser Public
+ * License along with this program.  If not, see
+ * <http://www.gnu.org/licenses/lgpl-3.0.html>.
+ * #L%
+ */
+
+import com.jwcomptech.commons.validators.Validated;
 import com.jwcomptech.commons.javafx.FXEventType;
 import com.jwcomptech.commons.validators.Condition;
 import javafx.event.Event;
@@ -17,6 +39,7 @@ import org.jetbrains.annotations.UnmodifiableView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("unused")
 @EqualsAndHashCode(callSuper = true)
 @ToString
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -54,7 +77,7 @@ public final class Action<T extends Event> extends Validated {
                     + " does not support handler for " + eventType.getValue().getSimpleName());
         }
 
-        Action<T> action = new Action<T>();
+        Action<T> action = new Action<>();
         action.boundTarget = target;
         action.eventType = eventType;
         action.getHandlerMethod = methods.getter();

@@ -40,6 +40,7 @@ import java.util.Optional;
  * the value field should be an object type (e.g. {@code Integer} instead of {@code int})
  * to comply with the generic type constraint.
  */
+@SuppressWarnings("unused")
 public interface BaseEnum<T> {
     T getValue();
 

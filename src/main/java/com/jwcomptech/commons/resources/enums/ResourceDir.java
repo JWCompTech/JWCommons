@@ -22,8 +22,8 @@ package com.jwcomptech.commons.resources.enums;
  * #L%
  */
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,10 +33,10 @@ import java.util.Optional;
 /**
  * The types of resources supported by the ResourceManager.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("HardcodedFileSeparator")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @ToString
 public enum ResourceDir {

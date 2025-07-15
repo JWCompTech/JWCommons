@@ -29,7 +29,7 @@ import lombok.ToString;
 /**
  * Common RegEx patterns for use with pattern matching.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @Getter
 @ToString

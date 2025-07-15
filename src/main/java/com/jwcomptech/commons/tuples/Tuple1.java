@@ -41,7 +41,7 @@ import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNu
  *
  * @param <T1> type of the 1st element
  * @author Daniel Dietrich
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializable {

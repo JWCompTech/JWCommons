@@ -28,7 +28,7 @@ import java.util.function.Predicate;
  * A {@linkplain Predicate} which may throw.
  *
  * @param <T> the type of the input to the predicate
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 @FunctionalInterface

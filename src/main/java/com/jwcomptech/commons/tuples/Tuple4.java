@@ -45,7 +45,7 @@ import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNu
  * @param <T3> type of the 3rd element
  * @param <T4> type of the 4th element
  * @author Daniel Dietrich
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings({"ClassWithTooManyMethods", "unused"})
 public final class Tuple4<T1, T2, T3, T4> implements Tuple, Comparable<Tuple4<T1, T2, T3, T4>>, Serializable {

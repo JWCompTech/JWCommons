@@ -79,7 +79,7 @@ package com.jwcomptech.commons.interfaces;
  *
  *
  * @param <T> the type of object that the builder will construct or compute.
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 @FunctionalInterface

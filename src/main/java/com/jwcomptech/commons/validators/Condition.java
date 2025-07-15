@@ -40,7 +40,7 @@ import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNu
 /**
  * An object that can be used to lazily evaluate boolean expressions.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 @Data

@@ -59,7 +59,7 @@ import static com.jwcomptech.commons.utils.StringUtils.fallbackIfBlank;
  *     Use setIconPath to set the icon of the window, path must be in the resource folder
  * </p>
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 @Data

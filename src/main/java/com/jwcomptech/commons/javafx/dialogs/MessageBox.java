@@ -32,6 +32,7 @@ import javafx.beans.value.WritableObjectValue;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.stage.Window;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.VisibleForTesting;
@@ -46,7 +47,7 @@ import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNu
 /**
  * Displays message box with specified options.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 @Data
@@ -169,7 +170,7 @@ public final class MessageBox {
             final var button1_ = button1.get();
             final var button2_ = button2.get();
 
-            if(alert.get() == null) alert.set(new Alert(icon.getValue()));
+            if(alert.get() == null) runLaterIfNeeded(() -> alert.set(new Alert(icon.getValue())));
 
             alert.get().getButtonTypes().setAll(
                     button1_.getButtonType(),
@@ -199,6 +200,10 @@ public final class MessageBox {
         alert.get().setTitle(title);
         alert.get().setHeaderText(headerText);
         alert.get().setContentText(text);
+
+        Window.getWindows().stream()
+                .filter(Window::isShowing)
+                .findFirst().ifPresent(owner -> alert.get().initOwner(owner));
     }
 
     private void setAlertDefaultButtons(final FXButtonType type) {

@@ -35,6 +35,7 @@ import com.sun.jna.platform.win32.*;
 import com.sun.jna.platform.win32.COM.WbemcliUtil;
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.win32.W32APIOptions;
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -52,7 +53,7 @@ import static com.jwcomptech.commons.validators.Preconditions.*;
 /**
  * Returns extended information about the current Windows installation.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 public final class WindowsOSEx {
@@ -736,11 +737,10 @@ public final class WindowsOSEx {
      * Identifies if OS is the specified OS or later.
      * @param os the OS type to check
      * @return true if the specified OS or later
-     * @throws IOException if error occurs
-     * @throws InterruptedException if command is interrupted
      */
+    @SneakyThrows
     @SuppressWarnings({"OverlyComplexMethod", "OverlyLongMethod"})
-    public static boolean isOrLater(final @NotNull OSList os) throws IOException, InterruptedException {
+    public static boolean isOrLater(final @NotNull OSList os) {
         return switch (os) {
             case MacOSX -> isMac();
             case Linux -> isLinux();
@@ -824,7 +824,14 @@ public final class WindowsOSEx {
     }
 
     /**
-     * An Install Info Object for use with the {@link ComputerInfo} class.
+     * An InstallInfo Object for use with the {@link ComputerInfo} class.
+     * @param activationStatus the activation status
+     * @param architecture the architecture
+     * @param nameExpanded the expanded name
+     * @param name the short name
+     * @param servicePack the service pack
+     * @param servicePackNumber the service pack number
+     * @param version the version
      */
         //TODO: Make available for all OSes
         public record InstallInfoObject(StringValue activationStatus,

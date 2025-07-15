@@ -27,7 +27,7 @@ import java.util.EventListener;
 /**
  * Handler for events of a specific class / type.
  * @param <T> the event class this handler can handle
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @FunctionalInterface
 public interface EventHandler<T extends Event> extends EventListener {

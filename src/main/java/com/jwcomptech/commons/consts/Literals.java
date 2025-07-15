@@ -33,7 +33,7 @@ import static com.jwcomptech.commons.utils.StringUtils.uppercaseFirst;
 /**
  * Contains static strings to avoid typos and follow the DRY principle.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings({"HardcodedFileSeparator", "unused"})
 public final class Literals {

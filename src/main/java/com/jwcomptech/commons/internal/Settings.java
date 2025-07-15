@@ -29,7 +29,7 @@ import static com.jwcomptech.commons.exceptions.ExceptionUtils.throwUnsupportedE
 /**
  * A list of settings that are used throughout the application.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 public final class Settings {
     /**

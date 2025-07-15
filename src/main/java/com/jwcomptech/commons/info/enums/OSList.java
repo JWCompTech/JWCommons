@@ -24,7 +24,7 @@ package com.jwcomptech.commons.info.enums;
 
 /**
  * List of all operating systems.
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 public enum OSList {
     /** Unknown OS. */

@@ -22,10 +22,7 @@ package com.jwcomptech.commons.values;
  * #L%
  */
 
-import com.google.errorprone.annotations.Immutable;
 import lombok.Value;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;

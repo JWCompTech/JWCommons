@@ -24,6 +24,6 @@ package com.jwcomptech.commons.functions;
 
 /**
  * INTERNAL. Zero abstract method (ZAM) / tagging interface.
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 public interface Memoized { }

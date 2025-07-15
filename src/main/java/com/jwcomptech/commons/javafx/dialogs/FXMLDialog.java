@@ -51,7 +51,7 @@ import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNu
  *
  * @param <R> the type of the value to returned when the dialog is closed
  * @param <C> the controller type
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 @Getter

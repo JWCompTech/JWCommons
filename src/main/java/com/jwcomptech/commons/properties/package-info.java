@@ -1,7 +1,7 @@
-package com.jwcomptech.commons.base;
+package com.jwcomptech.commons.properties;
 /*-
  * #%L
- * JWCT Commons
+ * JWCommons
  * %%
  * Copyright (C) 2025 JWCompTech
  * %%

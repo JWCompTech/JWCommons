@@ -46,7 +46,7 @@ import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNu
  * @param <T1> argument 1 of the function
  * @param <R> return type of the function
  * @author Daniel Dietrich
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 @FunctionalInterface

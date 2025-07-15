@@ -1,10 +1,36 @@
 package com.jwcomptech.commons.javafx;
 
+/*-
+ * #%L
+ * JWCommons
+ * %%
+ * Copyright (C) 2025 JWCompTech
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Lesser Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Lesser Public
+ * License along with this program.  If not, see
+ * <http://www.gnu.org/licenses/lgpl-3.0.html>.
+ * #L%
+ */
+
 import com.jwcomptech.commons.annotations.FeatureComplete;
 import com.jwcomptech.commons.annotations.VisibleForTesting;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import lombok.Data;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
@@ -49,11 +75,54 @@ public class HeadlessFX {
      */
     public static void initialize() {
         if (!isInitialized()) {
-            Platform.startup(() -> {
-                started.set(true);
-                System.setProperty("jwcommons.javafx.name", HeadlessFX.class.getSimpleName());
-                Thread.currentThread().setName("JavaFX-HeadlessFX-Thread");
-            });
+            Thread fxInit = new Thread(() -> {
+                try {
+                    Application.launch(HeadlessFXApp.class);
+                } catch (IllegalStateException ignored) {
+                    // Already initialized in another context
+                }
+            }, "JavaFX FXLauncher Thread");
+
+            fxInit.setDaemon(true);
+            fxInit.start();
+
+            try {
+                HeadlessFXApp.waitForStart(); // waits until FX is ready
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("FX initialization interrupted", e);
+            }
+
+            started.set(true);
+        }
+    }
+
+    public static class HeadlessFXApp extends Application {
+        private static final CountDownLatch initLatch = new CountDownLatch(1);
+
+        @Override
+        public void start(Stage primaryStage) {
+            System.setProperty("jwcommons.javafx.name", getClass().getSimpleName());
+            Thread.currentThread().setName("JavaFX-HeadlessFX-Thread");
+
+            Platform.setImplicitExit(false);
+
+            // Create invisible owner stage so dialogs have a window
+            Stage hiddenOwner = new Stage();
+            hiddenOwner.initStyle(StageStyle.UTILITY);
+            hiddenOwner.setOpacity(0);
+            hiddenOwner.setWidth(0);
+            hiddenOwner.setHeight(0);
+            hiddenOwner.setX(-10000); // offscreen
+            hiddenOwner.setY(-10000);
+            hiddenOwner.show();
+
+            // Mark FX as initialized
+            initLatch.countDown();
+        }
+
+        public static void waitForStart() throws InterruptedException {
+            initLatch.await();
         }
     }
 
@@ -168,8 +237,17 @@ public class HeadlessFX {
         checkArgumentNotNull(task, cannotBeNull("task"));
         initialize(); // Ensure FX is started
 
-        if (isFxThread()) task.run();
-        else Platform.runLater(task);
+        if (isFxThread()) {
+            System.out.println("Running directly on FX thread");
+            task.run();
+        }
+        else {
+            System.out.println("Queuing on FX thread via runLater");
+            Platform.runLater(() -> {
+                System.out.println("Running on FX thread");
+                task.run();
+            });
+        }
     }
 
     /**

@@ -23,7 +23,7 @@ package com.jwcomptech.commons.values;
  */
 
 import com.jwcomptech.commons.consts.Literals;
-import com.jwcomptech.commons.base.Validated;
+import com.jwcomptech.commons.validators.Validated;
 import com.jwcomptech.commons.utils.CollectionUtils;
 import com.jwcomptech.commons.utils.RegExPatterns;
 import com.jwcomptech.commons.validators.EmailValidator;
@@ -53,7 +53,7 @@ import static org.apache.commons.lang3.StringUtils.stripStart;
 /**
  * Provides immutable access to an {@link String}.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings({"ClassWithTooManyMethods", "OverlyComplexClass", "unused"})
 public final class StringValue extends Validated

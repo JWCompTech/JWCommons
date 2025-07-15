@@ -49,6 +49,7 @@ public final class GitHubAPI {
     }
 
     //My username is "jlwisedev"
+    @SuppressWarnings("SpellCheckingInspection")
     public GHUser getUser(final String username) throws IOException {
         return gitHub.getUser(username);
     }

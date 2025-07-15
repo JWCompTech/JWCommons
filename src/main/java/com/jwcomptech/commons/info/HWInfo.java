@@ -46,7 +46,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Returns information about the system hardware.
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("HardcodedFileSeparator")
 public final class HWInfo {
@@ -321,6 +321,13 @@ public final class HWInfo {
 
     /**
      * A Hardware Object for use with the {@link ComputerInfo} class.
+     * @param systemOEM the system OEM vendor name
+     * @param productName the system product name
+     * @param BIOS the BIOS object
+     * @param network the network object
+     * @param processor the processor object
+     * @param RAM the RAM object
+     * @param storage the storage object
      */
     public record HWObject(StringValue systemOEM,
                            StringValue productName,
@@ -333,6 +340,10 @@ public final class HWInfo {
 
     /**
      * A BIOS Object for use with the {@link ComputerInfo} class.
+     * @param name the bios name
+     * @param releaseDate the bios release date
+     * @param vendor the bios vendor
+     * @param version the bios firmware version
      */
         public record BIOSObject(StringValue name,
                                  StringValue releaseDate,
@@ -343,30 +354,42 @@ public final class HWInfo {
     /**
      * A Drive Object for use with the {@link ComputerInfo} class.
      *
-     * @param driveType TODO: Finalize this class with more info
-     *                  including name, format, and label.
+     * @param driveType the drive type
+     * @param totalSize the total max space on the drive
+     * @param totalFree the total unused space on the drive
      */
+    //TODO: Finalize this class with more info including name, format, and label.
     public record DriveObject(StringValue driveType,
                               StringValue totalSize,
                               StringValue totalFree) { }
 
-    /** A Network Object for use with the {@link ComputerInfo} class. */
+    /**
+     * A Network Object for use with the {@link ComputerInfo} class.
+     * @param internalIPAddress the internal IP address
+     * @param externalIPAddress the external IP address
+     * @param connectionStatus the connection status
+     */
     public record NetworkObject(StringValue internalIPAddress,
                                 StringValue externalIPAddress,
                                 Boolean connectionStatus) { }
 
     /**
      * A Processor Object for use with the {@link ComputerInfo} class.
+     * @param name the name of the processor
+     * @param cores the number of cores
      */
     public record ProcessorObject(StringValue name, int cores) { }
 
     /**
      * A RAM Object for use with the {@link ComputerInfo} class.
+     * @param totalInstalled the total installed ram
      */
     public record RAMObject(StringValue totalInstalled) { }
 
     /**
      * A Storage Object for use with the {@link ComputerInfo} class.
+     * @param systemDrive the main system drive (drive C:/ in Windows)
+     * @param installedDrives a list of all installed drives, including the system drive
      */
     public record StorageObject(DriveObject systemDrive, List<DriveObject> installedDrives) { }
 

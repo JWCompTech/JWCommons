@@ -36,8 +36,8 @@ import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.stage.Stage;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.apache.maven.api.model.Model;
 import org.apache.maven.model.v4.MavenStaxReader;
@@ -58,10 +58,10 @@ import java.util.stream.Collectors;
 /**
  * The types of resources supported by the ResourceManager.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings({"HardcodedFileSeparator", "unused"})
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @ToString
 public enum ResourceType {

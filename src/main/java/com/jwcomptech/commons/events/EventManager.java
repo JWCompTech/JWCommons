@@ -39,7 +39,7 @@ import java.util.Map;
 /**
  * Allows global event handler registration and forwards received
  * events to the appropriate registered event handlers.
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 public final class EventManager {

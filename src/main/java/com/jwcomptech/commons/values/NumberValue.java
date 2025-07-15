@@ -41,7 +41,7 @@ import java.util.List;
  * includes the entire functionality of {@link ObservableValue} and thus
  * provides observability to all child classes.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 //TODO: Figure out a way to fix this if possible so that a child class
 // can still be saved to a ObservableValue variable with out casting.

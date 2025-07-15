@@ -24,8 +24,8 @@ package com.jwcomptech.commons.utils.osutils.windows.enums;
 
 import com.jwcomptech.commons.enums.BaseEnum;
 import com.sun.jna.platform.win32.WinDef;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.util.Arrays;
@@ -36,9 +36,9 @@ import java.util.stream.Collectors;
  * A list of WindowsVersion Suite Masks according to
  * <a href="http://msdn.microsoft.com/en-us/library/ms724833(VS.85).aspx">Microsoft Documentation</a>.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @ToString
 public enum VERSuite implements BaseEnum<Integer> {

@@ -26,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Serial;
 
+@SuppressWarnings("unused")
 public class ParseException extends RuntimeException {
     @Serial
     private static final long serialVersionUID = 5235666396679960545L;

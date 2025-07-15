@@ -60,7 +60,7 @@ import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNu
  * An object representation of an internal resource file in the
  * project resource directory.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 @Value

@@ -24,17 +24,17 @@ package com.jwcomptech.commons.javafx.dialogs;
 
 import com.jwcomptech.commons.enums.BaseEnum;
 import javafx.scene.control.Alert;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 
 /**
  * Used to specify which icon is displayed on a message box.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @ToString
 public enum MessageBoxIcon implements BaseEnum<Alert.AlertType> {

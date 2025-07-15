@@ -42,7 +42,7 @@ import java.util.function.Function;
  * @param <T> type of the function input, called <em>domain</em> of the function
  * @param <R> type of the function output, called <em>codomain</em> of the function
  * @author Daniel Dietrich
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 public interface PartialFunction<T, R> extends Function1<T, R> {

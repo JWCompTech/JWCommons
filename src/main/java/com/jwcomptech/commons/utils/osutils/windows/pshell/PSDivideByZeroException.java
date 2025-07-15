@@ -24,6 +24,7 @@ package com.jwcomptech.commons.utils.osutils.windows.pshell;
 
 import java.io.Serial;
 
+@SuppressWarnings("unused")
 public class PSDivideByZeroException extends PowerShellException {
     @Serial
     private static final long serialVersionUID = 2218614621630435570L;

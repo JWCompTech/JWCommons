@@ -1,4 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  JWCommons
+  %%
+  Copyright (C) 2025 JWCompTech
+  %%
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU Lesser General Public License as
+  published by the Free Software Foundation, either version 3 of the
+  License, or (at your option) any later version.
+  
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Lesser Public License for more details.
+  
+  You should have received a copy of the GNU General Lesser Public
+  License along with this program.  If not, see
+  <http://www.gnu.org/licenses/lgpl-3.0.html>.
+  #L%
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -7,26 +29,14 @@
     <groupId>com.jwcomptech.commons</groupId>
     <artifactId>jwcommons</artifactId>
     <version>1.0.0-alpha</version>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
-        <maven.compiler.plugin.version>3.14.0</maven.compiler.plugin.version>
-        <maven.jar.plugin.version>3.4.2</maven.jar.plugin.version>
-        <maven.source.plugin.version>3.3.1</maven.source.plugin.version>
-        <maven.clean.plugin.version>3.4.1</maven.clean.plugin.version>
-        <maven.release.plugin.version>3.1.1</maven.release.plugin.version>
-        <maven.gpg.plugin.version>3.2.7</maven.gpg.plugin.version>
-        <maven.enforcer.plugin.version>3.5.0</maven.enforcer.plugin.version>
         <maven.enforcer.extra-rules.plugin.version>1.10.0</maven.enforcer.extra-rules.plugin.version>
-        <maven.surefire.plugin.version>3.5.3</maven.surefire.plugin.version>
-        <maven.exec.plugin.version>3.5.0</maven.exec.plugin.version>
-        <maven.assembly.plugin.version>3.7.1</maven.assembly.plugin.version>
-        <maven.license.plugin.version>2.5.0</maven.license.plugin.version>
-        <maven.antrun.plugin.version>1.1</maven.antrun.plugin.version>
         <error-prone.version>2.38.0</error-prone.version>
         <javafx.version>21.0.7</javafx.version>
-        <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
         <squareup.okhttp3.version>5.0.0-alpha.14</squareup.okhttp3.version>
         <squareup.retrofit2.version>2.11.0</squareup.retrofit2.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -134,7 +144,7 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.17.0</version>
+                <version>3.18.0</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
             <dependency>
@@ -406,10 +416,11 @@
             <groupId>org.kohsuke</groupId>
             <artifactId>github-api</artifactId>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <scope>provided</scope>
+            <version>1.18.38</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
         <dependency>
@@ -436,6 +447,18 @@
             <groupId>org.semver4j</groupId>
             <artifactId>semver4j</artifactId>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot</artifactId>
+            <version>3.5.3</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.fusesource.jansi/jansi -->
+        <dependency>
+            <groupId>org.fusesource.jansi</groupId>
+            <artifactId>jansi</artifactId>
+            <version>2.4.2</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -459,291 +482,374 @@
                 <directory>${project.basedir}/src/main/resources</directory>
             </testResource>
         </testResources>
-
         <pluginManagement>
             <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>${maven.jar.plugin.version}</version>
-                    <configuration>
-                        <archive>
-                            <addMavenDescriptor>true</addMavenDescriptor>
-                            <manifest>
-                                <mainClass>${mainClass}</mainClass>
-                                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                                <addClasspath>true</addClasspath>
-                                <classpathPrefix>lib/</classpathPrefix>
-                            </manifest>
-                        </archive>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>${maven.source.plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>attach-sources</id>
-                            <phase>verify</phase>
-                            <goals>
-                                <goal>jar-no-fork</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-clean-plugin</artifactId>
-                    <version>${maven.clean.plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>auto-clean</id>
-                            <phase>initialize</phase>
-                            <goals>
-                                <goal>clean</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-release-plugin</artifactId>
-                    <version>${maven.release.plugin.version}</version>
-                    <configuration>
-                        <autoVersionSubmodules>true</autoVersionSubmodules>
-                        <useReleaseProfile>false</useReleaseProfile>
-                        <releaseProfiles>release</releaseProfiles>
-                        <goals>deploy</goals>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <version>${maven.gpg.plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>sign-artifacts</id>
-                            <phase>verify</phase>
-                            <goals>
-                                <goal>sign</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>${maven.enforcer.plugin.version}</version>
-                    <dependencies>
-                        <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/extra-enforcer-rules -->
-                        <dependency>
-                            <groupId>org.codehaus.mojo</groupId>
-                            <artifactId>extra-enforcer-rules</artifactId>
-                            <version>${maven.enforcer.extra-rules.plugin.version}</version>
-                        </dependency>
-                    </dependencies>
-                    <executions>
-                        <execution>
-                            <id>enforce-java</id>
-                            <goals>
-                                <goal>enforce</goal>
-                            </goals>
-                            <configuration>
-                                <rules>
-                                    <requireJavaVersion>
-                                        <version>[21,22)</version>
-                                        <message>Java 21 is required to build this project. Please install Java 21.</message>
-                                    </requireJavaVersion>
-                                    <requireMavenVersion>
-                                        <version>[3.8.0,)</version> <!-- Safe modern baseline -->
-                                        <message>Maven 3.8.0 or newer is required to build this project.</message>
-                                    </requireMavenVersion>
-                                    <requireEncoding>
-                                        <encoding>UTF-8</encoding>
-                                        <acceptAsciiSubset>true</acceptAsciiSubset>
-                                    </requireEncoding>
-                                    <!--<dependencyConvergence/>-->
-                                    <requireProperty>
-                                        <property>project.build.sourceEncoding</property>
-                                        <message>project.build.sourceEncoding must be set to UTF-8.</message>
-                                    </requireProperty>
-                                </rules>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${maven.surefire.plugin.version}</version> <!-- latest JUnit 5-compatible version -->
-                    <configuration>
-                        <includes>
-                            <include>**/*Test.java</include>
-                        </includes>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>exec-maven-plugin</artifactId>
-                    <version>${maven.exec.plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>java</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <mainClass>${mainClass}</mainClass>
-                        <cleanupDaemonThreads>false</cleanupDaemonThreads>
-                    </configuration>
-                </plugin>
+<!-- ====== Build plugins ====== -->
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${maven.compiler.plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>compile</id>
-                            <phase>compile</phase>
-                            <goals>
-                                <goal>compile</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>testCompile</id>
-                            <phase>test-compile</phase>
-                            <goals>
-                                <goal>testCompile</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <source>21</source>
-                        <target>21</target>
-                        <annotationProcessorPaths>
-                            <!-- Other annotation processors go here.
-
-                            If 'annotationProcessorPaths' is set, processors will no longer be
-                            discovered on the regular -classpath; see also 'Using Error Prone
-                            together with other annotation processors' below. -->
-                            <path>
-                                <groupId>org.projectlombok</groupId>
-                                <artifactId>lombok</artifactId>
-                                <version>1.18.38</version>
-                            </path>
-                        </annotationProcessorPaths>
-                        <compilerArgs>
-                            <arg>-Xlint:unchecked</arg>
-                            <arg>-XDcompilePolicy=simple</arg>
-                            <arg>--should-stop=ifError=FLOW</arg>
-                        </compilerArgs>
-                        <showDeprecation>true</showDeprecation>
-                        <showWarnings>true</showWarnings>
-                        <parameters>true</parameters>
-                    </configuration>
+                    <version>3.14.0</version>
                 </plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jar-plugin -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>${maven.assembly.plugin.version}</version>
-                    <configuration>
-                        <descriptorRefs>
-                            <descriptorRef>jar-with-dependencies</descriptorRef>
-                        </descriptorRefs>
-                        <archive>
-                            <manifest>
-                                <addClasspath>true</addClasspath>
-                                <mainClass>${mainClass}</mainClass>
-                            </manifest>
-                        </archive>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>assemble-all</id>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>single</goal>
-                            </goals>
-                        </execution>
-                    </executions>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.4.2</version>
                 </plugin>
+                <!-- DO NOT UPGRADE THIS PLUGIN -->
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-source-plugin -->
                 <plugin>
-                    <artifactId>maven-antrun-plugin</artifactId>
-                    <version>${maven.antrun.plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>echodir</id>
-                            <goals>
-                                <goal>run</goal>
-                            </goals>
-                            <phase>verify</phase>
-                            <inherited>false</inherited>
-                            <configuration>
-                                <tasks>
-                                    <echo>Build Dir: ${project.build.directory}</echo>
-                                </tasks>
-                            </configuration>
-                        </execution>
-                    </executions>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.2.1</version>
                 </plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
                 <plugin>
-                    <groupId>org.openjfx</groupId>
-                    <artifactId>javafx-maven-plugin</artifactId>
-                    <version>${javafx.maven.plugin.version}</version>
-                    <configuration>
-                        <mainClass>${mainClass}</mainClass>
-                    </configuration>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.11.2</version>
                 </plugin>
-                <!-- https://mvnrepository.com/artifact/com.mycila/license-maven-plugin -->
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-dependency-plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.8.1</version>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-resources-plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.3.1</version>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-clean-plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.5.0</version>
+                </plugin>
+<!-- ====== Quality plugins ====== -->
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-enforcer-plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>3.6.0</version>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/license-maven-plugin -->
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>license-maven-plugin</artifactId>
-                    <version>${maven.license.plugin.version}</version>
-                    <configuration>
-                        <projectName>${project.name}</projectName>
-                        <!-- For a list of standard license names run: mvn -N license:license-list -->
-                        <!-- For proprietary licenses see
-                             https://www.mojohaus.org/license-maven-plugin/examples/example-add-license.html -->
-                        <licenseName>lgpl_v3</licenseName>
-                        <extraExtensions>
-                            <kts>java</kts>
-                        </extraExtensions>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>config-files</id>
-                            <goals>
-                                <goal>update-file-header</goal>
-                            </goals>
-                            <phase>process-sources</phase>
-                            <configuration>
-                                <roots>${basedir}</roots>
-                                <includes>.editorconfig,.gitattributes,.travis.yml,pom.xml</includes>
-                                <extraExtensions>
-                                    <editorconfig>properties</editorconfig>
-                                    <gitattributes>properties</gitattributes>
-                                    <yml>properties</yml>
-                                </extraExtensions>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>sources</id>
-                            <goals>
-                                <goal>update-file-header</goal>
-                            </goals>
-                            <phase>process-sources</phase>
-                        </execution>
-                    </executions>
+                    <version>2.5.0</version>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.5.3</version>
+                </plugin>
+<!-- ====== Release/Deploy plugins ====== -->
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-release-plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>3.1.1</version>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-gpg-plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>3.2.8</version>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-assembly-plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.7.1</version>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-install-plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>3.1.4</version>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-deploy-plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>3.1.4</version>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/flatten-maven-plugin -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>1.7.1</version>
+                </plugin>
+<!-- ====== Dev only plugins ====== -->
+                <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/exec-maven-plugin -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>3.5.1</version>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-antrun-plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-maven-plugin -->
+                <plugin>
+                    <groupId>org.openjfx</groupId>
+                    <artifactId>javafx-maven-plugin</artifactId>
+                    <version>0.0.8</version>
                 </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
+<!-- ====== Build plugins ====== -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>21</source>
+                    <target>21</target>
+                    <annotationProcessorPaths>
+                        <!-- Other annotation processors go here.
+
+                        If 'annotationProcessorPaths' is set, processors will no longer be
+                        discovered on the regular -classpath; see also 'Using Error Prone
+                        together with other annotation processors' below. -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.38</version>
+                        </path>
+                    </annotationProcessorPaths>
+                    <compilerArgs>
+                        <arg>-Xlint:unchecked</arg>
+                        <arg>-XDcompilePolicy=simple</arg>
+                        <arg>--should-stop=ifError=FLOW</arg>
+                    </compilerArgs>
+                    <showDeprecation>true</showDeprecation>
+                    <showWarnings>true</showWarnings>
+                    <parameters>true</parameters>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>true</addMavenDescriptor>
+                        <manifest>
+                            <mainClass>${mainClass}</mainClass>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <tags>
+                        <tag>
+                            <name>implNote</name>
+                            <placement>a</placement>
+                            <head>Implementation Note:</head>
+                        </tag>
+                        <tag>
+                            <name>apiNote</name>
+                            <placement>a</placement>
+                            <head>API Note:</head>
+                        </tag>
+                        <tag>
+                            <name>implSpec</name>
+                            <placement>a</placement>
+                            <head>Implementation Requirements:</head>
+                        </tag>
+                    </tags>
+                </configuration>
+            </plugin>
+<!-- ====== Quality plugins ====== -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <dependencies>
+                    <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/extra-enforcer-rules -->
+                    <dependency>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>extra-enforcer-rules</artifactId>
+                        <version>${maven.enforcer.extra-rules.plugin.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>enforce-java</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireJavaVersion>
+                                    <version>[21,22)</version>
+                                    <message>Java 21 is required to build this project. Please install Java 21.</message>
+                                </requireJavaVersion>
+                                <requireMavenVersion>
+                                    <version>[3.8.0,)</version> <!-- Safe modern baseline -->
+                                    <message>Maven 3.8.0 or newer is required to build this project.</message>
+                                </requireMavenVersion>
+                                <requireEncoding>
+                                    <encoding>UTF-8</encoding>
+                                    <acceptAsciiSubset>true</acceptAsciiSubset>
+                                </requireEncoding>
+                                <!--<dependencyConvergence/>-->
+                                <requireProperty>
+                                    <property>project.build.sourceEncoding</property>
+                                    <message>project.build.sourceEncoding must be set to UTF-8.</message>
+                                </requireProperty>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <configuration>
+                    <projectName>${project.name}</projectName>
+                    <!-- For a list of standard license names run: mvn -N license:license-list -->
+                    <!-- For proprietary licenses see
+                         https://www.mojohaus.org/license-maven-plugin/examples/example-add-license.html -->
+                    <licenseName>lgpl_v3</licenseName>
+                    <roots>${basedir}</roots>
+                    <includes>
+                        <include>.editorconfig</include>
+                        <include>.gitattributes</include>
+                        <include>.travis.yml</include>
+                        <include>pom.xml</include>
+                        <include>**/*.java</include>
+                        <include>**/*.kts</include>
+                    </includes>
+                    <extraExtensions>
+                        <!-- treat .kts as java files for header updates -->
+                        <kts>java</kts>
+                        <editorconfig>properties</editorconfig>
+                        <gitattributes>properties</gitattributes>
+                        <yml>properties</yml>
+                    </extraExtensions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>update-headers</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>update-file-header</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>
+                        --add-exports=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+                        --add-exports=javafx.graphics/com.sun.javafx.tk=ALL-UNNAMED
+                        --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
+                        --add-opens=javafx.graphics/javafx.stage=ALL-UNNAMED
+                        --add-opens=javafx.graphics/javafx.scene=ALL-UNNAMED
+                    </argLine>
+                </configuration>
+            </plugin>
+<!-- ====== Release/Deploy plugins ====== -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <releaseProfiles>release</releaseProfiles>
+                    <goals>deploy</goals>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+<!-- ====== Dev only plugins ====== -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>manual-exec</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>${mainClass}</mainClass>
+                    <cleanupDaemonThreads>false</cleanupDaemonThreads>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>${mainClass}</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -37,7 +37,7 @@ import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNu
 /**
  * Provides immutable access to a {@link Boolean}.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  * @apiNote DO NOT use everywhere or else things will get unnecessarily complicated.
  */
 @SuppressWarnings({"ClassWithTooManyMethods", "unused"})

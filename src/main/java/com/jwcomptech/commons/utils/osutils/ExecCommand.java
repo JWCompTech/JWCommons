@@ -52,7 +52,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * A class for executing on the command line and returning the result of
  * execution.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 
 @SuppressWarnings({"ClassWithTooManyMethods", "unused", "HardcodedFileSeparator"})

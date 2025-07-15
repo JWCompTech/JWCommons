@@ -27,7 +27,7 @@ import java.util.List;
 
 /**
  * An {@link Event} representing some type of action.
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 public class ActionEvent extends Event {

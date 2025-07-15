@@ -26,7 +26,7 @@ import org.jetbrains.annotations.Contract;
 
 /**
  * A {@linkplain Runnable} which may throw.
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 @FunctionalInterface

@@ -24,14 +24,11 @@ package com.jwcomptech.commons.logging;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
-import ch.qos.logback.core.ConsoleAppender;
 import ch.qos.logback.core.rolling.RollingFileAppender;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Defines commonly used {@link ch.qos.logback.core.Appender} templates
@@ -40,8 +37,8 @@ import org.jetbrains.annotations.Nullable;
  * <p>Each enum constant wraps a pre-configured {@link ch.qos.logback.core.ConsoleAppender} or
  * file-based appender instance using one of the encoders defined in {@link Encoders}.
  *
- * <p>Use {@link #getAppender()} to retrieve the singleton instance or
- * {@link #newAppenderInstance()} to create a fresh appender with the same configuration.
+ * <p>Use {@code getAppender()} to retrieve the singleton instance or
+ * {@code newAppenderInstance()} to create a fresh appender with the same configuration.
  *
  * <p>Intended for quick plug-and-play with {@link JWLogger} or {@link LoggingManager}.
  *
@@ -51,8 +48,9 @@ import org.jetbrains.annotations.Nullable;
  *
  * @since 1.0.0-alpha
  */
+@SuppressWarnings("unused")
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 @ToString
 public enum Appenders {
     /** A console appender that uses the {@link Encoders#LimitedEncoder} encoder. */

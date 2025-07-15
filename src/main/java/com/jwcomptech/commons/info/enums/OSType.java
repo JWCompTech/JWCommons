@@ -25,7 +25,7 @@ package com.jwcomptech.commons.info.enums;
 /**
  * Types of Operating Systems.
  *
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 public enum OSType {
     Windows, MacOS, Linux, Solaris, FreeBSD, Android, Other

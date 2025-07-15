@@ -31,7 +31,7 @@ import static com.jwcomptech.commons.validators.Preconditions.checkArgumentNotNu
  * A consumer that may throw, equivalent to {@linkplain Consumer}.
  *
  * @param <T> the value type supplied to this consumer.
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 @FunctionalInterface

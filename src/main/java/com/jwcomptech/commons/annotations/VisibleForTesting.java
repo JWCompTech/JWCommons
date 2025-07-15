@@ -34,7 +34,7 @@ package com.jwcomptech.commons.annotations;
  * fine-grained visibility policies.
  *
  * @author Johannes Henkel
- * @since 0.0.1
+ * @since 1.0.0-alpha
  */
 @SuppressWarnings("unused")
 public @interface VisibleForTesting { }
