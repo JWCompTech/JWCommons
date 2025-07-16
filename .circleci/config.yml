@@ -25,7 +25,7 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - gradle-cache-{{ checksum "build.gradle" }}-{{ checksum "gradle.lockfile" }}
+            - gradle-cache-{{ checksum "build.gradle.kts" }}-{{ checksum "gradle.lockfile" }}
             # fallback to using the latest cache if no exact match is found
             - gradle-cache-
 
@@ -43,7 +43,7 @@ jobs:
           paths:
             - ~/.gradle/caches
             - ~/.gradle/wrapper
-          key: gradle-cache-{{ checksum "build.gradle" }}-{{ checksum "gradle.lockfile" }}
+          key: gradle-cache-{{ checksum "build.gradle.kts" }}-{{ checksum "gradle.lockfile" }}
 
       # Store test results
       - store_test_results:
