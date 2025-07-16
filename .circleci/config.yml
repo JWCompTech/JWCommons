@@ -29,6 +29,9 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - gradle-cache-
 
+      - run:
+          name: Make Gradle wrapper executable
+          command: chmod +x ./gradlew
 
       # Run Gradle build
       - run:
