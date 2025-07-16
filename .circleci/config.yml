@@ -32,8 +32,8 @@ jobs:
 
       # Run Gradle build
       - run:
-        name: Build and test with Gradle
-        command: ./gradlew clean build
+          name: Build and test with Gradle
+          command: ./gradlew clean build
 
       # Save Gradle caches
       - save_cache:
@@ -44,7 +44,7 @@ jobs:
 
       # Store test results
       - store_test_results:
-        path: build/test-results/test
+          path: build/test-results/test
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
