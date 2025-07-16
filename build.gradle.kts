@@ -38,9 +38,16 @@ repositories {
         name = "Repsy"
         url = uri("https://repo.repsy.io/mvn/jwcomptech/public")
     }
+    gradlePluginPortal()
 }
 
 // 📚 6. Dependencies
+allprojects {
+    dependencyLocking {
+        lockAllConfigurations()
+    }
+}
+
 dependencies {
     // https://mvnrepository.com/artifact/org.jetbrains/annotations
     implementation("org.jetbrains:annotations:26.0.2")
