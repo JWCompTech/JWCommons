@@ -1,4 +1,4 @@
-package com.jwcomptech.commons.javafx.dialogs;
+//package com.jwcomptech.commons.javafx.dialogs;
 
 /*-
  * #%L
@@ -38,10 +38,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import org.testfx.framework.junit5.ApplicationExtension;
+//import org.testfx.framework.junit5.ApplicationExtension;
 
-@ExtendWith(ApplicationExtension.class)
-public class MessageBoxTests {
+//@ExtendWith(ApplicationExtension.class)
+//public class MessageBoxTests {
 //TODO: fixme
 
 //    private Alert mockAlert;
@@ -150,5 +150,5 @@ public class MessageBoxTests {
 //        assertTrue(okCalled.get(), "OK handler should be called");
 //        assertFalse(cancelCalled.get(), "CANCEL handler should NOT be called");
 //    }
-}
+//}
 

@@ -68,7 +68,7 @@ public final class EmailValidator {
      *Its default value is true to remain RFC 2822 compliant, but
      * you should set it depending on what you need for your application.
      */
-    private boolean allowDomainLiterals = true;
+    private final boolean allowDomainLiterals = true;
 
     /**
      * This constant states that quoted identifiers are allowed
@@ -83,7 +83,7 @@ public final class EmailValidator {
      * you should set it depending on what you need for your application.
      */
 
-    private boolean allowQuotedIdentifiers = true;
+    private final boolean allowQuotedIdentifiers = true;
 
     // RFC 2822 2.2.2 Structured Header Field Bodies
 

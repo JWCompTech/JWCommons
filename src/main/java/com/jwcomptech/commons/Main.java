@@ -33,7 +33,7 @@ import com.jwcomptech.commons.javafx.dialogs.MessageBox;
 import com.jwcomptech.commons.javafx.dialogs.MessageBoxDefaultButton;
 import com.jwcomptech.commons.javafx.dialogs.MessageBoxIcon;
 import com.jwcomptech.commons.logging.JWLogger;
-import com.jwcomptech.commons.resources.POMManager;
+//import com.jwcomptech.commons.resources.POMManager;
 import com.jwcomptech.commons.utils.DateTimeUtils;
 import com.jwcomptech.commons.validators.Condition;
 import com.jwcomptech.commons.webapis.APIManager;
@@ -45,7 +45,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.apache.maven.api.model.Model;
+//import org.apache.maven.api.model.Model;
 import org.kohsuke.github.GHUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,12 +65,12 @@ public final class Main extends Application {
         JWLogger.of(Main.class.getPackage()).config()
                 .useLimitedConsole(Level.INFO);
 
-        final Model pom = POMManager.getInstance().getInternalPOM();
+//        final Model pom = POMManager.getInstance().getInternalPOM();
 
-        logger.info("--------------------------");
-        logger.info("{} v{}", pom.getName(), pom.getVersion());
-        logger.info("--------------------------");
-        logger.info("");
+//        logger.info("--------------------------");
+//        logger.info("{} v{}", pom.getName(), pom.getVersion());
+//        logger.info("--------------------------");
+//        logger.info("");
 //        logger.info("-----OS Info Test-----");
 //        logger.info(runNewCmd("ipconfig").getFirstResult());
 //        logger.info("Name: {}", OSInfo.OS.getName());

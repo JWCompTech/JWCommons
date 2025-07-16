@@ -183,42 +183,42 @@ public final class StringUtils {
         return input.matches(RegExPatterns.URL.getRegex());
     }
 
-    /**
-     * Checks to see if the specified string is a valid email address according to the RFC 2822 specification.
-     * @param input the email address string to test for validity
-     * @return true if the given text is valid according to RFC 2822, false otherwise
-     * @throws IllegalArgumentException if input is null
-     */
-    public static boolean isValidEmailAddress(final String input) { return isValidEmailAddress(input,
-            false, false); }
+//    /**
+//     * Checks to see if the specified string is a valid email address according to the RFC 2822 specification.
+//     * @param input the email address string to test for validity
+//     * @return true if the given text is valid according to RFC 2822, false otherwise
+//     * @throws IllegalArgumentException if input is null
+//     */
+//    public static boolean isValidEmailAddress(final String input) { return isValidEmailAddress(input,
+//            false, false); }
+//
+//    /**
+//     * Checks to see if the specified string is a valid email address according to the RFC 2822 specification.
+//     * @param input the email address string to test for validity
+//     * @param allowQuotedIdentifiers specifies if quoted identifiers are allowed
+//     * @return true if the given text is valid according to RFC 2822, false otherwise
+//     * @throws IllegalArgumentException if input is null
+//     */
+//    public static boolean isValidEmailAddress(final String input, final boolean allowQuotedIdentifiers) {
+//        return isValidEmailAddress(input, allowQuotedIdentifiers, false);
+//    }
 
-    /**
-     * Checks to see if the specified string is a valid email address according to the RFC 2822 specification.
-     * @param input the email address string to test for validity
-     * @param allowQuotedIdentifiers specifies if quoted identifiers are allowed
-     * @return true if the given text is valid according to RFC 2822, false otherwise
-     * @throws IllegalArgumentException if input is null
-     */
-    public static boolean isValidEmailAddress(final String input, final boolean allowQuotedIdentifiers) {
-        return isValidEmailAddress(input, allowQuotedIdentifiers, false);
-    }
-
-    /**
-     * Checks to see if the specified string is a valid email address according to the RFC 2822 specification.
-     * @param input the email address string to test for validity
-     * @param allowQuotedIdentifiers specifies if quoted identifiers are allowed
-     * @param allowDomainLiterals specifies if domain literals are allowed
-     * @return true if the given text is valid according to RFC 2822, false otherwise
-     * @throws IllegalArgumentException if input is null
-     */
-    public static boolean isValidEmailAddress(final String input,
-                                              final boolean allowQuotedIdentifiers, final boolean allowDomainLiterals) {
-        checkArgumentNotNull(input, cannotBeNull("input"));
-        return EmailValidator.builder()
-                .allowQuotedIdentifiers(allowQuotedIdentifiers)
-                .allowDomainLiterals(allowDomainLiterals)
-                .build().isValid(input);
-    }
+//    /**
+//     * Checks to see if the specified string is a valid email address according to the RFC 2822 specification.
+//     * @param input the email address string to test for validity
+//     * @param allowQuotedIdentifiers specifies if quoted identifiers are allowed
+//     * @param allowDomainLiterals specifies if domain literals are allowed
+//     * @return true if the given text is valid according to RFC 2822, false otherwise
+//     * @throws IllegalArgumentException if input is null
+//     */
+//    public static boolean isValidEmailAddress(final String input,
+//                                              final boolean allowQuotedIdentifiers, final boolean allowDomainLiterals) {
+//        checkArgumentNotNull(input, cannotBeNull("input"));
+//        return EmailValidator.builder()
+//                .allowQuotedIdentifiers(allowQuotedIdentifiers)
+//                .allowDomainLiterals(allowDomainLiterals)
+//                .build().isValid(input);
+//    }
 
     /**
      * Ensures that a string starts with a given prefix.

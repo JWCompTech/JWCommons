@@ -1,4 +1,4 @@
-package com.jwcomptech.commons.actions;
+package com.jwcomptech.commons.javafx.actions;
 /*-
  * #%L
  * JWCommons

@@ -2,15 +2,11 @@
 # See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
-orbs:
-  maven: circleci/maven@2.0.0
-
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/jobs-steps/#jobs-overview & https://circleci.com/docs/configuration-reference/#jobs
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
   build-and-test:
-    executor: maven/default
     # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/executor-intro/ & https://circleci.com/docs/configuration-reference/#executor-job
     docker:
@@ -29,25 +25,26 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "pom.xml" }}
+            - gradle-cache-{{ checksum "build.gradle" }}-{{ checksum "gradle.lockfile" }}
             # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-      - run: mvn dependency:go-offline
+            - gradle-cache-
+
+
+      # Run Gradle build
+      - run:
+        name: Build and test with Gradle
+        command: ./gradlew clean build
+
+      # Save Gradle caches
       - save_cache:
           paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
+            - ~/.gradle/caches
+            - ~/.gradle/wrapper
+          key: gradle-cache-{{ checksum "build.gradle" }}-{{ checksum "gradle.lockfile" }}
 
-      - run:
-          shell: /bin/bash
-          command: |
-            mkdir -p test-results
-          when: always
-
-      # run tests!
-      - run: mvn integration-test
+      # Store test results
       - store_test_results:
-          path: test-results
+        path: build/test-results/test
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows

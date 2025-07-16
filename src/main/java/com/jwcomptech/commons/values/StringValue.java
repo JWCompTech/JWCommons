@@ -466,39 +466,39 @@ public final class StringValue extends Validated
         return value.matches(RegExPatterns.URL.getRegex());
     }
 
-    /**
-     * Checks to see if the value is a valid email address according to the RFC 2822 specification.
-     * @return true if the value is valid according to RFC 2822
-     * @throws IllegalArgumentException if the value is null
-     */
-    public boolean isValidEmailAddress() {
-        return isValidEmailAddress(false, false);
-    }
+//    /**
+//     * Checks to see if the value is a valid email address according to the RFC 2822 specification.
+//     * @return true if the value is valid according to RFC 2822
+//     * @throws IllegalArgumentException if the value is null
+//     */
+//    public boolean isValidEmailAddress() {
+//        return isValidEmailAddress(false, false);
+//    }
+//
+//    /**
+//     * Checks to see if the value is a valid email address according to the RFC 2822 specification.
+//     * @param allowQuotedIdentifiers specifies if quoted identifiers are allowed
+//     * @return true if the value is valid according to RFC 2822
+//     * @throws IllegalArgumentException if the value is null
+//     */
+//    public boolean isValidEmailAddress(final boolean allowQuotedIdentifiers) {
+//        return isValidEmailAddress(allowQuotedIdentifiers, false);
+//    }
 
-    /**
-     * Checks to see if the value is a valid email address according to the RFC 2822 specification.
-     * @param allowQuotedIdentifiers specifies if quoted identifiers are allowed
-     * @return true if the value is valid according to RFC 2822
-     * @throws IllegalArgumentException if the value is null
-     */
-    public boolean isValidEmailAddress(final boolean allowQuotedIdentifiers) {
-        return isValidEmailAddress(allowQuotedIdentifiers, false);
-    }
-
-    /**
-     * Checks to see if the value is a valid email address according to the RFC 2822 specification.
-     * @param allowQuotedIdentifiers specifies if quoted identifiers are allowed
-     * @param allowDomainLiterals specifies if domain literals are allowed
-     * @return true if the value is valid according to RFC 2822
-     * @throws IllegalArgumentException if the value is null
-     */
-    public boolean isValidEmailAddress(final boolean allowQuotedIdentifiers, final boolean allowDomainLiterals) {
-        checkArgumentNotNull(value, cannotBeNull("value"));
-        return EmailValidator.builder()
-        .allowQuotedIdentifiers(allowQuotedIdentifiers)
-                .allowDomainLiterals(allowDomainLiterals)
-                .build().isValid(value);
-    }
+//    /**
+//     * Checks to see if the value is a valid email address according to the RFC 2822 specification.
+//     * @param allowQuotedIdentifiers specifies if quoted identifiers are allowed
+//     * @param allowDomainLiterals specifies if domain literals are allowed
+//     * @return true if the value is valid according to RFC 2822
+//     * @throws IllegalArgumentException if the value is null
+//     */
+//    public boolean isValidEmailAddress(final boolean allowQuotedIdentifiers, final boolean allowDomainLiterals) {
+//        checkArgumentNotNull(value, cannotBeNull("value"));
+//        return EmailValidator.builder()
+//        .allowQuotedIdentifiers(allowQuotedIdentifiers)
+//                .allowDomainLiterals(allowDomainLiterals)
+//                .build().isValid(value);
+//    }
 
     /**
      * Ensures that the value starts with a given prefix.

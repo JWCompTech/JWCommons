@@ -1,4 +1,4 @@
-package com.jwcomptech.commons.javafx;
+//package com.jwcomptech.commons.javafx;
 
 /*-
  * #%L
@@ -22,22 +22,22 @@ package com.jwcomptech.commons.javafx;
  * #L%
  */
 
-import static org.assertj.core.api.Assertions.*;
+//import static org.assertj.core.api.Assertions.*;
+//
+//import com.jwcomptech.commons.javafx.controls.FXControls;
+//import javafx.application.Platform;
+//import org.junit.jupiter.api.BeforeAll;
+//import org.junit.jupiter.api.BeforeEach;
+//import org.junit.jupiter.api.Test;
+//
+//import javafx.scene.control.*;
+//import org.junit.jupiter.api.extension.ExtendWith;
+////import org.testfx.framework.junit5.ApplicationExtension;
+//
+//import java.util.Map;
 
-import com.jwcomptech.commons.javafx.controls.FXControls;
-import javafx.application.Platform;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import javafx.scene.control.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.testfx.framework.junit5.ApplicationExtension;
-
-import java.util.Map;
-
-@ExtendWith(ApplicationExtension.class)
-public class FXControlsTest {
+//@ExtendWith(ApplicationExtension.class)
+//public class FXControlsTest {
 
 //    private FXControls fxControls;
 //
@@ -136,5 +136,5 @@ public class FXControlsTest {
 //        fxControls.removeControl(CheckBox.class, "ghost");
 //        assertThat(fxControls.getCheckBox("ghost")).isEmpty(); // Shouldn’t throw
 //    }
-}
+//}
 

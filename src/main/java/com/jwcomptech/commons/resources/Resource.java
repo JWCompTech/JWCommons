@@ -38,7 +38,7 @@ import javafx.stage.Stage;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Value;
-import org.apache.maven.api.model.Model;
+//import org.apache.maven.api.model.Model;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -562,17 +562,17 @@ public class Resource {
                 : Optional.empty();
     }
 
-    /**
-     * Parses the resource as a Maven {@link Model} object if the content type is pom,
-     * otherwise returns {@link Optional#empty()}.
-     *
-     * @return Returns the resource as a Maven {@link Model} object if the content type is pom,
-     * otherwise returns {@link Optional#empty()}
-     * @throws ParseException if any exception is thrown during parsing
-     */
-    public Optional<Model> asPOM() {
-        return isPom() ? ResourceType.POM.parseToPOMModel(this) : Optional.empty();
-    }
+//    /**
+//     * Parses the resource as a Maven {@link Model} object if the content type is pom,
+//     * otherwise returns {@link Optional#empty()}.
+//     *
+//     * @return Returns the resource as a Maven {@link Model} object if the content type is pom,
+//     * otherwise returns {@link Optional#empty()}
+//     * @throws ParseException if any exception is thrown during parsing
+//     */
+    //public Optional<Model> asPOM() {
+        //return isPom() ? ResourceType.POM.parseToPOMModel(this) : Optional.empty();
+    //}
 
 
     /**

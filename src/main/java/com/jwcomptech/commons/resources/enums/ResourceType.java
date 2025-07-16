@@ -39,8 +39,8 @@ import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.apache.maven.api.model.Model;
-import org.apache.maven.model.v4.MavenStaxReader;
+//import org.apache.maven.api.model.Model;
+//import org.apache.maven.model.v4.MavenStaxReader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Document;
@@ -253,15 +253,15 @@ public enum ResourceType {
      * Maven POM files stored in the "pom" directory.
      */
     POM(ResourceDir.POM, ResourceExtension.POM) {
-        @Override
-        public Optional<Model> parseToPOMModel(final Resource resource) {
-            try (Reader reader = new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8)) {
-                Model model = new MavenStaxReader().read(reader);
-                return Optional.of(model);
-            } catch (IOException | XMLStreamException e) {
-                throw new ParseException(this.getClass(), e);
-            }
-        }
+//        @Override
+//        public Optional<Model> parseToPOMModel(final Resource resource) {
+//            try (Reader reader = new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8)) {
+//                Model model = new MavenStaxReader().read(reader);
+//                return Optional.of(model);
+//            } catch (IOException | XMLStreamException e) {
+//                throw new ParseException(this.getClass(), e);
+//            }
+//        }
     },
     /**
      * Properties files stored in the "props" directory.
@@ -663,18 +663,18 @@ public enum ResourceType {
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * Parses the resource as a Maven {@link Model} object if the content type is pom,
-     * otherwise returns {@link Optional#empty()}.
-     *
-     * @param resource the resource to load
-     * @return Returns the resource as a Maven {@link Model} object if the content type is pom,
-     * otherwise returns {@link Optional#empty()}
-     * @throws ParseException if any exception is thrown during parsing
-     */
-    public Optional<Model> parseToPOMModel(final Resource resource) {
-        return unsupportedParse();
-    }
+//    /**
+//     * Parses the resource as a Maven {@link Model} object if the content type is pom,
+//     * otherwise returns {@link Optional#empty()}.
+//     *
+//     * @param resource the resource to load
+//     * @return Returns the resource as a Maven {@link Model} object if the content type is pom,
+//     * otherwise returns {@link Optional#empty()}
+//     * @throws ParseException if any exception is thrown during parsing
+//     */
+//    public Optional<Model> parseToPOMModel(final Resource resource) {
+//        return unsupportedParse();
+//    }
 
     /**
      * Parses the resource as a Java {@link Properties} object.
