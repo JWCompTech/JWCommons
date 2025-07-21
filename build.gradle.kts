@@ -86,7 +86,7 @@ dependencies {
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
     implementation("com.fasterxml.jackson.core:jackson-databind:2.19.1")
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.19.1")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.19.2")
     // https://mvnrepository.com/artifact/org.openjfx/javafx-fxml
     implementation("org.openjfx:javafx-fxml:$javafxVersion")
     // https://mvnrepository.com/artifact/org.openjfx/javafx-web
