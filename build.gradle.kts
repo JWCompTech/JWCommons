@@ -72,7 +72,7 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.maven/maven-model
     implementation("org.apache.maven:maven-model:4.0.0-rc-4")
     // https://mvnrepository.com/artifact/io.vavr/vavr
-    implementation("io.vavr:vavr:0.10.6")
+    implementation("io.vavr:vavr:0.10.7")
     // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
     implementation("com.squareup.okhttp3:okhttp:5.1.0")
     // https://mvnrepository.com/artifact/com.squareup.okhttp3/logging-interceptor
