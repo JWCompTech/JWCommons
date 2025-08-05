@@ -5,7 +5,7 @@ plugins {
     signing
     application
     id("org.openjfx.javafxplugin") version "0.1.0" // newer version of the JavaFX Maven Plugin
-    id("org.beryx.jlink") version "2.25.0" // optional, helps with JavaFX bundling
+    id("org.beryx.jlink") version "3.1.2" // optional, helps with JavaFX bundling
 }
 
 // 📦 2. Group, Version and Properties
