@@ -94,7 +94,7 @@ dependencies {
     // https://mvnrepository.com/artifact/org.semver4j/semver4j
     implementation("org.semver4j:semver4j:6.0.0")
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot
-    implementation("org.springframework.boot:spring-boot:3.5.3")
+    implementation("org.springframework.boot:spring-boot:3.5.6")
     // https://mvnrepository.com/artifact/org.fusesource.jansi/jansi
     implementation("org.fusesource.jansi:jansi:2.4.2")
     // https://mvnrepository.com/artifact/org.ow2.asm/asm
